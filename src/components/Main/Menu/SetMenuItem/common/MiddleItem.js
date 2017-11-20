@@ -6,6 +6,7 @@ const MiddleItem = Item.extend`
   height: 30px;
   width: 80px;
   text-align: right;
+  cursor: pointer;
 `
 
 export default MiddleItem

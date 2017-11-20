@@ -109,9 +109,6 @@ class Canvas extends Component{
         ctx.strokeRect(this.state.objX - anchorSize, this.state.objY + picHeight, anchorSize, anchorSize )
         ctx.strokeRect(this.state.objX + picWidth, this.state.objY + picHeight, anchorSize, anchorSize )
       }
-
-
-      // ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, picWidth, picHeight)
     }.bind(this)
     img.src = note[id].dataUrl
   }
@@ -180,7 +177,6 @@ class Canvas extends Component{
   }
 
   handleMouseDown (e){
-
     var objX = this.state.objX
     var objY = this.state.objY
     // マウスが押された座標を取得

@@ -22,10 +22,12 @@ class ImgTxt extends Component{
         width={width}
         onClick={this.setCurSegment} >
         <LabNum lineNoType={setting.lineNos} id={id} />
+        <div>
         <Canvas
           canvasWidth={(width - 50) * 0.4}
           {...pick(this.props, keys(Canvas.propTypes))}
         />
+        </div>
         <Sentences
           senWidth={(width - 50) * 0.6}
           ref={(ref) => {this.sentences = ref}}

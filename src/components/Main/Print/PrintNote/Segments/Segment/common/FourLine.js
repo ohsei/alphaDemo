@@ -10,33 +10,52 @@ const DivSen = styled.div`
 const DivLine = styled.div`
   width: 95%;
   display: flex;
-  margin: 22px 0 0 0;
+  margin: 23px 0 0 0;
   border-width: 1px;
   border-style: solid;
-  border-color: ${props => props.borderColor}
+  border-color: ${props => props.borderColor};
+  border-top: none;
+  border-left: none;
+  border-right: none;
 `
-const DivLineTwo = styled.div`
+const DivLineTop = styled.div`
   width: 95%;
   display: flex;
-  margin: 22px 0 0 0;
+  margin: ${props=>props.marginTop} 0 0 0;
   border-width: 1px;
   border-style: solid;
   border-color: ${props => props.lineNum == 2 ? 'white' : props.borderColor};
+  border-top: none;
+  border-left: none;
+  border-right: none;
+`
+
+const DivLineDown = styled.div`
+  width: 95%;
+  display: flex;
+  margin: 23px 0 12px 0;
+  border-width: 1px;
+  border-style: solid;
+  border-color: ${props => props.lineNum == 2 ? 'white' : props.borderColor};
+  border-top: none;
+  border-left: none;
+  border-right: none;
 `
 
 class FourLine extends React.Component{
   static propTypes = {
     marginTop: PropTypes.number,
+    marginDown: PropTypes.number,
     lineNum: PropTypes.number,
   }
   render (){
-    const {marginTop, lineNum} = this.props
+    const {marginTop, marginDown, lineNum, borderColor} = this.props
     return (
-      <DivSen style={{marginTop: marginTop}}>
-        <DivLineTwo lineNum={lineNum} borderColor='gray' />
-        <DivLine borderColor='gray' />
+      <DivSen>
+        <DivLineTop style={{marginTop: marginTop}} lineNum={lineNum} borderColor={borderColor} />
+        <DivLine borderColor={borderColor} />
         <DivLine borderColor='orange' />
-        <DivLineTwo lineNum={lineNum} borderColor='gray' />
+        <DivLineDown style={{marginDown: marginDown}}lineNum={lineNum} borderColor={borderColor} />
       </DivSen>
     )
   }

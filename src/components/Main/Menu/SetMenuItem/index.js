@@ -28,13 +28,13 @@ const Item = styled.div`
   line-height: 30px;
 `
 const DivSetMenu = styled.div`
-  display: flex;
-  flex-direction: row;
-  -ms-flex-direction: row;
-  justify-content: flex-start;
+
 `
 const DivSetMenuDetail = styled.div`
   display: ${props => props.clicked ? 'block' : 'none'};
+  position: fixed;
+  top: 55px;
+  left: 35px;
 `
 
 const ItemSetting = Item.extend`
@@ -42,6 +42,7 @@ const ItemSetting = Item.extend`
   height: ${props => props.clicked ? '258px' : '50px'};
   margin: 0 0 10px 0;
   padding: 10px 0 5px 0;
+  cursor: pointer;
 `
 
 class SetMenuItem extends Component{

@@ -19,10 +19,11 @@ const TextArea = styled(ContentEditable)`
   font-size: ${props => props.fontSize};
   z-index: 9;
   position: absolute;
-  top:0;
-  left:0;
+  top: 0;
+  left: 0;
   text-align: left;
   letter-spacing: 1.5px;
+  line-height: ${props => props.lineHeight};
 `
 
 const DivSen = styled.div`
@@ -51,12 +52,17 @@ class Sentence extends Component{
   render (){
     const {note, segmentId, setting} = this.props
     let height = 0
+    let segmentHeight = 96
+
+    if (setting.interval == 1.5) {
+      segmentHeight = 120
+    }
 
     if (browserType == 'ie'){
-      height = note[segmentId].offsetHeight / 96
+      height = (note[segmentId].offsetHeight / segmentHeight).toFixed(0)
     }
     else {
-      height = note[segmentId].offsetHeight / 96
+      height = (note[segmentId].offsetHeight / segmentHeight).toFixed(0)
     }
     let i = 0
     let marginTopArray = []
@@ -68,7 +74,19 @@ class Sentence extends Component{
 
     if (marginTopArray){
       senList = marginTopArray.map((obj, i) => {
-        return <FourLine key={i} marginTop={marginTopArray[i].marginTop} lineNum={setting.lineNum} />
+        let interval = 0
+        let down = 0
+        if (setting.interval == 1.5) {
+          interval = 8 * 1.5
+          down = interval
+        }
+
+        let top = 23 + interval
+        if (i != 0)
+        {
+          top = 23 + interval + interval
+        }
+        return <FourLine key={i} marginTop={top} maginDown={down} lineNum={setting.lineNum} borderColor={setting.lineColor} />
       })
     }
 
@@ -84,6 +102,7 @@ class Sentence extends Component{
             innerRef={(ref) => {this.inputText = ref}}
             fontFamily={browserType == 'ie' ? 'MyFamilyIE' : 'MyFamilyCHROME'}
             fontSize={browserType == 'ie' ? '96px' : '80px'}
+            lineHeight={setting.interval}
           />
         </DivSen>
       </div>

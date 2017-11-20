@@ -35,16 +35,6 @@ const DivBg = styled.div.attrs({
   padding: 0;
   border: none;
 `
-const DivOverlap = styled.div`
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 999;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(222,222,222,0.5);
-  display: ${props => props.show ? 'block' : 'none'}
-`
 const DivFixed = styled.div.attrs({
   tabIndex: -1,
 })`

@@ -75,7 +75,7 @@ class ItemJaSize extends Component{
         </MiddleItem>
         <DivSetMenuPart column>
           <DivSetMenuPart>
-            <SmallItem>上</SmallItem>
+            <SmallItem style={{cursor: 'default'}}>上</SmallItem>
             <SelectItem
               innerRef={(ref) => {this.upJaSizeSelect = ref}}
               value={setting.upJaSize}
@@ -84,7 +84,7 @@ class ItemJaSize extends Component{
             </SelectItem>
           </DivSetMenuPart>
           <DivSetMenuPart >
-            <SmallItem>下</SmallItem>
+            <SmallItem style={{cursor: 'default'}}>下</SmallItem>
             <SelectItem
               innerRef={(ref) => {this.downJaSizeSelect = ref}}
               value={setting.downJaSize}

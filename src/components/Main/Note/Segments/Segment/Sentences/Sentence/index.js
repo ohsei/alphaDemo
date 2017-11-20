@@ -20,7 +20,8 @@ const TextArea = styled(ContentEditable)`
   position: relative;
   z-index: 9;
   letter-spacing: 1.5px;
-  color: black,
+  color: black;
+  line-height: ${props => props.lineHeight};
 `
 const DivSen = styled.div`
   width: 100%;
@@ -228,7 +229,6 @@ class Sentence extends Component{
       }
       this.inputText.htmlEl.innerText = newText
     }
-  //  this.setState({range: this.saveSelection()})
   }
 
   onTextAreaChange (){
@@ -241,21 +241,31 @@ class Sentence extends Component{
   }
 
   componentDidMount (){
-    if (browserType == 'ie'){
-      this.inputText.htmlEl.style.backgroundImage = `url(${require('../../../../../../../resources/img/4line_ie.png')})`
-    }
-    else {
-      this.inputText.htmlEl.style.backgroundImage = `url(${require('../../../../../../../resources/img/4line.png')})`
-    }
+    this.inputText.htmlEl.style.backgroundImage = `url(${require('../../../../../../../resources/img/4line.png')})`
   }
-
   componentWillReceiveProps (nextProps) {
-
-    if (nextProps.setting.lineNum == 2) {
+    const {setting} = nextProps
+    
+    if (setting.interval == 1.5) {
+      this.inputText.htmlEl.style.backgroundImage = `url(${require('../../../../../../../resources/img/4line_1.5.png')})`
+    }
+    else if (setting.lineNum == 2 && setting.lineColor == 'gray') {
       this.inputText.htmlEl.style.backgroundImage = `url(${require('../../../../../../../resources/img/2line.png')})`
     }
-    else {
+    else if ((setting.lineNum == 4 && setting.lineColor == 'gray')) {
       this.inputText.htmlEl.style.backgroundImage = `url(${require('../../../../../../../resources/img/4line.png')})`
+    }
+    else if ((setting.lineNum == 2 && setting.lineColor == 'lightgray')) {
+      this.inputText.htmlEl.style.backgroundImage = `url(${require('../../../../../../../resources/img/2line_lightgray.png')})`
+    }
+    else if ((setting.lineNum == 4 && setting.lineColor == 'lightgray')) {
+      this.inputText.htmlEl.style.backgroundImage = `url(${require('../../../../../../../resources/img/4line_lightgray.png')})`
+    }
+    else if ((setting.lineNum == 2 && setting.lineColor == 'black')) {
+      this.inputText.htmlEl.style.backgroundImage = `url(${require('../../../../../../../resources/img/2line_black.png')})`
+    }
+    else if ((setting.lineNum == 4 && setting.lineColor == 'black')) {
+      this.inputText.htmlEl.style.backgroundImage = `url(${require('../../../../../../../resources/img/4line_black.png')})`
     }
   }
   componentDidUpdate (prevProps) {
@@ -286,8 +296,8 @@ class Sentence extends Component{
   }
 
   render (){
-    const { id, note } = this.props
-
+    const { id, note, setting } = this.props
+    console.log(setting)
     return (
       <DivSen>
         <TextArea
@@ -302,7 +312,8 @@ class Sentence extends Component{
           onMouseUp={this.handelMouseUp}
           onPaste={this.onPaste}
           fontFamily={browserType == 'ie' ? 'MyFamilyIE' : 'MyFamilyCHROME'}
-          fontSize={browserType == 'ie' ? '96px' : '80px'}
+          fontSize={'80px'}
+          lineHeight={setting.interval}
         />
       </DivSen>
 

@@ -44,7 +44,6 @@ class PrintNote extends Component{
     printFinish()
     setPrintStatus('印刷用意中...')
   }
-
   cancel = () => {
     const {printFinish, setPrintStatus} = this.props
     this.onClearLoadstateArray()
@@ -71,7 +70,6 @@ class PrintNote extends Component{
     }
     return true
   }
-
   onClearLoadstateArray = () => {
     const {updateLoadedArray, namelist} = this.props
     let loadedArray = []

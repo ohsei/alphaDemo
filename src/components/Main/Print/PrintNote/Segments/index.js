@@ -17,7 +17,7 @@ const StyledSection = styled.section`
 class Segments extends Component{
   onCreateLoadedArray = (segment) => {
     const {updateLoadedArray, loadedArray, id} = this.props
-
+    console.log(this.props)
     let newLoadedArray = loadedArray
 
     if (newLoadedArray[id] === undefined) {
@@ -25,7 +25,7 @@ class Segments extends Component{
     }
 
     if (newLoadedArray[id].segments[segment.id] === undefined){
-      if (segment.type === 'txtOnly') {
+      if (segment.dataUrl === '') {
         newLoadedArray[id].segments.push({id: segment.id, loaded: true})
       }
       else {

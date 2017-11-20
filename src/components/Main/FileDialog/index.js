@@ -16,7 +16,7 @@ const DivOverlap = styled.div`
   z-index: 999;
   width: 100%;
   height: 100%;
-  background-color: rgba(222,222,222,0.5);
+  background-color: rgba(100,100,100,0.5);
   display: ${props => props.show ? 'block' : 'none'}
 `
 const Wrapper = styled.div`

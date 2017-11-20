@@ -16,9 +16,9 @@ export const defaultSetting = {
   enSize: '60pt',
   upJaSize: '24pt',
   downJaSize: 'オフ',
-  lineColor: 'lightgray',
+  lineColor: 'gray',
   lineNum: 4,
-  interval: '24pt',
+  interval: 1.2,
   lineNos: 0,
 }
 
@@ -55,11 +55,11 @@ export const enSizeList = [
 export const intervalList = [
   {
     id: 0,
-    value: '24pt',
+    value: 1.2,
   },
   {
     id: 1,
-    value: '26pt',
+    value: 1.5,
   },
 ]
 
