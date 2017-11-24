@@ -8,7 +8,7 @@ const DivSen = styled.div`
   width: 100%;
   z-index: 0;
   display: block;
-  padding-bottom: 12px;
+  padding-bottom: ${props => props.interval == 1.5 ? '12px' : '0px'};
   background-color: white;
 `
 const DivLine = styled.div`
@@ -25,7 +25,7 @@ const DivLine = styled.div`
 const DivLineTop = styled.div`
   width: 100%;
   display: flex;
-  padding: 35px 0 0 0;
+  padding: ${props => props.interval == 1.5 ? '35px 0 0 0' : '23px 0 0 0'};
   border-width: 1px;
   border-style: solid;
   border-color: ${props => props.lineNum == 2 ? 'white' : props.borderColor};
@@ -60,19 +60,19 @@ class FourLine extends React.Component{
         //const blob = canvas.msToBlob(blob)
         //window.navigator.msSaveBlob(blob, "fourline.png")
         canvas.toBlob(function (blob) {
-          FileSaver.saveAs(blob, 'fourline.png')
+          FileSaver.saveAs(blob, '2line_1.5_lightgray.png')
         })
       }
     })
   }
 
   render (){
-    const {marginTop, lineNum, borderColor} = this.props
+    const {lineNum, borderColor, interval} = this.props
     return (
       <DivSen
         innerRef={ref => this.divsen = ref}
-        style={{marginTop: marginTop}}>
-        <DivLineTop lineNum={lineNum} borderColor={borderColor}/>
+        interval={interval}>
+        <DivLineTop lineNum={lineNum} borderColor={borderColor} interval={interval} />
         <DivLine borderColor={borderColor} />
         <DivLine borderColor='orange' />
         <DivLineDown lineNum={lineNum} borderColor={borderColor} />

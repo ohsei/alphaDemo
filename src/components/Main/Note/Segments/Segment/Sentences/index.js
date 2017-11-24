@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import ContentEditable from 'react-contenteditable'
+import ContentEditable from '../common/ContentEditable'
 import {pick, keys} from 'lodash'
 
 import Sentence from './Sentence'

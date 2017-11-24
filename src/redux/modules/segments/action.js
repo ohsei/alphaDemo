@@ -7,6 +7,7 @@ import {
   UPDATE_IS_ITALIC,
   UPDATE_IS_UNDERLINE,
   UPDATE_CUR_COLOR,
+  OFF_FORCECHANGE
 } from '../main/action-type'
 
 export const setCurSegment = (id) => {
@@ -62,5 +63,11 @@ export const updateCurColor = (curColor) => {
   return {
     type: UPDATE_CUR_COLOR,
     payload: curColor
+  }
+}
+
+export const offForceChange = () => {
+  return {
+    type: OFF_FORCECHANGE,
   }
 }

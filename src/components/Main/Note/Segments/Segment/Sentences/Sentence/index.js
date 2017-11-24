@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import ContentEditable from 'react-contenteditable'
+import ContentEditable from '../../common/ContentEditable'
 
 import {getBrowserType} from '../../../../../../../utils/browserType'
 import FourLine from '../../common/FourLine'
@@ -69,6 +69,8 @@ class Sentence extends Component{
     updateIsItalic: PropTypes.func.isRequired,
     updateIsUnderline: PropTypes.func.isRequired,
     updateCurColor: PropTypes.func.isRequired,
+    forceChange: PropTypes.bool,
+    offForceChange: PropTypes.func.isRequired,
   }
   setBold (){
     const {updateNote, note, id} = this.props
@@ -231,11 +233,11 @@ class Sentence extends Component{
     }
   }
 
-  onTextAreaChange (){
+  onTextAreaChange (e){
     const {updateNote, note, id} = this.props
 
     let newNote = note.slice()
-    newNote[id].html = this.inputText.htmlEl.innerHTML
+    newNote[id].html = e.target.value
     newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
   }
@@ -245,28 +247,63 @@ class Sentence extends Component{
   }
   componentWillReceiveProps (nextProps) {
     const {setting} = nextProps
+    const interval = setting.interval
+    const lineNum = setting.lineNum
+    const lineColor = setting.lineColor
+    let url = `url(${require('../../../../../../../resources/img/4line.png')})`
+
+    if (interval == 1.5) {
+      if (lineNum == 4) {
+        if (lineColor == 'gray') {
+          url = `url(${require('../../../../../../../resources/img/4line_1.5.png')})`
+        }
+        else if (lineColor == 'lightgray') {
+          url = `url(${require('../../../../../../../resources/img/4line_1.5_lightgray.png')})`
+        }
+        else if (lineColor == 'black') {
+          url = `url(${require('../../../../../../../resources/img/4line_1.5_black.png')})`
+        }
+      }
+      else if (lineNum == 2) {
+        if (lineColor == 'gray') {    
+          url = `url(${require('../../../../../../../resources/img/2line_1.5.png')})`
+        }
+        else if (lineColor == 'lightgray') {
+          url = `url(${require('../../../../../../../resources/img/2line_1.5_lightgray.png')})`
+        }
+        else if (lineColor == 'black') {
+          url = `url(${require('../../../../../../../resources/img/2line_1.5_black.png')})`
+        }
+      }
+    }
+    else {
+      /* default setting */
+      if (lineNum == 4) {
+        if (lineColor == 'gray') {
+          url = `url(${require('../../../../../../../resources/img/4line.png')})`
+        }
+        else if (lineColor == 'lightgray') {
+          url = `url(${require('../../../../../../../resources/img/4line_lightgray.png')})`
+        }
+        else if (lineColor == 'black') {
+          url = `url(${require('../../../../../../../resources/img/4line_black.png')})`
+        }
+      }
+      else if (lineNum == 2) {
+        if (lineColor == 'gray') {    
+          url = `url(${require('../../../../../../../resources/img/2line.png')})`
+        }
+        else if (lineColor == 'lightgray') {
+          url = `url(${require('../../../../../../../resources/img/2line_lightgray.png')})`
+        }
+        else if (lineColor == 'black') {
+          url = `url(${require('../../../../../../../resources/img/2line_black.png')})`
+        }
+      }
+    }
+
+    this.inputText.htmlEl.style.backgroundImage = url
     
-    if (setting.interval == 1.5) {
-      this.inputText.htmlEl.style.backgroundImage = `url(${require('../../../../../../../resources/img/4line_1.5.png')})`
-    }
-    else if (setting.lineNum == 2 && setting.lineColor == 'gray') {
-      this.inputText.htmlEl.style.backgroundImage = `url(${require('../../../../../../../resources/img/2line.png')})`
-    }
-    else if ((setting.lineNum == 4 && setting.lineColor == 'gray')) {
-      this.inputText.htmlEl.style.backgroundImage = `url(${require('../../../../../../../resources/img/4line.png')})`
-    }
-    else if ((setting.lineNum == 2 && setting.lineColor == 'lightgray')) {
-      this.inputText.htmlEl.style.backgroundImage = `url(${require('../../../../../../../resources/img/2line_lightgray.png')})`
-    }
-    else if ((setting.lineNum == 4 && setting.lineColor == 'lightgray')) {
-      this.inputText.htmlEl.style.backgroundImage = `url(${require('../../../../../../../resources/img/4line_lightgray.png')})`
-    }
-    else if ((setting.lineNum == 2 && setting.lineColor == 'black')) {
-      this.inputText.htmlEl.style.backgroundImage = `url(${require('../../../../../../../resources/img/2line_black.png')})`
-    }
-    else if ((setting.lineNum == 4 && setting.lineColor == 'black')) {
-      this.inputText.htmlEl.style.backgroundImage = `url(${require('../../../../../../../resources/img/4line_black.png')})`
-    }
   }
   componentDidUpdate (prevProps) {
     const {updateIsBold, updateIsItalic, updateIsUnderline, updateCurColor} = this.props
@@ -296,14 +333,15 @@ class Sentence extends Component{
   }
 
   render (){
-    const { id, note, setting } = this.props
-    console.log(setting)
+    const { id, note, setting, forceChange, offForceChange } = this.props
+
     return (
       <DivSen>
+        {/*<FourLine interval={1.5} lineNum={2} borderColor={'lightgray'} />*/}
         <TextArea
           html={note[id].html}
+          disabled={false}
           spellCheck={false}
-          style={{imeMode: this.state.imeMode}}
           innerRef={(ref) => {this.inputText = ref}}
           onChange={this.onTextAreaChange}
           onBlur={this.onTextAreaBlur}
@@ -314,6 +352,8 @@ class Sentence extends Component{
           fontFamily={browserType == 'ie' ? 'MyFamilyIE' : 'MyFamilyCHROME'}
           fontSize={'80px'}
           lineHeight={setting.interval}
+          forceChange={forceChange}
+          offForceChange={offForceChange}
         />
       </DivSen>
 

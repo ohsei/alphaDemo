@@ -15,6 +15,7 @@ import {
   UPDATE_IS_ITALIC,
   UPDATE_IS_UNDERLINE,
   UPDATE_CUR_COLOR,
+  OFF_FORCECHANGE
 } from './action-type'
 
 const initialState = {
@@ -30,6 +31,7 @@ const initialState = {
   isItalic: false,
   isUnderline: false,
   curColor: 'rgb(0,0,0)',
+  forceChange: false
 }
 
 const {assign} = Object
@@ -45,6 +47,7 @@ export default (state = initialState, action) => {
       curSegmentNo: payload.note.length - 1,
       saveFileTitle: payload.saveFileTitle,
       isShowFileDialog: false,
+      forceChange: true,
     })
 
   case SET_CUR_SEGMENT_NO:
@@ -59,7 +62,8 @@ export default (state = initialState, action) => {
 
   case UPDATE_NOTE:
     return assign({}, state, {
-      note: payload
+      note: payload,
+      forceChange: true,
     })
 
   case UPDATE_PRINT:
@@ -87,6 +91,7 @@ export default (state = initialState, action) => {
         curComponent: null,
         isPrint: false,
         curColor: 'rgb(0,0,0)',
+        forceChange: true,
       })
     })()
 
@@ -118,6 +123,11 @@ export default (state = initialState, action) => {
   case UPDATE_CUR_COLOR:
     return assign({}, state, {
       curColor: payload
+    })
+  
+  case OFF_FORCECHANGE:
+    return assign({}, state, {
+      forceChange: false
     })
   default:
     return state

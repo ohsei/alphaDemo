@@ -120,7 +120,7 @@ class Segment extends Component{
           {content}
           <Actions type={type} {...pick(this.props, keys(Actions.propTypes))} />
         </SegArea>
-        <DivInterval interval={setting.interval} />
+        <DivInterval interval={'50px'} />
         <DrawPageBreakLine
           isPageBreak={isPageBreak}
           title={title}

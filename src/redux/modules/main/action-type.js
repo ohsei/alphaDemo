@@ -25,3 +25,5 @@ export const UPDATE_IS_ITALIC = 'main/UPDATE_IS_ITALIC'
 export const UPDATE_IS_UNDERLINE = 'main/UPDATE_IS_UNDERLINE'
 
 export const UPDATE_CUR_COLOR = 'main/UPDATE_CUR_COLOR'
+
+export const OFF_FORCECHANGE = 'main/OFF_FORCECHANGE'
