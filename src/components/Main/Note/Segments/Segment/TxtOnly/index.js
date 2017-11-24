@@ -22,7 +22,7 @@ class TxtOnly extends Component{
     this.setUnderline =  this.setUnderline.bind(this)
   }
   static propTypes = {
-    id: PropTypes.number,
+    segmentId: PropTypes.number,
     curSegmentNo: PropTypes.number,
     width: PropTypes.number,
     isPrint: PropTypes.bool,
@@ -56,17 +56,17 @@ class TxtOnly extends Component{
     this.sentences.setUnderline()
   }
   setCurSegment (){
-    this.props.setCurSegment(this.props.id)
+    this.props.setCurSegment(this.props.segmentId)
   }
 
   render (){
-    const {id, width, setting} = this.props
+    const {segmentId, width, setting} = this.props
     return (
       <SentenceArea
         innerRef={ref => this.sentencearea = ref}
         width={width}
         onClick={this.setCurSegment} >
-        <LabNum lineNoType={setting.lineNos} id={id} />
+        <LabNum lineNoType={setting.lineNos} id={segmentId} />
         <Sentences
           ref={ref => this.sentences = ref}
           senWidth={width - 50}

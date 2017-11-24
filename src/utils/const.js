@@ -25,8 +25,8 @@ export const defaultSetting = {
 export const defaultNote = {
   id: 0,
   type: 'txtOnly',
-  html: '',
-  jaHtml: '',
+  htmls: [{id: 0, html: '', isPageBreak: false}],
+  jaHtmls: [{id: 0, jaHtml: '', isPageBreak: false}],
   dataUrl: '',
   isPageBreak: false,
   offsetHeight: 0,

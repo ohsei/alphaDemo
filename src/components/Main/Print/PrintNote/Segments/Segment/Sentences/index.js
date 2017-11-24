@@ -14,6 +14,14 @@ const DivJan = styled(ContentEditable)`
   width: 95%;
   font-size: ${props => props.fontSize}
 `
+const UlSen = styled.ul`
+  margin: 0;
+  padding: 0;
+`
+const UlJaSen = styled.ul`
+  margin: 0;
+  padding: 0;
+`
 
 class Sentences extends Component{
   constructor (props){
@@ -36,16 +44,32 @@ class Sentences extends Component{
     const upJaSize = setting.upJaSize
     const downJaSize = setting.downJaSize
 
+    let listItems = note[segmentId].htmls.map((html, index) => {
+      return (
+        <Sentence
+          key={index}
+          sentenceId={html.id}
+          ref={ref => this.sentence = ref}
+          {...pick(this.props, keys(Sentence.propTypes))} />
+      )
+    })
+    let listJaItems = note[segmentId].jaHtmls.map((jaHtml, index) => {
+      return (
+        <DivJan
+          key={index}
+          html={jaHtml.jaHtml}
+          fontSize={upJaSize}
+          spellCheck={false}
+        />
+      )
+    })
     return (
       <DivSentences
         innerRef={ref => this.divSentences = ref}
         width={this.props.senWidth}>
-        {setting.upJaSize != 'オフ' && <DivJan html={note[segmentId].jaHtml} innerRef={ref => this.upJaHtml = ref} fontSize={upJaSize} spellCheck={false} onChange={this.onUpChange} />}
-        <Sentence
-          ref={ref => this.sentence = ref}
-          {...pick(this.props, keys(Sentence.propTypes))}
-        />
-        {setting.downJaSize != 'オフ' && <DivJan html={note[segmentId].jaHtml} innerRef={ref => this.downJaHtml = ref} fontSize={downJaSize} spellCheck={false} onChange={this.onDownChange} />}
+        {setting.upJaSize != 'オフ' && <UlJaSen>{listJaItems}</UlJaSen>}
+        <UlSen>{listItems}</UlSen>
+        {setting.downJaSize != 'オフ' &&<UlJaSen>{listJaItems}</UlJaSen>}
       </DivSentences>
     )
   }

@@ -16,12 +16,12 @@ const SentenceArea = styled.div`
 
 class ImgTxt extends Component{
   render (){
-    const {id, width, setting} = this.props
+    const {segmentId, width, setting} = this.props
     return (
       <SentenceArea
         width={width}
         onClick={this.setCurSegment} >
-        <LabNum lineNoType={setting.lineNos} id={id} />
+        <LabNum lineNoType={setting.lineNos} id={segmentId} />
         <div>
         <Canvas
           canvasWidth={(width - 50) * 0.4}
@@ -44,7 +44,7 @@ ImgTxt.propTypes = {
   setting: PropTypes.object,
   setCurSegment: PropTypes.func,
   setCurComponent: PropTypes.func,
-  id: PropTypes.any,
+  segmentId: PropTypes.number,
   curSegmentNo: PropTypes.any,
   updateNote: PropTypes.func.isRequired,
   tabNodeList: PropTypes.array,

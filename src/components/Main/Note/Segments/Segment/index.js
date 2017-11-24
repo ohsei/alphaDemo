@@ -50,7 +50,8 @@ class Segment extends Component{
     }
   }
   static propTypes = {
-    id: PropTypes.number,
+    segmentId: PropTypes.number,
+    segmentsHeight: PropTypes.number,
     width: PropTypes.number,
     setting: PropTypes.object,
     curSegmentNo: PropTypes.number,
@@ -78,10 +79,10 @@ class Segment extends Component{
   }
 
   render (){
-    const {id, width, setting, note, title, name} = this.props
-    const dataUrl = note[id].dataUrl
-    const isPageBreak = note[id].isPageBreak
-    const type = note[id].type
+    const {segmentId, width, setting, note, title, name} = this.props
+    const dataUrl = note[segmentId].dataUrl
+    const isPageBreak = note[segmentId].isPageBreak
+    const type = note[segmentId].type
 
     const content = (()  => {
       switch (type) {

@@ -29,6 +29,30 @@ const DivSen = styled.div`
   display: block;
   position: relative;
 `
+const PageBreakLine = styled.div`
+  width: 100%;
+  height: 2;
+  border:1px dotted blue;
+  page-break-after: always;
+
+  @media print{
+    border-color: white;
+  }
+`
+
+const DrawPageBreakLine = (object) => {
+  if (object.isPageBreak == true){
+    return (
+      <div>
+        <PageBreakLine />
+      </div>
+    )
+  }
+  else {
+    return false
+  }
+}
+
 let isShiftKeyPressed = false
 let isNewLine = false
 let isCtrlKeyPressed = false
@@ -56,7 +80,8 @@ class Sentence extends Component{
 
   static propTypes = {
     note: PropTypes.array,
-    id: PropTypes.number,
+    segmentId: PropTypes.number,
+    sentenceId: PropTypes.number,
     addSentence: PropTypes.func,
     delSentence: PropTypes.func,
     updateNote: PropTypes.func,
@@ -71,29 +96,31 @@ class Sentence extends Component{
     updateCurColor: PropTypes.func.isRequired,
     forceChange: PropTypes.bool,
     offForceChange: PropTypes.func.isRequired,
+    isPageBreak: PropTypes.bool,
+    segmentsHeight: PropTypes.number,
   }
   setBold (){
-    const {updateNote, note, id} = this.props
+    const {updateNote, note, segmentId, sentenceId} = this.props
     document.execCommand('bold', false)
     let newNote = note.slice()
-    newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+    newNote[segmentId].htmls[sentenceId].html = this.inputText.htmlEl.innerHTML
+    newNote[segmentId].offsetHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
   }
   setItalic (){
-    const {updateNote, note, id} = this.props
+    const {updateNote, note, segmentId, sentenceId} = this.props
     document.execCommand('italic', false)
     let newNote = note.slice()
-    newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+    newNote[segmentId].htmls[sentenceId].html = this.inputText.htmlEl.innerHTML
+    newNote[segmentId].offsetHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
   }
   setUnderline (){
-    const {updateNote, note, id} = this.props
+    const {updateNote, note, segmentId, sentenceId} = this.props
     document.execCommand('underline', false)
     let newNote = note.slice()
-    newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+    newNote[segmentId].htmls[sentenceId].html = this.inputText.htmlEl.innerHTML
+    newNote[segmentId].offsetHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
   }
   saveSelection () {
@@ -131,7 +158,7 @@ class Sentence extends Component{
   }
 
   setColor (color){
-    const {updateNote, note, id} = this.props
+    const {updateNote, note, segmentId, sentenceId} = this.props
     var r = this.toHex(color.r)
     var g = this.toHex(color.g)
     var b = this.toHex(color.b)
@@ -139,8 +166,8 @@ class Sentence extends Component{
     this.restoreSelection(this.state.range)
     document.execCommand('foreColor', false,  newColor)
     let newNote = note.slice()
-    newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+    newNote[segmentId].htmls[sentenceId].html = this.inputText.htmlEl.innerHTML
+    newNote[segmentId].offsetHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
 
   }
@@ -148,7 +175,7 @@ class Sentence extends Component{
     this.setState({range: this.saveSelection()})
   }
   onKeyUp (event){
-    const {updateNote, note, id} = this.props
+    const {updateNote, note, segmentId, sentenceId} = this.props
 
     if (event.keyCode == 16){
       isShiftKeyPressed = false
@@ -161,8 +188,8 @@ class Sentence extends Component{
     }
     this.setState({range: this.saveSelection()})
     let newNote = note.slice()
-    newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+    newNote[segmentId].htmls[sentenceId].html = this.inputText.htmlEl.innerHTML
+    newNote[segmentId].offsetHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
   }
   onKeyDown (event){
@@ -234,11 +261,22 @@ class Sentence extends Component{
   }
 
   onTextAreaChange (e){
-    const {updateNote, note, id} = this.props
+    const {updateNote, note, segmentId, sentenceId, segmentsHeight} = this.props
 
+    console.log(note)
+    console.log(segmentsHeight)
     let newNote = note.slice()
-    newNote[id].html = e.target.value
-    newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+    newNote[segmentId].htmls[sentenceId].html = e.target.value
+    newNote[segmentId].offsetHeight = this.inputText.htmlEl.offsetHeight
+    if ((segmentsHeight + 96) >= 1600) {
+      newNote[segmentId].htmls[sentenceId].isPageBreak = true
+      let curNo = sentenceId
+        for (let i = curNo + 1;i < newNote[segmentId].htmls.length;i++){
+          newNote[segmentId].htmls[i].id++
+        }
+        curNo++
+        newNote[segmentId].htmls.splice(curNo, 0, {id: curNo, html: '', isPageBreak: false})
+    }
     updateNote(newNote)
   }
 
@@ -333,13 +371,13 @@ class Sentence extends Component{
   }
 
   render (){
-    const { id, note, setting, forceChange, offForceChange } = this.props
-
+    const { segmentId, sentenceId, note, setting, forceChange, offForceChange, isPageBreak } = this.props
+    console.log(note)
     return (
       <DivSen>
         {/*<FourLine interval={1.5} lineNum={2} borderColor={'lightgray'} />*/}
         <TextArea
-          html={note[id].html}
+          html={note[segmentId].htmls[sentenceId].html}
           disabled={false}
           spellCheck={false}
           innerRef={(ref) => {this.inputText = ref}}
@@ -355,6 +393,8 @@ class Sentence extends Component{
           forceChange={forceChange}
           offForceChange={offForceChange}
         />
+        <DrawPageBreakLine
+          isPageBreak={isPageBreak} />
       </DivSen>
 
     )

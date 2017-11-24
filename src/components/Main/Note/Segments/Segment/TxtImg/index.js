@@ -15,12 +15,12 @@ const SentenceArea = styled.div`
 
 class TxtImgSeg extends Component{
   render (){
-    const {id, width, setting} = this.props
+    const {segmentId, width, setting} = this.props
     return (
       <SentenceArea
         width={width}
         onClick={this.setCurSegment} >
-        <LabNum lineNoType={setting.lineNos} id={id} />
+        <LabNum lineNoType={setting.lineNos} id={segmentId} />
         <Sentences
           senWidth={(width - 50) * 0.6}
           ref={(ref) => {this.sentences = ref}}

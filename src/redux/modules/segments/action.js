@@ -7,7 +7,8 @@ import {
   UPDATE_IS_ITALIC,
   UPDATE_IS_UNDERLINE,
   UPDATE_CUR_COLOR,
-  OFF_FORCECHANGE
+  OFF_FORCECHANGE,
+  UPDATE_SEGMENTS_HEIGHT
 } from '../main/action-type'
 
 export const setCurSegment = (id) => {
@@ -69,5 +70,12 @@ export const updateCurColor = (curColor) => {
 export const offForceChange = () => {
   return {
     type: OFF_FORCECHANGE,
+  }
+}
+
+export const updateSegmentsHeight = (segmentsHeight) => {
+  return {
+    type: UPDATE_SEGMENTS_HEIGHT,
+    payload: segmentsHeight
   }
 }

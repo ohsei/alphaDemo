@@ -15,7 +15,8 @@ import {
   UPDATE_IS_ITALIC,
   UPDATE_IS_UNDERLINE,
   UPDATE_CUR_COLOR,
-  OFF_FORCECHANGE
+  OFF_FORCECHANGE,
+  UPDATE_SEGMENTS_HEIGHT
 } from './action-type'
 
 const initialState = {
@@ -31,7 +32,8 @@ const initialState = {
   isItalic: false,
   isUnderline: false,
   curColor: 'rgb(0,0,0)',
-  forceChange: false
+  forceChange: false,
+  segmentsHeight: 0,
 }
 
 const {assign} = Object
@@ -128,6 +130,11 @@ export default (state = initialState, action) => {
   case OFF_FORCECHANGE:
     return assign({}, state, {
       forceChange: false
+    })
+  
+  case UPDATE_SEGMENTS_HEIGHT:
+    return assign({}, state, {
+      segmentsHeight: payload
     })
   default:
     return state

@@ -37,7 +37,7 @@ const InputFileOpen = styled.input.attrs({
 class Actions extends Component{
   static propTypes = {
     note: PropTypes.array,
-    id: PropTypes.number,
+    segmentId: PropTypes.number,
     curSegmentNo: PropTypes.any,
     updateNote: PropTypes.func,
     delSegment: PropTypes.func,
@@ -46,48 +46,48 @@ class Actions extends Component{
   }
 
   onClick = () => {
-    const {setCurSegment, id} = this.props
+    const {setCurSegment, segmentId} = this.props
 
-    setCurSegment(id)
+    setCurSegment(segmentId)
   }
 
   setImgOnly = () => {
-    const {updateNote, note, id} = this.props
+    const {updateNote, note, segmentId} = this.props
 
     let newNote = note.slice()
-    note[id].type = 'imgOnly'
+    note[segmentId].type = 'imgOnly'
     updateNote(newNote)
   }
 
   setImgTxt = () => {
-    const {updateNote, note, id} = this.props
+    const {updateNote, note, segmentId} = this.props
 
     let newNote = note.slice()
-    note[id].type = 'imgTxt'
+    note[segmentId].type = 'imgTxt'
     updateNote(newNote)
   }
 
   setTxtImg = () => {
-    const {updateNote, note, id} = this.props
+    const {updateNote, note,segmentId} = this.props
 
     let newNote = note.slice()
-    note[id].type = 'txtImg'
+    note[segmentId].type = 'txtImg'
     updateNote(newNote)
   }
 
   setTxtOnly = () => {
-    const {updateNote, note, id} = this.props
+    const {updateNote, note, segmentId} = this.props
 
     let newNote = note.slice()
-    note[id].type = 'txtOnly'
+    note[segmentId].type = 'txtOnly'
     updateNote(newNote)
   }
 
   delSegment = () => {
-    const {updateNote, setCurSegment, id, note} = this.props
+    const {updateNote, setCurSegment, segmentId, note} = this.props
 
     let newNote = note.slice()
-    let curNo = id
+    let curNo = segmentId
 
     for (let i = curNo + 1;i < newNote.length;i++){
       newNote[i].id--
@@ -98,39 +98,39 @@ class Actions extends Component{
   }
 
   addSegment = () => {
-    const {updateNote, setCurSegment, id, note} = this.props
+    const {updateNote, setCurSegment, segmentId, note} = this.props
 
     let newNote = note.slice()
-    let curNo = id
+    let curNo = segmentId
 
     for (let i = curNo + 1;i < newNote.length;i++){
       newNote[i].id++
 
     }
     curNo++
-    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, offsetHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20, })
+    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', htmls: [{id: 0, html: '', isPageBreak: false}], jaHtmls: [{id: 0, jaHtml: ''}], dataUrl: '', isPageBreak: false, offsetHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20, })
 
     updateNote(newNote)
     setCurSegment(curNo)
   }
 
   addPageBreak = () => {
-    const {updateNote, id, note} = this.props
+    const {updateNote, segmentId, note} = this.props
 
     let newNote = note.slice()
-    newNote[id].isPageBreak = true
-    let curNo = id
+    newNote[segmentId].isPageBreak = true
+    let curNo = segmentId
 
     for (let i = curNo + 1;i < newNote.length;i++){
       newNote[i].id++
     }
     curNo++
-    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, offsetHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20, })
+    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', htmls: [{id: 0, html: '', isPageBreak: false}], jaHtmls: [{id: 0, jaHtml: ''}], dataUrl: '', isPageBreak: false, offsetHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20, })
     updateNote(newNote)
   }
 
   imgAdd = (event) => {
-    const {updateNote, note, id} = this.props
+    const {updateNote, note, segmentId} = this.props
 
     let file = event.target.files[0]
 
@@ -154,7 +154,7 @@ class Actions extends Component{
           var dataUrl = canvas.toDataURL('img/png')
 
           let newNote = note.slice()
-          newNote[id].dataUrl = dataUrl
+          newNote[segmentId].dataUrl = dataUrl
 
           updateNote(newNote)
         }.bind(this)
@@ -164,9 +164,9 @@ class Actions extends Component{
     }
   }
   componentDidMount (){
-    const {id} = this.props
+    const {segmentId} = this.props
 
-    if (id === 0){
+    if (segmentId === 0){
       this.btnDelSeg.disabled = true
       this.btnDelSeg.style.backgroundImage = 'url(' + require('../../../../../../resources/img/delete_gray.png') + ')'
     }
@@ -217,9 +217,9 @@ class Actions extends Component{
   }
 
   componentDidUpdate (){
-    const {id, type} = this.props
+    const {segmentId, type} = this.props
 
-    if (id === 0){
+    if (segmentId === 0){
       this.btnDelSeg.disabled = true
     }
     else {
@@ -268,8 +268,8 @@ class Actions extends Component{
   }
 
   render (){
-    const {id} = this.props
-    const imgopenId = `imgopen'${id}`
+    const {segmentId} = this.props
+    const imgopenId = `imgopen'${segmentId}`
 
     return (
       <DivAction onClick={this.onClick}>

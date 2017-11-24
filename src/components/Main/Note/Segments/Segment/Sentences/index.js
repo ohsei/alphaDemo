@@ -4,28 +4,30 @@ import styled from 'styled-components'
 import ContentEditable from '../common/ContentEditable'
 import {pick, keys} from 'lodash'
 
+import JaSentence from './JaSentence'
 import Sentence from './Sentence'
 
 const DivSentences = styled.div`
   width: ${props => `${props.width}px`};
 `
-const DivJan = styled(ContentEditable)`
-  border: 1px solid lightgray;
-  width: 95%;
-  font-size: ${props => props.fontSize}
+const UlSen = styled.ul`
+  margin: 0;
+  padding: 0;
+`
+const UlJaSen = styled.ul`
+  margin: 0;
+  padding: 0;
 `
 
 class Sentences extends Component{
   constructor (props){
     super(props)
     this.getHeight = this.getHeight.bind(this)
-    this.onDownChange = this.onDownChange.bind(this)
-    this.onUpChange = this.onUpChange.bind(this)
     this.onFocus = this.onFocus.bind(this)
   }
   static propTypes = {
     curSegmentNo: PropTypes.number,
-    id: PropTypes.number,
+    segmentId: PropTypes.number,
     senWidth: PropTypes.number,
     note: PropTypes.array,
     setting: PropTypes.object,
@@ -43,33 +45,16 @@ class Sentences extends Component{
     updateIsUnderline: PropTypes.func.isRequired,
     updateCurColor: PropTypes.func.isRequired,
     ...Sentence.propTypes,
+    ...JaSentence.propTypes,
   }
 
   getHeight (){
     return this.divSentences.offsetHeight
   }
 
-  onUpChange (){
-    const {id, updateNote, note} = this.props
-
-    let newNote = note.slice()
-    newNote[id].jaHtml = this.upJaHtml.htmlEl.innerHTML
-
-    updateNote(newNote)
-  }
-
-  onDownChange (){
-    const {id, updateNote, note} = this.props
-
-    let newNote = note.slice()
-    newNote[id].jaHtml = this.upJaHtml.htmlEl.innerHTML
-
-    updateNote(newNote)
-  }
-
   onFocus (){
-    const {id, setCurSegment, setCurComponent} = this.props
-    setCurSegment(id)
+    const {segmentId, setCurSegment, setCurComponent} = this.props
+    setCurSegment(segmentId)
     setCurComponent(this.sentence)
   }
 
@@ -82,7 +67,7 @@ class Sentences extends Component{
   }
 
   componentDidUpdate (){
-    const {id, tabNodeList} = this.props
+    const {segmentId, tabNodeList} = this.props
     const upJaNode = () => { return (this.upJaHtml ? this.upJaHtml.htmlEl : null)}
     const enNode = this.sentence.inputText.htmlEl
     const downJaNode = () => {return (this.downJaHtml ? this.downJaHtml.htmlEl : null)}
@@ -102,18 +87,18 @@ class Sentences extends Component{
     let i = 0
     let tabNode = tabNodeList[i]
 
-    while (tabNodeList[i].id != id){
+    while (tabNodeList[i].id != segmentId){
       i++
     }
 
     if (tabNode){
       if (tabNode.node.length != node.length){
-        this.updateTabNode({id: id, node: node})
+        this.updateTabNode({id: segmentId, node: node})
       }
       else {
         for (let i = 0;i < node.length;i++){
           if (tabNode.node[i].label != node[i].label){
-            this.updateTabNode({id: id, node: node})
+            this.updateTabNode({id: segmentId, node: node})
             return
           }
         }
@@ -130,7 +115,7 @@ class Sentences extends Component{
   }
 
   componentDidMount (){
-    const {id, setCurSegment, setCurComponent} = this.props
+    const {segmentId, setCurSegment, setCurComponent} = this.props
     const enNode = this.sentence.inputText.htmlEl
 
     const upJaNode = () => {
@@ -153,18 +138,18 @@ class Sentences extends Component{
       node = [{label: 'en', node: enNode}]
     }
 
-    this.addTabNode({id: id, node: node })
-    setCurSegment(id)
+    this.addTabNode({id: segmentId, node: node })
+    setCurSegment(segmentId)
     setCurComponent(this.sentence)
   }
 
-  delTabNode = (id) => {
+  delTabNode = (segmentId) => {
     const {updateTabNodeList, tabNodeList} = this.props
 
     let newTabNodeList = tabNodeList.slice()
     let i = 0
 
-    while (newTabNodeList[i].id != id){
+    while (newTabNodeList[i].id != segmentId){
       i++
     }
     newTabNodeList.splice(i, 1)
@@ -172,15 +157,53 @@ class Sentences extends Component{
   }
 
   componentWillUnmount (){
-    const {id} = this.props
-    this.delTabNode(id)
+    const {segmentId} = this.props
+    this.delTabNode(segmentId)
   }
 
   render (){
-    const {note, id, setting} = this.props
-
+    const {note, segmentId, setting} = this.props
     const upJaSize = setting.upJaSize
     const downJaSize = setting.downJaSize
+
+    let listItems = note[segmentId].htmls.map((html, index) => {
+      return (
+        <Sentence
+          key={index}
+          sentenceId={html.id}
+          ref={ref => this.sentence = ref}
+          isPageBreak={html.isPageBreak}
+          {...pick(this.props, keys(Sentence.propTypes))} />
+      )
+    })
+    let listUpJaItems = note[segmentId].jaHtmls.map((jaHtml, index) => {
+      if (setting.upJaSize != 'オフ') {
+        return (
+          <JaSentence
+            key={index}
+            jaSentenceId={jaHtml.id}
+            html={jaHtml.html}
+            jaSize={upJaSize}
+            spellCheck={false}
+            {...pick(this.props, keys(JaSentence.propTypes))}
+          />
+        )
+      }
+    })
+    let listDownJaItems = note[segmentId].jaHtmls.map((jaHtml, index) => {
+      if (setting.downJaSize != 'オフ') {
+        return (
+          <JaSentence
+            key={index}
+            jaSentenceId={jaHtml.id}
+            html={jaHtml.html}
+            jaSize={downJaSize}
+            spellCheck={false}
+            {...pick(this.props, keys(JaSentence.propTypes))}
+          />
+        )
+      }
+    })
 
     return (
       <DivSentences
@@ -188,13 +211,9 @@ class Sentences extends Component{
         onKeyDown={this.keyDown}
         innerRef={ref => this.divSentences = ref}
         width={this.props.senWidth}>
-        {setting.upJaSize != 'オフ' && <DivJan html={note[id].jaHtml} innerRef={ref => this.upJaHtml = ref} fontSize={upJaSize} spellCheck={false} onChange={this.onUpChange} />}
-        <Sentence
-          ref={ref => this.sentence = ref}
-          lineNum={setting.lineNum}
-          {...pick(this.props, keys(Sentence.propTypes))}
-        />
-        {setting.downJaSize != 'オフ' && <DivJan html={note[id].jaHtml} innerRef={ref => this.downJaHtml = ref} fontSize={downJaSize} spellCheck={false} onChange={this.onDownChange} />}
+        {setting.upJaSize != 'オフ' && <UlJaSen innerRef={ref => this.upJaHtml = ref}>{listUpJaItems}</UlJaSen>}
+        <UlSen>{listItems}</UlSen>
+        {setting.downJaSize != 'オフ' && <UlJaSen innerRef={ref => this.downJaHtml = ref}>{listDownJaItems}</UlJaSen>}
       </DivSentences>
     )
   }

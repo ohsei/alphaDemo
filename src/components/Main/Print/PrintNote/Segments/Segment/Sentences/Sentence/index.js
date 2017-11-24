@@ -44,13 +44,14 @@ class Sentence extends Component{
 
   static propTypes = {
     note: PropTypes.array,
+    sentenceId: PropTypes.number,
     segmentId: PropTypes.number,
     offsetHeight: PropTypes.number,
     setting: PropTypes.object,
   }
 
   render (){
-    const {note, segmentId, setting} = this.props
+    const {note, segmentId, sentenceId, setting} = this.props
     let height = 0
     let segmentHeight = 96
 
@@ -95,7 +96,7 @@ class Sentence extends Component{
         <DivSen>
           <div ref={ref => this.senList = ref}>{senList}</div>
           <TextArea
-            html={note[segmentId].html}
+            html={note[segmentId].htmls[sentenceId].html}
             disabled={true}
             spellCheck={false}
             style={{imeMode: this.state.imeMode}}

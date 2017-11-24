@@ -30,6 +30,7 @@ class Segments extends Component{
     updateIsItalic: PropTypes.func.isRequired,
     updateIsUnderline: PropTypes.func.isRequired,
     updateCurColor: PropTypes.func.isRequired,
+    updateSegmentsHeight: PropTypes.func.isRequired,
     ...Segment.propTypes,
   }
 
@@ -47,10 +48,9 @@ class Segments extends Component{
   }
   
   componentWillReceiveProps (nextProps) {
+    const {updateSegmentsHeight} = this.props
     console.log(this.segments.offsetHeight)
-    if (this.segments.offsetHeight >= 1607) {
-      alert('改ページしてください。')
-    }
+    updateSegmentsHeight(this.segments.offsetHeight)
   }
 
   render (){
@@ -59,7 +59,7 @@ class Segments extends Component{
       return (
         <Segment
           key={i}
-          id={i}
+          segmentId={i}
           ref={ref => this.segment = ref}
           {...pick(this.props, keys(Segment.propTypes))}
         />)
