@@ -268,14 +268,16 @@ class Sentence extends Component{
     let newNote = note.slice()
     newNote[segmentId].htmls[sentenceId].html = e.target.value
     newNote[segmentId].offsetHeight = this.inputText.htmlEl.offsetHeight
+
     if ((segmentsHeight + 96) >= 1600) {
       newNote[segmentId].htmls[sentenceId].isPageBreak = true
       let curNo = sentenceId
-        for (let i = curNo + 1;i < newNote[segmentId].htmls.length;i++){
-          newNote[segmentId].htmls[i].id++
-        }
-        curNo++
-        newNote[segmentId].htmls.splice(curNo, 0, {id: curNo, html: '', isPageBreak: false})
+
+      for (let i = curNo + 1;i < newNote[segmentId].htmls.length;i++){
+        newNote[segmentId].htmls[i].id++
+      }
+      curNo++
+      newNote[segmentId].htmls.splice(curNo, 0, {id: curNo, html: '', isPageBreak: false})
     }
     updateNote(newNote)
   }
@@ -303,7 +305,7 @@ class Sentence extends Component{
         }
       }
       else if (lineNum == 2) {
-        if (lineColor == 'gray') {    
+        if (lineColor == 'gray') {
           url = `url(${require('../../../../../../../resources/img/2line_1.5.png')})`
         }
         else if (lineColor == 'lightgray') {
@@ -328,7 +330,7 @@ class Sentence extends Component{
         }
       }
       else if (lineNum == 2) {
-        if (lineColor == 'gray') {    
+        if (lineColor == 'gray') {
           url = `url(${require('../../../../../../../resources/img/2line.png')})`
         }
         else if (lineColor == 'lightgray') {
@@ -341,7 +343,7 @@ class Sentence extends Component{
     }
 
     this.inputText.htmlEl.style.backgroundImage = url
-    
+
   }
   componentDidUpdate (prevProps) {
     const {updateIsBold, updateIsItalic, updateIsUnderline, updateCurColor} = this.props

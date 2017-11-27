@@ -68,7 +68,7 @@ class Actions extends Component{
   }
 
   setTxtImg = () => {
-    const {updateNote, note,segmentId} = this.props
+    const {updateNote, note, segmentId} = this.props
 
     let newNote = note.slice()
     note[segmentId].type = 'txtImg'
@@ -108,7 +108,7 @@ class Actions extends Component{
 
     }
     curNo++
-    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', htmls: [{id: 0, html: '', isPageBreak: false}], jaHtmls: [{id: 0, jaHtml: ''}], dataUrl: '', isPageBreak: false, offsetHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20, })
+    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', htmls: [{id: 0, html: '', isPageBreak: false, pageId: note[segmentId].pageId}], jaHtmls: [{id: 0, jaHtml: ''}], dataUrl: '', isPageBreak: false, offsetHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20, })
 
     updateNote(newNote)
     setCurSegment(curNo)
@@ -125,7 +125,7 @@ class Actions extends Component{
       newNote[i].id++
     }
     curNo++
-    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', htmls: [{id: 0, html: '', isPageBreak: false}], jaHtmls: [{id: 0, jaHtml: ''}], dataUrl: '', isPageBreak: false, offsetHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20, })
+    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', htmls: [{id: 0, html: '', isPageBreak: false,  pageId: note[segmentId].pageId}], jaHtmls: [{id: 0, jaHtml: ''}], dataUrl: '', isPageBreak: false, offsetHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20, })
     updateNote(newNote)
   }
 
