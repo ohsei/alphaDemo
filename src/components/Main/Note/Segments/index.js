@@ -49,7 +49,7 @@ class Segments extends Component{
   componentWillReceiveProps (nextProps) {
     console.log(this.segments.offsetHeight)
     if (this.segments.offsetHeight >= 1607) {
-      alert('改ページしてください。')
+
     }
   }
 

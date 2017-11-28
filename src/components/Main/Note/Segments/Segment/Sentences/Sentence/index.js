@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import ContentEditable from '../../common/ContentEditable'
 
+import ContentEditable from '../../common/ContentEditable'
 import {getBrowserType} from '../../../../../../../utils/browserType'
 import FourLine from '../../common/FourLine'
 
@@ -265,7 +265,7 @@ class Sentence extends Component{
         }
       }
       else if (lineNum == 2) {
-        if (lineColor == 'gray') {    
+        if (lineColor == 'gray') {
           url = `url(${require('../../../../../../../resources/img/2line_1.5.png')})`
         }
         else if (lineColor == 'lightgray') {
@@ -290,7 +290,7 @@ class Sentence extends Component{
         }
       }
       else if (lineNum == 2) {
-        if (lineColor == 'gray') {    
+        if (lineColor == 'gray') {
           url = `url(${require('../../../../../../../resources/img/2line.png')})`
         }
         else if (lineColor == 'lightgray') {
