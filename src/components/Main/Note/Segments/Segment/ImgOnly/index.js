@@ -28,18 +28,19 @@ class ImgOnly extends Component{
     width: PropTypes.number,
     setting: PropTypes.object,
     setCurSegment: PropTypes.any,
-    id: PropTypes.any,
+    pageId: PropTypes.number,
+    segmentId: PropTypes.number,
     note: PropTypes.array,
     updateNote: PropTypes.func.isRequired,
   }
 
   render (){
-    const { setting, id, width } = this.props
+    const { setting, segmentId, width } = this.props
     return (
       <SentenceArea
         innerRef={(ref) => this.divArea = ref}
         onClick={this.setCurSegment} >
-        <LabNum lineNoType={setting.lineNos} id={id} />
+        <LabNum lineNoType={setting.lineNos} id={segmentId} />
         <DivCanvas>
           <Canvas
             canvasWidth={width - 50}

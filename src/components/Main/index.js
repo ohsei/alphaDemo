@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import styled, { injectGlobal } from 'styled-components'
 import PropTypes from 'prop-types'
+import {pick, keys} from 'lodash'
 
 import Flines_block_Regular_chrome from '../../resources/font/4lines_block-Regular.otf'
 import Flines_block_Regular_ie from '../../resources/font/4lines_block-regular-webfont.eot'
-import {defaultWidth} from '../../utils/const'
 
 import ColorPicker from './ColorPicker'
 import MenuContainer from './MenuContainer'
-import SegmentsContainer from './Note/SegmentsContainer'
+import Note from './Note'
 import PrintNoteContainer from './Print/PrintNoteContainer'
 import FileDialogContainer from './FileDialogContainer'
 
@@ -66,16 +66,6 @@ const StyleEditArea = styled.div.attrs({
   height: 50px;
   background-color: lightgreen;
   z-index: 99
-`
-const DivSegments = styled.div`
-  z-index: 0;
-  margin: 150px 0 0 50px;
-  width: ${props => `${props.width}px`};
-
-  @media print{
-    margin: 0;
-    padding: 0;
-  }
 `
 const Button = styled.button.attrs({
   tabIndex: -1,
@@ -159,6 +149,8 @@ class Main extends Component {
     isItalic: PropTypes.bool,
     isUnderline: PropTypes.bool,
     curColor: PropTypes.string,
+    ...Note.propTypes,
+    initNote: PropTypes.func.isRequired,
   }
   setFileTitle = (event) => {
     const {setFileTitle} = this.props
@@ -181,6 +173,10 @@ class Main extends Component {
     curComponent.setColor(color)
   }
 
+  componentWillMount () {
+    const {setting, initNote} = this.props
+    initNote(setting.patternId)
+  }
   componentWillUpdate (nextProps) {
     const {isPrint} = this.props
 
@@ -238,11 +234,7 @@ class Main extends Component {
               </Button>
             </StyleEditArea>
           </DivFixed>
-          <DivSegments
-            innerRef={(ref) => {this.allSegs = ref}}
-            width={width}>
-            <SegmentsContainer />
-          </DivSegments>
+          <Note {...pick(this.props, keys(Note.propTypes))} />
           <FileDialogContainer />
         </DivBg>}
         {isPrint && <PrintNoteContainer />}

@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import ContentEditable from '../common/ContentEditable'
 import {pick, keys} from 'lodash'
+
+import ContentEditable from '../common/ContentEditable'
 
 import Sentence from './Sentence'
 
@@ -25,23 +26,14 @@ class Sentences extends Component{
   }
   static propTypes = {
     curSegmentNo: PropTypes.number,
-    id: PropTypes.number,
     senWidth: PropTypes.number,
     note: PropTypes.array,
     setting: PropTypes.object,
     isPrint: PropTypes.bool,
-    updateNote: PropTypes.func,
     tabNodeList: PropTypes.array,
     updateTabNodeList: PropTypes.func.isRequired,
     setCurSegment: PropTypes.func,
     setCurComponent: PropTypes.func,
-    isBold: PropTypes.bool,
-    isItalic: PropTypes.bool,
-    isUnderline: PropTypes.bool,
-    updateIsBold: PropTypes.func.isRequired,
-    updateIsItalic: PropTypes.func.isRequired,
-    updateIsUnderline: PropTypes.func.isRequired,
-    updateCurColor: PropTypes.func.isRequired,
     ...Sentence.propTypes,
   }
 
@@ -73,7 +65,7 @@ class Sentences extends Component{
     setCurComponent(this.sentence)
   }
 
-  updateTabNode = (node) => {
+/*   updateTabNode = (node) => {
     const {updateTabNodeList, tabNodeList} = this.props
 
     let newTabNodeList = tabNodeList.slice()
@@ -175,9 +167,9 @@ class Sentences extends Component{
     const {id} = this.props
     this.delTabNode(id)
   }
-
+*/
   render (){
-    const {note, id, setting} = this.props
+    const {note, pageId, segmentId, setting} = this.props
 
     const upJaSize = setting.upJaSize
     const downJaSize = setting.downJaSize
@@ -188,13 +180,13 @@ class Sentences extends Component{
         onKeyDown={this.keyDown}
         innerRef={ref => this.divSentences = ref}
         width={this.props.senWidth}>
-        {setting.upJaSize != 'オフ' && <DivJan html={note[id].jaHtml} innerRef={ref => this.upJaHtml = ref} fontSize={upJaSize} spellCheck={false} onChange={this.onUpChange} />}
+        {setting.upJaSize != 'オフ' && <DivJan html={note[pageId][segmentId].jaHtml} innerRef={ref => this.upJaHtml = ref} fontSize={upJaSize} spellCheck={false} onChange={this.onUpChange} />}
         <Sentence
           ref={ref => this.sentence = ref}
           lineNum={setting.lineNum}
           {...pick(this.props, keys(Sentence.propTypes))}
         />
-        {setting.downJaSize != 'オフ' && <DivJan html={note[id].jaHtml} innerRef={ref => this.downJaHtml = ref} fontSize={downJaSize} spellCheck={false} onChange={this.onDownChange} />}
+        {setting.downJaSize != 'オフ' && <DivJan html={note[pageId][segmentId].jaHtml} innerRef={ref => this.downJaHtml = ref} fontSize={downJaSize} spellCheck={false} onChange={this.onDownChange} />}
       </DivSentences>
     )
   }

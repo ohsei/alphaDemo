@@ -5,7 +5,6 @@ import * as Action from '../../redux/modules/main/action'
 import Main from '../Main'
 
 const mapStateToProps = ({main}) => {
-
   return {
     ...main
   }

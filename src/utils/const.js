@@ -20,6 +20,7 @@ export const defaultSetting = {
   lineNum: 4,
   interval: 1.2,
   lineNos: 0,
+  patternId: 0,
 }
 
 export const defaultNote = {
@@ -34,12 +35,12 @@ export const defaultNote = {
   imgHeight: 0,
   posX: 20,
   posY: 20,
+  sentencesNum: 1,
 }
 
 export const defaultColors = [
   '#000000', '#c0c0c0', '#808080', '#ffffff', '#800000', '#ff0000', '#800080', '#ff00ff', '#008000', '#00ff00', '#808000', '#ffff00', '#000080', '#0000ff', '#008080', '#00ffff'
 ]
-
 
 export const enSizeList = [
   {
@@ -118,3 +119,51 @@ export const lineNumList = [
 export const defaultWidth = 1200
 
 export const landscapeWidth = defaultWidth * 1.5
+
+export const printPattern = [
+  {
+    id: 0,
+    segments: [
+      {
+        id: 0,
+        type: 'txtOnly',
+        sentencesNum: 5,
+      },
+      {
+        id: 1,
+        type: 'txtOnly',
+        sentencesNum: 5,
+      },
+      {
+        id: 2,
+        type: 'txtOnly',
+        sentencesNum: 5,
+      },
+      {
+        id: 3,
+        type: 'txtOnly',
+        sentencesNum: 5,
+      },
+      {
+        id: 4,
+        type: 'txtOnly',
+        sentencesNum: 5,
+      },
+      {
+        id: 5,
+        type: 'txtOnly',
+        sentencesNum: 5,
+      },
+      {
+        id: 6,
+        type: 'txtOnly',
+        sentencesNum: 5,
+      },
+      {
+        id: 7,
+        type: 'txtOnly',
+        sentencesNum: 5,
+      },
+    ]
+  }
+]

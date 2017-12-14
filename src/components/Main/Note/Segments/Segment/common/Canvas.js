@@ -39,14 +39,15 @@ class Canvas extends Component{
   }
 
   static propTypes = {
-    id: PropTypes.number,
+    pageId: PropTypes.number,
+    segmentId: PropTypes.number,
     canvasWidth: PropTypes.number,
     updateNote: PropTypes.func.isRequired,
     note: PropTypes.array,
   }
 
   loadImage (){
-    const {note, id} = this.props
+    const {note, pageId, segmentId} = this.props
     let img = new Image()
     let canvas = this.imgCanvas
     let ctx = canvas.getContext('2d')
@@ -110,22 +111,24 @@ class Canvas extends Component{
         ctx.strokeRect(this.state.objX + picWidth, this.state.objY + picHeight, anchorSize, anchorSize )
       }
     }.bind(this)
-    img.src = note[id].dataUrl
+    img.src = note[pageId][segmentId].dataUrl
   }
 
   componentWillMount (){
-    const {note, id} = this.props
+    const {note, pageId, segmentId} = this.props
+    console.log(pageId)
+    console.log(segmentId)
     this.setState({
-      imgWidth: note[id].imgWidth
+      imgWidth: note[pageId][segmentId].imgWidth
     })
     this.setState({
-      imgHeight: note[id].imgHeight
+      imgHeight: note[pageId][segmentId].imgHeight
     })
     this.setState({
-      objX: note[id].posX
+      objX: note[pageId][segmentId].posX
     })
     this.setState({
-      objY: note[id].posY
+      objY: note[pageId][segmentId].posY
     })
   }
 
@@ -134,9 +137,9 @@ class Canvas extends Component{
   }
 
   componentWillReceiveProps (nextProps){
-    const {note, id} = this.props
+    const {note, pageId, segmentId} = this.props
 
-    if (note[id].dataUrl != nextProps.note[id].dataUrl) {
+    if (note[pageId][segmentId].dataUrl != nextProps.note[pageId][segmentId].dataUrl) {
       this.setState({imgWidth: 0})
       this.setState({imgHeight: 0})
     }
@@ -150,13 +153,13 @@ class Canvas extends Component{
     (prevState.imgHeight !== imgHeight) ||
     (prevState.objX !== objX) ||
     (prevState.objY !== objY)) {
-      const {updateNote, note, id} = this.props
+      const {updateNote, note, pageId, segmentId} = this.props
       let newNote = note.slice()
 
-      newNote[id].imgWidth = this.state.imgWidth
-      newNote[id].imgHeight = this.state.imgHeight
-      newNote[id].posX = this.state.objX
-      newNote[id].posY = this.state.objY
+      newNote[pageId][segmentId].imgWidth = this.state.imgWidth
+      newNote[pageId][segmentId].imgHeight = this.state.imgHeight
+      newNote[pageId][segmentId].posX = this.state.objX
+      newNote[pageId][segmentId].posY = this.state.objY
 
       updateNote(newNote)
     }

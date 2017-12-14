@@ -41,9 +41,10 @@ export const updateSetting = (setting) => {
   }
 }
 
-export const initalNote = () => {
+export const initalNote = (patternId) => {
   return {
     type: INIT_NOTE,
+    payload: patternId
   }
 }
 

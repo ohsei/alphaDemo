@@ -22,6 +22,7 @@ const TextArea = styled(ContentEditable)`
   letter-spacing: 1.5px;
   color: black;
   line-height: ${props => props.lineHeight};
+  height: ${props => `${props.height}px`}
 `
 const DivSen = styled.div`
   width: 100%;
@@ -56,7 +57,8 @@ class Sentence extends Component{
 
   static propTypes = {
     note: PropTypes.array,
-    id: PropTypes.number,
+    pageId: PropTypes.number,
+    segmentId: PropTypes.number,
     addSentence: PropTypes.func,
     delSentence: PropTypes.func,
     updateNote: PropTypes.func,
@@ -73,27 +75,27 @@ class Sentence extends Component{
     offForceChange: PropTypes.func.isRequired,
   }
   setBold (){
-    const {updateNote, note, id} = this.props
+    const {updateNote, note, pageId, segmentId} = this.props
     document.execCommand('bold', false)
     let newNote = note.slice()
-    newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+    newNote[pageId][segmentId].html = this.inputText.htmlEl.innerHTML
+    newNote[pageId][segmentId].offsetHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
   }
   setItalic (){
-    const {updateNote, note, id} = this.props
+    const {updateNote, note, pageId, segmentId} = this.props
     document.execCommand('italic', false)
     let newNote = note.slice()
-    newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+    newNote[pageId][segmentId].html = this.inputText.htmlEl.innerHTML
+    newNote[pageId][segmentId].offsetHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
   }
   setUnderline (){
-    const {updateNote, note, id} = this.props
+    const {updateNote, note, pageId, segmentId} = this.props
     document.execCommand('underline', false)
     let newNote = note.slice()
-    newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+    newNote[pageId][segmentId].html = this.inputText.htmlEl.innerHTML
+    newNote[pageId][segmentId].offsetHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
   }
   saveSelection () {
@@ -131,7 +133,7 @@ class Sentence extends Component{
   }
 
   setColor (color){
-    const {updateNote, note, id} = this.props
+    const {updateNote, note, pageId, segmentId} = this.props
     var r = this.toHex(color.r)
     var g = this.toHex(color.g)
     var b = this.toHex(color.b)
@@ -139,8 +141,8 @@ class Sentence extends Component{
     this.restoreSelection(this.state.range)
     document.execCommand('foreColor', false,  newColor)
     let newNote = note.slice()
-    newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+    newNote[pageId][segmentId].html = this.inputText.htmlEl.innerHTML
+    newNote[pageId][segmentId].offsetHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
 
   }
@@ -148,7 +150,7 @@ class Sentence extends Component{
     this.setState({range: this.saveSelection()})
   }
   onKeyUp (event){
-    const {updateNote, note, id} = this.props
+    const {updateNote, note, pageId, segmentId} = this.props
 
     if (event.keyCode == 16){
       isShiftKeyPressed = false
@@ -161,8 +163,8 @@ class Sentence extends Component{
     }
     this.setState({range: this.saveSelection()})
     let newNote = note.slice()
-    newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+    newNote[pageId][segmentId].html = this.inputText.htmlEl.innerHTML
+    newNote[pageId][segmentId].offsetHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
   }
   onKeyDown (event){
@@ -234,11 +236,11 @@ class Sentence extends Component{
   }
 
   onTextAreaChange (e){
-    const {updateNote, note, id} = this.props
+    const {updateNote, note, pageId, segmentId} = this.props
 
     let newNote = note.slice()
-    newNote[id].html = e.target.value
-    newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+    newNote[pageId][segmentId].html = e.target.value
+    newNote[pageId][segmentId].offsetHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
   }
 
@@ -303,7 +305,6 @@ class Sentence extends Component{
     }
 
     this.inputText.htmlEl.style.backgroundImage = url
-    
   }
   componentDidUpdate (prevProps) {
     const {updateIsBold, updateIsItalic, updateIsUnderline, updateCurColor} = this.props
@@ -333,13 +334,14 @@ class Sentence extends Component{
   }
 
   render (){
-    const { id, note, setting, forceChange, offForceChange } = this.props
+    const { pageId, segmentId, note, setting, forceChange, offForceChange } = this.props
 
     return (
       <DivSen>
         {/*<FourLine interval={1.5} lineNum={2} borderColor={'lightgray'} />*/}
         <TextArea
-          html={note[id].html}
+          height={note[pageId][segmentId].sentenceNum * 96}
+          html={note[pageId][segmentId].html}
           disabled={false}
           spellCheck={false}
           innerRef={(ref) => {this.inputText = ref}}

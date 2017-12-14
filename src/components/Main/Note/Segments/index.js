@@ -22,14 +22,7 @@ class Segments extends Component{
     setCurSegment: PropTypes.func,
     setCurComponent: PropTypes.func,
     updateTabNodeList: PropTypes.func.isRequired,
-    isPrint: PropTypes.bool,
-    isBold: PropTypes.bool,
-    isItalic: PropTypes.bool,
-    isUnderline: PropTypes.bool,
-    updateIsBold: PropTypes.func.isRequired,
-    updateIsItalic: PropTypes.func.isRequired,
-    updateIsUnderline: PropTypes.func.isRequired,
-    updateCurColor: PropTypes.func.isRequired,
+    pageId: PropTypes.func.isRequired,
     ...Segment.propTypes,
   }
 
@@ -45,21 +38,20 @@ class Segments extends Component{
       }
     }
   }
-  
+
   componentWillReceiveProps (nextProps) {
-    console.log(this.segments.offsetHeight)
     if (this.segments.offsetHeight >= 1607) {
 
     }
   }
 
   render (){
-    const {note} = this.props
-    const segList = note.map((obj, i) => {
+    const {note, pageId} = this.props
+    const segList = note[pageId].map((obj, i) => {
       return (
         <Segment
           key={i}
-          id={i}
+          segmentId={i}
           ref={ref => this.segment = ref}
           {...pick(this.props, keys(Segment.propTypes))}
         />)

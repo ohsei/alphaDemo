@@ -126,8 +126,8 @@ class Menu extends Component {
   }
 
   onCreateNewFile (){
-    const {initalNote} = this.props
-    initalNote()
+    const {initalNote, setting} = this.props
+    initalNote(setting.patternId)
   }
 
   render (){

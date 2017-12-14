@@ -1,4 +1,4 @@
-import {defaultNote, defaultSetting, defaultWidth} from '../../../utils/const.js'
+import {defaultNote, defaultSetting, defaultWidth, printPattern} from '../../../utils/const.js'
 
 import {
   LOAD_FILE,
@@ -21,7 +21,7 @@ import {
 const initialState = {
   saveFileTitle: '',
   setting: Object.assign({}, defaultSetting),
-  note: [Object.assign({}, defaultNote)],
+  note: [],
   curSegmentNo: 0,
   curComponent: null,
   isPrint: false,
@@ -61,10 +61,13 @@ export default (state = initialState, action) => {
     })
 
   case UPDATE_NOTE:
-    return assign({}, state, {
-      note: payload,
-      forceChange: true,
-    })
+    return (() => {
+      return assign({}, state, {
+        note: payload,
+        forceChange: true,
+      })
+    })()
+
 
   case UPDATE_PRINT:
     return assign({}, state, {
@@ -83,9 +86,21 @@ export default (state = initialState, action) => {
 
   case INIT_NOTE:
     return (() => {
+      const page = []
+      const pattern = printPattern[payload]
+
+      pattern.segments.map((s) => {
+        const segment = Object.assign({}, defaultNote)
+        segment.type = s.type
+        segment.sentenceNum = s.sentencesNum
+        page.push(segment)
+      })
+      const note = []
+      note.push(page)
+
       return assign({}, state, {
         setting: Object.assign({}, defaultSetting),
-        note: [Object.assign({}, defaultNote)],
+        note: note,
         saveFileTitle: '',
         curSegmentNo: 0,
         curComponent: null,
@@ -124,7 +139,7 @@ export default (state = initialState, action) => {
     return assign({}, state, {
       curColor: payload
     })
-  
+
   case OFF_FORCECHANGE:
     return assign({}, state, {
       forceChange: false

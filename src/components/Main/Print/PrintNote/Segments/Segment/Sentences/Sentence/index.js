@@ -24,6 +24,7 @@ const TextArea = styled(ContentEditable)`
   text-align: left;
   letter-spacing: 1.5px;
   line-height: ${props => props.lineHeight};
+  height: ${props => `${props.height}px`}
 `
 
 const DivSen = styled.div`
@@ -44,14 +45,76 @@ class Sentence extends Component{
 
   static propTypes = {
     note: PropTypes.array,
+    pageId: PropTypes.number,
     segmentId: PropTypes.number,
     offsetHeight: PropTypes.number,
     setting: PropTypes.object,
   }
+  componentDidMount (){
+    this.inputText.htmlEl.style.backgroundImage = `url(${require('../../../../../../../resources/img/4line.png')})`
+  }
+  componentWillReceiveProps (nextProps) {
+    const {setting} = nextProps
+    const interval = setting.interval
+    const lineNum = setting.lineNum
+    const lineColor = setting.lineColor
+    let url = `url(${require('../../../../../../../resources/img/4line.png')})`
 
+    if (interval == 1.5) {
+      if (lineNum == 4) {
+        if (lineColor == 'gray') {
+          url = `url(${require('../../../../../../../resources/img/4line_1.5.png')})`
+        }
+        else if (lineColor == 'lightgray') {
+          url = `url(${require('../../../../../../../resources/img/4line_1.5_lightgray.png')})`
+        }
+        else if (lineColor == 'black') {
+          url = `url(${require('../../../../../../../resources/img/4line_1.5_black.png')})`
+        }
+      }
+      else if (lineNum == 2) {
+        if (lineColor == 'gray') {
+          url = `url(${require('../../../../../../../resources/img/2line_1.5.png')})`
+        }
+        else if (lineColor == 'lightgray') {
+          url = `url(${require('../../../../../../../resources/img/2line_1.5_lightgray.png')})`
+        }
+        else if (lineColor == 'black') {
+          url = `url(${require('../../../../../../../resources/img/2line_1.5_black.png')})`
+        }
+      }
+    }
+    else {
+      /* default setting */
+      if (lineNum == 4) {
+        if (lineColor == 'gray') {
+          url = `url(${require('../../../../../../../resources/img/4line.png')})`
+        }
+        else if (lineColor == 'lightgray') {
+          url = `url(${require('../../../../../../../resources/img/4line_lightgray.png')})`
+        }
+        else if (lineColor == 'black') {
+          url = `url(${require('../../../../../../../resources/img/4line_black.png')})`
+        }
+      }
+      else if (lineNum == 2) {
+        if (lineColor == 'gray') {
+          url = `url(${require('../../../../../../../resources/img/2line.png')})`
+        }
+        else if (lineColor == 'lightgray') {
+          url = `url(${require('../../../../../../../resources/img/2line_lightgray.png')})`
+        }
+        else if (lineColor == 'black') {
+          url = `url(${require('../../../../../../../resources/img/2line_black.png')})`
+        }
+      }
+    }
+
+    this.inputText.htmlEl.style.backgroundImage = url
+  }
   render (){
-    const {note, segmentId, setting} = this.props
-    let height = 0
+    const {note, segmentId, setting, pageId} = this.props
+/*    let height = 0
     let segmentHeight = 96
 
     if (setting.interval == 1.5) {
@@ -76,12 +139,14 @@ class Sentence extends Component{
       senList = marginTopArray.map((obj, i) => {
         let interval = 0
         let down = 0
+
         if (setting.interval == 1.5) {
           interval = 8 * 1.5
           down = interval
         }
 
         let top = 23 + interval
+
         if (i != 0)
         {
           top = 23 + interval + interval
@@ -89,12 +154,13 @@ class Sentence extends Component{
         return <FourLine key={i} marginTop={top} maginDown={down} lineNum={setting.lineNum} borderColor={setting.lineColor} />
       })
     }
-
+*/
     return (
       <div style={{display: 'flex'}}>
         <DivSen>
-          <div ref={ref => this.senList = ref}>{senList}</div>
+{/*          <div ref={ref => this.senList = ref}>{senList}</div>*/}
           <TextArea
+            height={note[pageId][segmentId].sentenceNum * 96}
             html={note[segmentId].html}
             disabled={true}
             spellCheck={false}

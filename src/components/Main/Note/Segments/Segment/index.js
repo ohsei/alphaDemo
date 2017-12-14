@@ -50,26 +50,17 @@ class Segment extends Component{
     }
   }
   static propTypes = {
-    id: PropTypes.number,
-    width: PropTypes.number,
     setting: PropTypes.object,
     curSegmentNo: PropTypes.number,
     delSegment: PropTypes.func,
     title: PropTypes.string,
     name: PropTypes.string,
-    note: PropTypes.array,
     updateNote: PropTypes.func.isRequired,
     setCurSegment: PropTypes.func,
     setCurComponent: PropTypes.func,
     isPrint: PropTypes.bool,
     tabNodeList: PropTypes.array,
     updateTabNodeList: PropTypes.func.isRequired,
-    isBold: PropTypes.bool,
-    isItalic: PropTypes.bool,
-    isUnderline: PropTypes.bool,
-    updateIsBold: PropTypes.func.isRequired,
-    updateIsItalic: PropTypes.func.isRequired,
-    updateIsUnderline: PropTypes.func.isRequired,
     updateCurColor: PropTypes.func.isRequired,
     ...ImgOnly.propTypes,
     ...TxtImg.propTypes,
@@ -78,10 +69,10 @@ class Segment extends Component{
   }
 
   render (){
-    const {id, width, setting, note, title, name} = this.props
-    const dataUrl = note[id].dataUrl
-    const isPageBreak = note[id].isPageBreak
-    const type = note[id].type
+    const {pageId, segmentId, width, note, title, name} = this.props
+    const dataUrl = note[pageId][segmentId].dataUrl
+    const isPageBreak = note[pageId][segmentId].isPageBreak
+    const type = note[pageId][segmentId].type
 
     const content = (()  => {
       switch (type) {

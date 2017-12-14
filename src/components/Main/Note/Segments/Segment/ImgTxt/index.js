@@ -23,10 +23,10 @@ class ImgTxt extends Component{
         onClick={this.setCurSegment} >
         <LabNum lineNoType={setting.lineNos} id={id} />
         <div>
-        <Canvas
-          canvasWidth={(width - 50) * 0.4}
-          {...pick(this.props, keys(Canvas.propTypes))}
-        />
+          <Canvas
+            canvasWidth={(width - 50) * 0.4}
+            {...pick(this.props, keys(Canvas.propTypes))}
+          />
         </div>
         <Sentences
           senWidth={(width - 50) * 0.6}
@@ -44,7 +44,8 @@ ImgTxt.propTypes = {
   setting: PropTypes.object,
   setCurSegment: PropTypes.func,
   setCurComponent: PropTypes.func,
-  id: PropTypes.any,
+  pageId: PropTypes.number,
+  segmentId: PropTypes.number,
   curSegmentNo: PropTypes.any,
   updateNote: PropTypes.func.isRequired,
   tabNodeList: PropTypes.array,

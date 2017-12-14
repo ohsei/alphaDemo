@@ -17,7 +17,6 @@ const StyledSection = styled.section`
 class Segments extends Component{
   onCreateLoadedArray = (segment) => {
     const {updateLoadedArray, loadedArray, id} = this.props
-    console.log(this.props)
     let newLoadedArray = loadedArray
 
     if (newLoadedArray[id] === undefined) {
