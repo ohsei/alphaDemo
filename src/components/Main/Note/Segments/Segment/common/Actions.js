@@ -40,8 +40,15 @@ class Actions extends Component{
     id: PropTypes.number,
     curSegmentNo: PropTypes.any,
     updateNote: PropTypes.func,
+    updatePages: PropTypes.func,
     delSegment: PropTypes.func,
     type: PropTypes.string.isRequired,
+    curPageNo: PropTypes.number,
+    pages: PropTypes.arrayOf(
+      PropTypes.arrayOf(
+        PropTypes.number,
+      )
+    ),
     setCurSegment: PropTypes.func.isRequired,
   }
 
@@ -84,7 +91,7 @@ class Actions extends Component{
   }
 
   delSegment = () => {
-    const {updateNote, setCurSegment, id, note} = this.props
+    const {updateNote, updatePages, setCurSegment, id, note, curPageNo, pages} = this.props
 
     let newNote = note.slice()
     let curNo = id
@@ -94,23 +101,57 @@ class Actions extends Component{
     }
     newNote.splice(curNo, 1)
     updateNote(newNote)
+
+    const newPages = pages.slice()
+
+    for (let j = curPageNo; j < newPages.length; j++) {
+      if (j == curPageNo) {
+        for (let i = id + 1; i < newPages[j].length; i++) {
+          newPages[j][i]--
+        }
+      }
+      else {
+        for (let i = 0; i < newPages[j].length; i++) {
+          newPages[j][i]--
+        }
+      }
+    }
+    newPages[curPageNo].splice(curNo, 1)
+    updatePages(newPages)
+
     setCurSegment(curNo - 1)
   }
 
   addSegment = () => {
-    const {updateNote, setCurSegment, id, note} = this.props
+    const {updateNote, updatePages, setCurSegment, id, note, curPageNo, pages} = this.props
 
     let newNote = note.slice()
-    let curNo = id
 
-    for (let i = curNo + 1;i < newNote.length;i++){
+    for (let i = id + 1;i < newNote.length;i++){
       newNote[i].id++
 
     }
-    curNo++
-    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, offsetHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20, })
 
+    const curNo = id + 1
+    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, offsetHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20})
     updateNote(newNote)
+
+    const newPages = pages.slice()
+    newPages[curPageNo].splice(curNo, 0, curNo)
+
+    for (let j = curPageNo; j < newPages.length; j++) {
+      if (j == curPageNo) {
+        for (let i = id + 2; i < newPages[j].length; i++) {
+          newPages[j][i]++
+        }
+      }
+      else {
+        for (let i = 0; i < newPages[j].length; i++) {
+          newPages[j][i]++
+        }
+      }
+    }
+    updatePages(newPages)
     setCurSegment(curNo)
   }
 
@@ -270,7 +311,6 @@ class Actions extends Component{
   render (){
     const {id} = this.props
     const imgopenId = `imgopen'${id}`
-
     return (
       <DivAction onClick={this.onClick}>
         <StyledButton

@@ -1,7 +1,9 @@
 import {
   SET_CUR_SEGMENT_NO,
   SET_CUR_COMPONENT,
+  SET_CUR_PAGE_NO,
   UPDATE_NOTE,
+  UPDATE_PAGES,
   UPDATE_TAB_NODE_LIST,
   UPDATE_IS_BOLD,
   UPDATE_IS_ITALIC,
@@ -28,6 +30,13 @@ export const updateNote = (note) => {
   return {
     type: UPDATE_NOTE,
     payload: note
+  }
+}
+
+export const updatePages = (pages) => {
+  return {
+    type: UPDATE_PAGES,
+    payload: pages
   }
 }
 
@@ -69,5 +78,12 @@ export const updateCurColor = (curColor) => {
 export const offForceChange = () => {
   return {
     type: OFF_FORCECHANGE,
+  }
+}
+
+export const setCurPageNo = (curPageNo) => {
+  return {
+    type: SET_CUR_PAGE_NO,
+    payload: curPageNo
   }
 }

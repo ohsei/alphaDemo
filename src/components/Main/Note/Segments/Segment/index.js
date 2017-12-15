@@ -71,6 +71,7 @@ class Segment extends Component{
     updateIsItalic: PropTypes.func.isRequired,
     updateIsUnderline: PropTypes.func.isRequired,
     updateCurColor: PropTypes.func.isRequired,
+    ...Actions.propTypes,
     ...ImgOnly.propTypes,
     ...TxtImg.propTypes,
     ...ImgTxt.propTypes,
@@ -78,7 +79,7 @@ class Segment extends Component{
   }
 
   render (){
-    const {id, width, setting, note, title, name} = this.props
+    const {id, width, note, title, name} = this.props
     const dataUrl = note[id].dataUrl
     const isPageBreak = note[id].isPageBreak
     const type = note[id].type
@@ -115,7 +116,7 @@ class Segment extends Component{
 
     })()
     return (
-      <div>
+      <div ref={ref => this.segment = ref}>
         <SegArea width={width}>
           {content}
           <Actions type={type} {...pick(this.props, keys(Actions.propTypes))} />

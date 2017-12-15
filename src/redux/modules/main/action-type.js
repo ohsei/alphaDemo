@@ -2,9 +2,13 @@ export const LOAD_FILE = 'main/LOAD_FILE'
 
 export const SET_CUR_SEGMENT_NO = 'main/SET_CUR_SEGMENT_NO'
 
+export const SET_CUR_PAGE_NO = 'main/SET_CUR_PAGE_NO'
+
 export const SET_CUR_COMPONENT = 'main/SET_CUR_COMPONENT'
 
 export const UPDATE_NOTE = 'main/UPDATE_NOTE'
+
+export const UPDATE_PAGES = 'main/UPDATE_PAGES'
 
 export const UPDATE_PRINT = 'main/UPDATE_PRINT'
 

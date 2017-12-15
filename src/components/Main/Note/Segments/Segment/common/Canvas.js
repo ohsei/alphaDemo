@@ -158,6 +158,14 @@ class Canvas extends Component{
       newNote[id].posX = this.state.objX
       newNote[id].posY = this.state.objY
 
+      if (newNote[id].offsetHeight > 0) {
+        if (newNote[id].offsetHeight < this.imgCanvas.offsetHeight) {
+          newNote[id].offsetHeight = this.imgCanvas.offsetHeight
+        }
+      }
+      else {
+        newNote[id].offsetHeight = this.imgCanvas.offsetHeight
+      }
       updateNote(newNote)
     }
   }

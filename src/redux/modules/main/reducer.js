@@ -5,6 +5,7 @@ import {
   SET_CUR_SEGMENT_NO,
   SET_CUR_COMPONENT,
   UPDATE_NOTE,
+  UPDATE_PAGES,
   UPDATE_PRINT,
   UPDATE_FILE_TITLE,
   UPDATE_SETTING,
@@ -15,14 +16,17 @@ import {
   UPDATE_IS_ITALIC,
   UPDATE_IS_UNDERLINE,
   UPDATE_CUR_COLOR,
-  OFF_FORCECHANGE
+  OFF_FORCECHANGE,
+  SET_CUR_PAGE_NO
 } from './action-type'
 
 const initialState = {
   saveFileTitle: '',
   setting: Object.assign({}, defaultSetting),
   note: [Object.assign({}, defaultNote)],
+  pages: [[0]],
   curSegmentNo: 0,
+  curPageNo: 0,
   curComponent: null,
   isPrint: false,
   tabNodeList: [],
@@ -55,6 +59,11 @@ export default (state = initialState, action) => {
       curSegmentNo: payload
     })
 
+  case SET_CUR_PAGE_NO:
+    return assign({}, state, {
+      curPageNo: payload
+    })
+
   case SET_CUR_COMPONENT:
     return assign({}, state, {
       curComponent: payload
@@ -64,6 +73,11 @@ export default (state = initialState, action) => {
     return assign({}, state, {
       note: payload,
       forceChange: true,
+    })
+
+  case UPDATE_PAGES:
+    return assign({}, state, {
+      pages: payload,
     })
 
   case UPDATE_PRINT:
@@ -92,6 +106,7 @@ export default (state = initialState, action) => {
         isPrint: false,
         curColor: 'rgb(0,0,0)',
         forceChange: true,
+        pages: []
       })
     })()
 
@@ -124,7 +139,7 @@ export default (state = initialState, action) => {
     return assign({}, state, {
       curColor: payload
     })
-  
+
   case OFF_FORCECHANGE:
     return assign({}, state, {
       forceChange: false
