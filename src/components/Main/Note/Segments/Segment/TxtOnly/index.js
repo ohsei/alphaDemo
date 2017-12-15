@@ -40,6 +40,7 @@ class TxtOnly extends Component{
     updateIsItalic: PropTypes.func.isRequired,
     updateIsUnderline: PropTypes.func.isRequired,
     updateCurColor: PropTypes.func.isRequired,
+    updateNote: PropTypes.func.isRequired,
     ...Sentences.propTypes,
   }
 
@@ -57,6 +58,17 @@ class TxtOnly extends Component{
   }
   setCurSegment (){
     this.props.setCurSegment(this.props.id)
+  }
+
+  componentDidUpdate (prevProps) {
+    const {updateNote, note, id} = this.props
+    const segmentHeight = this.sentencearea.offsetHeight
+
+    if (prevProps.note[id].segmentHeight != segmentHeight){
+      let newNote = note.slice()
+      newNote[id].segmentHeight = segmentHeight
+      updateNote(newNote)
+    }
   }
 
   render (){

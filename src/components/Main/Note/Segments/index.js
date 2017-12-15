@@ -31,7 +31,6 @@ class Segments extends Component{
     updateIsItalic: PropTypes.func.isRequired,
     updateIsUnderline: PropTypes.func.isRequired,
     updateCurColor: PropTypes.func.isRequired,
-    setCurPageNo: PropTypes.func.isRequired,
     updatePages: PropTypes.func.isRequired,
     ...Segment.propTypes,
   }
@@ -51,14 +50,14 @@ class Segments extends Component{
 
   componentDidUpdate () {
     const {
-      updateNote, updatePages, setCurPageNo,
+      updateNote, updatePages,
       curSegmentNo, note, pages, curPageNo
     } = this.props
 
     let height = 0
 
     for (let i = 0; i < pages[curPageNo].length; i++ ) {
-      height = height + note[pages[curPageNo][i]].offsetHeight
+      height = height + note[pages[curPageNo][i]].segmentHeight
     }
     console.log(height)
 
@@ -83,12 +82,12 @@ class Segments extends Component{
         newNote[lastSegmentNo - 1].isPageBreak = true
         newNote[lastSegmentNo].isPageBreak = false
 
-        let pageHeight =  note[lastSegmentNo].offsetHeight
+        let pageHeight =  note[lastSegmentNo].segmentHeight
         let pageNum = curPageNo + 1
         let count = 1
 
         for (let i = lastSegmentNo + 1; i < note.length; i++) {
-          pageHeight = pageHeight + note[i].offsetHeight
+          pageHeight = pageHeight + note[i].segmentHeight
 
           if (pageHeight <= 1607) {
             newPages[pageNum].splice(count, 0, i)
@@ -99,7 +98,7 @@ class Segments extends Component{
             count ++
           }
           else {
-            pageHeight = note[i].offsetHeight
+            pageHeight = note[i].segmentHeight
             pageNum++
             newPages.push([i])
             count = 1

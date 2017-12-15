@@ -15,18 +15,29 @@ const SentenceArea = styled.div`
 `
 
 class ImgTxt extends Component{
+  componentDidUpdate (prevProps) {
+    const {updateNote, note, id} = this.props
+    const segmentHeight = this.sentencearea.offsetHeight
+
+    if (prevProps.note[id].segmentHeight != segmentHeight){
+      let newNote = note.slice()
+      newNote[id].segmentHeight = segmentHeight
+      updateNote(newNote)
+    }
+  }
   render (){
     const {id, width, setting} = this.props
     return (
       <SentenceArea
+        innerRef={ref => this.sentencearea = ref}
         width={width}
         onClick={this.setCurSegment} >
         <LabNum lineNoType={setting.lineNos} id={id} />
         <div>
-        <Canvas
-          canvasWidth={(width - 50) * 0.4}
-          {...pick(this.props, keys(Canvas.propTypes))}
-        />
+          <Canvas
+            canvasWidth={(width - 50) * 0.4}
+            {...pick(this.props, keys(Canvas.propTypes))}
+          />
         </div>
         <Sentences
           senWidth={(width - 50) * 0.6}

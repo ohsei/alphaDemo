@@ -30,6 +30,7 @@ export const defaultNote = {
   dataUrl: '',
   isPageBreak: false,
   offsetHeight: 0,
+  segmentHeight: 0,
   imgWidth: 0,
   imgHeight: 0,
   posX: 20,

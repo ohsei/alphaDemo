@@ -32,12 +32,21 @@ class ImgOnly extends Component{
     note: PropTypes.array,
     updateNote: PropTypes.func.isRequired,
   }
+  componentDidUpdate (prevProps) {
+    const {updateNote, note, id} = this.props
+    const segmentHeight = this.sentencearea.offsetHeight
 
+    if (prevProps.note[id].segmentHeight != segmentHeight){
+      let newNote = note.slice()
+      newNote[id].segmentHeight = segmentHeight
+      updateNote(newNote)
+    }
+  }
   render (){
     const { setting, id, width } = this.props
     return (
       <SentenceArea
-        innerRef={(ref) => this.divArea = ref}
+        innerRef={ref => this.sentencearea = ref}
         onClick={this.setCurSegment} >
         <LabNum lineNoType={setting.lineNos} id={id} />
         <DivCanvas>
