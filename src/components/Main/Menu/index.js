@@ -74,12 +74,13 @@ class Menu extends Component {
     alert('ファイルを保存しました。')
   }
   confirmOverWrite = (e) => {
-    const {onIsFilelistUpdate, note, setting, saveFileTitle} = this.props
+    const {onIsFilelistUpdate, note, setting, saveFileTitle, tabNodeList} = this.props
     let objContent = {}
 
     objContent.note = note
     objContent.setting = setting
     objContent.saveFileTitle = saveFileTitle
+    objContent.tabNodeList = tabNodeList
     let content = JSON.stringify(objContent)
     const fileObj = {
       filename: this.props.saveFileTitle,
@@ -134,7 +135,7 @@ class Menu extends Component {
     const {isShowMenu} = this.props
     return (
       <div>
-        <DivMenu>
+        <DivMenu innerRef={ref => this.menu = ref}>
           <SetMenuItem
             setName='設定'
             {...pick(this.props, keys(SetMenuItem.propTypes))}
@@ -173,6 +174,7 @@ Menu.propTypes = {
   initalNote: PropTypes.func.isRequired,
   updateWidth: PropTypes.func.isRequired,
   isShowMenu: PropTypes.bool,
+  tabNodeList: PropTypes.array,
 }
 
 export default Menu

@@ -102,7 +102,7 @@ class Actions extends Component{
     newNote.splice(curNo, 1)
     updateNote(newNote)
 
-    const newPages = pages.slice()
+ /*   const newPages = pages.slice()
 
     for (let j = curPageNo; j < newPages.length; j++) {
       if (j == curPageNo) {
@@ -117,7 +117,7 @@ class Actions extends Component{
       }
     }
     newPages[curPageNo].splice(curNo, 1)
-    updatePages(newPages)
+    updatePages(newPages)*/
 
     setCurSegment(curNo - 1)
   }
@@ -136,7 +136,7 @@ class Actions extends Component{
     newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, offsetHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20})
     updateNote(newNote)
 
-    const newPages = pages.slice()
+ /*   const newPages = pages.slice()
     newPages[curPageNo].splice(curNo, 0, curNo)
 
     for (let j = curPageNo; j < newPages.length; j++) {
@@ -151,7 +151,7 @@ class Actions extends Component{
         }
       }
     }
-    updatePages(newPages)
+    updatePages(newPages)*/
     setCurSegment(curNo)
   }
 

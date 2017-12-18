@@ -41,14 +41,19 @@ class Segments extends Component{
     if (tabNodeList.length > 0 && event.keyCode == 9){
       const length =  tabNodeList[tabNodeList.length - 1].node.length
 
-      if (event.target == tabNodeList[tabNodeList.length - 1].node[length - 1].node){
+      const lastNodeId  = tabNodeList[tabNodeList.length - 1].node[length - 1].node
+      const lastNode = document.getElementById(lastNodeId)
+
+      if (event.target == lastNode){
         event.preventDefault()
-        tabNodeList[0].node[0].node.focus()
+        const nodeId = tabNodeList[0].node[0].node
+        const node = document.getElementById(nodeId)
+        node.focus()
       }
     }
   }
 
-  componentDidUpdate () {
+ /* componentDidUpdate () {
     const {
       updateNote, updatePages,
       curSegmentNo, note, pages, curPageNo
@@ -66,11 +71,11 @@ class Segments extends Component{
         alert('改ページしてください！')
       }
       else {
-        /*本ページ最後segment取得 */
+       
         const length = pages[curPageNo].length
         const lastSegmentNo = pages[curPageNo][length - 1]
 
-        /* curPage + 1以降のページもう一回設定 */
+       
         let newPages = pages.slice()
         let newNote = note.slice()
 
@@ -109,7 +114,7 @@ class Segments extends Component{
         updatePages(newPages)
       }
     }
-  }
+  }*/
 
   render (){
     const {note} = this.props

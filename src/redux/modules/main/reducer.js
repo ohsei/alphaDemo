@@ -24,7 +24,7 @@ const initialState = {
   saveFileTitle: '',
   setting: Object.assign({}, defaultSetting),
   note: [Object.assign({}, defaultNote)],
-  pages: [[0]],
+  pages: [[]],
   curSegmentNo: 0,
   curPageNo: 0,
   curComponent: null,
@@ -40,19 +40,47 @@ const initialState = {
 
 const {assign} = Object
 
+const createTabNodeList = (note, setting) => {
+  let tabNodeList = []
+
+  for (let i = 0;i < note.length; i++) {
+    if (note[i].type != 'imgOnly') {
+      let node = []
+
+      if (setting.jaPos == 'up') {
+        node = [
+          {label: 'up', node: null},
+          {label: 'en', node: null}
+        ]
+      }
+      else {
+        node = [
+          {label: 'en', node: null},
+          {label: 'down', node: null}
+        ]
+      }
+      tabNodeList.push({id: i, node: node})
+    }
+  }
+  return tabNodeList
+}
+
 export default (state = initialState, action) => {
   const {payload} = action
 
   switch (action.type) {
   case LOAD_FILE:
-    return assign({}, state, {
-      setting: payload.setting,
-      note: payload.note,
-      curSegmentNo: payload.note.length - 1,
-      saveFileTitle: payload.saveFileTitle,
-      isShowFileDialog: false,
-      forceChange: true,
-    })
+    return (() => {
+      return assign({}, state, {
+        setting: payload.setting,
+        note: payload.note,
+        tabNodeList: payload.tabNodeList,
+        curSegmentNo: payload.note.length - 1,
+        saveFileTitle: payload.saveFileTitle,
+        isShowFileDialog: false,
+        forceChange: true,
+      })
+    })()
 
   case SET_CUR_SEGMENT_NO:
     return assign({}, state, {
@@ -81,9 +109,34 @@ export default (state = initialState, action) => {
     })
 
   case UPDATE_PRINT:
-    return assign({}, state, {
-      isPrint: payload
-    })
+    return (() => {
+      const {note, pages} = state
+      let pageHeight = 0
+      const newNote = note.slice()
+      const newPages = pages.slice()
+
+      let pageNum = 0
+
+
+      for (let i = 0;i < note.length; i++) {
+        pageHeight = note[i].segmentHeight + pageHeight
+
+        if (pageHeight > 1607) {
+          newNote[i - 1].isPageBreak = true
+          newPages.push([i])
+          pageNum++
+          pageHeight = 0
+        }
+        else {
+          newPages[pageNum].push(i)
+        }
+      }
+      return assign({}, state, {
+        isPrint: payload,
+        note: newNote
+      })
+    })()
+
 
   case UPDATE_FILE_TITLE:
     return assign({}, state, {
@@ -112,7 +165,7 @@ export default (state = initialState, action) => {
 
   case UPDATE_TAB_NODE_LIST:
     return assign({}, state, {
-      tabNodeList: payload
+      tabNodeList: payload,
     })
 
   case UPDATE_WIDTH:

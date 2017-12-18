@@ -339,6 +339,7 @@ class Sentence extends Component{
       <DivSen>
         {/*<FourLine interval={1.5} lineNum={2} borderColor={'lightgray'} />*/}
         <TextArea
+          id={`en${id}`}
           html={note[id].html}
           disabled={false}
           spellCheck={false}
