@@ -42,8 +42,6 @@ class Sentences extends Component{
     updateIsItalic: PropTypes.func.isRequired,
     updateIsUnderline: PropTypes.func.isRequired,
     updateCurColor: PropTypes.func.isRequired,
-    setCurPageNo: PropTypes.func.isRequired,
-    pages: PropTypes.array,
     ...Sentence.propTypes,
   }
 
@@ -70,18 +68,9 @@ class Sentences extends Component{
   }
 
   onFocus (){
-    const {id, setCurSegment, setCurComponent, pages, setCurPageNo} = this.props
+    const {id, setCurSegment, setCurComponent} = this.props
     setCurSegment(id)
     setCurComponent(this.sentence)
-
-    for (let i = 0;i < pages.length; i++) {
-      for (let j = 0;j < pages[i].length; j++) {
-        if (pages[i][j] == id) {
-          setCurPageNo(i)
-          break
-        }
-      }
-    }
   }
 
   updateTabNode = (node) => {

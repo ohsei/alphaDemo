@@ -303,8 +303,8 @@ class Sentence extends Component{
     }
 
     this.inputText.htmlEl.style.backgroundImage = url
-    
   }
+
   componentDidUpdate (prevProps) {
     const {updateIsBold, updateIsItalic, updateIsUnderline, updateCurColor} = this.props
     const isBold = document.queryCommandState('bold')
@@ -330,6 +330,16 @@ class Sentence extends Component{
         updateCurColor(curColor)
       }
     }
+
+    if (prevProps.setting.interval != this.props.setting.interval)
+    {
+      const {updateNote, note, id} = this.props
+
+      let newNote = note.slice()
+      newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+      updateNote(newNote)
+    }
+
   }
 
   render (){

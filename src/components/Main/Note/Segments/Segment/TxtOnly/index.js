@@ -40,7 +40,6 @@ class TxtOnly extends Component{
     updateIsItalic: PropTypes.func.isRequired,
     updateIsUnderline: PropTypes.func.isRequired,
     updateCurColor: PropTypes.func.isRequired,
-    updateNote: PropTypes.func.isRequired,
     ...Sentences.propTypes,
   }
 
@@ -68,6 +67,10 @@ class TxtOnly extends Component{
       let newNote = note.slice()
       newNote[id].segmentHeight = segmentHeight
       updateNote(newNote)
+    }
+
+    if (segmentHeight > 1607) {
+      alert('1ページを超えたため、印刷レイアウトが崩れる可能性があります。')
     }
   }
 

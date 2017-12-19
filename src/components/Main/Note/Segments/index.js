@@ -31,7 +31,6 @@ class Segments extends Component{
     updateIsItalic: PropTypes.func.isRequired,
     updateIsUnderline: PropTypes.func.isRequired,
     updateCurColor: PropTypes.func.isRequired,
-    updatePages: PropTypes.func.isRequired,
     ...Segment.propTypes,
   }
 
@@ -52,69 +51,6 @@ class Segments extends Component{
       }
     }
   }
-
- /* componentDidUpdate () {
-    const {
-      updateNote, updatePages,
-      curSegmentNo, note, pages, curPageNo
-    } = this.props
-
-    let height = 0
-
-    for (let i = 0; i < pages[curPageNo].length; i++ ) {
-      height = height + note[pages[curPageNo][i]].segmentHeight
-    }
-    console.log(height)
-
-    if (height > 1607) {
-      if (curSegmentNo == 0 || note[curSegmentNo - 1].isPageBreak) {
-        alert('改ページしてください！')
-      }
-      else {
-       
-        const length = pages[curPageNo].length
-        const lastSegmentNo = pages[curPageNo][length - 1]
-
-       
-        let newPages = pages.slice()
-        let newNote = note.slice()
-
-        if (pages.length - curPageNo - 1 >= 0) {
-          newPages.splice(curPageNo + 1, pages.length - curPageNo - 1)
-        }
-        newPages[curPageNo].splice(lastSegmentNo, 1)
-        newPages.push([lastSegmentNo])
-        newNote[lastSegmentNo - 1].isPageBreak = true
-        newNote[lastSegmentNo].isPageBreak = false
-
-        let pageHeight =  note[lastSegmentNo].segmentHeight
-        let pageNum = curPageNo + 1
-        let count = 1
-
-        for (let i = lastSegmentNo + 1; i < note.length; i++) {
-          pageHeight = pageHeight + note[i].segmentHeight
-
-          if (pageHeight <= 1607) {
-            newPages[pageNum].splice(count, 0, i)
-
-            if (note[i].isPageBreak) {
-              note[i].isPageBreak = false
-            }
-            count ++
-          }
-          else {
-            pageHeight = note[i].segmentHeight
-            pageNum++
-            newPages.push([i])
-            count = 1
-            newNote[i - 1].isPageBreak = true
-          }
-        }
-        updateNote(newNote)
-        updatePages(newPages)
-      }
-    }
-  }*/
 
   render (){
     const {note} = this.props

@@ -1,41 +1,40 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 
 export default class ContentEditable extends React.Component {
 
-  constructor(props) {
-
+  constructor (props) {
     super(props)
-
-    this.emitChange = this.emitChange.bind(this);
+    this.emitChange = this.emitChange.bind(this)
 
   }
   static propTypes = {
     forceChange: PropTypes.bool,
     html: PropTypes.string,
     offForceChange: PropTypes.func,
+    onChange: PropTypes.func,
   }
-  render() {
-    const {html, ...props} = this.props;
-    
-      return (
-        <div {...props}
-          contentEditable={true}
-          ref={(e) => this.htmlEl = e}
-          onInput={this.emitChange}
-          onBlur={this.props.onBlur || this.emitChange}
-          dangerouslySetInnerHTML={{__html: html}}
-        >
+
+  render () {
+    const {html, ...props} = this.props
+
+    return (
+      <div {...props}
+        contentEditable={true}
+        ref={(e) => this.htmlEl = e}
+        onInput={this.emitChange}
+        onBlur={this.props.onBlur || this.emitChange}
+        dangerouslySetInnerHTML={{__html: html}}
+      >
         {this.props.children}
-        </div>
-        )
-    }
+      </div>
+    )
+  }
 
 
-  shouldComponentUpdate(nextProps) {
+  shouldComponentUpdate (nextProps) {
 
-    const { props, htmlEl } = this;
+    const { props, htmlEl } = this
 
     // We need not rerender if the change of props simply reflects the user's edits.
 
@@ -44,32 +43,30 @@ export default class ContentEditable extends React.Component {
     // Rerender if there is no element yet... (somehow?)
 
     if (!htmlEl) {
-      return true;
+      return true
 
     }
     // ...or if html really changed... (programmatically, not by user edit)
 
-     if ((nextProps.html !== this.htmlEl.innerHTML && nextProps.forceChange) && nextProps.html !== props.html) {
+    if ((nextProps.html !== this.htmlEl.innerHTML && nextProps.forceChange) && nextProps.html !== props.html) {
 
       props.offForceChange()
-      return true;
+      return true
 
     }
 
 
-    let optional = ['style', 'className', 'disable', 'tagName'];
-
+    let optional = ['style', 'className', 'disable', 'tagName']
 
 
     // Handle additional properties
 
-    return optional.some(name => props[name] !== nextProps[name]);
+    return optional.some(name => props[name] !== nextProps[name])
 
   }
 
 
-
-  componentDidUpdate() {
+  componentDidUpdate () {
 
     if ( this.htmlEl && this.props.html !== this.htmlEl.innerHTML ) {
 
@@ -77,29 +74,28 @@ export default class ContentEditable extends React.Component {
 
       // rerendering) did not update the DOM. So we update it manually now.
 
-      this.htmlEl.innerHTML = this.props.html;
+      this.htmlEl.innerHTML = this.props.html
 
     }
 
   }
 
 
-  emitChange(evt) {
-    if (!this.htmlEl) return;
+  emitChange (evt) {
+    if (!this.htmlEl) return
 
-    var html = this.htmlEl.innerHTML;
-
+    var html = this.htmlEl.innerHTML
 
 
     if (this.props.onChange && html !== this.lastHtml) {
 
-      evt.target = { value: html };
+      evt.target = { value: html }
 
-      this.props.onChange(evt);
+      this.props.onChange(evt)
 
     }
 
-    this.lastHtml = html;
+    this.lastHtml = html
 
   }
 

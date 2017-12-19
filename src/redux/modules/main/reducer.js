@@ -5,7 +5,6 @@ import {
   SET_CUR_SEGMENT_NO,
   SET_CUR_COMPONENT,
   UPDATE_NOTE,
-  UPDATE_PAGES,
   UPDATE_PRINT,
   UPDATE_FILE_TITLE,
   UPDATE_SETTING,
@@ -16,17 +15,14 @@ import {
   UPDATE_IS_ITALIC,
   UPDATE_IS_UNDERLINE,
   UPDATE_CUR_COLOR,
-  OFF_FORCECHANGE,
-  SET_CUR_PAGE_NO
+  OFF_FORCECHANGE
 } from './action-type'
 
 const initialState = {
   saveFileTitle: '',
   setting: Object.assign({}, defaultSetting),
   note: [Object.assign({}, defaultNote)],
-  pages: [[]],
   curSegmentNo: 0,
-  curPageNo: 0,
   curComponent: null,
   isPrint: false,
   tabNodeList: [],
@@ -39,31 +35,6 @@ const initialState = {
 }
 
 const {assign} = Object
-
-const createTabNodeList = (note, setting) => {
-  let tabNodeList = []
-
-  for (let i = 0;i < note.length; i++) {
-    if (note[i].type != 'imgOnly') {
-      let node = []
-
-      if (setting.jaPos == 'up') {
-        node = [
-          {label: 'up', node: null},
-          {label: 'en', node: null}
-        ]
-      }
-      else {
-        node = [
-          {label: 'en', node: null},
-          {label: 'down', node: null}
-        ]
-      }
-      tabNodeList.push({id: i, node: node})
-    }
-  }
-  return tabNodeList
-}
 
 export default (state = initialState, action) => {
   const {payload} = action
@@ -87,11 +58,6 @@ export default (state = initialState, action) => {
       curSegmentNo: payload
     })
 
-  case SET_CUR_PAGE_NO:
-    return assign({}, state, {
-      curPageNo: payload
-    })
-
   case SET_CUR_COMPONENT:
     return assign({}, state, {
       curComponent: payload
@@ -103,32 +69,44 @@ export default (state = initialState, action) => {
       forceChange: true,
     })
 
-  case UPDATE_PAGES:
-    return assign({}, state, {
-      pages: payload,
-    })
-
   case UPDATE_PRINT:
     return (() => {
-      const {note, pages} = state
+      const {note} = state
       let pageHeight = 0
       const newNote = note.slice()
-      const newPages = pages.slice()
+      const pages = [[]]
 
       let pageNum = 0
-
 
       for (let i = 0;i < note.length; i++) {
         pageHeight = note[i].segmentHeight + pageHeight
 
         if (pageHeight > 1607) {
-          newNote[i - 1].isPageBreak = true
-          newPages.push([i])
-          pageNum++
-          pageHeight = 0
+          if (i > 0){
+            newNote[i - 1].isPageBreak = true
+            pages.push([i])
+            pageNum++
+            pageHeight = 0
+          }
+          else if (i == 0 ){
+            newNote[i].isPageBreak = true
+            pages[pageNum].push(i)
+            pages.push([])
+            pageNum++
+            pageHeight = 0
+          }
+          else if (note[i].isPageBreak) {
+            pages.push([])
+          }
         }
         else {
-          newPages[pageNum].push(i)
+          pages[pageNum].push(i)
+
+          if (note[i].isPageBreak) {
+            pageNum++
+            pages.push([])
+            pageHeight = 0
+          }
         }
       }
       return assign({}, state, {
@@ -159,7 +137,6 @@ export default (state = initialState, action) => {
         isPrint: false,
         curColor: 'rgb(0,0,0)',
         forceChange: true,
-        pages: []
       })
     })()
 

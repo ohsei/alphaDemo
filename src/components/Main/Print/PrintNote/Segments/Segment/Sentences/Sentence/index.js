@@ -76,6 +76,7 @@ class Sentence extends Component{
       senList = marginTopArray.map((obj, i) => {
         let interval = 0
         let down = 0
+
         if (setting.interval == 1.5) {
           interval = 8 * 1.5
           down = interval
