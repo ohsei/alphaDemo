@@ -1,4 +1,4 @@
-import {defaultNote, defaultSetting, defaultWidth} from '../../../utils/const.js'
+import {defaultNote, defaultSetting, defaultWidth, defaultPageHeight, landscapePageHeight} from '../../../utils/const.js'
 
 import {
   LOAD_FILE,
@@ -71,7 +71,11 @@ export default (state = initialState, action) => {
 
   case UPDATE_PRINT:
     return (() => {
-      const {note} = state
+      const {note, setting} = state
+      let maxPageHeight = defaultPageHeight
+      if (setting.layout != 'portrait') {
+        maxPageHeight = landscapePageHeight
+      }
       let pageHeight = 0
       const newNote = note.slice()
       const pages = [[]]
@@ -81,7 +85,7 @@ export default (state = initialState, action) => {
       for (let i = 0;i < note.length; i++) {
         pageHeight = note[i].segmentHeight + pageHeight
 
-        if (pageHeight > 1607) {
+        if (pageHeight > maxPageHeight) {
           if (i > 0){
             newNote[i - 1].isPageBreak = true
             pages.push([i])

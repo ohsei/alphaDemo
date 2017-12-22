@@ -61673,7 +61673,7 @@ var Menu = function (_Component) {
 
 
       if (saveFileTitle == '') {
-        alert('Please input the file name');
+        alert('ファイル名称を入力してください。');
         return;
       }
       var operateJson = {

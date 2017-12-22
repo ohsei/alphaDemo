@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import html2canvas from 'html2canvas'
 import FileSaver from 'file-saver'
 
+
 const DivSen = styled.div`
   width: 100%;
   z-index: 0;
@@ -14,7 +15,7 @@ const DivSen = styled.div`
 const DivLine = styled.div`
   width: 100%;
   display: flex;
-  padding: 23px 0 0 0;
+  padding: ${props => props.padding};
   border-width: 1px;
   border-style: solid;
   border-color: ${props => props.borderColor};
@@ -25,7 +26,7 @@ const DivLine = styled.div`
 const DivLineTop = styled.div`
   width: 100%;
   display: flex;
-  padding: ${props => props.interval == 1.5 ? '35px 0 0 0' : '23px 0 0 0'};
+  padding: ${props => props.interval == 1.5 ? '35px 0 0 0' : props.padding};
   border-width: 1px;
   border-style: solid;
   border-color: ${props => props.lineNum == 2 ? 'white' : props.borderColor};
@@ -36,7 +37,7 @@ const DivLineTop = styled.div`
 const DivLineDown = styled.div`
   width: 100%;
   display: flex;
-  padding: 23px 0 0 0;
+  padding: ${props => props.padding};
   border-width: 1px;
   border-style: solid;
   border-color: ${props => props.lineNum == 2 ? 'white' : props.borderColor};
@@ -44,6 +45,7 @@ const DivLineDown = styled.div`
   border-left: none;
   border-right: none;
 `
+
 class FourLine extends React.Component{
   static propTypes = {
     marginTop: PropTypes.number,
@@ -67,15 +69,24 @@ class FourLine extends React.Component{
   }
 
   render (){
-    const {lineNum, borderColor, interval} = this.props
+    const {lineNum, borderColor, interval, enSize} = this.props
+    /* １倍 */
+    let padding = '23px 0 0 0'
+
+    if (enSize === 2) {
+      padding = '46px 0 0 0'
+    }
+    else if (enSize === 4) {
+      padding = '92px 0 0 0'
+    }
     return (
       <DivSen
         innerRef={ref => this.divsen = ref}
         interval={interval}>
-        <DivLineTop lineNum={lineNum} borderColor={borderColor} interval={interval} />
-        <DivLine borderColor={borderColor} />
-        <DivLine borderColor='orange' />
-        <DivLineDown lineNum={lineNum} borderColor={borderColor} />
+        <DivLineTop lineNum={lineNum} borderColor={borderColor} interval={interval} padding={padding} />
+        <DivLine borderColor={borderColor} padding={padding} />
+        <DivLine borderColor='orange' padding={padding} />
+        <DivLineDown lineNum={lineNum} borderColor={borderColor} padding={padding} />
       </DivSen>
     )
   }

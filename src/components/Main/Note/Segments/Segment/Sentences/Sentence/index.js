@@ -344,10 +344,18 @@ class Sentence extends Component{
 
   render (){
     const { id, note, setting, forceChange, offForceChange } = this.props
+    let fontSize = 80
+
+    if (setting.enSize === '２倍') {
+      fontSize = 80 * 2
+    }
+    else if (setting.enSize === '４倍' ) {
+      fontSize = 80 * 4
+    }
 
     return (
       <DivSen>
-        {/*<FourLine interval={1.5} lineNum={2} borderColor={'lightgray'} />*/}
+        <FourLine interval={1.2} lineNum={4} borderColor={'lightgray'} enSize={2} />
         <TextArea
           id={`en${id}`}
           html={note[id].html}
@@ -361,7 +369,7 @@ class Sentence extends Component{
           onMouseUp={this.handelMouseUp}
           onPaste={this.onPaste}
           fontFamily={browserType == 'ie' ? 'MyFamilyIE' : 'MyFamilyCHROME'}
-          fontSize={'80px'}
+          fontSize={`${fontSize}pt`}
           lineHeight={setting.interval}
           forceChange={forceChange}
           offForceChange={offForceChange}

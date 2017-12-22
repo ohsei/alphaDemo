@@ -41,10 +41,6 @@ class ImgOnly extends Component{
       newNote[id].segmentHeight = segmentHeight
       updateNote(newNote)
     }
-
-    if (segmentHeight > 1607) {
-      alert('1ページを超えたため、印刷レイアウトが崩れる可能性があります。')
-    }
   }
   render (){
     const { setting, id, width } = this.props

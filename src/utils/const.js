@@ -13,7 +13,7 @@ export const DEL_ONE_FILE = 'DEL_ONE_FILE'
 export const defaultSetting = {
   layout: 'portrait',
   jaPos: 'up',
-  enSize: '60pt',
+  enSize: '１倍',
   upJaSize: '24pt',
   downJaSize: 'オフ',
   lineColor: 'gray',
@@ -46,12 +46,16 @@ export const defaultColors = [
 export const enSizeList = [
   {
     id: 0,
-    value: '60pt',
+    value: '１倍',
   },
   {
     id: 1,
-    value: '84pt',
+    value: '２倍',
   },
+  {
+    id: 2,
+    value: '４倍'
+  }
 ]
 
 export const intervalList = [
@@ -120,3 +124,7 @@ export const lineNumList = [
 export const defaultWidth = 1200
 
 export const landscapeWidth = defaultWidth * 1.5
+
+export const defaultPageHeight = 1600
+
+export const landscapePageHeight = 1000
