@@ -15,7 +15,8 @@ import {
   UPDATE_IS_ITALIC,
   UPDATE_IS_UNDERLINE,
   UPDATE_CUR_COLOR,
-  OFF_FORCECHANGE
+  OFF_FORCECHANGE,
+  ON_FORCECHANGE
 } from './action-type'
 
 const initialState = {
@@ -66,7 +67,6 @@ export default (state = initialState, action) => {
   case UPDATE_NOTE:
     return assign({}, state, {
       note: payload,
-      forceChange: true,
     })
 
   case UPDATE_PRINT:
@@ -177,6 +177,11 @@ export default (state = initialState, action) => {
   case OFF_FORCECHANGE:
     return assign({}, state, {
       forceChange: false
+    })
+  
+  case ON_FORCECHANGE:
+    return assign({}, state, {
+      forceChange: true
     })
   default:
     return state

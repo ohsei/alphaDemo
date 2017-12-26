@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { onForceChange } from '../../../../../../redux/modules/segments/action';
 
 const DivAction = styled.div.attrs({
   tabIndex: -1,
@@ -40,6 +41,7 @@ class Actions extends Component{
     id: PropTypes.number,
     curSegmentNo: PropTypes.any,
     updateNote: PropTypes.func,
+    onForceChange: PropTypes.func,
     delSegment: PropTypes.func,
     type: PropTypes.string.isRequired,
     setCurSegment: PropTypes.func.isRequired,
@@ -98,7 +100,7 @@ class Actions extends Component{
   }
 
   addSegment = () => {
-    const {updateNote, setCurSegment, id, note} = this.props
+    const {updateNote, onForceChange, setCurSegment, id, note} = this.props
     let newNote = note.slice()
 
     for (let i = id + 1;i < newNote.length;i++){
@@ -108,6 +110,7 @@ class Actions extends Component{
     const curNo = id + 1
     newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, offsetHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20})
     updateNote(newNote)
+    onForceChange()
     setCurSegment(curNo)
   }
 

@@ -111,7 +111,7 @@ class Menu extends Component {
     const {saveFileTitle} = this.props
 
     if (saveFileTitle == ''){
-      alert('Please input the file name')
+      alert('ファイル名を入力してください。')
       return
     }
     const operateJson = {

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import ContentEditable from '../../common/ContentEditable'
 import {getBrowserType} from '../../../../../../../utils/browserType'
-import FourLine from '../../common/FourLine'
+import FourLine from '../../../../../common/FourLine'
 
 const browserType = getBrowserType()
 
@@ -250,18 +250,27 @@ class Sentence extends Component{
     const interval = setting.interval
     const lineNum = setting.lineNum
     const lineColor = setting.lineColor
+    const enSize = setting.enSize
     let url = `url(${require('../../../../../../../resources/img/4line.png')})`
 
     if (interval == 1.5) {
       if (lineNum == 4) {
-        if (lineColor == 'gray') {
-          url = `url(${require('../../../../../../../resources/img/4line_1.5.png')})`
+        if (enSize === '２倍') {
+          url = `url(${require('../../../../../../../resources/img/4line_1.5_2.png')})`
         }
-        else if (lineColor == 'lightgray') {
-          url = `url(${require('../../../../../../../resources/img/4line_1.5_lightgray.png')})`
+        else if (enSize === '４倍') {
+          url = `url(${require('../../../../../../../resources/img/4line_1.5_4.png')})`
         }
-        else if (lineColor == 'black') {
-          url = `url(${require('../../../../../../../resources/img/4line_1.5_black.png')})`
+        else { 
+          if (lineColor == 'gray') {
+            url = `url(${require('../../../../../../../resources/img/4line_1.5.png')})`
+          }
+          else if (lineColor == 'lightgray') {
+            url = `url(${require('../../../../../../../resources/img/4line_1.5_lightgray.png')})`
+          }
+          else if (lineColor == 'black') {
+            url = `url(${require('../../../../../../../resources/img/4line_1.5_black.png')})`
+          }
         }
       }
       else if (lineNum == 2) {
@@ -279,14 +288,22 @@ class Sentence extends Component{
     else {
       /* default setting */
       if (lineNum == 4) {
-        if (lineColor == 'gray') {
-          url = `url(${require('../../../../../../../resources/img/4line.png')})`
+        if (enSize === '２倍') {
+          url = `url(${require('../../../../../../../resources/img/4line_2.png')})`
         }
-        else if (lineColor == 'lightgray') {
-          url = `url(${require('../../../../../../../resources/img/4line_lightgray.png')})`
+        else if (enSize === '４倍') {
+          url = `url(${require('../../../../../../../resources/img/4line_4.png')})`
         }
-        else if (lineColor == 'black') {
-          url = `url(${require('../../../../../../../resources/img/4line_black.png')})`
+        else {
+          if (lineColor == 'gray') {
+            url = `url(${require('../../../../../../../resources/img/4line.png')})`
+          }
+          else if (lineColor == 'lightgray') {
+            url = `url(${require('../../../../../../../resources/img/4line_lightgray.png')})`
+          }
+          else if (lineColor == 'black') {
+            url = `url(${require('../../../../../../../resources/img/4line_black.png')})`
+          }
         }
       }
       else if (lineNum == 2) {
@@ -331,7 +348,7 @@ class Sentence extends Component{
       }
     }
 
-    if (prevProps.setting.interval != this.props.setting.interval)
+    if ((prevProps.setting.interval != this.props.setting.interval) || (prevProps.setting.enSize != this.props.setting.enSize) )
     {
       const {updateNote, note, id} = this.props
 
@@ -339,23 +356,25 @@ class Sentence extends Component{
       newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
       updateNote(newNote)
     }
-
   }
 
   render (){
     const { id, note, setting, forceChange, offForceChange } = this.props
     let fontSize = 80
+    let enSize = 1
 
     if (setting.enSize === '２倍') {
       fontSize = 80 * 2
+      enSize = 2
     }
     else if (setting.enSize === '４倍' ) {
       fontSize = 80 * 4
+      enSize = 4
     }
 
     return (
       <DivSen>
-        <FourLine interval={1.2} lineNum={4} borderColor={'lightgray'} enSize={2} />
+        {/*<FourLine interval={'1.5'} lineNum={setting.lineNum} borderColor={setting.borderColor} enSize={2} isPrint={false} />*/}
         <TextArea
           id={`en${id}`}
           html={note[id].html}
@@ -369,7 +388,7 @@ class Sentence extends Component{
           onMouseUp={this.handelMouseUp}
           onPaste={this.onPaste}
           fontFamily={browserType == 'ie' ? 'MyFamilyIE' : 'MyFamilyCHROME'}
-          fontSize={`${fontSize}pt`}
+          fontSize={`${fontSize}px`}
           lineHeight={setting.interval}
           forceChange={forceChange}
           offForceChange={offForceChange}

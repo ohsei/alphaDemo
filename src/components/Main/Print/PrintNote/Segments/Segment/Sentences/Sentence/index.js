@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import ContentEditable from 'react-contenteditable'
 
 import {getBrowserType} from '../../../../../../../../utils/browserType'
-import FourLine from '../../common/FourLine'
+import FourLine from '../../../../../../common/FourLine'
 
 const browserType = getBrowserType()
 
@@ -53,9 +53,25 @@ class Sentence extends Component{
     const {note, segmentId, setting} = this.props
     let height = 0
     let segmentHeight = 96
-
-    if (setting.interval == 1.5) {
-      segmentHeight = 120
+    let fontSize = 80
+    let enSize = 1
+    if (setting.enSize === '１倍') {
+      if (setting.interval === '1.5') {
+        segmentHeight = 120
+      }
+    }
+    else if (setting.enSize === '２倍') {
+      enSize = 2
+      fontSize = 80 * 2
+      segmentHeight = 192
+    }
+    else if (setting.enSize === '４倍') {
+      enSize = 4
+      fontSize = 80 * 4
+      segmentHeight = 384
+      if (setting.interval === '1.5') {
+        segmentHeight = 480
+      }
     }
 
     if (browserType == 'ie'){
@@ -64,6 +80,7 @@ class Sentence extends Component{
     else {
       height = (note[segmentId].offsetHeight / segmentHeight).toFixed(0)
     }
+
     let i = 0
     let marginTopArray = []
 
@@ -87,10 +104,10 @@ class Sentence extends Component{
         {
           top = 23 + interval + interval
         }
-        return <FourLine key={i} marginTop={top} maginDown={down} lineNum={setting.lineNum} borderColor={setting.lineColor} />
+       return  <FourLine  key={i} interval={setting.interval} lineNum={setting.lineNum} borderColor={setting.lineColor} enSize={enSize} isPrint={true} />
       })
     }
-
+  
     return (
       <div style={{display: 'flex'}}>
         <DivSen>
@@ -102,7 +119,7 @@ class Sentence extends Component{
             style={{imeMode: this.state.imeMode}}
             innerRef={(ref) => {this.inputText = ref}}
             fontFamily={browserType == 'ie' ? 'MyFamilyIE' : 'MyFamilyCHROME'}
-            fontSize={browserType == 'ie' ? '96px' : '80px'}
+            fontSize={`${fontSize}px`}
             lineHeight={setting.interval}
           />
         </DivSen>

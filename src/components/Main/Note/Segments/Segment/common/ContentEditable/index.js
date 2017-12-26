@@ -49,10 +49,9 @@ export default class ContentEditable extends React.Component {
     // ...or if html really changed... (programmatically, not by user edit)
 
     if ((nextProps.html !== this.htmlEl.innerHTML && nextProps.forceChange) && nextProps.html !== props.html) {
-
+      
       props.offForceChange()
       return true
-
     }
 
 
