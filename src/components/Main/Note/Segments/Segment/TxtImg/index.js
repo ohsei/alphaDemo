@@ -25,7 +25,16 @@ class TxtImgSeg extends Component{
     }
   }
   render (){
-    const {id, width, setting} = this.props
+    const {id, width, setting, note} = this.props
+
+    const imgMaxWidth = (width - 50) * 0.4
+    let senWidth = (width - 50) * 0.6
+    if (note[id].imgWidth > 0) {
+      if (imgMaxWidth > (note[id].imgWidth + 20)) {
+        senWidth = width - 50 - note[id].imgWidth - 20
+      }
+    }
+    
     return (
       <SentenceArea
         innerRef={ref => this.sentencearea = ref}
@@ -33,12 +42,13 @@ class TxtImgSeg extends Component{
         onClick={this.setCurSegment} >
         <LabNum lineNoType={setting.lineNos} id={id} />
         <Sentences
-          senWidth={(width - 50) * 0.6}
+          senWidth={senWidth}
           ref={(ref) => {this.sentences = ref}}
           {...pick(this.props, keys(Sentences.propTypes))}
         />
         <Canvas
-          canvasWidth={(width - 50) * 0.4}
+          imgMaxWidth={imgMaxWidth}
+          canvasWidth={note[id].imgWidth + 20}
           {...pick(this.props, keys(Canvas.propTypes))}
         />
       </SentenceArea>

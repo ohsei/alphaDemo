@@ -18,6 +18,23 @@ const StyledButton = styled.button`
     display: none;
   }
 `
+const StyledMessageArea = styled.div.attrs({
+  tabIndex: -1,
+})`
+  position: fixed;
+  display: flex;
+  top: 5px;
+  left: 500px;
+  width: 50%;
+  padding: 10px 0px 20px 0px;
+  height: 50px;
+  color: #f00;
+  z-index: 99;
+
+  @media print{
+    display: none;
+  }
+`
 
 class PrintNote extends Component{
   componentDidUpdate () {
@@ -81,7 +98,7 @@ class PrintNote extends Component{
   }
 
   render (){
-    const {namelist, printStatus} = this.props
+    const {namelist, printStatus, errorMessage} = this.props
 
     let listSegments = null
 
@@ -105,6 +122,7 @@ class PrintNote extends Component{
         width={this.props.width}>
         <StyledButton onClick={this.print}>{printStatus}</StyledButton>
         <StyledButton onClick={this.cancel}>キャンセル</StyledButton>
+        <StyledMessageArea>{errorMessage}</StyledMessageArea>
         {listSegments}
       </StyledDiv>
     )
@@ -124,6 +142,7 @@ PrintNote.propTypes = {
   printStatus: PropTypes.string,
   loadedArray: PropTypes.array,
   updateLoadedArray: PropTypes.func,
+  errorMessage: PropTypes.string,
 }
 
 export default PrintNote

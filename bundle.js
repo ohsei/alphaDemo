@@ -433,7 +433,7 @@ exports.default = ReactCSS;
 
 
 
-var emptyFunction = __webpack_require__(15);
+var emptyFunction = __webpack_require__(14);
 
 /**
  * Similar to invariant but only logs a warning if the condition is not met.
@@ -21287,6 +21287,78 @@ module.exports = ReactComponentTreeHook;
 "use strict";
 
 
+/**
+ * Copyright (c) 2013-present, Facebook, Inc.
+ * All rights reserved.
+ *
+ * This source code is licensed under the BSD-style license found in the
+ * LICENSE file in the root directory of this source tree. An additional grant
+ * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * 
+ */
+
+function makeEmptyFunction(arg) {
+  return function () {
+    return arg;
+  };
+}
+
+/**
+ * This function accepts and discards inputs; it has no side effects. This is
+ * primarily useful idiomatically for overridable function endpoints which
+ * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
+ */
+var emptyFunction = function emptyFunction() {};
+
+emptyFunction.thatReturns = makeEmptyFunction;
+emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
+emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
+emptyFunction.thatReturnsNull = makeEmptyFunction(null);
+emptyFunction.thatReturnsThis = function () {
+  return this;
+};
+emptyFunction.thatReturnsArgument = function (arg) {
+  return arg;
+};
+
+module.exports = emptyFunction;
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(process) {/**
+ * Copyright (c) 2016-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ * 
+ */
+
+
+
+// Trust the developer to only use ReactInstrumentation with a __DEV__ check
+
+var debugTool = null;
+
+if (process.env.NODE_ENV !== 'production') {
+  var ReactDebugTool = __webpack_require__(229);
+  debugTool = ReactDebugTool;
+}
+
+module.exports = { debugTool: debugTool };
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -21389,85 +21461,13 @@ var lineNumList = exports.lineNumList = [{
   value: 2
 }];
 
-var defaultWidth = exports.defaultWidth = 1200;
+var defaultWidth = exports.defaultWidth = 1000;
 
 var landscapeWidth = exports.landscapeWidth = defaultWidth * 1.5;
 
 var defaultPageHeight = exports.defaultPageHeight = 1600;
 
 var landscapePageHeight = exports.landscapePageHeight = 1000;
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- * All rights reserved.
- *
- * This source code is licensed under the BSD-style license found in the
- * LICENSE file in the root directory of this source tree. An additional grant
- * of patent rights can be found in the PATENTS file in the same directory.
- *
- * 
- */
-
-function makeEmptyFunction(arg) {
-  return function () {
-    return arg;
-  };
-}
-
-/**
- * This function accepts and discards inputs; it has no side effects. This is
- * primarily useful idiomatically for overridable function endpoints which
- * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
- */
-var emptyFunction = function emptyFunction() {};
-
-emptyFunction.thatReturns = makeEmptyFunction;
-emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
-emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
-emptyFunction.thatReturnsNull = makeEmptyFunction(null);
-emptyFunction.thatReturnsThis = function () {
-  return this;
-};
-emptyFunction.thatReturnsArgument = function (arg) {
-  return arg;
-};
-
-module.exports = emptyFunction;
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(process) {/**
- * Copyright (c) 2016-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- *
- * 
- */
-
-
-
-// Trust the developer to only use ReactInstrumentation with a __DEV__ check
-
-var debugTool = null;
-
-if (process.env.NODE_ENV !== 'production') {
-  var ReactDebugTool = __webpack_require__(229);
-  debugTool = ReactDebugTool;
-}
-
-module.exports = { debugTool: debugTool };
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(0)))
 
 /***/ }),
 /* 17 */
@@ -21822,7 +21822,7 @@ var _assign = __webpack_require__(9);
 
 var PooledClass = __webpack_require__(29);
 
-var emptyFunction = __webpack_require__(15);
+var emptyFunction = __webpack_require__(14);
 var warning = __webpack_require__(5);
 
 var didWarnForAddedNewProperty = false;
@@ -23265,7 +23265,7 @@ module.exports = reactProdInvariant;
 
 
 var ReactRef = __webpack_require__(227);
-var ReactInstrumentation = __webpack_require__(16);
+var ReactInstrumentation = __webpack_require__(15);
 
 var warning = __webpack_require__(5);
 
@@ -26496,7 +26496,7 @@ module.exports = getEventModifierState;
 var DOMLazyTree = __webpack_require__(36);
 var Danger = __webpack_require__(238);
 var ReactDOMComponentTree = __webpack_require__(10);
-var ReactInstrumentation = __webpack_require__(16);
+var ReactInstrumentation = __webpack_require__(15);
 
 var createMicrosoftUnsafeLocalFunction = __webpack_require__(81);
 var setInnerHTML = __webpack_require__(58);
@@ -27155,7 +27155,7 @@ var _prodInvariant = __webpack_require__(7);
 
 var ReactCurrentOwner = __webpack_require__(19);
 var ReactInstanceMap = __webpack_require__(49);
-var ReactInstrumentation = __webpack_require__(16);
+var ReactInstrumentation = __webpack_require__(15);
 var ReactUpdates = __webpack_require__(20);
 
 var invariant = __webpack_require__(3);
@@ -27391,7 +27391,7 @@ module.exports = ReactUpdateQueue;
 
 var _assign = __webpack_require__(9);
 
-var emptyFunction = __webpack_require__(15);
+var emptyFunction = __webpack_require__(14);
 var warning = __webpack_require__(5);
 
 var validateDOMNesting = emptyFunction;
@@ -28596,7 +28596,8 @@ var Sentences = function (_Component) {
       var _props6 = this.props,
           note = _props6.note,
           id = _props6.id,
-          setting = _props6.setting;
+          setting = _props6.setting,
+          senWidth = _props6.senWidth;
 
 
       var upJaSize = setting.upJaSize;
@@ -28610,7 +28611,7 @@ var Sentences = function (_Component) {
           innerRef: function innerRef(ref) {
             return _this4.divSentences = ref;
           },
-          width: this.props.senWidth },
+          width: senWidth },
         setting.upJaSize != 'オフ' && _react2.default.createElement(DivJan, { id: 'up' + id, html: note[id].jaHtml, innerRef: function innerRef(ref) {
             return _this4.upJaHtml = ref;
           }, fontSize: upJaSize, spellCheck: false, onChange: this.onUpChange }),
@@ -28671,7 +28672,7 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['\n\n'], ['\n\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  width: 100%\';\n  height: 100%;\n'], ['\n  width: 100%\';\n  height: 100%;\n']);
 
 var _react = __webpack_require__(1);
 
@@ -28708,6 +28709,7 @@ var x = void 0,
     relX = void 0,
     relY = void 0;
 var anchorSize = 20;
+var maxWidth = 380;
 
 var Canvas = function (_Component) {
   _inherits(Canvas, _Component);
@@ -28742,7 +28744,8 @@ var Canvas = function (_Component) {
     value: function loadImage() {
       var _props = this.props,
           note = _props.note,
-          id = _props.id;
+          id = _props.id,
+          imgMaxWidth = _props.imgMaxWidth;
 
       var img = new Image();
       var canvas = this.imgCanvas;
@@ -28753,8 +28756,8 @@ var Canvas = function (_Component) {
         var picHeight = img.height;
         var scale = 1.0;
 
-        if (img.width > this.imgCanvas.offsetWidth - anchorSize * 2) {
-          picWidth = this.imgCanvas.offsetWidth - anchorSize * 2;
+        if (img.width > imgMaxWidth - anchorSize * 2) {
+          picWidth = imgMaxWidth - anchorSize * 2;
           scale = img.width / picWidth;
           picHeight = picHeight / scale;
         }
@@ -28785,7 +28788,11 @@ var Canvas = function (_Component) {
         if (canvas.offsetHeight < picHeight + anchorSize * 2) {
           canvas.height = picHeight + anchorSize * 2;
         } else {
-          canvas.height = canvas.offsetHeight;
+          if (picHeight + anchorSize * 2 > note[id].offsetHeight) {
+            canvas.height = picHeight + anchorSize * 2;
+          } else {
+            canvas.height = note[id].offsetHeight;
+          }
         }
 
         ctx.drawImage(img, 0, 0, img.width, img.height, this.state.objX, this.state.objY, picWidth, picHeight);
@@ -29047,6 +29054,7 @@ var Canvas = function (_Component) {
 
 Canvas.propTypes = {
   id: _propTypes2.default.number,
+  imgMaxWidth: _propTypes2.default.number,
   canvasWidth: _propTypes2.default.number,
   updateNote: _propTypes2.default.func.isRequired,
   note: _propTypes2.default.array
@@ -30179,7 +30187,7 @@ module.exports = function(isValidElement) {
 
 
 
-var emptyFunction = __webpack_require__(15);
+var emptyFunction = __webpack_require__(14);
 var invariant = __webpack_require__(3);
 var warning = __webpack_require__(5);
 
@@ -31454,7 +31462,7 @@ module.exports = CSSProperty;
 
 var DOMProperty = __webpack_require__(24);
 var ReactDOMComponentTree = __webpack_require__(10);
-var ReactInstrumentation = __webpack_require__(16);
+var ReactInstrumentation = __webpack_require__(15);
 
 var quoteAttributeValueForBrowser = __webpack_require__(252);
 var warning = __webpack_require__(5);
@@ -32387,7 +32395,7 @@ module.exports = traverseAllChildren;
  * @typechecks
  */
 
-var emptyFunction = __webpack_require__(15);
+var emptyFunction = __webpack_require__(14);
 
 /**
  * Upstream version of event listener. Does not take into account specific
@@ -32649,7 +32657,7 @@ var ReactDOMContainerInfo = __webpack_require__(294);
 var ReactDOMFeatureFlags = __webpack_require__(295);
 var ReactFeatureFlags = __webpack_require__(123);
 var ReactInstanceMap = __webpack_require__(49);
-var ReactInstrumentation = __webpack_require__(16);
+var ReactInstrumentation = __webpack_require__(15);
 var ReactMarkupChecksum = __webpack_require__(296);
 var ReactReconciler = __webpack_require__(35);
 var ReactUpdateQueue = __webpack_require__(87);
@@ -35452,7 +35460,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getFileList = exports.dbOperate = undefined;
 
-var _const = __webpack_require__(14);
+var _const = __webpack_require__(16);
 
 var fileList = [];
 
@@ -35711,7 +35719,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAAAtCAYAAAAu
 
 
 Object.defineProperty(exports, "__esModule", {
-    value: true
+  value: true
 });
 
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -35737,111 +35745,114 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var ContentEditable = function (_React$Component) {
-    _inherits(ContentEditable, _React$Component);
+  _inherits(ContentEditable, _React$Component);
 
-    function ContentEditable(props) {
-        _classCallCheck(this, ContentEditable);
+  function ContentEditable(props) {
+    _classCallCheck(this, ContentEditable);
 
-        var _this = _possibleConstructorReturn(this, (ContentEditable.__proto__ || Object.getPrototypeOf(ContentEditable)).call(this, props));
+    var _this = _possibleConstructorReturn(this, (ContentEditable.__proto__ || Object.getPrototypeOf(ContentEditable)).call(this, props));
 
-        _this.emitChange = _this.emitChange.bind(_this);
+    _this.emitChange = _this.emitChange.bind(_this);
 
-        return _this;
+    return _this;
+  }
+
+  _createClass(ContentEditable, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var _props = this.props,
+          html = _props.html,
+          props = _objectWithoutProperties(_props, ['html']);
+
+      return _react2.default.createElement(
+        'div',
+        _extends({}, props, {
+          contentEditable: true,
+          ref: function ref(e) {
+            return _this2.htmlEl = e;
+          },
+          onInput: this.emitChange,
+          onBlur: this.props.onBlur || this.emitChange,
+          dangerouslySetInnerHTML: { __html: html }
+        }),
+        this.props.children
+      );
     }
+  }, {
+    key: 'shouldComponentUpdate',
+    value: function shouldComponentUpdate(nextProps) {
+      var props = this.props,
+          htmlEl = this.htmlEl;
 
-    _createClass(ContentEditable, [{
-        key: 'render',
-        value: function render() {
-            var _this2 = this;
+      // We need not rerender if the change of props simply reflects the user's edits.
 
-            var _props = this.props,
-                html = _props.html,
-                props = _objectWithoutProperties(_props, ['html']);
+      // Rerendering in this case would make the cursor/caret jump
 
-            return _react2.default.createElement(
-                'div',
-                _extends({}, props, {
-                    contentEditable: true,
-                    ref: function ref(e) {
-                        return _this2.htmlEl = e;
-                    },
-                    onInput: this.emitChange,
-                    onBlur: this.props.onBlur || this.emitChange,
-                    dangerouslySetInnerHTML: { __html: html }
-                }),
-                this.props.children
-            );
-        }
-    }, {
-        key: 'shouldComponentUpdate',
-        value: function shouldComponentUpdate(nextProps) {
-            var props = this.props,
-                htmlEl = this.htmlEl;
+      // Rerender if there is no element yet... (somehow?)
 
-            // We need not rerender if the change of props simply reflects the user's edits.
+      if (!htmlEl) {
+        return true;
+      }
+      // ...or if html really changed... (programmatically, not by user edit)
 
-            // Rerendering in this case would make the cursor/caret jump
+      if (nextProps.forceChange) {
+        props.offForceChange();
+      }
+      if (nextProps.html !== this.htmlEl.innerHTML && nextProps.forceChange && nextProps.html !== props.html) {
 
-            // Rerender if there is no element yet... (somehow?)
+        props.offForceChange();
+        return true;
+      }
 
-            if (!htmlEl) {
-                return true;
-            }
-            // ...or if html really changed... (programmatically, not by user edit)
+      var optional = ['style', 'className', 'disable', 'tagName'];
 
-            if (nextProps.html !== this.htmlEl.innerHTML && nextProps.forceChange && nextProps.html !== props.html) {
+      // Handle additional properties
 
-                props.offForceChange();
-                return true;
-            }
+      return optional.some(function (name) {
+        return props[name] !== nextProps[name];
+      });
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate() {
 
-            var optional = ['style', 'className', 'disable', 'tagName'];
+      if (this.htmlEl && this.props.html !== this.htmlEl.innerHTML) {
 
-            // Handle additional properties
+        // Perhaps React (whose VDOM gets outdated because we often prevent
 
-            return optional.some(function (name) {
-                return props[name] !== nextProps[name];
-            });
-        }
-    }, {
-        key: 'componentDidUpdate',
-        value: function componentDidUpdate() {
+        // rerendering) did not update the DOM. So we update it manually now.
 
-            if (this.htmlEl && this.props.html !== this.htmlEl.innerHTML) {
+        this.htmlEl.innerHTML = this.props.html;
+      }
+    }
+  }, {
+    key: 'emitChange',
+    value: function emitChange(evt) {
+      if (!this.htmlEl) return;
 
-                // Perhaps React (whose VDOM gets outdated because we often prevent
+      var html = this.htmlEl.innerHTML;
 
-                // rerendering) did not update the DOM. So we update it manually now.
+      if (this.props.onChange && html !== this.lastHtml) {
 
-                this.htmlEl.innerHTML = this.props.html;
-            }
-        }
-    }, {
-        key: 'emitChange',
-        value: function emitChange(evt) {
-            if (!this.htmlEl) return;
+        evt.target = { value: html };
 
-            var html = this.htmlEl.innerHTML;
+        this.props.onChange(evt);
+      }
 
-            if (this.props.onChange && html !== this.lastHtml) {
+      this.lastHtml = html;
+    }
+  }]);
 
-                evt.target = { value: html };
-
-                this.props.onChange(evt);
-            }
-
-            this.lastHtml = html;
-        }
-    }]);
-
-    return ContentEditable;
+  return ContentEditable;
 }(_react2.default.Component);
 
 ContentEditable.propTypes = {
-    forceChange: _propTypes2.default.bool,
-    html: _propTypes2.default.string,
-    offForceChange: _propTypes2.default.func,
-    onChange: _propTypes2.default.func
+  forceChange: _propTypes2.default.bool,
+  html: _propTypes2.default.string,
+  offForceChange: _propTypes2.default.func,
+  onChange: _propTypes2.default.func
 };
 exports.default = ContentEditable;
 
@@ -36283,7 +36294,7 @@ _reactDom2.default.render(_react2.default.createElement(
 var PooledClass = __webpack_require__(205);
 var ReactElement = __webpack_require__(28);
 
-var emptyFunction = __webpack_require__(15);
+var emptyFunction = __webpack_require__(14);
 var traverseAllChildren = __webpack_require__(206);
 
 var twoArgumentPooler = PooledClass.twoArgumentPooler;
@@ -38298,7 +38309,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 if (process.env.NODE_ENV !== 'production') {
-  var ReactInstrumentation = __webpack_require__(16);
+  var ReactInstrumentation = __webpack_require__(15);
   var ReactDOMUnknownPropertyHook = __webpack_require__(301);
   var ReactDOMNullInputValuePropHook = __webpack_require__(302);
   var ReactDOMInvalidARIAHook = __webpack_require__(303);
@@ -40477,7 +40488,7 @@ var DOMLazyTree = __webpack_require__(36);
 var ExecutionEnvironment = __webpack_require__(11);
 
 var createNodesFromMarkup = __webpack_require__(239);
-var emptyFunction = __webpack_require__(15);
+var emptyFunction = __webpack_require__(14);
 var invariant = __webpack_require__(3);
 
 var Danger = {
@@ -40901,11 +40912,11 @@ var ReactDOMInput = __webpack_require__(255);
 var ReactDOMOption = __webpack_require__(256);
 var ReactDOMSelect = __webpack_require__(132);
 var ReactDOMTextarea = __webpack_require__(257);
-var ReactInstrumentation = __webpack_require__(16);
+var ReactInstrumentation = __webpack_require__(15);
 var ReactMultiChild = __webpack_require__(258);
 var ReactServerRenderingTransaction = __webpack_require__(267);
 
-var emptyFunction = __webpack_require__(15);
+var emptyFunction = __webpack_require__(14);
 var escapeTextContentForBrowser = __webpack_require__(59);
 var invariant = __webpack_require__(3);
 var isEventSupported = __webpack_require__(77);
@@ -41928,7 +41939,7 @@ module.exports = AutoFocusUtils;
 
 var CSSProperty = __webpack_require__(129);
 var ExecutionEnvironment = __webpack_require__(11);
-var ReactInstrumentation = __webpack_require__(16);
+var ReactInstrumentation = __webpack_require__(15);
 
 var camelizeStyleName = __webpack_require__(246);
 var dangerousStyleValue = __webpack_require__(248);
@@ -43180,13 +43191,13 @@ var _prodInvariant = __webpack_require__(7);
 
 var ReactComponentEnvironment = __webpack_require__(83);
 var ReactInstanceMap = __webpack_require__(49);
-var ReactInstrumentation = __webpack_require__(16);
+var ReactInstrumentation = __webpack_require__(15);
 
 var ReactCurrentOwner = __webpack_require__(19);
 var ReactReconciler = __webpack_require__(35);
 var ReactChildReconciler = __webpack_require__(259);
 
-var emptyFunction = __webpack_require__(15);
+var emptyFunction = __webpack_require__(14);
 var flattenChildren = __webpack_require__(266);
 var invariant = __webpack_require__(3);
 
@@ -43791,7 +43802,7 @@ var ReactComponentEnvironment = __webpack_require__(83);
 var ReactCurrentOwner = __webpack_require__(19);
 var ReactErrorUtils = __webpack_require__(75);
 var ReactInstanceMap = __webpack_require__(49);
-var ReactInstrumentation = __webpack_require__(16);
+var ReactInstrumentation = __webpack_require__(15);
 var ReactNodeTypes = __webpack_require__(134);
 var ReactReconciler = __webpack_require__(35);
 
@@ -44982,7 +44993,7 @@ var _assign = __webpack_require__(9);
 
 var PooledClass = __webpack_require__(29);
 var Transaction = __webpack_require__(56);
-var ReactInstrumentation = __webpack_require__(16);
+var ReactInstrumentation = __webpack_require__(15);
 var ReactServerUpdateQueue = __webpack_require__(268);
 
 /**
@@ -45589,7 +45600,7 @@ var _assign = __webpack_require__(9);
 var ReactUpdates = __webpack_require__(20);
 var Transaction = __webpack_require__(56);
 
-var emptyFunction = __webpack_require__(15);
+var emptyFunction = __webpack_require__(14);
 
 var RESET_BATCHED_UPDATES = {
   initialize: emptyFunction,
@@ -45900,7 +45911,7 @@ var CallbackQueue = __webpack_require__(122);
 var PooledClass = __webpack_require__(29);
 var ReactBrowserEventEmitter = __webpack_require__(60);
 var ReactInputSelection = __webpack_require__(139);
-var ReactInstrumentation = __webpack_require__(16);
+var ReactInstrumentation = __webpack_require__(15);
 var Transaction = __webpack_require__(56);
 var ReactUpdateQueue = __webpack_require__(87);
 
@@ -46987,7 +46998,7 @@ var SyntheticTransitionEvent = __webpack_require__(292);
 var SyntheticUIEvent = __webpack_require__(48);
 var SyntheticWheelEvent = __webpack_require__(293);
 
-var emptyFunction = __webpack_require__(15);
+var emptyFunction = __webpack_require__(14);
 var getEventCharCode = __webpack_require__(89);
 var invariant = __webpack_require__(3);
 
@@ -48312,7 +48323,7 @@ function createProvider() {
 
 
 
-var emptyFunction = __webpack_require__(15);
+var emptyFunction = __webpack_require__(14);
 var invariant = __webpack_require__(3);
 var ReactPropTypesSecret = __webpack_require__(73);
 
@@ -49601,7 +49612,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _const = __webpack_require__(14);
+var _const = __webpack_require__(16);
 
 var _actionType = __webpack_require__(39);
 
@@ -49618,7 +49629,8 @@ var initialState = {
   isItalic: false,
   isUnderline: false,
   curColor: 'rgb(0,0,0)',
-  forceChange: false
+  forceChange: false,
+  errorMessage: ''
 };
 
 var assign = Object.assign;
@@ -49670,10 +49682,13 @@ exports.default = function () {
         var pageHeight = 0;
         var newNote = note.slice();
         var pages = [[]];
-
+        var errorMessage = '';
         var pageNum = 0;
 
         for (var i = 0; i < note.length; i++) {
+          if (note[i].segmentHeight > maxPageHeight) {
+            errorMessage = '\u7B2C' + (i + 1) + '\u30BB\u30B0\u30E1\u30F3\u30C8\u306E\u6587\u7AE0\u304C\u4E00\u30DA\u30FC\u30B8\u306E\u7BC4\u56F2\u3092\u8D85\u3048\u3066\u3044\u308B\u305F\u3081\u3001\u5370\u5237\u30EC\u30A4\u30A2\u30A6\u30C8\u304C\u5D29\u308C\u308B\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3002';
+          }
           pageHeight = note[i].segmentHeight + pageHeight;
 
           if (pageHeight > maxPageHeight) {
@@ -49703,7 +49718,8 @@ exports.default = function () {
         }
         return assign({}, state, {
           isPrint: payload,
-          note: newNote
+          note: newNote,
+          errorMessage: errorMessage
         });
       }();
 
@@ -50001,7 +50017,7 @@ var _templateObject = _taggedTemplateLiteral(['\n  @font-face {\n    font-family
     _templateObject2 = _taggedTemplateLiteral(['\n  display: ', ';\n  position: relative;\n  background-color: lightgreen;\n  width: 100%;\n  height: 100%;\n  margin: 0;\n  padding: 0;\n  border: none;\n'], ['\n  display: ', ';\n  position: relative;\n  background-color: lightgreen;\n  width: 100%;\n  height: 100%;\n  margin: 0;\n  padding: 0;\n  border: none;\n']),
     _templateObject3 = _taggedTemplateLiteral(['\n  position: fixed;\n  width:100%;\n  z-index: 9;\n  top: 0;\n  left: 0;\n  background-color: lightgreen;\n'], ['\n  position: fixed;\n  width:100%;\n  z-index: 9;\n  top: 0;\n  left: 0;\n  background-color: lightgreen;\n']),
     _templateObject4 = _taggedTemplateLiteral(['\n  position: fixed;\n  z-index: 999;\n  top: 50px;\n  left: 5px;\n'], ['\n  position: fixed;\n  z-index: 999;\n  top: 50px;\n  left: 5px;\n']),
-    _templateObject5 = _taggedTemplateLiteral(['\n  position: fixed;\n  display: flex;\n  top: 40px;\n  left: 50px;\n  width: 90%;\n  padding: 10px 0px 20px 0px;\n  height: 50px;\n  background-color: lightgreen;\n  z-index: 99\n'], ['\n  position: fixed;\n  display: flex;\n  top: 40px;\n  left: 50px;\n  width: 90%;\n  padding: 10px 0px 20px 0px;\n  height: 50px;\n  background-color: lightgreen;\n  z-index: 99\n']),
+    _templateObject5 = _taggedTemplateLiteral(['\n  position: fixed;\n  display: flex;\n  top: 40px;\n  left: 50px;\n  width: 100%;\n  padding: 10px 0px 20px 0px;\n  height: 50px;\n  background-color: lightgreen;\n  z-index: 99\n'], ['\n  position: fixed;\n  display: flex;\n  top: 40px;\n  left: 50px;\n  width: 100%;\n  padding: 10px 0px 20px 0px;\n  height: 50px;\n  background-color: lightgreen;\n  z-index: 99\n']),
     _templateObject6 = _taggedTemplateLiteral(['\n  z-index: 0;\n  margin: 150px 0 0 50px;\n  width: ', ';\n\n  @media print{\n    margin: 0;\n    padding: 0;\n  }\n'], ['\n  z-index: 0;\n  margin: 150px 0 0 50px;\n  width: ', ';\n\n  @media print{\n    margin: 0;\n    padding: 0;\n  }\n']),
     _templateObject7 = _taggedTemplateLiteral(['\n  width: 50px;\n  height: 50px;\n  border: ', ';\n  font-size: 1.5em;\n  color: #aaa;\n  text-align: center;\n  text-decoration: ', ';\n  background-color: white;\n'], ['\n  width: 50px;\n  height: 50px;\n  border: ', ';\n  font-size: 1.5em;\n  color: #aaa;\n  text-align: center;\n  text-decoration: ', ';\n  background-color: white;\n']),
     _templateObject8 = _taggedTemplateLiteral(['\n  min-width: 150px;\n  height: 50px;\n  font-size: 18px;\n  line-height: 2.5;\n  color: white;\n  text-align: center;\n'], ['\n  min-width: 150px;\n  height: 50px;\n  font-size: 18px;\n  line-height: 2.5;\n  color: white;\n  text-align: center;\n']),
@@ -50026,8 +50042,6 @@ var _lines_blockRegular2 = _interopRequireDefault(_lines_blockRegular);
 var _lines_blockRegularWebfont = __webpack_require__(341);
 
 var _lines_blockRegularWebfont2 = _interopRequireDefault(_lines_blockRegularWebfont);
-
-var _const = __webpack_require__(14);
 
 var _ColorPicker = __webpack_require__(342);
 
@@ -51716,7 +51730,7 @@ var _reactcss2 = _interopRequireDefault(_reactcss);
 
 var _reactColor = __webpack_require__(445);
 
-var _const = __webpack_require__(14);
+var _const = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -62318,7 +62332,7 @@ var _lodash = __webpack_require__(12);
 
 var _database = __webpack_require__(189);
 
-var _const = __webpack_require__(14);
+var _const = __webpack_require__(16);
 
 var _SetMenuItem = __webpack_require__(501);
 
@@ -62420,7 +62434,7 @@ var Menu = function (_Component) {
 
 
       if (saveFileTitle == '') {
-        alert('Please input the file name');
+        alert('ファイル名を入力してください。');
         return;
       }
       var operateJson = {
@@ -62759,7 +62773,7 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _const = __webpack_require__(14);
+var _const = __webpack_require__(16);
 
 var _MiddleItem = __webpack_require__(27);
 
@@ -62891,7 +62905,7 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _const = __webpack_require__(14);
+var _const = __webpack_require__(16);
 
 var _MiddleItem = __webpack_require__(27);
 
@@ -63081,7 +63095,7 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _const = __webpack_require__(14);
+var _const = __webpack_require__(16);
 
 var _MiddleItem = __webpack_require__(27);
 
@@ -63227,7 +63241,7 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _const = __webpack_require__(14);
+var _const = __webpack_require__(16);
 
 var _MiddleItem = __webpack_require__(27);
 
@@ -63364,7 +63378,7 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _const = __webpack_require__(14);
+var _const = __webpack_require__(16);
 
 var _MiddleItem = __webpack_require__(27);
 
@@ -63501,7 +63515,7 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _const = __webpack_require__(14);
+var _const = __webpack_require__(16);
 
 var _MiddleItem = __webpack_require__(27);
 
@@ -63634,7 +63648,7 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _const = __webpack_require__(14);
+var _const = __webpack_require__(16);
 
 var _MiddleItem = __webpack_require__(27);
 
@@ -69874,6 +69888,7 @@ var ImgOnly = function (_Component) {
           DivCanvas,
           null,
           _react2.default.createElement(_Canvas2.default, _extends({
+            imgMaxWidth: width - 50,
             canvasWidth: width - 50
           }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_Canvas2.default.propTypes))))
         )
@@ -69909,7 +69924,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  direction: row;\n  width: 100%;\n'], ['\n  display: flex;\n  direction: row;\n  width: 100%;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  width: 100%;\n'], ['\n  display: flex;\n  width: 100%;\n']);
 
 var _react = __webpack_require__(1);
 
@@ -69982,8 +69997,17 @@ var ImgTxt = function (_Component) {
       var _props2 = this.props,
           id = _props2.id,
           width = _props2.width,
-          setting = _props2.setting;
+          setting = _props2.setting,
+          note = _props2.note;
 
+
+      var imgMaxWidth = (width - 50) * 0.4;
+      var senWidth = (width - 50) * 0.6;
+      if (note[id].imgWidth > 0) {
+        if (imgMaxWidth > note[id].imgWidth + 20) {
+          senWidth = width - 50 - note[id].imgWidth - 20;
+        }
+      }
       return _react2.default.createElement(
         SentenceArea,
         {
@@ -69993,15 +70017,12 @@ var ImgTxt = function (_Component) {
           width: width,
           onClick: this.setCurSegment },
         _react2.default.createElement(_LabNum2.default, { lineNoType: setting.lineNos, id: id }),
-        _react2.default.createElement(
-          'div',
-          null,
-          _react2.default.createElement(_Canvas2.default, _extends({
-            canvasWidth: (width - 50) * 0.4
-          }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_Canvas2.default.propTypes))))
-        ),
+        _react2.default.createElement(_Canvas2.default, _extends({
+          imgMaxWidth: imgMaxWidth,
+          canvasWidth: note[id].imgWidth + 20
+        }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_Canvas2.default.propTypes)))),
         _react2.default.createElement(_Sentences2.default, _extends({
-          senWidth: (width - 50) * 0.6,
+          senWidth: senWidth,
           ref: function ref(_ref) {
             _this2.sentences = _ref;
           }
@@ -70123,7 +70144,17 @@ var TxtImgSeg = function (_Component) {
       var _props2 = this.props,
           id = _props2.id,
           width = _props2.width,
-          setting = _props2.setting;
+          setting = _props2.setting,
+          note = _props2.note;
+
+
+      var imgMaxWidth = (width - 50) * 0.4;
+      var senWidth = (width - 50) * 0.6;
+      if (note[id].imgWidth > 0) {
+        if (imgMaxWidth > note[id].imgWidth + 20) {
+          senWidth = width - 50 - note[id].imgWidth - 20;
+        }
+      }
 
       return _react2.default.createElement(
         SentenceArea,
@@ -70135,13 +70166,14 @@ var TxtImgSeg = function (_Component) {
           onClick: this.setCurSegment },
         _react2.default.createElement(_LabNum2.default, { lineNoType: setting.lineNos, id: id }),
         _react2.default.createElement(_Sentences2.default, _extends({
-          senWidth: (width - 50) * 0.6,
+          senWidth: senWidth,
           ref: function ref(_ref) {
             _this2.sentences = _ref;
           }
         }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_Sentences2.default.propTypes)))),
         _react2.default.createElement(_Canvas2.default, _extends({
-          canvasWidth: (width - 50) * 0.4
+          imgMaxWidth: imgMaxWidth,
+          canvasWidth: note[id].imgWidth + 20
         }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_Canvas2.default.propTypes))))
       );
     }
@@ -70212,6 +70244,7 @@ var mapStateToProps = function mapStateToProps(_ref) {
   var namelist = [{ id: 0, name: '四線太郎' }];
   var isPrint = main.isPrint;
   var width = main.width;
+  var errorMessage = main.errorMessage;
 
   return _extends({}, printNote, {
     note: note,
@@ -70219,7 +70252,8 @@ var mapStateToProps = function mapStateToProps(_ref) {
     setting: setting,
     namelist: namelist,
     isPrint: isPrint,
-    width: width
+    width: width,
+    errorMessage: errorMessage
   });
 };
 
@@ -70282,7 +70316,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _templateObject = _taggedTemplateLiteral(['\n  display: ', ';\n  width: ', ';\n'], ['\n  display: ', ';\n  width: ', ';\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n  width: 150px;\n  height: 50px;\n  font-size: 20px;\n\n  @media print{\n    display: none;\n  }\n'], ['\n  width: 150px;\n  height: 50px;\n  font-size: 20px;\n\n  @media print{\n    display: none;\n  }\n']);
+    _templateObject2 = _taggedTemplateLiteral(['\n  width: 150px;\n  height: 50px;\n  font-size: 20px;\n\n  @media print{\n    display: none;\n  }\n'], ['\n  width: 150px;\n  height: 50px;\n  font-size: 20px;\n\n  @media print{\n    display: none;\n  }\n']),
+    _templateObject3 = _taggedTemplateLiteral(['\n  position: fixed;\n  display: flex;\n  top: 5px;\n  left: 500px;\n  width: 50%;\n  padding: 10px 0px 20px 0px;\n  height: 50px;\n  color: #f00;\n  z-index: 99;\n\n  @media print{\n    display: none;\n  }\n'], ['\n  position: fixed;\n  display: flex;\n  top: 5px;\n  left: 500px;\n  width: 50%;\n  padding: 10px 0px 20px 0px;\n  height: 50px;\n  color: #f00;\n  z-index: 99;\n\n  @media print{\n    display: none;\n  }\n']);
 
 var _react = __webpack_require__(1);
 
@@ -70318,6 +70353,9 @@ var StyledDiv = _styledComponents2.default.div(_templateObject, function (props)
   return props.width + 'px';
 });
 var StyledButton = _styledComponents2.default.button(_templateObject2);
+var StyledMessageArea = _styledComponents2.default.div.attrs({
+  tabIndex: -1
+})(_templateObject3);
 
 var PrintNote = function (_Component) {
   _inherits(PrintNote, _Component);
@@ -70413,7 +70451,8 @@ var PrintNote = function (_Component) {
 
       var _props2 = this.props,
           namelist = _props2.namelist,
-          printStatus = _props2.printStatus;
+          printStatus = _props2.printStatus,
+          errorMessage = _props2.errorMessage;
 
 
       var listSegments = null;
@@ -70446,6 +70485,11 @@ var PrintNote = function (_Component) {
           { onClick: this.cancel },
           '\u30AD\u30E3\u30F3\u30BB\u30EB'
         ),
+        _react2.default.createElement(
+          StyledMessageArea,
+          null,
+          errorMessage
+        ),
         listSegments
       );
     }
@@ -70465,7 +70509,8 @@ PrintNote.propTypes = {
   setPrintStatus: _propTypes2.default.func.isRequired,
   printStatus: _propTypes2.default.string,
   loadedArray: _propTypes2.default.array,
-  updateLoadedArray: _propTypes2.default.func
+  updateLoadedArray: _propTypes2.default.func,
+  errorMessage: _propTypes2.default.string
 };
 
 exports.default = PrintNote;
@@ -71241,10 +71286,10 @@ var ImgTxt = function (_Component) {
         _react2.default.createElement(_LabNum2.default, { setting: setting, id: segmentId }),
         _react2.default.createElement(_Canvas2.default, _extends({
           id: segmentId,
-          canvasWidth: (width - 50) * 0.4
+          canvasWidth: note[segmentId].imgWidth + 20
         }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_Canvas2.default.propTypes)))),
         _react2.default.createElement(_Sentences2.default, {
-          senWidth: (width - 50) * 0.6,
+          senWidth: width - 50 - note[segmentId].imgWidth - 20,
           note: note,
           segmentId: segmentId,
           ref: function ref(_ref) {
@@ -71351,7 +71396,7 @@ var TxtImg = function (_Component) {
           onClick: this.setCurSegment },
         _react2.default.createElement(_LabNum2.default, { setting: setting, id: segmentId }),
         _react2.default.createElement(_Sentences2.default, {
-          senWidth: (width - 50) * 0.6,
+          senWidth: width - 50 - note[segmentId].imgWidth - 20,
           note: note,
           segmentId: segmentId,
           ref: function ref(_ref) {
@@ -71361,7 +71406,7 @@ var TxtImg = function (_Component) {
         }),
         _react2.default.createElement(_Canvas2.default, _extends({
           id: segmentId,
-          canvasWidth: (width - 50) * 0.4
+          canvasWidth: note[segmentId].imgWidth + 20
         }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_Canvas2.default.propTypes))))
       );
     }
@@ -71376,7 +71421,6 @@ TxtImg.propTypes = {
   editSegments: _propTypes2.default.any,
   jaSentence: _propTypes2.default.any,
   setting: _propTypes2.default.any,
-  id: _propTypes2.default.any,
   curSegmentNo: _propTypes2.default.any,
   offsetHeight: _propTypes2.default.any,
   isPageBreak: _propTypes2.default.any,
@@ -71515,7 +71559,7 @@ var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
 var _database = __webpack_require__(189);
 
-var _const = __webpack_require__(14);
+var _const = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 

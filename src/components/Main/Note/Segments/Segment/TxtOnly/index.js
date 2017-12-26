@@ -63,7 +63,7 @@ class TxtOnly extends Component{
     const {updateNote, note, id} = this.props
     const segmentHeight = this.sentencearea.offsetHeight
 
-    if (prevProps.note[id].segmentHeight != segmentHeight){
+    if (prevProps.note[id].segmentHeight != segmentHeight) {
       let newNote = note.slice()
       newNote[id].segmentHeight = segmentHeight
       updateNote(newNote)

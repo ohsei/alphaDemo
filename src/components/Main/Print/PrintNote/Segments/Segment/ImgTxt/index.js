@@ -22,11 +22,11 @@ class ImgTxt extends Component{
         <LabNum setting={setting} id={segmentId} />
         <Canvas
           id={segmentId}
-          canvasWidth={(width - 50) * 0.4}
+          canvasWidth={note[segmentId].imgWidth + 20}
           {...pick(this.props, keys(Canvas.propTypes))}
         />
         <Sentences
-          senWidth={(width - 50) * 0.6}
+          senWidth={width - 50 -note[segmentId].imgWidth - 20}
           note={note}
           segmentId={segmentId}
           ref={(ref) => {this.divSegWithJan = ref}}

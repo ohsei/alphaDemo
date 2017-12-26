@@ -10,7 +10,6 @@ import Canvas from '../common/Canvas'
 
 const SentenceArea = styled.div`
   display: flex;
-  direction: row;
   width: 100%;
 `
 
@@ -26,21 +25,28 @@ class ImgTxt extends Component{
     }
   }
   render (){
-    const {id, width, setting} = this.props
+    const {id, width, setting, note} = this.props
+
+    const imgMaxWidth = (width - 50) * 0.4
+    let senWidth = (width - 50) * 0.6
+    if (note[id].imgWidth > 0) {
+      if (imgMaxWidth > (note[id].imgWidth + 20)) {
+        senWidth = width - 50 - note[id].imgWidth - 20
+      }
+    }
     return (
       <SentenceArea
         innerRef={ref => this.sentencearea = ref}
         width={width}
         onClick={this.setCurSegment} >
         <LabNum lineNoType={setting.lineNos} id={id} />
-        <div>
-          <Canvas
-            canvasWidth={(width - 50) * 0.4}
-            {...pick(this.props, keys(Canvas.propTypes))}
-          />
-        </div>
+        <Canvas
+          imgMaxWidth={imgMaxWidth}
+          canvasWidth={note[id].imgWidth + 20}
+          {...pick(this.props, keys(Canvas.propTypes))}
+        />
         <Sentences
-          senWidth={(width - 50) * 0.6}
+          senWidth={senWidth}
           ref={(ref) => {this.sentences = ref}}
           {...pick(this.props, keys(Sentences.propTypes))}
         />

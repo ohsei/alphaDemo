@@ -3,7 +3,8 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 const CustomCanvas = styled.canvas`
-
+  width: 100%';
+  height: 100%;
 `
 
 let isDragging = false
@@ -14,6 +15,7 @@ let isScalingRD = false
 let isScalingLD = false
 let x, y, relX, relY
 const anchorSize = 20
+const maxWidth = 380
 
 class Canvas extends Component{
   constructor (props){
@@ -40,13 +42,14 @@ class Canvas extends Component{
 
   static propTypes = {
     id: PropTypes.number,
+    imgMaxWidth: PropTypes.number,
     canvasWidth: PropTypes.number,
     updateNote: PropTypes.func.isRequired,
     note: PropTypes.array,
   }
 
   loadImage (){
-    const {note, id} = this.props
+    const {note, id, imgMaxWidth} = this.props
     let img = new Image()
     let canvas = this.imgCanvas
     let ctx = canvas.getContext('2d')
@@ -56,8 +59,8 @@ class Canvas extends Component{
       let picHeight = img.height
       let scale = 1.0
 
-      if (img.width > (this.imgCanvas.offsetWidth - anchorSize * 2)){
-        picWidth = this.imgCanvas.offsetWidth - anchorSize * 2
+      if (img.width > (imgMaxWidth - anchorSize * 2)){
+        picWidth = imgMaxWidth - anchorSize * 2
         scale = img.width / picWidth
         picHeight = picHeight / scale
       }
@@ -85,11 +88,17 @@ class Canvas extends Component{
         isScalingRT = false
       }
 
+
       if (canvas.offsetHeight < (picHeight + anchorSize * 2)) {
         canvas.height = picHeight + anchorSize * 2
       }
       else {
-        canvas.height = canvas.offsetHeight
+        if ( (picHeight + anchorSize * 2) > note[id].offsetHeight) {
+          canvas.height = picHeight + anchorSize * 2
+        }
+        else {
+          canvas.height = note[id].offsetHeight
+        }
       }
 
       ctx.drawImage(img, 0, 0, img.width,  img.height, this.state.objX, this.state.objY, picWidth, picHeight )

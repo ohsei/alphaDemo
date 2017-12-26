@@ -121,7 +121,7 @@ export const lineNumList = [
   },
 ]
 
-export const defaultWidth = 1200
+export const defaultWidth = 1000
 
 export const landscapeWidth = defaultWidth * 1.5
 

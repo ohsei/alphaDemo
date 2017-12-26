@@ -191,17 +191,18 @@ class Sentences extends Component{
   }
 
   render (){
-    const {note, id, setting} = this.props
+    const {note, id, setting, senWidth} = this.props
 
     const upJaSize = setting.upJaSize
     const downJaSize = setting.downJaSize
+    
 
     return (
       <DivSentences
         onFocus={this.onFocus}
         onKeyDown={this.keyDown}
         innerRef={ref => this.divSentences = ref}
-        width={this.props.senWidth}>
+        width={senWidth}>
         {setting.upJaSize != 'オフ' && <DivJan id={`up${id}`} html={note[id].jaHtml} innerRef={ref => this.upJaHtml = ref} fontSize={upJaSize} spellCheck={false} onChange={this.onUpChange} />}
         <Sentence
           ref={ref => this.sentence = ref}

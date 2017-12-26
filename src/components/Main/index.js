@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 
 import Flines_block_Regular_chrome from '../../resources/font/4lines_block-Regular.otf'
 import Flines_block_Regular_ie from '../../resources/font/4lines_block-regular-webfont.eot'
-import {defaultWidth} from '../../utils/const'
 
 import ColorPicker from './ColorPicker'
 import MenuContainer from './MenuContainer'
@@ -61,7 +60,7 @@ const StyleEditArea = styled.div.attrs({
   display: flex;
   top: 40px;
   left: 50px;
-  width: 90%;
+  width: 100%;
   padding: 10px 0px 20px 0px;
   height: 50px;
   background-color: lightgreen;

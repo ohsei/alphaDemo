@@ -32,7 +32,8 @@ const initialState = {
   isItalic: false,
   isUnderline: false,
   curColor: 'rgb(0,0,0)',
-  forceChange: false
+  forceChange: false,
+  errorMessage: ''
 }
 
 const {assign} = Object
@@ -79,10 +80,13 @@ export default (state = initialState, action) => {
       let pageHeight = 0
       const newNote = note.slice()
       const pages = [[]]
-
+      let errorMessage = ''
       let pageNum = 0
 
       for (let i = 0;i < note.length; i++) {
+        if (note[i].segmentHeight > maxPageHeight) {
+          errorMessage = `第${i+1}セグメントの文章が一ページの範囲を超えているため、印刷レイアウトが崩れる可能性があります。`
+        }
         pageHeight = note[i].segmentHeight + pageHeight
 
         if (pageHeight > maxPageHeight) {
@@ -115,7 +119,8 @@ export default (state = initialState, action) => {
       }
       return assign({}, state, {
         isPrint: payload,
-        note: newNote
+        note: newNote,
+        errorMessage
       })
     })()
 

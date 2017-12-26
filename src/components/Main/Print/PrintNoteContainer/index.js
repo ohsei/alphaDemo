@@ -13,6 +13,7 @@ const mapStateToProps = ({printNote, main}) => {
     {id: 0, name: '四線太郎'},]
   const isPrint = main.isPrint
   const width = main.width
+  const errorMessage = main.errorMessage
 
   return {
     ...printNote,
@@ -22,6 +23,7 @@ const mapStateToProps = ({printNote, main}) => {
     namelist,
     isPrint,
     width,
+    errorMessage,
   }
 }
 
