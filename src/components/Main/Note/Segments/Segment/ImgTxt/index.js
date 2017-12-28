@@ -14,6 +14,26 @@ const SentenceArea = styled.div`
 `
 
 class ImgTxt extends Component{
+  static propTypes = {
+    width: PropTypes.number,
+    note: PropTypes.array,
+    setting: PropTypes.object,
+    setCurSegment: PropTypes.func,
+    setCurComponent: PropTypes.func,
+    id: PropTypes.any,
+    curSegmentNo: PropTypes.any,
+    updateNote: PropTypes.func.isRequired,
+    tabNodeList: PropTypes.array,
+    updateTabNodeList: PropTypes.func.isRequired,
+    isBold: PropTypes.bool,
+    isItalic: PropTypes.bool,
+    isUnderline: PropTypes.bool,
+    updateIsBold: PropTypes.func.isRequired,
+    updateIsItalic: PropTypes.func.isRequired,
+    updateIsUnderline: PropTypes.func.isRequired,
+    updateCurColor: PropTypes.func.isRequired,
+    ...Sentences.propTypes,
+  }
   componentDidUpdate (prevProps) {
     const {updateNote, note, id} = this.props
     const segmentHeight = this.sentencearea.offsetHeight
@@ -42,7 +62,7 @@ class ImgTxt extends Component{
         <LabNum lineNoType={setting.lineNos} id={id} />
         <Canvas
           imgMaxWidth={imgMaxWidth}
-          canvasWidth={note[id].imgWidth + 20}
+          canvasWidth={note[id].imgWidth == 0 ? imgMaxWidth : note[id].imgWidth + 20}
           {...pick(this.props, keys(Canvas.propTypes))}
         />
         <Sentences
@@ -53,27 +73,6 @@ class ImgTxt extends Component{
       </SentenceArea>
     )
   }
-}
-
-ImgTxt.propTypes = {
-  width: PropTypes.number,
-  note: PropTypes.array,
-  setting: PropTypes.object,
-  setCurSegment: PropTypes.func,
-  setCurComponent: PropTypes.func,
-  id: PropTypes.any,
-  curSegmentNo: PropTypes.any,
-  updateNote: PropTypes.func.isRequired,
-  tabNodeList: PropTypes.array,
-  updateTabNodeList: PropTypes.func.isRequired,
-  isBold: PropTypes.bool,
-  isItalic: PropTypes.bool,
-  isUnderline: PropTypes.bool,
-  updateIsBold: PropTypes.func.isRequired,
-  updateIsItalic: PropTypes.func.isRequired,
-  updateIsUnderline: PropTypes.func.isRequired,
-  updateCurColor: PropTypes.func.isRequired,
-  ...Sentences.propTypes,
 }
 
 export default ImgTxt

@@ -4,7 +4,6 @@ import {pick, keys} from 'lodash'
 
 import Segment from './Segment'
 
-
 class Segments extends Component{
   constructor (props){
     super(props)

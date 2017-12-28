@@ -15,7 +15,6 @@ let isScalingRD = false
 let isScalingLD = false
 let x, y, relX, relY
 const anchorSize = 20
-const maxWidth = 380
 
 class Canvas extends Component{
   constructor (props){

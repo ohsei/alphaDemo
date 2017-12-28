@@ -1,21 +1,18 @@
 import React, { Component } from 'react'
 import styled, { injectGlobal } from 'styled-components'
 import PropTypes from 'prop-types'
+import {pick, keys} from 'lodash'
 
 import Flines_block_Regular_chrome from '../../resources/font/4lines_block-Regular.otf'
-import Flines_block_Regular_ie from '../../resources/font/4lines_block-regular-webfont.eot'
+//import Flines_block_Regular_ie from '../../resources/font/4lines_block-regular-webfont.eot'
+import ColorPicker from '../../utils/ColorPicker'
 
-import ColorPicker from './ColorPicker'
 import MenuContainer from './MenuContainer'
-import SegmentsContainer from './Note/SegmentsContainer'
+import Segments from './Note/Segments'
 import PrintNoteContainer from './Print/PrintNoteContainer'
 import FileDialogContainer from './FileDialogContainer'
 
 injectGlobal`
-  @font-face {
-    font-family: 'MyFamilyIE';
-    src: url('${Flines_block_Regular_ie}');
-  }
   @font-face {
     font-family: 'MyFamilyCHROME';
     src: url('${Flines_block_Regular_chrome}');
@@ -38,7 +35,7 @@ const DivFixed = styled.div.attrs({
   tabIndex: -1,
 })`
   position: fixed;
-  width:100%;
+  width: 100%;
   z-index: 9;
   top: 0;
   left: 0;
@@ -91,7 +88,7 @@ const Button = styled.button.attrs({
 const DivFixedTitle = styled.label.attrs({
   tabIndex: -1,
 })`
-  min-width: 150px;
+  min-width: 200px;
   height: 50px;
   font-size: 18px;
   line-height: 2.5;
@@ -101,7 +98,7 @@ const DivFixedTitle = styled.label.attrs({
 const InFileTitle = styled.input.attrs({
   tabIndex: -1,
 })`
-  margin: 0;
+  margin-left: 200px;
   width: 400px;
   height: auto;
   font-size:24px;
@@ -203,7 +200,7 @@ class Main extends Component {
         <PrintOrientation layout={setting.layout} />
         {!isPrint && <DivBg style={{minWidth: width}}>
           <DivFixed>
-            <DivFixedTitle>　　　４線マスター　　　</DivFixedTitle>
+            <DivFixedTitle>　　　英語4線ラクラクプリント 　　　</DivFixedTitle>
             <InFileTitle
               type='text'
               placeholder='新規ファイル'
@@ -240,7 +237,7 @@ class Main extends Component {
           <DivSegments
             innerRef={(ref) => {this.allSegs = ref}}
             width={width}>
-            <SegmentsContainer />
+            <Segments {...pick(this.props, keys(Segments.propTypes))} />
           </DivSegments>
           <FileDialogContainer />
         </DivBg>}

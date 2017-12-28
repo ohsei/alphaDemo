@@ -48,7 +48,7 @@ class TxtImgSeg extends Component{
         />
         <Canvas
           imgMaxWidth={imgMaxWidth}
-          canvasWidth={note[id].imgWidth + 20}
+          canvasWidth={note[id].imgWidth == 0 ? imgMaxWidth : note[id].imgWidth + 20}
           {...pick(this.props, keys(Canvas.propTypes))}
         />
       </SentenceArea>

@@ -3,10 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import ContentEditable from 'react-contenteditable'
 
-import {getBrowserType} from '../../../../../../../../utils/browserType'
 import FourLine from '../../../../../../common/FourLine'
-
-const browserType = getBrowserType()
 
 const TextArea = styled(ContentEditable)`
   margin: 0 0 0 1px;
@@ -56,31 +53,20 @@ class Sentence extends Component{
     let fontSize = 80
     let enSize = 1
     if (setting.enSize === '１倍') {
-      if (setting.interval === '1.5') {
-        segmentHeight = 120
-      }
+      segmentHeight = 120
     }
     else if (setting.enSize === '２倍') {
       enSize = 2
       fontSize = 80 * 2
-      segmentHeight = 192
+      segmentHeight = 240
     }
     else if (setting.enSize === '４倍') {
       enSize = 4
       fontSize = 80 * 4
-      segmentHeight = 384
-      if (setting.interval === '1.5') {
-        segmentHeight = 480
-      }
+      segmentHeight = 480
     }
 
-    if (browserType == 'ie'){
-      height = (note[segmentId].offsetHeight / segmentHeight).toFixed(0)
-    }
-    else {
-      height = (note[segmentId].offsetHeight / segmentHeight).toFixed(0)
-    }
-
+    height = (note[segmentId].offsetHeight / segmentHeight).toFixed(0)
     let i = 0
     let marginTopArray = []
 
@@ -91,20 +77,7 @@ class Sentence extends Component{
 
     if (marginTopArray){
       senList = marginTopArray.map((obj, i) => {
-        let interval = 0
-        let down = 0
-
-        if (setting.interval == 1.5) {
-          interval = 8 * 1.5
-          down = interval
-        }
-
-        let top = 23 + interval
-        if (i != 0)
-        {
-          top = 23 + interval + interval
-        }
-       return  <FourLine  key={i} interval={setting.interval} lineNum={setting.lineNum} borderColor={setting.lineColor} enSize={enSize} isPrint={true} />
+        return  <FourLine  key={i} lineNum={setting.lineNum} borderColor={setting.lineColor} enSize={enSize} isPrint={true} />
       })
     }
   
@@ -118,7 +91,7 @@ class Sentence extends Component{
             spellCheck={false}
             style={{imeMode: this.state.imeMode}}
             innerRef={(ref) => {this.inputText = ref}}
-            fontFamily={browserType == 'ie' ? 'MyFamilyIE' : 'MyFamilyCHROME'}
+            fontFamily={'MyFamilyCHROME'}
             fontSize={`${fontSize}px`}
             lineHeight={setting.interval}
           />

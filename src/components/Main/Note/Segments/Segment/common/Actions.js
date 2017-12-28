@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { onForceChange } from '../../../../../../redux/modules/segments/action';
 
 const DivAction = styled.div.attrs({
   tabIndex: -1,

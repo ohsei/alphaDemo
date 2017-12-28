@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import reactCSS from 'reactcss'
 import {CompactPicker } from 'react-color'
 
-import {defaultColors} from '../../utils/const'
+import {defaultColors} from './const'
 
 class ColorPicker extends React.Component {
   state = {

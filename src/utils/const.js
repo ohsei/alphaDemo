@@ -18,7 +18,7 @@ export const defaultSetting = {
   downJaSize: 'オフ',
   lineColor: 'gray',
   lineNum: 4,
-  interval: 1.2,
+  interval: 1.5,
   lineNos: 0,
 }
 
