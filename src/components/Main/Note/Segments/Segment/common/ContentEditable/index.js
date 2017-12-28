@@ -88,7 +88,6 @@ export default class ContentEditable extends React.Component {
 
     var html = this.htmlEl.innerHTML
 
-
     if (this.props.onChange && html !== this.lastHtml) {
 
       evt.target = { value: html }

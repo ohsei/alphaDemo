@@ -220,16 +220,16 @@ class Sentence extends Component{
       let i = 0
       let newText = ''
 
-      while (i < this.inputText.htmlEl.innerText.length){
-        if (this.inputText.htmlEl.innerText[i].match(/[^\x01-\x7E]/)){
+      while (i < this.inputText.htmlEl.innerHTML.length){
+        if (this.inputText.htmlEl.innerHTML[i].match(/[^\x01-\x7E]/)){
           newText = newText + ''
         }
         else {
-          newText = newText + this.inputText.htmlEl.innerText[i]
+          newText = newText + this.inputText.htmlEl.innerHTML[i]
         }
         i ++
       }
-      this.inputText.htmlEl.innerText = newText
+      this.inputText.htmlEl.innerHTML = newText
     }
   }
 
