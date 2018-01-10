@@ -62,7 +62,7 @@ class Sentences extends Component{
     const {id, updateNote, note} = this.props
 
     let newNote = note.slice()
-    newNote[id].jaHtml = this.upJaHtml.htmlEl.innerHTML
+    newNote[id].jaHtml = this.downJaHtml.htmlEl.innerHTML
 
     updateNote(newNote)
   }

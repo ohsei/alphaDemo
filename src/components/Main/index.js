@@ -48,7 +48,7 @@ const DivMenu = styled.div.attrs({
 })`
   position: fixed;
   z-index: 999;
-  top: 50px;
+  top: 45px;
   left: 5px;
 `
 const StyleEditArea = styled.div.attrs({
@@ -56,13 +56,12 @@ const StyleEditArea = styled.div.attrs({
 })`
   position: fixed;
   display: flex;
-  top: 50px;
+  top: 45px;
   left: 50px;
   width: 100%;
   padding: 10px 0px 20px 0px;
   height: 50px;
   background-color: lightgreen;
-  z-index: 99
 `
 const DivSegments = styled.div`
   z-index: 0;

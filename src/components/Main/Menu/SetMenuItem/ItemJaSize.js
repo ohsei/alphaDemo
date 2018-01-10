@@ -38,8 +38,8 @@ class ItemJaSize extends Component{
 
     let newSetting = Object.assign({}, setting)
 
-    newSetting.upJaSize = this.upJaSizeSelect.value,
-    newSetting.downJaSize = tmpDownJaSize,
+    newSetting.upJaSize = this.upJaSizeSelect.value
+    newSetting.downJaSize = tmpDownJaSize
     newSetting.jaPos = tmpJaPos
 
     updateSetting(newSetting)
@@ -56,8 +56,8 @@ class ItemJaSize extends Component{
     }
     let newSetting = Object.assign({}, setting)
 
-    newSetting.upJaSize = this.downJaSizeSelect.value,
-    newSetting.downJaSize = tmpUpJaSize,
+    newSetting.upJaSize = tmpUpJaSize
+    newSetting.downJaSize = this.downJaSizeSelect.value
     newSetting.jaPos = tmpJaPos
 
     updateSetting(newSetting)

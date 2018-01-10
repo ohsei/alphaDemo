@@ -28652,7 +28652,7 @@ var Sentences = function (_Component) {
 
 
       var newNote = note.slice();
-      newNote[id].jaHtml = this.upJaHtml.htmlEl.innerHTML;
+      newNote[id].jaHtml = this.downJaHtml.htmlEl.innerHTML;
 
       updateNote(newNote);
     }
@@ -50029,12 +50029,12 @@ var _createClass = function () { function defineProperties(target, props) { for 
 var _templateObject = _taggedTemplateLiteral(['\n  @font-face {\n    font-family: \'MyFamilyCHROME\';\n    src: url(\'', '\');\n  }\n'], ['\n  @font-face {\n    font-family: \'MyFamilyCHROME\';\n    src: url(\'', '\');\n  }\n']),
     _templateObject2 = _taggedTemplateLiteral(['\n  display: ', ';\n  position: relative;\n  background-color: lightgreen;\n  width: 100%;\n  height: 100%;\n  margin: 0;\n  padding: 0;\n  border: none;\n'], ['\n  display: ', ';\n  position: relative;\n  background-color: lightgreen;\n  width: 100%;\n  height: 100%;\n  margin: 0;\n  padding: 0;\n  border: none;\n']),
     _templateObject3 = _taggedTemplateLiteral(['\n  position: fixed;\n  width: 100%;\n  z-index: 9;\n  top: 0;\n  left: 0;\n  background-color: lightgreen;\n'], ['\n  position: fixed;\n  width: 100%;\n  z-index: 9;\n  top: 0;\n  left: 0;\n  background-color: lightgreen;\n']),
-    _templateObject4 = _taggedTemplateLiteral(['\n  position: fixed;\n  z-index: 999;\n  top: 50px;\n  left: 5px;\n'], ['\n  position: fixed;\n  z-index: 999;\n  top: 50px;\n  left: 5px;\n']),
-    _templateObject5 = _taggedTemplateLiteral(['\n  position: fixed;\n  display: flex;\n  top: 40px;\n  left: 50px;\n  width: 100%;\n  padding: 10px 0px 20px 0px;\n  height: 50px;\n  background-color: lightgreen;\n  z-index: 99\n'], ['\n  position: fixed;\n  display: flex;\n  top: 40px;\n  left: 50px;\n  width: 100%;\n  padding: 10px 0px 20px 0px;\n  height: 50px;\n  background-color: lightgreen;\n  z-index: 99\n']),
+    _templateObject4 = _taggedTemplateLiteral(['\n  position: fixed;\n  z-index: 999;\n  top: 45px;\n  left: 5px;\n'], ['\n  position: fixed;\n  z-index: 999;\n  top: 45px;\n  left: 5px;\n']),
+    _templateObject5 = _taggedTemplateLiteral(['\n  position: fixed;\n  display: flex;\n  top: 45px;\n  left: 50px;\n  width: 100%;\n  padding: 10px 0px 20px 0px;\n  height: 50px;\n  background-color: lightgreen;\n'], ['\n  position: fixed;\n  display: flex;\n  top: 45px;\n  left: 50px;\n  width: 100%;\n  padding: 10px 0px 20px 0px;\n  height: 50px;\n  background-color: lightgreen;\n']),
     _templateObject6 = _taggedTemplateLiteral(['\n  z-index: 0;\n  margin: 150px 0 0 50px;\n  width: ', ';\n\n  @media print{\n    margin: 0;\n    padding: 0;\n  }\n'], ['\n  z-index: 0;\n  margin: 150px 0 0 50px;\n  width: ', ';\n\n  @media print{\n    margin: 0;\n    padding: 0;\n  }\n']),
     _templateObject7 = _taggedTemplateLiteral(['\n  width: 50px;\n  height: 50px;\n  border: ', ';\n  font-size: 1.5em;\n  color: #aaa;\n  text-align: center;\n  text-decoration: ', ';\n  background-color: white;\n'], ['\n  width: 50px;\n  height: 50px;\n  border: ', ';\n  font-size: 1.5em;\n  color: #aaa;\n  text-align: center;\n  text-decoration: ', ';\n  background-color: white;\n']),
     _templateObject8 = _taggedTemplateLiteral(['\n  min-width: 200px;\n  height: 50px;\n  font-size: 18px;\n  line-height: 2.5;\n  color: white;\n  text-align: center;\n'], ['\n  min-width: 200px;\n  height: 50px;\n  font-size: 18px;\n  line-height: 2.5;\n  color: white;\n  text-align: center;\n']),
-    _templateObject9 = _taggedTemplateLiteral(['\n  position: fixed;\n  top: 3px;\n  margin-left: 300px;\n  width: 400px;\n  height: auto;\n  font-size:24px;\n  border: 2px solid orange;\n  background-color: white;\n\n  @media screen and (max-width: 767px) {\n    font-size: 20px;\n  }\n'], ['\n  position: fixed;\n  top: 3px;\n  margin-left: 300px;\n  width: 400px;\n  height: auto;\n  font-size:24px;\n  border: 2px solid orange;\n  background-color: white;\n\n  @media screen and (max-width: 767px) {\n    font-size: 20px;\n  }\n']);
+    _templateObject9 = _taggedTemplateLiteral(['\n  position: fixed;\n  top: 5px;\n  left: 400px;\n  width: 400px;\n  font-size:24px;\n  border: 2px solid orange;\n  background-color: white;\n\n  @media screen and (max-width: 767px) {\n    font-size: 20px;\n  }\n'], ['\n  position: fixed;\n  top: 5px;\n  left: 400px;\n  width: 400px;\n  font-size:24px;\n  border: 2px solid orange;\n  background-color: white;\n\n  @media screen and (max-width: 767px) {\n    font-size: 20px;\n  }\n']);
 
 var _react = __webpack_require__(1);
 
@@ -50261,10 +50261,6 @@ var Main = function (_Component) {
                 _this2.saveFileTitle = ref;
               },
               onChange: this.setFileTitle,
-              onBlur: this.onTextAreaBlur,
-              onKeyUp: this.onKeyUp,
-              onKeyDown: this.onKeyDown,
-              onMouseUp: this.handelMouseUp,
               forceChange: forceChange,
               offForceChange: offForceChange
             }),
@@ -50347,7 +50343,9 @@ Main.propTypes = {
   isBold: _propTypes2.default.bool,
   isItalic: _propTypes2.default.bool,
   isUnderline: _propTypes2.default.bool,
-  curColor: _propTypes2.default.string
+  curColor: _propTypes2.default.string,
+  forceChange: _propTypes2.default.bool,
+  offForceChange: _propTypes2.default.func.isRequired
 };
 exports.default = Main;
 
@@ -62597,7 +62595,7 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _templateObject = _taggedTemplateLiteral(['\n  width: 30px;\n  background-color: orange;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation: upright;\n  height: 50px;\n  border: 0.1px solid white;\n  flex-direction:row;\n  line-height: 30px;\n'], ['\n  width: 30px;\n  background-color: orange;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation: upright;\n  height: 50px;\n  border: 0.1px solid white;\n  flex-direction:row;\n  line-height: 30px;\n']),
     _templateObject2 = _taggedTemplateLiteral(['\n\n'], ['\n\n']),
-    _templateObject3 = _taggedTemplateLiteral(['\n  display: ', ';\n  position: fixed;\n  top: 55px;\n  left: 35px;\n'], ['\n  display: ', ';\n  position: fixed;\n  top: 55px;\n  left: 35px;\n']),
+    _templateObject3 = _taggedTemplateLiteral(['\n  display: ', ';\n  position: fixed;\n  top: 50px;\n  left: 35px;\n'], ['\n  display: ', ';\n  position: fixed;\n  top: 50px;\n  left: 35px;\n']),
     _templateObject4 = _taggedTemplateLiteral(['\n  vertical: ', ';\n  height: ', ';\n  margin: 0 0 10px 0;\n  padding: 10px 0 5px 0;\n  cursor: pointer;\n'], ['\n  vertical: ', ';\n  height: ', ';\n  margin: 0 0 10px 0;\n  padding: 10px 0 5px 0;\n  cursor: pointer;\n']);
 
 var _react = __webpack_require__(1);
@@ -62970,7 +62968,9 @@ var ItemJaSize = function (_Component) {
 
       var newSetting = Object.assign({}, setting);
 
-      newSetting.upJaSize = _this.upJaSizeSelect.value, newSetting.downJaSize = tmpDownJaSize, newSetting.jaPos = tmpJaPos;
+      newSetting.upJaSize = _this.upJaSizeSelect.value;
+      newSetting.downJaSize = tmpDownJaSize;
+      newSetting.jaPos = tmpJaPos;
 
       updateSetting(newSetting);
     };
@@ -62989,7 +62989,9 @@ var ItemJaSize = function (_Component) {
       }
       var newSetting = Object.assign({}, setting);
 
-      newSetting.upJaSize = _this.downJaSizeSelect.value, newSetting.downJaSize = tmpUpJaSize, newSetting.jaPos = tmpJaPos;
+      newSetting.upJaSize = tmpUpJaSize;
+      newSetting.downJaSize = _this.downJaSizeSelect.value;
+      newSetting.jaPos = tmpJaPos;
 
       updateSetting(newSetting);
     };

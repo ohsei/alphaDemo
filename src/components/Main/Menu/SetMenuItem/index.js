@@ -31,7 +31,7 @@ const DivSetMenu = styled.div`
 const DivSetMenuDetail = styled.div`
   display: ${props => props.clicked ? 'block' : 'none'};
   position: fixed;
-  top: 55px;
+  top: 50px;
   left: 35px;
 `
 
