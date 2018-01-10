@@ -51,7 +51,7 @@ class Sentences extends Component{
 
   onUpChange (){
     const {id, updateNote, note} = this.props
-
+    
     let newNote = note.slice()
     newNote[id].jaHtml = this.upJaHtml.htmlEl.innerHTML
 
@@ -203,13 +203,13 @@ class Sentences extends Component{
         onKeyDown={this.keyDown}
         innerRef={ref => this.divSentences = ref}
         width={senWidth}>
-        {setting.upJaSize != 'オフ' && <DivJan id={`up${id}`} html={note[id].jaHtml} innerRef={ref => this.upJaHtml = ref} fontSize={upJaSize} spellCheck={false} onChange={this.onUpChange} />}
+        {setting.upJaSize != 'オフ' && <DivJan id={`up${id}`} html={note[id].jaHtml} innerRef={ref => this.upJaHtml = ref} fontSize={upJaSize} spellCheck={false} disabled={false} onChange={this.onUpChange} />}
         <Sentence
           ref={ref => this.sentence = ref}
           lineNum={setting.lineNum}
           {...pick(this.props, keys(Sentence.propTypes))}
         />
-        {setting.downJaSize != 'オフ' && <DivJan id={`down${id}`} html={note[id].jaHtml} innerRef={ref => this.downJaHtml = ref} fontSize={downJaSize} spellCheck={false} onChange={this.onDownChange} />}
+        {setting.downJaSize != 'オフ' && <DivJan id={`down${id}`} html={note[id].jaHtml} innerRef={ref => this.downJaHtml = ref} fontSize={downJaSize} spellCheck={false} disabled={false} onChange={this.onDownChange} />}
       </DivSentences>
     )
   }

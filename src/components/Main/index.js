@@ -6,6 +6,7 @@ import {pick, keys} from 'lodash'
 import Flines_block_Regular_chrome from '../../resources/font/4lines_block-Regular.otf'
 //import Flines_block_Regular_ie from '../../resources/font/4lines_block-regular-webfont.eot'
 import ColorPicker from '../../utils/ColorPicker'
+import ContentEditable from './Note/Segments/Segment/common/ContentEditable'
 
 import MenuContainer from './MenuContainer'
 import Segments from './Note/Segments'
@@ -55,7 +56,7 @@ const StyleEditArea = styled.div.attrs({
 })`
   position: fixed;
   display: flex;
-  top: 40px;
+  top: 50px;
   left: 50px;
   width: 100%;
   padding: 10px 0px 20px 0px;
@@ -95,14 +96,17 @@ const DivFixedTitle = styled.label.attrs({
   color: white;
   text-align: center;
 `
-const InFileTitle = styled.input.attrs({
+
+const InFileTitle = styled(ContentEditable).attrs({
   tabIndex: -1,
 })`
-  margin-left: 200px;
+  position: fixed;
+  top: 5px;
+  left: 400px;
   width: 400px;
-  height: auto;
   font-size:24px;
   border: 2px solid orange;
+  background-color: white;
 
   @media screen and (max-width: 767px) {
     font-size: 20px;
@@ -155,6 +159,8 @@ class Main extends Component {
     isItalic: PropTypes.bool,
     isUnderline: PropTypes.bool,
     curColor: PropTypes.string,
+    forceChange: PropTypes.bool,
+    offForceChange: PropTypes.func.isRequired,
   }
   setFileTitle = (event) => {
     const {setFileTitle} = this.props
@@ -194,7 +200,7 @@ class Main extends Component {
   }
 
   render () {
-    const { isPrint, setting, width, isBold, isItalic, isUnderline} = this.props
+    const { isPrint, setting, width, isBold, isItalic, isUnderline, saveFileTitle, forceChange, offForceChange} = this.props
     return (
       <div>
         <PrintOrientation layout={setting.layout} />
@@ -202,10 +208,14 @@ class Main extends Component {
           <DivFixed>
             <DivFixedTitle>　　　英語4線ラクラクプリント 　　　</DivFixedTitle>
             <InFileTitle
-              type='text'
-              placeholder='新規ファイル'
+              html={saveFileTitle}
+              disabled={false}
+              spellCheck={false}
               innerRef={(ref) => {this.saveFileTitle = ref}}
-              onChange={this.setFileTitle} />
+              onChange={this.setFileTitle}
+              forceChange={forceChange}
+              offForceChange={offForceChange}
+            />
             <DivMenu>
               <MenuContainer />
             </DivMenu>
