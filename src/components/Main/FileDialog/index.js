@@ -21,20 +21,22 @@ const DivOverlap = styled.div`
 `
 const Wrapper = styled.div`
   position: fixed;
+  width: 600px;
   top: 150px;
   left: 100px;
   z-index: 9999;
-  border: 2px solid orange;
-  background-color: orange;
-  color: white;
+  border: 1px solid blue;
+  color: black;
+  background-color: #EEE;
 `
 const DialogDiv = styled.div`
-  width: 500px;
+  margin: 20px;
+  width: auto;
   height: 300px;
   background-color: white;
   display: ${props => props.show ? 'block' : 'none'};
-  overflow-x: scroll;
   overflow-y: scroll;
+  overflow-x: hidden;
   color: black;
 `
 const ListLabel = styled.div`
@@ -45,15 +47,26 @@ const ListLabel = styled.div`
   border: 1px solid gray;
 `
 const SelectedLabel = ListLabel.extend`
-  background-color: yellow;
+  background-color: orange;
 `
 const Button = styled.button`
-  width: 100px;
-  height: 50px;
-  background-color: orange;
+  margin: 15px;
+  width: 150px;
+  height: 45px;
+  background-color: #AAA;
   color: white;
   border: none;
-  font-size: 24px;
+  color: black;
+  font-size: 16px;
+
+  &:hover {
+    border: 2px solid #555;
+  }
+
+  &:active {
+    background-color: #555;
+    border: 2px solid #555;
+  }
 `
 
 class FileDialog extends Component{
@@ -88,6 +101,9 @@ class FileDialog extends Component{
   onOpenFile = () => {
     const {selectedFile} = this.props
 
+    if (!selectedFile) {
+      return
+    }
     const operateJson = {
       callback: this.onGetFile,
       filename: selectedFile
@@ -150,7 +166,7 @@ class FileDialog extends Component{
     return (
       <DivOverlap show={isShowFileDialog}>
         <Wrapper>
-          <h3 style={{flex: 8}}>ファイル一覧</h3>
+          <h3 style={{flex: 8, marginLeft: 10}}>保存したファイル</h3>
           <DialogDiv show={isShowFileDialog}>
 
             {content.map((file, i) => {
@@ -177,9 +193,9 @@ class FileDialog extends Component{
 
           </DialogDiv>
           <div style={{display: 'flex', direction: 'row'}}>
-            <Button onClick={this.onOpenFile}>読込</Button>
-            <Button onClick={this.onDeleteFile}>削除</Button>
-            <Button onClick={this.onCancel}>取消</Button>
+            <Button style={{marginLeft: 50}}onClick={this.onOpenFile}>ファイルを開く</Button>
+            <Button onClick={this.onDeleteFile}>ファイルを削除</Button>
+            <Button onClick={this.onCancel}>キャンセル</Button>
           </div>
         </Wrapper>
       </DivOverlap>

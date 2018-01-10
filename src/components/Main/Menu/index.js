@@ -4,6 +4,8 @@ import styled from 'styled-components'
 import {pick, keys} from 'lodash'
 
 import {dbOperate} from '../../../utils/database'
+import {defaultNote} from '../../../utils/const'
+
 import {
   GET_ONE_FILE,
   SAVE_ONE_FILE,
@@ -112,13 +114,14 @@ class Menu extends Component {
 
     if (saveFileTitle == ''){
       alert('ファイル名を入力してください。')
-      return
+      return false
     }
     const operateJson = {
       callback: this.confirmOverWrite,
       filename: saveFileTitle,
     }
     dbOperate(GET_ONE_FILE, operateJson)
+    return true
   }
 
   onPrint (){
@@ -128,7 +131,11 @@ class Menu extends Component {
 
   onCreateNewFile (){
     const {initalNote} = this.props
-    initalNote()
+    if (window.confirm('現在編集中ファイルを保存せずに新規しますか？'))
+    {
+      initalNote()
+    }
+    
   }
 
   render (){

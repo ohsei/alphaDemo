@@ -21354,38 +21354,6 @@ module.exports = { debugTool: debugTool };
 
 /***/ }),
 /* 16 */
-/***/ (function(module, exports) {
-
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(document.body.children);
- * // => false
- *
- * _.isArray('abc');
- * // => false
- *
- * _.isArray(_.noop);
- * // => false
- */
-var isArray = Array.isArray;
-
-module.exports = isArray;
-
-
-/***/ }),
-/* 17 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -21500,6 +21468,38 @@ var landscapeWidth = exports.landscapeWidth = defaultWidth * 1.5;
 var defaultPageHeight = exports.defaultPageHeight = 1600;
 
 var landscapePageHeight = exports.landscapePageHeight = 1000;
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports) {
+
+/**
+ * Checks if `value` is classified as an `Array` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an array, else `false`.
+ * @example
+ *
+ * _.isArray([1, 2, 3]);
+ * // => true
+ *
+ * _.isArray(document.body.children);
+ * // => false
+ *
+ * _.isArray('abc');
+ * // => false
+ *
+ * _.isArray(_.noop);
+ * // => false
+ */
+var isArray = Array.isArray;
+
+module.exports = isArray;
+
 
 /***/ }),
 /* 18 */
@@ -22404,7 +22404,7 @@ module.exports = DOMProperty;
 var arrayMap = __webpack_require__(168),
     baseIteratee = __webpack_require__(357),
     baseMap = __webpack_require__(413),
-    isArray = __webpack_require__(16);
+    isArray = __webpack_require__(17);
 
 /**
  * Creates an array of values by running each element in `collection` thru
@@ -28279,7 +28279,7 @@ module.exports = getSymbols;
 /* 104 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArray = __webpack_require__(16),
+var isArray = __webpack_require__(17),
     isSymbol = __webpack_require__(66);
 
 /** Used to match property names within property paths. */
@@ -34183,7 +34183,7 @@ module.exports = baseForOwn;
 
 var baseTimes = __webpack_require__(348),
     isArguments = __webpack_require__(161),
-    isArray = __webpack_require__(16),
+    isArray = __webpack_require__(17),
     isBuffer = __webpack_require__(95),
     isIndex = __webpack_require__(162),
     isTypedArray = __webpack_require__(163);
@@ -34715,7 +34715,7 @@ module.exports = getAllKeys;
 /***/ (function(module, exports, __webpack_require__) {
 
 var arrayPush = __webpack_require__(177),
-    isArray = __webpack_require__(16);
+    isArray = __webpack_require__(17);
 
 /**
  * The base implementation of `getAllKeys` and `getAllKeysIn` which uses
@@ -34936,7 +34936,7 @@ module.exports = baseGet;
 /* 183 */
 /***/ (function(module, exports, __webpack_require__) {
 
-var isArray = __webpack_require__(16),
+var isArray = __webpack_require__(17),
     isKey = __webpack_require__(104),
     stringToPath = __webpack_require__(402),
     toString = __webpack_require__(405);
@@ -35634,7 +35634,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getFileList = exports.dbOperate = undefined;
 
-var _const = __webpack_require__(17);
+var _const = __webpack_require__(16);
 
 var fileList = [];
 
@@ -49564,7 +49564,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _const = __webpack_require__(17);
+var _const = __webpack_require__(16);
 
 var _actionType = __webpack_require__(49);
 
@@ -50034,7 +50034,7 @@ var _templateObject = _taggedTemplateLiteral(['\n  @font-face {\n    font-family
     _templateObject6 = _taggedTemplateLiteral(['\n  z-index: 0;\n  margin: 150px 0 0 50px;\n  width: ', ';\n\n  @media print{\n    margin: 0;\n    padding: 0;\n  }\n'], ['\n  z-index: 0;\n  margin: 150px 0 0 50px;\n  width: ', ';\n\n  @media print{\n    margin: 0;\n    padding: 0;\n  }\n']),
     _templateObject7 = _taggedTemplateLiteral(['\n  width: 50px;\n  height: 50px;\n  border: ', ';\n  font-size: 1.5em;\n  color: #aaa;\n  text-align: center;\n  text-decoration: ', ';\n  background-color: white;\n'], ['\n  width: 50px;\n  height: 50px;\n  border: ', ';\n  font-size: 1.5em;\n  color: #aaa;\n  text-align: center;\n  text-decoration: ', ';\n  background-color: white;\n']),
     _templateObject8 = _taggedTemplateLiteral(['\n  min-width: 200px;\n  height: 50px;\n  font-size: 18px;\n  line-height: 2.5;\n  color: white;\n  text-align: center;\n'], ['\n  min-width: 200px;\n  height: 50px;\n  font-size: 18px;\n  line-height: 2.5;\n  color: white;\n  text-align: center;\n']),
-    _templateObject9 = _taggedTemplateLiteral(['\n  position: fixed;\n  top: 5px;\n  left: 400px;\n  width: 400px;\n  font-size:24px;\n  border: 2px solid orange;\n  background-color: white;\n\n  @media screen and (max-width: 767px) {\n    font-size: 20px;\n  }\n'], ['\n  position: fixed;\n  top: 5px;\n  left: 400px;\n  width: 400px;\n  font-size:24px;\n  border: 2px solid orange;\n  background-color: white;\n\n  @media screen and (max-width: 767px) {\n    font-size: 20px;\n  }\n']);
+    _templateObject9 = _taggedTemplateLiteral(['\n :empty:not(:focus):before {\n  content: attr(data-placeholder);\n  color: gray;\n  font-size: 18px;\n}\n  position: fixed;\n  top: 5px;\n  left: 300px;\n  width: 750px;\n  font-size: 24px;\n  border: 2px solid orange;\n  background-color: white;\n'], ['\n :empty:not(:focus):before {\n  content: attr(data-placeholder);\n  color: gray;\n  font-size: 18px;\n}\n  position: fixed;\n  top: 5px;\n  left: 300px;\n  width: 750px;\n  font-size: 24px;\n  border: 2px solid orange;\n  background-color: white;\n']);
 
 var _react = __webpack_require__(1);
 
@@ -50159,6 +50159,34 @@ var Main = function (_Component) {
     /* 色設定 */
     var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
 
+    _this.countLength = function (str) {
+      var r = 0;
+      for (var i = 0; i < str.length; i++) {
+        var c = str.charCodeAt(i);
+        // Shift_JIS: 0x0 ～ 0x80, 0xa0 , 0xa1 ～ 0xdf , 0xfd ～ 0xff 
+        // Unicode : 0x0 ～ 0x80, 0xf8f0, 0xff61 ～ 0xff9f, 0xf8f1 ～ 0xf8f3 
+        if (c >= 0x0 && c < 0x81 || c == 0xf8f0 || c >= 0xff61 && c < 0xffa0 || c >= 0xf8f1 && c < 0xf8f4) {
+          r += 1;
+        } else {
+          r += 2;
+        }
+      }
+      return r;
+    };
+
+    _this.onKeyDown = function (event) {
+      var saveFileTitle = _this.props.saveFileTitle;
+
+      if (event.keyCode == 13) {
+        event.preventDefault();
+      }
+      if (_this.countLength(saveFileTitle) >= 50) {
+        if (event.keyCode != 8) {
+          event.preventDefault();
+        }
+      }
+    };
+
     _this.setFileTitle = function (event) {
       var setFileTitle = _this.props.setFileTitle;
 
@@ -50207,7 +50235,6 @@ var Main = function (_Component) {
     value: function componentWillUpdate(nextProps) {
       var isPrint = this.props.isPrint;
 
-
       if (!isPrint) {
         this.saveFileTitle.value = nextProps.saveFileTitle;
       }
@@ -50235,7 +50262,6 @@ var Main = function (_Component) {
           isItalic = _props.isItalic,
           isUnderline = _props.isUnderline,
           saveFileTitle = _props.saveFileTitle,
-          forceChange = _props.forceChange,
           offForceChange = _props.offForceChange;
 
       return _react2.default.createElement(
@@ -50254,6 +50280,7 @@ var Main = function (_Component) {
               '\u3000\u3000\u3000\u82F1\u8A9E4\u7DDA\u30E9\u30AF\u30E9\u30AF\u30D7\u30EA\u30F3\u30C8 \u3000\u3000\u3000'
             ),
             _react2.default.createElement(InFileTitle, {
+              'data-placeholder': '\u65B0\u898F\u30D5\u30A1\u30A4\u30EB',
               html: saveFileTitle,
               disabled: false,
               spellCheck: false,
@@ -50261,7 +50288,8 @@ var Main = function (_Component) {
                 _this2.saveFileTitle = ref;
               },
               onChange: this.setFileTitle,
-              forceChange: forceChange,
+              forceChange: true,
+              onKeyDown: this.onKeyDown,
               offForceChange: offForceChange
             }),
             _react2.default.createElement(
@@ -51751,7 +51779,7 @@ var _reactcss2 = _interopRequireDefault(_reactcss);
 
 var _reactColor = __webpack_require__(444);
 
-var _const = __webpack_require__(17);
+var _const = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -51929,7 +51957,7 @@ exports.default = flattenNames;
 /***/ (function(module, exports, __webpack_require__) {
 
 var baseGetTag = __webpack_require__(29),
-    isArray = __webpack_require__(16),
+    isArray = __webpack_require__(17),
     isObjectLike = __webpack_require__(30);
 
 /** `Object#toString` result references. */
@@ -52405,7 +52433,7 @@ module.exports = isPlainObject;
 var baseMatches = __webpack_require__(358),
     baseMatchesProperty = __webpack_require__(400),
     identity = __webpack_require__(167),
-    isArray = __webpack_require__(16),
+    isArray = __webpack_require__(17),
     property = __webpack_require__(410);
 
 /**
@@ -53234,7 +53262,7 @@ var Stack = __webpack_require__(99),
     equalByTag = __webpack_require__(392),
     equalObjects = __webpack_require__(393),
     getTag = __webpack_require__(179),
-    isArray = __webpack_require__(16),
+    isArray = __webpack_require__(17),
     isBuffer = __webpack_require__(95),
     isTypedArray = __webpack_require__(163);
 
@@ -54029,7 +54057,7 @@ module.exports = toString;
 
 var Symbol = __webpack_require__(50),
     arrayMap = __webpack_require__(168),
-    isArray = __webpack_require__(16),
+    isArray = __webpack_require__(17),
     isSymbol = __webpack_require__(66);
 
 /** Used as references for various `Number` constants. */
@@ -54131,7 +54159,7 @@ module.exports = baseHasIn;
 
 var castPath = __webpack_require__(183),
     isArguments = __webpack_require__(161),
-    isArray = __webpack_require__(16),
+    isArray = __webpack_require__(17),
     isIndex = __webpack_require__(162),
     isLength = __webpack_require__(96),
     toKey = __webpack_require__(67);
@@ -54417,7 +54445,7 @@ var Stack = __webpack_require__(99),
     initCloneArray = __webpack_require__(428),
     initCloneByTag = __webpack_require__(429),
     initCloneObject = __webpack_require__(438),
-    isArray = __webpack_require__(16),
+    isArray = __webpack_require__(17),
     isBuffer = __webpack_require__(95),
     isObject = __webpack_require__(22),
     keys = __webpack_require__(51);
@@ -56900,7 +56928,7 @@ module.exports = __webpack_require__(459);
 var arrayEach = __webpack_require__(185),
     baseEach = __webpack_require__(184),
     castFunction = __webpack_require__(166),
-    isArray = __webpack_require__(16);
+    isArray = __webpack_require__(17);
 
 /**
  * Iterates over elements of `collection` and invokes `iteratee` for each element.
@@ -62353,7 +62381,9 @@ var _lodash = __webpack_require__(11);
 
 var _database = __webpack_require__(195);
 
-var _const = __webpack_require__(17);
+var _const = __webpack_require__(16);
+
+var _const2 = __webpack_require__(16);
 
 var _SetMenuItem = __webpack_require__(500);
 
@@ -62423,13 +62453,13 @@ var Menu = function (_Component) {
 
       if (e) {
         if (window.confirm('ファイルが存在します。上書きしますか？')) {
-          (0, _database.dbOperate)(_const.SAVE_ONE_FILE, operateJson);
+          (0, _database.dbOperate)(_const2.SAVE_ONE_FILE, operateJson);
           onIsFilelistUpdate();
         } else {
           console.log('cancel');
         }
       } else {
-        (0, _database.dbOperate)(_const.SAVE_ONE_FILE, operateJson);
+        (0, _database.dbOperate)(_const2.SAVE_ONE_FILE, operateJson);
         onIsFilelistUpdate();
       }
     };
@@ -62456,13 +62486,14 @@ var Menu = function (_Component) {
 
       if (saveFileTitle == '') {
         alert('ファイル名を入力してください。');
-        return;
+        return false;
       }
       var operateJson = {
         callback: this.confirmOverWrite,
         filename: saveFileTitle
       };
-      (0, _database.dbOperate)(_const.GET_ONE_FILE, operateJson);
+      (0, _database.dbOperate)(_const2.GET_ONE_FILE, operateJson);
+      return true;
     }
   }, {
     key: 'onPrint',
@@ -62476,7 +62507,9 @@ var Menu = function (_Component) {
     value: function onCreateNewFile() {
       var initalNote = this.props.initalNote;
 
-      initalNote();
+      if (window.confirm('現在編集中ファイルを保存せずに新規しますか？')) {
+        initalNote();
+      }
     }
   }, {
     key: 'render',
@@ -62780,7 +62813,7 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _const = __webpack_require__(17);
+var _const = __webpack_require__(16);
 
 var _MiddleItem = __webpack_require__(41);
 
@@ -62912,7 +62945,7 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _const = __webpack_require__(17);
+var _const = __webpack_require__(16);
 
 var _MiddleItem = __webpack_require__(41);
 
@@ -63106,7 +63139,7 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _const = __webpack_require__(17);
+var _const = __webpack_require__(16);
 
 var _MiddleItem = __webpack_require__(41);
 
@@ -63252,7 +63285,7 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _const = __webpack_require__(17);
+var _const = __webpack_require__(16);
 
 var _MiddleItem = __webpack_require__(41);
 
@@ -63389,7 +63422,7 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _const = __webpack_require__(17);
+var _const = __webpack_require__(16);
 
 var _MiddleItem = __webpack_require__(41);
 
@@ -63526,7 +63559,7 @@ var _styledComponents = __webpack_require__(6);
 
 var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
-var _const = __webpack_require__(17);
+var _const = __webpack_require__(16);
 
 var _MiddleItem = __webpack_require__(41);
 
@@ -70723,11 +70756,11 @@ Object.defineProperty(exports, "__esModule", {
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _templateObject = _taggedTemplateLiteral(['\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 999;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(100,100,100,0.5);\n  display: ', '\n'], ['\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 999;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(100,100,100,0.5);\n  display: ', '\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n  position: fixed;\n  top: 150px;\n  left: 100px;\n  z-index: 9999;\n  border: 2px solid orange;\n  background-color: orange;\n  color: white;\n'], ['\n  position: fixed;\n  top: 150px;\n  left: 100px;\n  z-index: 9999;\n  border: 2px solid orange;\n  background-color: orange;\n  color: white;\n']),
-    _templateObject3 = _taggedTemplateLiteral(['\n  width: 500px;\n  height: 300px;\n  background-color: white;\n  display: ', ';\n  overflow-x: scroll;\n  overflow-y: scroll;\n  color: black;\n'], ['\n  width: 500px;\n  height: 300px;\n  background-color: white;\n  display: ', ';\n  overflow-x: scroll;\n  overflow-y: scroll;\n  color: black;\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n  position: fixed;\n  width: 600px;\n  top: 150px;\n  left: 100px;\n  z-index: 9999;\n  border: 1px solid blue;\n  color: black;\n  background-color: #EEE;\n'], ['\n  position: fixed;\n  width: 600px;\n  top: 150px;\n  left: 100px;\n  z-index: 9999;\n  border: 1px solid blue;\n  color: black;\n  background-color: #EEE;\n']),
+    _templateObject3 = _taggedTemplateLiteral(['\n  margin: 20px;\n  width: auto;\n  height: 300px;\n  background-color: white;\n  display: ', ';\n  overflow-y: scroll;\n  overflow-x: hidden;\n  color: black;\n'], ['\n  margin: 20px;\n  width: auto;\n  height: 300px;\n  background-color: white;\n  display: ', ';\n  overflow-y: scroll;\n  overflow-x: hidden;\n  color: black;\n']),
     _templateObject4 = _taggedTemplateLiteral(['\n  padding-left: 10px;\n  width: 100%;\n  height: 50px;\n  line-height: 2.5;\n  border: 1px solid gray;\n'], ['\n  padding-left: 10px;\n  width: 100%;\n  height: 50px;\n  line-height: 2.5;\n  border: 1px solid gray;\n']),
-    _templateObject5 = _taggedTemplateLiteral(['\n  background-color: yellow;\n'], ['\n  background-color: yellow;\n']),
-    _templateObject6 = _taggedTemplateLiteral(['\n  width: 100px;\n  height: 50px;\n  background-color: orange;\n  color: white;\n  border: none;\n  font-size: 24px;\n'], ['\n  width: 100px;\n  height: 50px;\n  background-color: orange;\n  color: white;\n  border: none;\n  font-size: 24px;\n']);
+    _templateObject5 = _taggedTemplateLiteral(['\n  background-color: orange;\n'], ['\n  background-color: orange;\n']),
+    _templateObject6 = _taggedTemplateLiteral(['\n  margin: 15px;\n  width: 150px;\n  height: 45px;\n  background-color: #AAA;\n  color: white;\n  border: none;\n  color: black;\n  font-size: 16px;\n\n  &:hover {\n    border: 2px solid #555;\n  }\n\n  &:active {\n    background-color: #555;\n    border: 2px solid #555;\n  }\n'], ['\n  margin: 15px;\n  width: 150px;\n  height: 45px;\n  background-color: #AAA;\n  color: white;\n  border: none;\n  color: black;\n  font-size: 16px;\n\n  &:hover {\n    border: 2px solid #555;\n  }\n\n  &:active {\n    background-color: #555;\n    border: 2px solid #555;\n  }\n']);
 
 var _react = __webpack_require__(1);
 
@@ -70743,7 +70776,7 @@ var _styledComponents2 = _interopRequireDefault(_styledComponents);
 
 var _database = __webpack_require__(195);
 
-var _const = __webpack_require__(17);
+var _const = __webpack_require__(16);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -70792,6 +70825,9 @@ var FileDialog = function (_Component) {
       var selectedFile = _this.props.selectedFile;
 
 
+      if (!selectedFile) {
+        return;
+      }
       var operateJson = {
         callback: _this.onGetFile,
         filename: selectedFile
@@ -70883,8 +70919,8 @@ var FileDialog = function (_Component) {
           null,
           _react2.default.createElement(
             'h3',
-            { style: { flex: 8 } },
-            '\u30D5\u30A1\u30A4\u30EB\u4E00\u89A7'
+            { style: { flex: 8, marginLeft: 10 } },
+            '\u4FDD\u5B58\u3057\u305F\u30D5\u30A1\u30A4\u30EB'
           ),
           _react2.default.createElement(
             DialogDiv,
@@ -70920,18 +70956,18 @@ var FileDialog = function (_Component) {
             { style: { display: 'flex', direction: 'row' } },
             _react2.default.createElement(
               Button,
-              { onClick: this.onOpenFile },
-              '\u8AAD\u8FBC'
+              { style: { marginLeft: 50 }, onClick: this.onOpenFile },
+              '\u30D5\u30A1\u30A4\u30EB\u3092\u958B\u304F'
             ),
             _react2.default.createElement(
               Button,
               { onClick: this.onDeleteFile },
-              '\u524A\u9664'
+              '\u30D5\u30A1\u30A4\u30EB\u3092\u524A\u9664'
             ),
             _react2.default.createElement(
               Button,
               { onClick: this.onCancel },
-              '\u53D6\u6D88'
+              '\u30AD\u30E3\u30F3\u30BB\u30EB'
             )
           )
         )

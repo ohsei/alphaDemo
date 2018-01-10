@@ -99,17 +99,18 @@ const DivFixedTitle = styled.label.attrs({
 const InFileTitle = styled(ContentEditable).attrs({
   tabIndex: -1,
 })`
+ :empty:not(:focus):before {
+  content: attr(data-placeholder);
+  color: gray;
+  font-size: 18px;
+}
   position: fixed;
   top: 5px;
-  left: 400px;
-  width: 400px;
-  font-size:24px;
+  left: 300px;
+  width: 750px;
+  font-size: 24px;
   border: 2px solid orange;
   background-color: white;
-
-  @media screen and (max-width: 767px) {
-    font-size: 20px;
-  }
 `
 /* define layout end*/
 
@@ -161,6 +162,31 @@ class Main extends Component {
     forceChange: PropTypes.bool,
     offForceChange: PropTypes.func.isRequired,
   }
+  countLength = (str) => { 
+    let r = 0 
+    for (let i = 0; i < str.length; i++) { 
+      let c = str.charCodeAt(i) 
+      // Shift_JIS: 0x0 ～ 0x80, 0xa0 , 0xa1 ～ 0xdf , 0xfd ～ 0xff 
+      // Unicode : 0x0 ～ 0x80, 0xf8f0, 0xff61 ～ 0xff9f, 0xf8f1 ～ 0xf8f3 
+      if ( (c >= 0x0 && c < 0x81) || (c == 0xf8f0) || (c >= 0xff61 && c < 0xffa0) || (c >= 0xf8f1 && c < 0xf8f4)) { 
+        r += 1 
+      } else { 
+        r += 2 
+      } 
+    } 
+    return r 
+  }
+  onKeyDown = (event) => {
+    const {saveFileTitle} = this.props
+    if (event.keyCode == 13){
+      event.preventDefault()
+    }
+    if (this.countLength(saveFileTitle) >= 50) {
+      if (event.keyCode != 8) {
+        event.preventDefault()
+      }
+    }
+  }
   setFileTitle = (event) => {
     const {setFileTitle} = this.props
     setFileTitle(event.target.value)
@@ -184,7 +210,6 @@ class Main extends Component {
 
   componentWillUpdate (nextProps) {
     const {isPrint} = this.props
-
     if (!isPrint) {
       this.saveFileTitle.value = nextProps.saveFileTitle
     }
@@ -199,7 +224,7 @@ class Main extends Component {
   }
 
   render () {
-    const { isPrint, setting, width, isBold, isItalic, isUnderline, saveFileTitle, forceChange, offForceChange} = this.props
+    const { isPrint, setting, width, isBold, isItalic, isUnderline, saveFileTitle, offForceChange} = this.props
     return (
       <div>
         <PrintOrientation layout={setting.layout} />
@@ -207,12 +232,14 @@ class Main extends Component {
           <DivFixed>
             <DivFixedTitle>　　　英語4線ラクラクプリント 　　　</DivFixedTitle>
             <InFileTitle
+              data-placeholder='新規ファイル'
               html={saveFileTitle}
               disabled={false}
               spellCheck={false}
               innerRef={(ref) => {this.saveFileTitle = ref}}
               onChange={this.setFileTitle}
-              forceChange={forceChange}
+              forceChange={true}
+              onKeyDown={this.onKeyDown}
               offForceChange={offForceChange}
             />
             <DivMenu>
