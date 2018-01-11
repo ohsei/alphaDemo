@@ -42,6 +42,7 @@ class Sentences extends Component{
     updateIsItalic: PropTypes.func.isRequired,
     updateIsUnderline: PropTypes.func.isRequired,
     updateCurColor: PropTypes.func.isRequired,
+    offForceChange: PropTypes.func.isRequired,
     ...Sentence.propTypes,
   }
 
@@ -185,7 +186,7 @@ class Sentences extends Component{
   }
 
   render (){
-    const {note, id, setting, senWidth} = this.props
+    const {note, id, setting, senWidth, offForceChange} = this.props
 
     const upJaSize = setting.upJaSize
     const downJaSize = setting.downJaSize
@@ -197,13 +198,17 @@ class Sentences extends Component{
         onKeyDown={this.keyDown}
         innerRef={ref => this.divSentences = ref}
         width={senWidth}>
-        {setting.upJaSize != 'オフ' && <DivJan id={`up${id}`} html={note[id].jaHtml} innerRef={ref => this.upJaHtml = ref} fontSize={upJaSize} spellCheck={false} disabled={false} onChange={this.onUpChange} />}
+        {setting.upJaSize != 'オフ' && <DivJan id={`up${id}`} html={note[id].jaHtml} innerRef={ref => this.upJaHtml = ref} fontSize={upJaSize} spellCheck={false} disabled={false} onChange={this.onUpChange} 
+          forceChange={true}
+          offForceChange={offForceChange} />}
         <Sentence
           ref={ref => this.sentence = ref}
           lineNum={setting.lineNum}
           {...pick(this.props, keys(Sentence.propTypes))}
         />
-        {setting.downJaSize != 'オフ' && <DivJan id={`down${id}`} html={note[id].jaHtml} innerRef={ref => this.downJaHtml = ref} fontSize={downJaSize} spellCheck={false} disabled={false} onChange={this.onDownChange} />}
+        {setting.downJaSize != 'オフ' && <DivJan id={`down${id}`} html={note[id].jaHtml} innerRef={ref => this.downJaHtml = ref} fontSize={downJaSize} spellCheck={false} disabled={false} onChange={this.onDownChange} 
+          forceChange={true}
+          offForceChange={offForceChange} />}
       </DivSentences>
     )
   }
