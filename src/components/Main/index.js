@@ -3,8 +3,8 @@ import styled, { injectGlobal } from 'styled-components'
 import PropTypes from 'prop-types'
 import {pick, keys} from 'lodash'
 
-import Flines_block_Regular_chrome from '../../resources/font/4lines_block-Regular.otf'
-//import Flines_block_Regular_ie from '../../resources/font/4lines_block-regular-webfont.eot'
+import Flines_block_Regular_font1 from '../../resources/font/4lines_2018-Regular.otf'
+import Flines_block_Regular_font2 from '../../resources/font/4lines_block-Regular.otf'
 import ColorPicker from '../../utils/ColorPicker'
 import ContentEditable from './Note/Segments/Segment/common/ContentEditable'
 
@@ -15,8 +15,12 @@ import FileDialogContainer from './FileDialogContainer'
 
 injectGlobal`
   @font-face {
-    font-family: 'MyFamilyCHROME';
-    src: url('${Flines_block_Regular_chrome}');
+    font-family: 'MyFamilyFont1';
+    src: url('${Flines_block_Regular_font1}');
+  }
+  @font-face {
+    font-family: 'MyFamilyFont2';
+    src: url('${Flines_block_Regular_font2}');
   }
 `
 /* define layout start*/

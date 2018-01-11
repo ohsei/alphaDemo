@@ -23556,7 +23556,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  padding-right: 5px;\n  height: 30px;\n  width: 80px;\n  text-align: right;\n  cursor: pointer;\n'], ['\n  padding-right: 5px;\n  height: 30px;\n  width: 80px;\n  text-align: right;\n  cursor: pointer;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  padding-right: 5px;\n  height: 30px;\n  width: 150px;\n  text-align: right;\n  cursor: pointer;\n'], ['\n  padding-right: 5px;\n  height: 30px;\n  width: 150px;\n  text-align: right;\n  cursor: pointer;\n']);
 
 var _Item = __webpack_require__(196);
 
@@ -24279,7 +24279,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  border: 1px solid white;\n'], ['\n  border: 1px solid white;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  width: 82px;\n  height: 32px;\n  border: 1px solid white;\n'], ['\n  width: 82px;\n  height: 32px;\n  border: 1px solid white;\n']);
 
 var _SmallItem = __webpack_require__(69);
 
@@ -28695,22 +28695,16 @@ var Sentences = function (_Component) {
       }
 
       var i = 0;
-      var tabNode = tabNodeList[i];
-
       while (tabNodeList[i].id != id) {
         i++;
       }
+      var tabNode = tabNodeList[i];
 
       if (tabNode) {
-        if (tabNode.node.length != node.length) {
+        var tabNodeJson = JSON.stringify(tabNode.node);
+        var nodeJson = JSON.stringify(node);
+        if (tabNodeJson !== nodeJson) {
           this.updateTabNode({ id: id, node: node });
-        } else {
-          for (var _i = 0; _i < node.length; _i++) {
-            if (tabNode.node[_i].label != node[_i].label) {
-              this.updateTabNode({ id: id, node: node });
-              return;
-            }
-          }
         }
       }
     }
@@ -35747,7 +35741,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  width: 30px;\n  background-color: orange;\n  color:white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation: upright;\n  height: 40px;\n  border: 0.1px solid white;\n  flex-direction:row;\n  text-align: center;\n  line-height: 30px;\n'], ['\n  width: 30px;\n  background-color: orange;\n  color:white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation: upright;\n  height: 40px;\n  border: 0.1px solid white;\n  flex-direction:row;\n  text-align: center;\n  line-height: 30px;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  width: 30px;\n  background-color: orange;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation:upright;\n  height: 40px;\n  border: 1px solid white;\n  flex-direction:row;\n  text-align: center;\n  line-height: 30px;\n'], ['\n  width: 30px;\n  background-color: orange;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation:upright;\n  height: 40px;\n  border: 1px solid white;\n  flex-direction:row;\n  text-align: center;\n  line-height: 30px;\n']);
 
 var _styledComponents = __webpack_require__(6);
 
@@ -50050,9 +50044,9 @@ var _propTypes2 = _interopRequireDefault(_propTypes);
 
 var _lodash = __webpack_require__(11);
 
-var _lines_blockRegular = __webpack_require__(340);
+var _lines_2018Regular = __webpack_require__(340);
 
-var _lines_blockRegular2 = _interopRequireDefault(_lines_blockRegular);
+var _lines_2018Regular2 = _interopRequireDefault(_lines_2018Regular);
 
 var _ColorPicker = __webpack_require__(341);
 
@@ -50090,7 +50084,7 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 //import Flines_block_Regular_ie from '../../resources/font/4lines_block-regular-webfont.eot'
 
 
-(0, _styledComponents.injectGlobal)(_templateObject, _lines_blockRegular2.default);
+(0, _styledComponents.injectGlobal)(_templateObject, _lines_2018Regular2.default);
 /* define layout start*/
 var DivBg = _styledComponents2.default.div.attrs({
   tabIndex: -1
@@ -51750,7 +51744,7 @@ exports.default = Main;
 /* 340 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__.p + "../src/resources/font/4lines_block-Regular.otf";
+module.exports = __webpack_require__.p + "../src/resources/font/4lines_2018-Regular.otf";
 
 /***/ }),
 /* 341 */
@@ -62695,7 +62689,7 @@ var DivSetMenuDetail = _styledComponents2.default.div(_templateObject3, function
 var ItemSetting = Item.extend(_templateObject4, function (props) {
   return props.vertical;
 }, function (props) {
-  return props.clicked ? '196px' : '50px';
+  return props.clicked ? '240px' : '50px';
 });
 
 var SetMenuItem = function (_Component) {
@@ -62757,7 +62751,10 @@ var SetMenuItem = function (_Component) {
             name: '\u548C\u6587'
           }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_ItemJaSize2.default.propTypes)))),
           _react2.default.createElement(_ItemEnSize2.default, _extends({
-            name: '\u82F1\u5B57'
+            name: '\u82F1\u5B57\u30D5\u30A9\u30F3\u30C8'
+          }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_ItemEnSize2.default.propTypes)))),
+          _react2.default.createElement(_ItemEnSize2.default, _extends({
+            name: '\u82F1\u5B57\u30D5\u30A9\u30F3\u30C8\u30B5\u30A4\u30BA'
           }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_ItemEnSize2.default.propTypes)))),
           _react2.default.createElement(_ItemLineColor2.default, _extends({
             name: '\u7DDA\u306E\u6FC3\u3055'
@@ -62931,7 +62928,7 @@ Object.defineProperty(exports, "__esModule", {
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  flex-direction: row;\n  -ms-flex-direction: row;\n  justify-content: flex-start;\n'], ['\n  display: flex;\n  flex-direction: row;\n  -ms-flex-direction: row;\n  justify-content: flex-start;\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n  display: ', ';\n  flex-direction: ', ';\n  -ms-flex-direction: ', ';\n  \n'], ['\n  display: ', ';\n  flex-direction: ', ';\n  -ms-flex-direction: ', ';\n  \n']);
+    _templateObject2 = _taggedTemplateLiteral(['\n  display: ', ';\n  flex-direction: ', ';\n  -ms-flex-direction: ', ';\n'], ['\n  display: ', ';\n  flex-direction: ', ';\n  -ms-flex-direction: ', ';\n']);
 
 var _react = __webpack_require__(1);
 
@@ -62981,18 +62978,24 @@ var DivSetMenuPart = _styledComponents2.default.div(_templateObject2, function (
 var ItemJaSize = function (_Component) {
   _inherits(ItemJaSize, _Component);
 
-  function ItemJaSize(props) {
+  function ItemJaSize() {
+    var _ref;
+
+    var _temp, _this, _ret;
+
     _classCallCheck(this, ItemJaSize);
 
-    var _this = _possibleConstructorReturn(this, (ItemJaSize.__proto__ || Object.getPrototypeOf(ItemJaSize)).call(this, props));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
 
-    _this.setUpJaSize = function () {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = ItemJaSize.__proto__ || Object.getPrototypeOf(ItemJaSize)).call.apply(_ref, [this].concat(args))), _this), _this.setUpJaSize = function () {
       var _this$props = _this.props,
           updateSetting = _this$props.updateSetting,
           setting = _this$props.setting;
 
-      var tmpJaPos = _this.props.setting.jaPos;
-      var tmpDownJaSize = _this.props.setting.downJaSize;
+      var tmpJaPos = setting.jaPos;
+      var tmpDownJaSize = setting.downJaSize;
 
       if (_this.upJaSizeSelect.value != 'オフ') {
         tmpJaPos = 'up';
@@ -63006,9 +63009,7 @@ var ItemJaSize = function (_Component) {
       newSetting.jaPos = tmpJaPos;
 
       updateSetting(newSetting);
-    };
-
-    _this.setDownJaSize = function () {
+    }, _this.setDownJaSize = function () {
       var _this$props2 = _this.props,
           updateSetting = _this$props2.updateSetting,
           setting = _this$props2.setting;
@@ -63027,9 +63028,7 @@ var ItemJaSize = function (_Component) {
       newSetting.jaPos = tmpJaPos;
 
       updateSetting(newSetting);
-    };
-
-    return _this;
+    }, _temp), _possibleConstructorReturn(_this, _ret);
   }
 
   _createClass(ItemJaSize, [{
@@ -63051,7 +63050,7 @@ var ItemJaSize = function (_Component) {
         null,
         _react2.default.createElement(
           _MiddleItem2.default,
-          { style: { height: 60 } },
+          { style: { height: 62 } },
           this.props.name
         ),
         _react2.default.createElement(
@@ -63227,18 +63226,14 @@ var ItemEnSize = function (_Component) {
             DivSetMenuPart,
             null,
             _react2.default.createElement(
-              _SmallItem2.default,
-              null,
-              _react2.default.createElement(
-                _SelectItem2.default,
-                {
-                  innerRef: function innerRef(ref) {
-                    _this2.enSizeSelect = ref;
-                  },
-                  value: setting.enSize,
-                  onChange: this.setEnSize },
-                enSizeLst
-              )
+              _SelectItem2.default,
+              {
+                innerRef: function innerRef(ref) {
+                  _this2.enSizeSelect = ref;
+                },
+                value: setting.enSize,
+                onChange: this.setEnSize },
+              enSizeLst
             )
           )
         )

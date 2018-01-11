@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import {find} from 'lodash'
 
-import {enSizeList} from '../../../../utils/const'
+import {enFontList} from '../../../../utils/const'
 
 import MiddleItem from './common/MiddleItem'
 import SelectItem from './common/SelectItem'
@@ -19,20 +20,21 @@ const DivSetMenuPart = styled.div`
   -ms-flex-direction: ${props => props.column ? 'column' : 'row'};
 `
 
-class ItemEnSize extends Component{
-  setEnSize = () => {
+class ItemEnFont extends Component{
+  setEnFont = () => {
     const {updateSetting, setting} = this.props
     let newSetting = Object.assign({}, setting)
-    newSetting.enSize = this.enSizeSelect.value
+    const enFont = find(enFontList, {value: this.enFontSelect.value})
+    newSetting.enFont = enFont.id
     updateSetting(newSetting)
   }
 
   render (){
     const {setting} = this.props
-    let enSizeLst = enSizeList.map((list) =>
+    let enFontLst = enFontList.map((list) =>
       <option key={list.id} value={list.value}>{list.value}</option>
     )
-
+    const value = find(enFontList, {id: setting.enFont}).value
     return (
       <DivSetMenu>
         <MiddleItem >
@@ -41,10 +43,10 @@ class ItemEnSize extends Component{
         <DivSetMenuPart column>
           <DivSetMenuPart>
             <SelectItem
-              innerRef={(ref) => {this.enSizeSelect = ref}}
-              value={setting.enSize}
-              onChange={this.setEnSize}>
-              {enSizeLst}
+              innerRef={(ref) => {this.enFontSelect = ref}}
+              value={value}
+              onChange={this.setEnFont}>
+              {enFontLst}
             </SelectItem>
           </DivSetMenuPart>
         </DivSetMenuPart>
@@ -52,10 +54,10 @@ class ItemEnSize extends Component{
     )}
 }
 
-ItemEnSize.propTypes = {
+ItemEnFont.propTypes = {
   setting: PropTypes.object,
   name: PropTypes.string,
   updateSetting: PropTypes.func.isRequired,
 }
 
-export default ItemEnSize
+export default ItemEnFont

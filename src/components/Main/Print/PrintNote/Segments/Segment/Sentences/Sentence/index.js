@@ -52,6 +52,7 @@ class Sentence extends Component{
     let segmentHeight = 96
     let fontSize = 80
     let enSize = 1
+    let font = 'MyFamilyFont1'
     if (setting.enSize === '１倍') {
       segmentHeight = 120
     }
@@ -66,6 +67,9 @@ class Sentence extends Component{
       segmentHeight = 480
     }
 
+    if (setting.enFont === 1) {
+      font = 'MyFamilyFont2'
+    }
     height = (note[segmentId].offsetHeight / segmentHeight).toFixed(0)
     let i = 0
     let marginTopArray = []
@@ -91,7 +95,7 @@ class Sentence extends Component{
             spellCheck={false}
             style={{imeMode: this.state.imeMode}}
             innerRef={(ref) => {this.inputText = ref}}
-            fontFamily={'MyFamilyCHROME'}
+            fontFamily={font}
             fontSize={`${fontSize}px`}
             lineHeight={setting.interval}
           />

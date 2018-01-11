@@ -18,18 +18,14 @@ const DivSetMenuPart = styled.div`
   display: ${props => props.column ? 'block' : 'flex'};
   flex-direction: ${props => props.column ? 'column' : 'row'};
   -ms-flex-direction: ${props => props.column ? 'column' : 'row'};
-  
 `
 
 class ItemJaSize extends Component{
-  constructor (props){
-    super(props)
-  }
 
   setUpJaSize = () => {
     const {updateSetting, setting} = this.props
-    let tmpJaPos = this.props.setting.jaPos
-    let tmpDownJaSize = this.props.setting.downJaSize
+    let tmpJaPos = setting.jaPos
+    let tmpDownJaSize = setting.downJaSize
 
     if (this.upJaSizeSelect.value != 'オフ'){
       tmpJaPos = 'up'
@@ -44,7 +40,6 @@ class ItemJaSize extends Component{
 
     updateSetting(newSetting)
   }
-
   setDownJaSize = () => {
     const {updateSetting, setting} = this.props
     let tmpJaPos = this.props.setting.jaPos
@@ -70,7 +65,7 @@ class ItemJaSize extends Component{
     )
     return (
       <DivSetMenu>
-        <MiddleItem style={{height: 60}}  >
+        <MiddleItem style={{height: 62}}  >
           {this.props.name}
         </MiddleItem>
         <DivSetMenuPart column>

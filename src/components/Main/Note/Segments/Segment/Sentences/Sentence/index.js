@@ -300,12 +300,17 @@ class Sentence extends Component{
   render (){
     const { id, note, setting, forceChange, offForceChange } = this.props
     let fontSize = 80
+    let font = 'MyFamilyFont1'
 
     if (setting.enSize === '２倍') {
       fontSize = 80 * 2
     }
     else if (setting.enSize === '４倍' ) {
       fontSize = 80 * 4
+    }
+
+    if (setting.enFont === 1) {
+      font = 'MyFamilyFont2'
     }
 
     return (
@@ -322,7 +327,7 @@ class Sentence extends Component{
           onKeyDown={this.onKeyDown}
           onMouseUp={this.handelMouseUp}
           onPaste={this.onPaste}
-          fontFamily={'MyFamilyCHROME'}
+          fontFamily={font}
           fontSize={`${fontSize}px`}
           lineHeight={setting.interval}
           forceChange={forceChange}

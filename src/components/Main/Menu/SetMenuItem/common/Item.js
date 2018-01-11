@@ -3,13 +3,13 @@ import styled from 'styled-components'
 const Item = styled.div`
   width: 30px;
   background-color: orange;
-  color:white;
+  color: white;
   -webkit-writing-mode: ${props => props.vertical ? 'vertical-lr' : 'horizontal-tb'};
   -ms-writing-mode:  ${props => props.vertical ? 'tb-lr' : 'lr-tb'};
   writing-mode: ${props => props.vertical ? 'vertical-lr' : 'horizontal-tb'};
-  text-orientation: upright;
+  text-orientation:upright;
   height: 40px;
-  border: 0.1px solid white;
+  border: 1px solid white;
   flex-direction:row;
   text-align: center;
   line-height: 30px;

@@ -100,23 +100,17 @@ class Sentences extends Component{
     }
 
     let i = 0
-    let tabNode = tabNodeList[i]
-
     while (tabNodeList[i].id != id){
       i++
     }
+    let tabNode = tabNodeList[i]
 
+    
     if (tabNode){
-      if (tabNode.node.length != node.length){
+      const tabNodeJson = JSON.stringify(tabNode.node)
+      const nodeJson = JSON.stringify(node)
+      if (tabNodeJson !== nodeJson) {
         this.updateTabNode({id: id, node: node})
-      }
-      else {
-        for (let i = 0;i < node.length;i++){
-          if (tabNode.node[i].label != node[i].label){
-            this.updateTabNode({id: id, node: node})
-            return
-          }
-        }
       }
     }
   }

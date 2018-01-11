@@ -14,6 +14,7 @@ export const defaultSetting = {
   layout: 'portrait',
   jaPos: 'up',
   enSize: '１倍',
+  enFont: 0,
   upJaSize: '24pt',
   downJaSize: 'オフ',
   lineColor: 'gray',
@@ -120,6 +121,18 @@ export const lineNumList = [
     value: 2,
   },
 ]
+
+export const enFontList = [
+  {
+    id: 0,
+    value: 'フォント１',
+  },
+  {
+    id: 1,
+    value: 'フォント２',
+  },
+]
+
 
 export const defaultWidth = 1000
 

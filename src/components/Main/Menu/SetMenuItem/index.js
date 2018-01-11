@@ -6,6 +6,7 @@ import {pick, keys} from 'lodash'
 import ItemLayout from './ItemLayout'
 import ItemJaSize from './ItemJaSize'
 import ItemEnSize from './ItemEnSize'
+import ItemEnFont from './ItemEnFont'
 import ItemLineColor from './ItemLineColor'
 import ItemLineNum from './ItemLineNum'
 import ItemLineNos from './ItemLineNos'
@@ -37,7 +38,7 @@ const DivSetMenuDetail = styled.div`
 
 const ItemSetting = Item.extend`
   vertical: ${props => props.vertical};
-  height: ${props => props.clicked ? '196px' : '50px'};
+  height: ${props => props.clicked ? '240px' : '50px'};
   margin: 0 0 10px 0;
   padding: 10px 0 5px 0;
   cursor: pointer;
@@ -62,6 +63,7 @@ class SetMenuItem extends Component{
     const {onShowMenu} = this.props
     onShowMenu(this.state.isClicked)
   }
+
   render (){
     return (
       <DivSetMenu>
@@ -80,8 +82,13 @@ class SetMenuItem extends Component{
             name='和文'
             {...pick(this.props, keys(ItemJaSize.propTypes))}>
           </ItemJaSize>
+          <ItemEnFont
+            name='英字フォント'
+            {...pick(this.props, keys(ItemEnFont.propTypes))}
+          >
+          </ItemEnFont>
           <ItemEnSize
-            name='英字'
+            name='英字フォントサイズ'
             {...pick(this.props, keys(ItemEnSize.propTypes))}
           >
           </ItemEnSize>
