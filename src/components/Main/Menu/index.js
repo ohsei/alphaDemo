@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import {pick, keys} from 'lodash'
 
 import {dbOperate} from '../../../utils/database'
-import {defaultNote} from '../../../utils/const'
 
 import {
   GET_ONE_FILE,
@@ -73,10 +72,11 @@ class Menu extends Component {
   }
 
   onSaveFileOver = () => {
-    alert('ファイルを保存しました。')
+    const {onShowSavedAlertDialog} = this.props
+    onShowSavedAlertDialog(true)
   }
   confirmOverWrite = (e) => {
-    const {onIsFilelistUpdate, note, setting, saveFileTitle, name, tabNodeList} = this.props
+    const {onIsFilelistUpdate, note, setting, saveFileTitle, name, tabNodeList, onShowOverwriteConfirmDialog, setOperateJson} = this.props
     let objContent = {}
     objContent.note = note
     objContent.setting = setting
@@ -95,13 +95,8 @@ class Menu extends Component {
     }
 
     if (e) {
-      if (window.confirm('ファイルが存在します。上書きしますか？')) {
-        dbOperate(SAVE_ONE_FILE, operateJson)
-        onIsFilelistUpdate()
-      }
-      else {
-        console.log('cancel')
-      }
+      onShowOverwriteConfirmDialog(true)
+      setOperateJson(operateJson)
     }
     else {
       dbOperate(SAVE_ONE_FILE, operateJson)
@@ -110,10 +105,10 @@ class Menu extends Component {
   }
 
   onSaveFile (){
-    const {saveFileTitle} = this.props
+    const {saveFileTitle, onShowTitleAlertDialog} = this.props
 
     if (saveFileTitle == ''){
-      alert('ファイル名を入力してください。')
+      onShowTitleAlertDialog(true)
       return false
     }
     const operateJson = {
@@ -130,14 +125,26 @@ class Menu extends Component {
   }
 
   onCreateNewFile (){
-    const {initalNote} = this.props
-    if (window.confirm('現在編集中ファイルを保存せずに新規しますか？'))
-    {
-      initalNote()
-    }
+    const {onShowCreateFileConfirmDialog} = this.props
+    onShowCreateFileConfirmDialog(true)
     
   }
+  componentDidUpdate () {
+    const {isOverwrite, operateJson, onIsFilelistUpdate, updateOverwriteStatus, setOperateJson,
+      isCreateFile, updateCreateFileStatus, initalNote} = this.props
 
+    if (isOverwrite) {
+      dbOperate(SAVE_ONE_FILE, operateJson)
+      onIsFilelistUpdate()
+      updateOverwriteStatus(false)
+      setOperateJson({})
+    }
+
+    if (isCreateFile) {
+      initalNote()
+      updateCreateFileStatus(false)
+    }
+  } 
   render (){
     const {isShowMenu} = this.props
     return (
@@ -183,6 +190,16 @@ Menu.propTypes = {
   isShowMenu: PropTypes.bool,
   name: PropTypes.string,
   tabNodeList: PropTypes.array,
+  onShowTitleAlertDialog: PropTypes.func.isRequired,
+  onShowSavedAlertDialog: PropTypes.func.isRequired,
+  onShowOverwriteConfirmDialog: PropTypes.func.isRequired,
+  isOverwrite: PropTypes.bool,
+  updateOverwriteStatus: PropTypes.func.isRequired,
+  operateJson: PropTypes.object,
+  setOperateJson: PropTypes.func.isRequired,
+  isCreateFile: PropTypes.bool,
+  updateCreateFileStatus: PropTypes.func.isRequired,
+  onShowCreateFileConfirmDialog: PropTypes.func.isRequired,
 }
 
 export default Menu

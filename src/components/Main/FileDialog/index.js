@@ -187,7 +187,6 @@ class FileDialog extends Component{
                     ref={ref => this.files.set(i, ref)}
                     onClick={this.onSelectFile}>{file}
                   </ListLabel>
-
                 )
               }
             })}

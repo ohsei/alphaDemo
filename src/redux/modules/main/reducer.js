@@ -17,7 +17,11 @@ import {
   UPDATE_IS_UNDERLINE,
   UPDATE_CUR_COLOR,
   OFF_FORCECHANGE,
-  ON_FORCECHANGE
+  ON_FORCECHANGE,
+  SHOW_TITLE_ALERT_DIALOG,
+  SHOW_SAVED_ALERT_DIALOG,
+  SHOW_OVERWRITE_CONFIRM_DIALOG,
+  SHOW_CREATE_FILE_CONFIRM_DIALOG
 } from './action-type'
 
 const initialState = {
@@ -35,7 +39,11 @@ const initialState = {
   isUnderline: false,
   curColor: 'rgb(0,0,0)',
   forceChange: false,
-  errorMessage: ''
+  errorMessage: '',
+  isShowTitleAlert: false,
+  isShowSavedAlert: false,
+  isShowOverwriteConfirm: false,
+  isShowCreateFileConfirm: false,
 }
 
 const {assign} = Object
@@ -196,6 +204,26 @@ export default (state = initialState, action) => {
   case ON_FORCECHANGE:
     return assign({}, state, {
       forceChange: true
+    })
+
+  case SHOW_TITLE_ALERT_DIALOG:
+    return assign({}, state, {
+      isShowTitleAlert: payload
+    })
+
+  case SHOW_SAVED_ALERT_DIALOG:
+    return assign({}, state, {
+      isShowSavedAlert: payload
+    })
+
+  case SHOW_OVERWRITE_CONFIRM_DIALOG:
+    return assign({}, state, {
+      isShowOverwriteConfirm: payload
+    })
+
+  case SHOW_CREATE_FILE_CONFIRM_DIALOG:
+    return assign({}, state, {
+      isShowCreateFileConfirm: payload
     })
   default:
     return state

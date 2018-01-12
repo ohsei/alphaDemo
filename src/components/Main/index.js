@@ -12,6 +12,10 @@ import MenuContainer from './MenuContainer'
 import Segments from './Note/Segments'
 import PrintNoteContainer from './Print/PrintNoteContainer'
 import FileDialogContainer from './FileDialogContainer'
+import TitleAlertDialog from './TitleAlertDialog'
+import FileSavedAlertDialog from './FileSavedAlertDialog'
+import OverwriteConfirmDialog from './OverwriteConfirmDialog'
+import EditingConfirmDialog from './EditingConfirmDialog'
 
 injectGlobal`
   @font-face {
@@ -325,6 +329,10 @@ class Main extends Component {
             width={width}>
             <Segments {...pick(this.props, keys(Segments.propTypes))} />
           </DivSegments>
+          <TitleAlertDialog {...pick(this.props, keys(TitleAlertDialog.propTypes))} />
+          <FileSavedAlertDialog {...pick(this.props, keys(FileSavedAlertDialog.propTypes))} />
+          <OverwriteConfirmDialog {...pick(this.props, keys(OverwriteConfirmDialog.propTypes))} />
+          <EditingConfirmDialog {...pick(this.props, keys(EditingConfirmDialog.propTypes))} />
           <FileDialogContainer />
         </DivBg>}
         {isPrint && <PrintNoteContainer />}

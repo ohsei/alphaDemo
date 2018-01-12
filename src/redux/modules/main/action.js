@@ -1,4 +1,9 @@
 import {
+  UPDATE_OVERWRITE_STATUS,
+  UPDATE_CREATE_FILE_STATUS
+} from '../menu/action-type'
+
+import {
   UPDATE_FILE_TITLE,
   UPDATE_NAME,
   UPDATE_PRINT,
@@ -11,7 +16,11 @@ import {
   UPDATE_IS_UNDERLINE,
   UPDATE_CUR_COLOR,
   OFF_FORCECHANGE,
-  ON_FORCECHANGE
+  ON_FORCECHANGE,
+  SHOW_TITLE_ALERT_DIALOG,
+  SHOW_SAVED_ALERT_DIALOG,
+  SHOW_OVERWRITE_CONFIRM_DIALOG,
+  SHOW_CREATE_FILE_CONFIRM_DIALOG
 } from './action-type'
 
 export const setFileTitle = (title) => {
@@ -101,5 +110,47 @@ export const offForceChange = () => {
 export const onForceChange = () => {
   return {
     type: ON_FORCECHANGE,
+  }
+}
+
+export const onShowTitleAlertDialog = (status) => {
+  return {
+    type: SHOW_TITLE_ALERT_DIALOG,
+    payload: status
+  }
+}
+
+export const onShowSavedAlertDialog = (status) => {
+  return {
+    type: SHOW_SAVED_ALERT_DIALOG,
+    payload: status
+  }
+}
+
+export const onShowOverwriteConfirmDialog = (status) => {
+  return {
+    type: SHOW_OVERWRITE_CONFIRM_DIALOG,
+    payload: status
+  }
+}
+
+export const updateOverwriteStatus = (status) => {
+  return {
+    type: UPDATE_OVERWRITE_STATUS,
+    payload: status
+  }
+}
+
+export const updateCreateFileStatus = (status) => {
+  return {
+    type: UPDATE_CREATE_FILE_STATUS,
+    payload: status
+  }
+}
+
+export const onShowCreateFileConfirmDialog = (status) => {
+  return {
+    type: SHOW_CREATE_FILE_CONFIRM_DIALOG,
+    payload: status
   }
 }

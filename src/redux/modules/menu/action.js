@@ -6,11 +6,18 @@ import {
   UPDATE_PRINT,
   UPDATE_SETTING,
   INIT_NOTE,
-  UPDATE_WIDTH
+  UPDATE_WIDTH,
+  SHOW_TITLE_ALERT_DIALOG,
+  SHOW_SAVED_ALERT_DIALOG,
+  SHOW_OVERWRITE_CONFIRM_DIALOG,
+  SHOW_CREATE_FILE_CONFIRM_DIALOG
 } from '../main/action-type'
 
 import {
-  SET_IS_SHOW_MENU
+  SET_IS_SHOW_MENU,
+  SET_OPERATEJSON,
+  UPDATE_OVERWRITE_STATUS,
+  UPDATE_CREATE_FILE_STATUS
 } from './action-type'
 
 export const onShowFileDialog = () => {
@@ -58,5 +65,54 @@ export const onShowMenu = (isShowMenu) => {
   return {
     type: SET_IS_SHOW_MENU,
     payload: isShowMenu
+  }
+}
+
+export const onShowTitleAlertDialog = (status) => {
+  return {
+    type: SHOW_TITLE_ALERT_DIALOG,
+    payload: status
+  }
+}
+
+export const onShowSavedAlertDialog = (status) => {
+  return {
+    type: SHOW_SAVED_ALERT_DIALOG,
+    payload: status
+  }
+}
+
+export const onShowOverwriteConfirmDialog = (status) => {
+  return {
+    type: SHOW_OVERWRITE_CONFIRM_DIALOG,
+    payload: status
+  }
+}
+
+export const setOperateJson = (operateJson) => {
+  return {
+    type: SET_OPERATEJSON,
+    payload: operateJson
+  }
+}
+
+export const updateOverwriteStatus = (status) => {
+  return {
+    type: UPDATE_OVERWRITE_STATUS,
+    payload: status
+  }
+}
+
+export const updateCreateFileStatus = (status) => {
+  return {
+    type: UPDATE_CREATE_FILE_STATUS,
+    payload: status
+  }
+}
+
+export const onShowCreateFileConfirmDialog = (status) => {
+  return {
+    type: SHOW_CREATE_FILE_CONFIRM_DIALOG,
+    payload: status
   }
 }
