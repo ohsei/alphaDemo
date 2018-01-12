@@ -127,8 +127,8 @@ class Menu extends Component {
   onCreateNewFile (){
     const {onShowCreateFileConfirmDialog} = this.props
     onShowCreateFileConfirmDialog(true)
-    
   }
+  
   componentDidUpdate () {
     const {isOverwrite, operateJson, onIsFilelistUpdate, updateOverwriteStatus, setOperateJson,
       isCreateFile, updateCreateFileStatus, initalNote} = this.props
