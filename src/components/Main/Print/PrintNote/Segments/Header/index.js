@@ -7,24 +7,24 @@ const DivHeader = styled.div`
   display: flex;
   flex-direction: row;
   -ms-flex-direction: row;
-  text-align:center;
-  width: 100%;
+  text-align: center;
+  width: ${props => `${props.width}px`};
   height: 25px;
   font-size:26px;
   line-height: 25px;
 `
 
 const DivTitle = styled.div`
-  width: 50%;
+  width: 60%;
   height: 25px;
   font-size: 26px;
   text-align: left;
 `
 const DivName = styled.div`
-  width: 50%;
+  width: 40%;
   height: 25px;
   font-size: 26px;
-  text-align: left;
+  text-align: right;
 `
 
 class PrintHeader extends Component{

@@ -76,12 +76,12 @@ class Menu extends Component {
     alert('ファイルを保存しました。')
   }
   confirmOverWrite = (e) => {
-    const {onIsFilelistUpdate, note, setting, saveFileTitle, tabNodeList} = this.props
+    const {onIsFilelistUpdate, note, setting, saveFileTitle, name, tabNodeList} = this.props
     let objContent = {}
-
     objContent.note = note
     objContent.setting = setting
     objContent.saveFileTitle = saveFileTitle
+    objContent.name = name
     objContent.tabNodeList = tabNodeList
     let content = JSON.stringify(objContent)
     const fileObj = {
@@ -181,6 +181,7 @@ Menu.propTypes = {
   initalNote: PropTypes.func.isRequired,
   updateWidth: PropTypes.func.isRequired,
   isShowMenu: PropTypes.bool,
+  name: PropTypes.string,
   tabNodeList: PropTypes.array,
 }
 

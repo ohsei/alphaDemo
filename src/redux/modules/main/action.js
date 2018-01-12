@@ -1,5 +1,6 @@
 import {
   UPDATE_FILE_TITLE,
+  UPDATE_NAME,
   UPDATE_PRINT,
   SET_CUR_SEGMENT_NO,
   SET_CUR_COMPONENT,
@@ -19,6 +20,14 @@ export const setFileTitle = (title) => {
     payload: title
   }
 }
+
+export const setName = (name) => {
+  return {
+    type: UPDATE_NAME,
+    payload: name
+  }
+}
+
 
 export const printFinish = () => {
   return {

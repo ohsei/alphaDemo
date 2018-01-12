@@ -7,6 +7,7 @@ import {
   UPDATE_NOTE,
   UPDATE_PRINT,
   UPDATE_FILE_TITLE,
+  UPDATE_NAME,
   UPDATE_SETTING,
   INIT_NOTE,
   UPDATE_TAB_NODE_LIST,
@@ -21,6 +22,7 @@ import {
 
 const initialState = {
   saveFileTitle: '',
+  name: '',
   setting: Object.assign({}, defaultSetting),
   note: [Object.assign({}, defaultNote)],
   curSegmentNo: 0,
@@ -46,6 +48,7 @@ export default (state = initialState, action) => {
     return (() => {
       return assign({}, state, {
         setting: payload.setting,
+        name: payload.name,
         note: payload.note,
         tabNodeList: payload.tabNodeList,
         curSegmentNo: payload.note.length - 1,
@@ -130,6 +133,11 @@ export default (state = initialState, action) => {
       saveFileTitle: payload
     })
 
+  case UPDATE_NAME:
+    return assign({}, state, {
+      name: payload
+    })
+
   case UPDATE_SETTING:
     return assign({}, state, {
       setting: payload
@@ -146,6 +154,7 @@ export default (state = initialState, action) => {
         isPrint: false,
         curColor: 'rgb(0,0,0)',
         forceChange: true,
+        name: ''
       })
     })()
 

@@ -17,7 +17,6 @@ const StyledSection = styled.section`
 class Segments extends Component{
   onCreateLoadedArray = (segment) => {
     const {updateLoadedArray, loadedArray, id} = this.props
-    console.log(this.props)
     let newLoadedArray = loadedArray
 
     if (newLoadedArray[id] === undefined) {
@@ -56,8 +55,8 @@ class Segments extends Component{
       )
     })
     return (
-      <StyledSection width='100%' className='text-center'>
-        <Header title={title} name={name} />
+      <StyledSection width={this.props.width} className='text-center'>
+        <Header width={this.props.width} title={title} name={name} />
         <UlSeg>{listItems}</UlSeg>
       </StyledSection>
     )

@@ -10,6 +10,8 @@ export const UPDATE_PRINT = 'main/UPDATE_PRINT'
 
 export const UPDATE_FILE_TITLE = 'main/UPDATE_FILE_TITLE'
 
+export const UPDATE_NAME = 'main/UPDATE_NAME'
+
 export const UPDATE_SETTING = 'main/UPDATE_SETTING'
 
 export const INIT_NOTE = 'main/INIT_NOTE'

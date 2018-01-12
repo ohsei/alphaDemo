@@ -10,7 +10,7 @@ const mapStateToProps = ({printNote, main}) => {
   const title = main.saveFileTitle
   const setting = main.setting
   const namelist = [
-    {id: 0, name: '四線太郎'},]
+    {id: 0, name: main.name},]
   const isPrint = main.isPrint
   const width = main.width
   const errorMessage = main.errorMessage

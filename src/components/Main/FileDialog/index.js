@@ -119,12 +119,13 @@ class FileDialog extends Component{
   }
 
   onDeleteFile = () => {
-    const {selectedFile} = this.props
+    const {selectedFile, updateSelectFile} = this.props
     const operateJson = {
       callback: this.onAfterDelete,
       filename: selectedFile
     }
     dbOperate(DEL_ONE_FILE, operateJson)
+    updateSelectFile('')
   }
   onCancel = () => {
     const {onShowFileDialog} = this.props

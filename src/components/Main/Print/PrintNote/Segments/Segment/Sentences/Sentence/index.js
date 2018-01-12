@@ -49,22 +49,17 @@ class Sentence extends Component{
   render (){
     const {note, segmentId, setting} = this.props
     let height = 0
-    let segmentHeight = 96
+    let segmentHeight = 120 * setting.interval / 1.5
     let fontSize = 80
-    let enSize = 1
     let font = 'MyFamilyFont1'
-    if (setting.enSize === '１倍') {
-      segmentHeight = 120
-    }
-    else if (setting.enSize === '２倍') {
-      enSize = 2
+
+    if (setting.enSize === '２倍') {
       fontSize = 80 * 2
-      segmentHeight = 240
+      segmentHeight = 2 * segmentHeight
     }
     else if (setting.enSize === '４倍') {
-      enSize = 4
       fontSize = 80 * 4
-      segmentHeight = 480
+      segmentHeight = 4 * segmentHeight
     }
 
     if (setting.enFont === 1) {
@@ -81,7 +76,7 @@ class Sentence extends Component{
 
     if (marginTopArray){
       senList = marginTopArray.map((obj, i) => {
-        return  <FourLine  key={i} lineNum={setting.lineNum} borderColor={setting.lineColor} enSize={enSize} isPrint={true} />
+        return  <FourLine  key={i}  interval={setting.interval} lineNum={setting.lineNum} borderColor={setting.lineColor} enSize={setting.enSize} isPrint={true} />
       })
     }
   

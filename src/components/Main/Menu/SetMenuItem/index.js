@@ -10,6 +10,7 @@ import ItemEnFont from './ItemEnFont'
 import ItemLineColor from './ItemLineColor'
 import ItemLineNum from './ItemLineNum'
 import ItemLineNos from './ItemLineNos'
+import ItemInterval from './ItemInterval'
 
 
 /* define layout start */
@@ -38,7 +39,7 @@ const DivSetMenuDetail = styled.div`
 
 const ItemSetting = Item.extend`
   vertical: ${props => props.vertical};
-  height: ${props => props.clicked ? '240px' : '50px'};
+  height: ${props => props.clicked ? '273px' : '50px'};
   margin: 0 0 10px 0;
   padding: 10px 0 5px 0;
   cursor: pointer;
@@ -102,6 +103,11 @@ class SetMenuItem extends Component{
             {...pick(this.props, keys(ItemLineNum.propTypes))}
           >
           </ItemLineNum>
+          <ItemInterval
+            name='行間'
+            {...pick(this.props, keys(ItemInterval.propTypes))}
+          >
+          </ItemInterval>
           <ItemLineNos
             name='行番'
             {...pick(this.props, keys(ItemLineNos.propTypes))}

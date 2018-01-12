@@ -101,11 +101,13 @@ class Sentences extends Component{
     }
 
     let i = 0
-    while (tabNodeList[i].id != id){
-      i++
+    let tabNode = null
+    if (tabNodeList) {
+      while (tabNodeList[i].id != id){
+        i++
+      }
+      tabNode = tabNodeList[i]
     }
-    let tabNode = tabNodeList[i]
-
     
     if (tabNode){
       const tabNodeJson = JSON.stringify(tabNode.node)

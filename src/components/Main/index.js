@@ -116,6 +116,23 @@ const InFileTitle = styled(ContentEditable).attrs({
   border: 2px solid orange;
   background-color: white;
 `
+const InName = styled(ContentEditable).attrs({
+  tabIndex: -1,
+})`
+ :empty:not(:focus):before {
+  content: attr(data-placeholder);
+  color: gray;
+  font-size: 18px;
+}
+  position: fixed;
+  top: 60px;
+  left: 700px;
+  width: 350px;
+  height: 40px;
+  font-size: 24px;
+  border: 2px solid orange;
+  background-color: white;
+`
 /* define layout end*/
 
 const PrintOrientation = (object) => {
@@ -165,6 +182,8 @@ class Main extends Component {
     curColor: PropTypes.string,
     forceChange: PropTypes.bool,
     offForceChange: PropTypes.func.isRequired,
+    setName: PropTypes.func.isRequired,
+    name: PropTypes.string,
   }
   countLength = (str) => { 
     let r = 0 
@@ -185,11 +204,26 @@ class Main extends Component {
     if (event.keyCode == 13){
       event.preventDefault()
     }
-    if (this.countLength(saveFileTitle) >= 50) {
+    if (this.countLength(saveFileTitle) >= 40) {
       if (event.keyCode != 8) {
         event.preventDefault()
       }
     }
+  }
+  onNameKeyDown = (event) => {
+    const {name} = this.props
+    if (event.keyCode == 13){
+      event.preventDefault()
+    }
+    if (this.countLength(name) >= 20) {
+      if (event.keyCode != 8) {
+        event.preventDefault()
+      }
+    }
+  }
+  setName = (event) => {
+    const {setName} = this.props
+    setName(event.target.value)
   }
   setFileTitle = (event) => {
     const {setFileTitle} = this.props
@@ -216,6 +250,7 @@ class Main extends Component {
     const {isPrint} = this.props
     if (!isPrint) {
       this.saveFileTitle.value = nextProps.saveFileTitle
+      this.name.value = nextProps.name
     }
   }
 
@@ -228,7 +263,7 @@ class Main extends Component {
   }
 
   render () {
-    const { isPrint, setting, width, isBold, isItalic, isUnderline, saveFileTitle, offForceChange} = this.props
+    const { isPrint, setting, width, isBold, isItalic, isUnderline, saveFileTitle, offForceChange, name} = this.props
     return (
       <div>
         <PrintOrientation layout={setting.layout} />
@@ -273,6 +308,17 @@ class Main extends Component {
                 U
               </Button>
             </StyleEditArea>
+            <InName
+              data-placeholder='名前'
+              html={name}
+              disabled={false}
+              spellCheck={false}
+              innerRef={(ref) => {this.name = ref}}
+              onChange={this.setName}
+              forceChange={true}
+              onKeyDown={this.onNameKeyDown}
+              offForceChange={offForceChange}
+            />
           </DivFixed>
           <DivSegments
             innerRef={(ref) => {this.allSegs = ref}}

@@ -62,12 +62,20 @@ export const enSizeList = [
 export const intervalList = [
   {
     id: 0,
-    value: 1.2,
+    value: 1.5,
   },
   {
     id: 1,
-    value: 1.5,
+    value: 2,
   },
+  {
+    id: 2,
+    value: 2.5,
+  },
+  {
+    id: 3,
+    value: 3
+  }
 ]
 
 export const jaSizeList = [

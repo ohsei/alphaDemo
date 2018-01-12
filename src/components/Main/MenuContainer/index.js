@@ -9,11 +9,13 @@ const mapStateToProps = ({menu, main}) => {
   const note = main.note
   const setting = main.setting
   const tabNodeList = main.tabNodeList
+  const name = main.name
   return {
     saveFileTitle,
     note,
     setting,
     tabNodeList,
+    name,
     ...menu
   }
 }

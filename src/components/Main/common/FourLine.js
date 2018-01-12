@@ -8,13 +8,13 @@ const DivSen = styled.div`
   width: 100%;
   z-index: 0;
   display: block;
-  padding: ${props => props.padding};
+  padding-bottom: ${props => `${props.padding}px`};
   background-color: white;
 `
 const DivLine = styled.div`
   width: 100%;
   display: flex;
-  padding: ${props => props.padding};
+  padding-top: ${props => `${props.padding}px`};
   border-width: 1px;
   border-style: solid;
   border-color: ${props => props.borderColor};
@@ -25,7 +25,7 @@ const DivLine = styled.div`
 const DivLineTop = styled.div`
   width: 100%;
   display: flex;
-  padding: ${props => props.padding};
+  padding-top: ${props => `${props.padding}px`};
   border-width: 1px;
   border-style: solid;
   border-color: ${props => props.lineNum == 2 ? 'white' : props.borderColor};
@@ -36,7 +36,7 @@ const DivLineTop = styled.div`
 const DivLineDown = styled.div`
   width: 100%;
   display: flex;
-  padding: ${props => props.padding};
+  padding-top: ${props => `${props.padding}px`};
   border-width: 1px;
   border-style: solid;
   border-color: ${props => props.lineNum == 2 ? 'white' : props.borderColor};
@@ -47,46 +47,63 @@ const DivLineDown = styled.div`
 
 class FourLine extends React.Component{
   static propTypes = {
-    marginTop: PropTypes.number,
+    interval: PropTypes.number,
     lineNum: PropTypes.number,
-    isPrint: PropTypes.bool,
     borderColor: PropTypes.string,
-    enSize: PropTypes.number
+    enSize: PropTypes.string
   }
 
-  componentDidMount () {
-    const {isPrint} = this.props
-    if (!isPrint) {
-      html2canvas (this.divsen, {
-        onrendered: function (canvas) {
-          canvas.toBlob(function (blob) {
-            FileSaver.saveAs(blob, '4line_1.5_2.png')
-          })
-        }
-      })
-    }
+  onClick =  () => {
+    const {lineNum, borderColor, enSize, interval} = this.props
+    const fileName = `${lineNum}lines_${borderColor}_${enSize}_${interval}.png`
+    html2canvas (this.divsen, {
+      onrendered: function (canvas) {
+        canvas.toBlob(function (blob) {
+          FileSaver.saveAs(blob, fileName)
+        })
+      }
+    })
   }
 
   render (){
-    const {lineNum, borderColor, enSize} = this.props
-    /* １倍 */
-    let padding = '23px 0 0 0'
-    let topPadding = '23px 0 0 0'
-    let bottomPadding = '0 0 0 0'
-
-    if (enSize === 1) {
-      topPadding = '35px 0 0 0'
-      bottomPadding = '0 0 12px 0'
+    const {lineNum, borderColor, enSize, interval} = this.props
+    
+    const padding1 = 23
+    const bottomPadding1 = 12
+    const segmentHeight1 = 120
+    const padding2 = 47
+    const bottomPadding2 = 24
+    const segmentHeight2 = 240
+    const padding4 = 95
+    const bottomPadding4 = 48
+    const segmentHeight4 = 480
+    const intervalFloat = parseFloat(interval)
+        
+    let padding = padding1
+    let bottomPadding = bottomPadding1
+    let topPadding = bottomPadding + padding
+    
+    if (enSize === '１倍') {
+      const newSegmentHeight1 = intervalFloat * segmentHeight1 / 1.5
+      const diff1 = newSegmentHeight1 - segmentHeight1
+      padding = padding1
+      bottomPadding = bottomPadding1 + (diff1 / 2)
+      topPadding = bottomPadding + padding
+          
     }
-    else if (enSize === 2) {
-      padding = '47px 0 0 0'
-      topPadding = '71px 0 0 0'
-      bottomPadding = '0 0 24px 0'
+    else if (enSize === '２倍') {
+      const newSegmentHeight2 = intervalFloat * segmentHeight2 / 1.5
+      const diff2 = newSegmentHeight2 - segmentHeight2
+      padding = padding2
+      bottomPadding = bottomPadding2 + (diff2 / 2)
+      topPadding = bottomPadding + padding
     }
-    else if (enSize === 4) {
-      padding = '95px 0 0 0'
-      topPadding = '143px 0 0 0'
-      bottomPadding = '0 0 48px 0'
+    else if (enSize === '４倍') {
+      const newSegmentHeight4 = intervalFloat * segmentHeight4 / 1.5
+      const diff4 = newSegmentHeight4 - segmentHeight4
+      padding = padding4
+      bottomPadding = bottomPadding4 + (diff4 / 2)
+      topPadding = bottomPadding + padding
     }
     return (
       <DivSen
