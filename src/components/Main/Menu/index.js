@@ -67,8 +67,9 @@ class Menu extends Component {
   }
 
   onShowFileDialog (){
-    const {onShowFileDialog} = this.props
-    onShowFileDialog()
+    const {onShowCreateFileConfirmDialog, updateIsOpenFile} = this.props
+    onShowCreateFileConfirmDialog(true)
+    updateIsOpenFile(true)
   }
 
   onSaveFileOver = () => {
@@ -125,13 +126,14 @@ class Menu extends Component {
   }
 
   onCreateNewFile (){
-    const {onShowCreateFileConfirmDialog} = this.props
+    const {onShowCreateFileConfirmDialog, updateIsNewFile} = this.props
     onShowCreateFileConfirmDialog(true)
+    updateIsNewFile(true)
   }
   
   componentDidUpdate () {
     const {isOverwrite, operateJson, onIsFilelistUpdate, updateOverwriteStatus, setOperateJson,
-      isCreateFile, updateCreateFileStatus, initalNote} = this.props
+      isOkToCreateFile, updateCreateFileStatus, initalNote, isOkToOpenFile, onShowFileDialog, updateOpenFileStatus} = this.props
 
     if (isOverwrite) {
       dbOperate(SAVE_ONE_FILE, operateJson)
@@ -140,9 +142,14 @@ class Menu extends Component {
       setOperateJson({})
     }
 
-    if (isCreateFile) {
+    if (isOkToCreateFile) {
       initalNote()
       updateCreateFileStatus(false)
+    }
+
+    if (isOkToOpenFile) {
+      onShowFileDialog()
+      updateOpenFileStatus(false)
     }
   } 
   render (){
@@ -197,9 +204,13 @@ Menu.propTypes = {
   updateOverwriteStatus: PropTypes.func.isRequired,
   operateJson: PropTypes.object,
   setOperateJson: PropTypes.func.isRequired,
-  isCreateFile: PropTypes.bool,
+  isOkToCreateFile: PropTypes.bool,
+  isOkToOpenFile: PropTypes.bool,
   updateCreateFileStatus: PropTypes.func.isRequired,
   onShowCreateFileConfirmDialog: PropTypes.func.isRequired,
+  updateIsNewFile: PropTypes.func.isRequired,
+  updateIsOpenFile: PropTypes.func.isRequired,
+  updateOpenFileStatus: PropTypes.func.isRequired,
 }
 
 export default Menu

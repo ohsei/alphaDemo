@@ -50,11 +50,6 @@ class TitleAlertDialog extends Component{
   static propTypes = {
     isShowTitleAlert: PropTypes.bool,
     onShowTitleAlertDialog: PropTypes.func.isRequired,
-    selectedFile: PropTypes.string,
-    offIsFilelistUpdate: PropTypes.func.isRequired,
-    isFileListUpdated: PropTypes.bool,
-    message: PropTypes.string,
-    isAlert: PropTypes.bool,
   }
 
   onCancel = () => {

@@ -21,7 +21,7 @@ class TxtImg extends Component{
         onClick={this.setCurSegment} >
         <LabNum setting={setting} id={segmentId} />
         <Sentences
-          senWidth={width - 50 - note[segmentId].imgWidth - 20}
+          senWidth={width - 50 - note[segmentId].imgWidth - 40}
           note={note}
           segmentId={segmentId}
           ref={(ref) => {this.divSegWithJan = ref}}
@@ -29,7 +29,7 @@ class TxtImg extends Component{
         />
         <Canvas
           id={segmentId}
-          canvasWidth={note[segmentId].imgWidth + 20}
+          canvasWidth={note[segmentId].imgWidth + 40}
           {...pick(this.props, keys(Canvas.propTypes))}
         />
       </SentenceArea>

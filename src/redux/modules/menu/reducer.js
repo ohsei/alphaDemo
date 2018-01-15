@@ -2,14 +2,16 @@ import {
   SET_IS_SHOW_MENU,
   SET_OPERATEJSON,
   UPDATE_OVERWRITE_STATUS,
-  UPDATE_CREATE_FILE_STATUS
+  UPDATE_CREATE_FILE_STATUS,
+  UPDATE_OPEN_FILE_STATUS
 } from './action-type'
 
 const initialState = {
   isShowMenu: false,
   operateJson: {},
   isOverwrite: false,
-  isCreateFile: false,
+  isOkToCreateFile: false,
+  isOkToOpenFile: false,
 }
 
 const {assign} = Object
@@ -33,9 +35,13 @@ export default (state = initialState, action) => {
     })
   case UPDATE_CREATE_FILE_STATUS:
     return assign({}, state, {
-      isCreateFile: payload
+      isOkToCreateFile: payload
     })    
     
+  case UPDATE_OPEN_FILE_STATUS:
+    return assign({}, state, {
+      isOkToOpenFile: payload
+    })
   default:
     return state
   }

@@ -10,14 +10,17 @@ import {
   SHOW_TITLE_ALERT_DIALOG,
   SHOW_SAVED_ALERT_DIALOG,
   SHOW_OVERWRITE_CONFIRM_DIALOG,
-  SHOW_CREATE_FILE_CONFIRM_DIALOG
+  SHOW_CREATE_FILE_CONFIRM_DIALOG,
+  UPDATE_IS_NEW_FILE,
+  UPDATE_IS_OPEN_FILE,
 } from '../main/action-type'
 
 import {
   SET_IS_SHOW_MENU,
   SET_OPERATEJSON,
   UPDATE_OVERWRITE_STATUS,
-  UPDATE_CREATE_FILE_STATUS
+  UPDATE_CREATE_FILE_STATUS,
+  UPDATE_OPEN_FILE_STATUS
 } from './action-type'
 
 export const onShowFileDialog = () => {
@@ -113,6 +116,27 @@ export const updateCreateFileStatus = (status) => {
 export const onShowCreateFileConfirmDialog = (status) => {
   return {
     type: SHOW_CREATE_FILE_CONFIRM_DIALOG,
+    payload: status
+  }
+}
+
+export const updateIsNewFile = (status) => {
+  return {
+    type: UPDATE_IS_NEW_FILE,
+    payload: status
+  }
+}
+
+export const updateIsOpenFile = (status) => {
+  return {
+    type: UPDATE_IS_OPEN_FILE,
+    payload: status
+  }
+}
+
+export const updateOpenFileStatus = (status) => {
+  return {
+    type: UPDATE_OPEN_FILE_STATUS,
     payload: status
   }
 }

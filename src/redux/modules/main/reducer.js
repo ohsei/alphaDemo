@@ -21,7 +21,9 @@ import {
   SHOW_TITLE_ALERT_DIALOG,
   SHOW_SAVED_ALERT_DIALOG,
   SHOW_OVERWRITE_CONFIRM_DIALOG,
-  SHOW_CREATE_FILE_CONFIRM_DIALOG
+  SHOW_CREATE_FILE_CONFIRM_DIALOG,
+  UPDATE_IS_NEW_FILE,
+  UPDATE_IS_OPEN_FILE,
 } from './action-type'
 
 const initialState = {
@@ -44,6 +46,8 @@ const initialState = {
   isShowSavedAlert: false,
   isShowOverwriteConfirm: false,
   isShowCreateFileConfirm: false,
+  isNewFile: false,
+  isOpenFile: false,
 }
 
 const {assign} = Object
@@ -225,6 +229,17 @@ export default (state = initialState, action) => {
     return assign({}, state, {
       isShowCreateFileConfirm: payload
     })
+  
+  case UPDATE_IS_NEW_FILE:
+    return assign({}, state, {
+      isNewFile: payload
+    })   
+
+  case UPDATE_IS_OPEN_FILE:
+    return assign({}, state, {
+      isOpenFile: payload
+    })   
+
   default:
     return state
   }

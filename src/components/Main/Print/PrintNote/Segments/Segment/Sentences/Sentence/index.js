@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import ContentEditable from 'react-contenteditable'
 
-import FourLine from '../../../../../../common/FourLine'
+import FourLine from '../../common/FourLine'
 
 const TextArea = styled(ContentEditable)`
   margin: 0 0 0 1px;

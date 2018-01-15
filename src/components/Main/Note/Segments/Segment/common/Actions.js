@@ -42,7 +42,6 @@ class Actions extends Component{
     updateNote: PropTypes.func,
     onForceChange: PropTypes.func,
     delSegment: PropTypes.func,
-    type: PropTypes.string.isRequired,
     setCurSegment: PropTypes.func.isRequired,
   }
 

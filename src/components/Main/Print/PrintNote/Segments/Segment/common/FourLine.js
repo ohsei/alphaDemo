@@ -5,7 +5,7 @@ import html2canvas from 'html2canvas'
 import FileSaver from 'file-saver'
 
 const DivSen = styled.div`
-  width: 100%;
+  width: 95%;
   z-index: 0;
   display: block;
   padding-bottom: ${props => `${props.padding}px`};

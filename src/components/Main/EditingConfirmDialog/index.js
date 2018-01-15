@@ -50,17 +50,31 @@ class EditingConfirmDialog extends Component{
   static propTypes = {
     isShowCreateFileConfirm: PropTypes.bool,
     onShowCreateFileConfirmDialog: PropTypes.func.isRequired,
-    updateCreateFileStatus: PropTypes.func.isRequired
+    updateCreateFileStatus: PropTypes.func.isRequired,
+    updateOpenFileStatus: PropTypes.func.isRequired,
+    isNewFile: PropTypes.bool,
+    isOpenFile: PropTypes.bool,
+    updateIsNewFile: PropTypes.func.isRequired,
+    updateIsOpenFile: PropTypes.func.isRequired,
   }
 
   onOk = () => {
-    const {updateCreateFileStatus, onShowCreateFileConfirmDialog} = this.props
-    updateCreateFileStatus(true)
+    const {isNewFile, isOpenFile, updateCreateFileStatus, updateOpenFileStatus, onShowCreateFileConfirmDialog, updateIsNewFile, updateIsOpenFile} = this.props
+    if (isNewFile) {
+      updateCreateFileStatus(true)
+    }
+    if (isOpenFile) {
+      updateOpenFileStatus(true)
+    }
     onShowCreateFileConfirmDialog(false)
+    updateIsNewFile(false)
+    updateIsOpenFile(false)
   }
   onCancel = () => {
-    const {onShowCreateFileConfirmDialog} = this.props
+    const {onShowCreateFileConfirmDialog, updateIsNewFile, updateIsOpenFile} = this.props
     onShowCreateFileConfirmDialog(false)
+    updateIsNewFile(false)
+    updateIsOpenFile(false)
   }
   
   render () {
@@ -69,7 +83,7 @@ class EditingConfirmDialog extends Component{
     return (
       <DivOverlap show={isShowCreateFileConfirm}>
         <Wrapper>
-          <h3 style={{flex: 8, marginLeft: 10}}>現在編集中ファイルを保存せずに新規しますか？</h3>
+          <h3 style={{flex: 8, marginLeft: 10}}>現在編集中ファイルを保存せずに新規やファイルを開きますか？</h3>
           <div style={{display: 'flex', direction: 'row', justifyContent: 'flex-end'}}>
             <Button onClick={this.onOk}>はい</Button>
             <Button onClick={this.onCancel}>キャンセル</Button>

@@ -43,12 +43,6 @@ const DrawPageBreakLine = (object) => {
 }
 
 class Segment extends Component{
-  constructor (props){
-    super(props)
-    this.state = {
-      imeMode: 'inactive'
-    }
-  }
   static propTypes = {
     id: PropTypes.number,
     width: PropTypes.number,

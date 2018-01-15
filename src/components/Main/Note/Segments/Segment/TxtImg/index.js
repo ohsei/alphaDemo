@@ -30,8 +30,8 @@ class TxtImgSeg extends Component{
     const imgMaxWidth = (width - 50) * 0.4
     let senWidth = (width - 50) * 0.6
     if (note[id].imgWidth > 0) {
-      if (imgMaxWidth > (note[id].imgWidth + 20)) {
-        senWidth = width - 50 - note[id].imgWidth - 20
+      if (imgMaxWidth > (note[id].imgWidth + 40)) {
+        senWidth = width - 50 - note[id].imgWidth - 40
       }
     }
     
@@ -48,7 +48,7 @@ class TxtImgSeg extends Component{
         />
         <Canvas
           imgMaxWidth={imgMaxWidth}
-          canvasWidth={note[id].imgWidth == 0 ? imgMaxWidth : note[id].imgWidth + 20}
+          canvasWidth={note[id].imgWidth == 0 ? imgMaxWidth : note[id].imgWidth + 40}
           {...pick(this.props, keys(Canvas.propTypes))}
         />
       </SentenceArea>

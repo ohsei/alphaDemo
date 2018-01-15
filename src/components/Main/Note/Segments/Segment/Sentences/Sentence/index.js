@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 
 import ContentEditable from '../../common/ContentEditable'
 import {getBrowserType} from '../../../../../../../utils/browserType'
-import FourLine from '../../../../../common/FourLine'
 
 const browserType = getBrowserType()
 
