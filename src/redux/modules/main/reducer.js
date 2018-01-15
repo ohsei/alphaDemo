@@ -24,6 +24,7 @@ import {
   SHOW_CREATE_FILE_CONFIRM_DIALOG,
   UPDATE_IS_NEW_FILE,
   UPDATE_IS_OPEN_FILE,
+  SHOW_ONLY_ENGLISH_ALERT_DIALOG,
 } from './action-type'
 
 const initialState = {
@@ -48,6 +49,7 @@ const initialState = {
   isShowCreateFileConfirm: false,
   isNewFile: false,
   isOpenFile: false,
+  isShowOnlyEnglishAlert: false,
 }
 
 const {assign} = Object
@@ -213,6 +215,11 @@ export default (state = initialState, action) => {
   case SHOW_TITLE_ALERT_DIALOG:
     return assign({}, state, {
       isShowTitleAlert: payload
+    })
+
+  case SHOW_ONLY_ENGLISH_ALERT_DIALOG:
+    return assign({}, state, {
+      isShowOnlyEnglishAlert: payload
     })
 
   case SHOW_SAVED_ALERT_DIALOG:

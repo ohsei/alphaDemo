@@ -16,6 +16,7 @@ import TitleAlertDialog from './TitleAlertDialog'
 import FileSavedAlertDialog from './FileSavedAlertDialog'
 import OverwriteConfirmDialog from './OverwriteConfirmDialog'
 import EditingConfirmDialog from './EditingConfirmDialog'
+import OnlyEnglishAlertDialog from './OnlyEnglishAlertDialog'
 
 injectGlobal`
   @font-face {
@@ -333,6 +334,7 @@ class Main extends Component {
           <FileSavedAlertDialog {...pick(this.props, keys(FileSavedAlertDialog.propTypes))} />
           <OverwriteConfirmDialog {...pick(this.props, keys(OverwriteConfirmDialog.propTypes))} />
           <EditingConfirmDialog {...pick(this.props, keys(EditingConfirmDialog.propTypes))} />
+          <OnlyEnglishAlertDialog {...pick(this.props, keys(OnlyEnglishAlertDialog.propTypes))} />
           <FileDialogContainer />
         </DivBg>}
         {isPrint && <PrintNoteContainer />}

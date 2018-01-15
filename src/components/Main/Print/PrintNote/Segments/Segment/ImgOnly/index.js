@@ -27,7 +27,7 @@ class ImgOnly extends Component{
     return (
       <SentenceArea
         onClick={this.setCurSegment} >
-        <LabNum setting={setting} id={segmentId} />
+        <LabNum lineNoType={setting.lineNos} id={segmentId} />
         <Canvas
           id={segmentId}
           canvasWidth={width - 50}

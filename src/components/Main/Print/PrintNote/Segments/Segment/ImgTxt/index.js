@@ -19,7 +19,7 @@ class ImgTxt extends Component{
       <SentenceArea
         width={width}
         onClick={this.setCurSegment} >
-        <LabNum setting={setting} id={segmentId} />
+        <LabNum lineNoType={setting.lineNos} id={segmentId} />
         <Canvas
           id={segmentId}
           canvasWidth={note[segmentId].imgWidth + 40}

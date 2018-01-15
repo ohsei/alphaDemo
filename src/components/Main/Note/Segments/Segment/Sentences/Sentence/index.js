@@ -70,6 +70,7 @@ class Sentence extends Component{
     updateCurColor: PropTypes.func.isRequired,
     forceChange: PropTypes.bool,
     offForceChange: PropTypes.func.isRequired,
+    onShowOnlyEnglishAlertDialog: PropTypes.func.isRequired,
   }
   setBold (){
     const {updateNote, note, id} = this.props
@@ -213,9 +214,9 @@ class Sentence extends Component{
   }
 
   onTextAreaBlur (){
-
+    const {onShowOnlyEnglishAlertDialog, updateNote, note, id} = this.props
     if (this.inputText.htmlEl.innerHTML.match(/[^\x01-\x7E]/)){
-      alert('英字のみでお願いいします。')
+      onShowOnlyEnglishAlertDialog(true)
       let i = 0
       let newText = ''
 
@@ -229,6 +230,11 @@ class Sentence extends Component{
         i ++
       }
       this.inputText.htmlEl.innerHTML = newText
+
+      let newNote = note.slice()
+      newNote[id].html = this.inputText.htmlEl.innerHTML
+      newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+      updateNote(newNote)
     }
   }
 

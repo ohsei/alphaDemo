@@ -29,7 +29,6 @@ class LabNum extends Component{
     case 1: {
       return curNo + 1
     }
-  
     case 2: {
       return `(${curNo + 1})`
     }

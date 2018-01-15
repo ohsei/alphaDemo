@@ -19,7 +19,7 @@ class TxtImg extends Component{
       <SentenceArea
         width={width}
         onClick={this.setCurSegment} >
-        <LabNum setting={setting} id={segmentId} />
+        <LabNum lineNoType={setting.lineNos} id={segmentId} />
         <Sentences
           senWidth={width - 50 - note[segmentId].imgWidth - 40}
           note={note}

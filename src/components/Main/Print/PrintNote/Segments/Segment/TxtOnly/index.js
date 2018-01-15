@@ -28,7 +28,7 @@ class TxtOnly extends Component{
 
     return (
       <SentenceArea width={width}>
-        <LabNum setting={setting} id={segmentId} />
+        <LabNum lineNoType={setting.lineNos} id={segmentId} />
         <Sentences
           senWidth={width - 50}
           {...pick(this.props, keys(Sentences.propTypes))} />

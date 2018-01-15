@@ -19,11 +19,12 @@ import {
   OFF_FORCECHANGE,
   ON_FORCECHANGE,
   SHOW_TITLE_ALERT_DIALOG,
+  SHOW_ONLY_ENGLISH_ALERT_DIALOG,
   SHOW_SAVED_ALERT_DIALOG,
   SHOW_OVERWRITE_CONFIRM_DIALOG,
   SHOW_CREATE_FILE_CONFIRM_DIALOG,
   UPDATE_IS_NEW_FILE,
-  UPDATE_IS_OPEN_FILE
+  UPDATE_IS_OPEN_FILE,
 } from './action-type'
 
 export const setFileTitle = (title) => {
@@ -119,6 +120,13 @@ export const onForceChange = () => {
 export const onShowTitleAlertDialog = (status) => {
   return {
     type: SHOW_TITLE_ALERT_DIALOG,
+    payload: status
+  }
+}
+
+export const onShowOnlyEnglishAlertDialog = (status) => {
+  return {
+    type: SHOW_ONLY_ENGLISH_ALERT_DIALOG,
     payload: status
   }
 }

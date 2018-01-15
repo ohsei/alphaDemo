@@ -78,12 +78,19 @@ class EditingConfirmDialog extends Component{
   }
   
   render () {
-    const {isShowCreateFileConfirm} = this.props
+    const {isShowCreateFileConfirm, isNewFile, isOpenFile} = this.props
+    let message = ''
+    if (isNewFile) {
+      message = 'このファイルは保存されていません。このまま新規ファイルを作成しますか？'
+    }
+    if (isOpenFile) {
+      message = 'このファイルは保存されていません。このままファイルを開きますか？'
+    }
 
     return (
       <DivOverlap show={isShowCreateFileConfirm}>
         <Wrapper>
-          <h3 style={{flex: 8, marginLeft: 10}}>現在編集中ファイルを保存せずに新規やファイルを開きますか？</h3>
+          <h3 style={{flex: 8, marginLeft: 10}}>{message}</h3>
           <div style={{display: 'flex', direction: 'row', justifyContent: 'flex-end'}}>
             <Button onClick={this.onOk}>はい</Button>
             <Button onClick={this.onCancel}>キャンセル</Button>

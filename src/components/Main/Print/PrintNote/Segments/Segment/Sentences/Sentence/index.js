@@ -65,7 +65,13 @@ class Sentence extends Component{
     if (setting.enFont === 1) {
       font = 'MyFamilyFont2'
     }
-    height = (note[segmentId].offsetHeight / segmentHeight).toFixed(0)
+    if (note[segmentId].offsetHeight == 0 ) {
+      height = 1
+    }
+    else {
+      height = (note[segmentId].offsetHeight / segmentHeight).toFixed(0)
+    }
+    
     let i = 0
     let marginTopArray = []
 
