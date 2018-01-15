@@ -111,10 +111,14 @@ export const lineColorList = [
 export const lineNumStyleList = [
   {
     id: 0,
-    value: '1,2,3,4......',
+    value: 'なし'
   },
   {
     id: 1,
+    value: '1,2,3,4......',
+  },
+  {
+    id: 2,
     value: '(1),(2),(3),(4)......',
   },
 ]

@@ -24,10 +24,13 @@ class LabNum extends Component{
   getLineNo (lineNoType, curNo){
     switch (parseInt(lineNoType)){
     case 0: {
+      return ''
+    }
+    case 1: {
       return curNo + 1
     }
-
-    case 1: {
+  
+    case 2: {
       return `(${curNo + 1})`
     }
     }

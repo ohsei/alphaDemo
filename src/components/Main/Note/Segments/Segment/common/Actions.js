@@ -42,6 +42,7 @@ class Actions extends Component{
     updateNote: PropTypes.func,
     onForceChange: PropTypes.func,
     delSegment: PropTypes.func,
+    type: PropTypes.string,
     setCurSegment: PropTypes.func.isRequired,
   }
 
@@ -84,7 +85,7 @@ class Actions extends Component{
   }
 
   delSegment = () => {
-    const {updateNote, setCurSegment, id, note} = this.props
+    const {updateNote, onForceChange, setCurSegment, id, note} = this.props
 
     let newNote = note.slice()
     let curNo = id
@@ -94,6 +95,7 @@ class Actions extends Component{
     }
     newNote.splice(curNo, 1)
     updateNote(newNote)
+    onForceChange()
     setCurSegment(curNo - 1)
   }
 
@@ -168,9 +170,9 @@ class Actions extends Component{
     }
   }
   componentDidMount (){
-    const {id} = this.props
+    const {id, note} = this.props
 
-    if (id === 0){
+    if (note.length === 1 && id === 0){
       this.btnDelSeg.disabled = true
       this.btnDelSeg.style.backgroundImage = 'url(' + require('../../../../../../resources/img/delete_gray.png') + ')'
     }
@@ -221,13 +223,15 @@ class Actions extends Component{
   }
 
   componentDidUpdate (){
-    const {id, type} = this.props
+    const {id, type, note} = this.props
 
-    if (id === 0){
+    if (note.length === 1 && id === 0){
       this.btnDelSeg.disabled = true
+      this.btnDelSeg.style.backgroundImage = 'url(' + require('../../../../../../resources/img/delete_gray.png') + ')'
     }
     else {
       this.btnDelSeg.disabled = false
+      this.btnDelSeg.style.backgroundImage = 'url(' + require('../../../../../../resources/img/delete.png') + ')'
     }
 
     if (type == 'txtOnly'){

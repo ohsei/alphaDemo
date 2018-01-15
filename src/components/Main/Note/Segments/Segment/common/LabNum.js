@@ -15,7 +15,7 @@ class LabNum extends Component{
   }
   static propTypes = {
     id: PropTypes.number,
-    lineNoType: PropTypes.number,
+    lineNoType: PropTypes.string,
   }
   static defaultProps = {
     lineNoType: 0,
@@ -24,10 +24,13 @@ class LabNum extends Component{
   getLineNo (lineNoType, curNo){
     switch (parseInt(lineNoType)){
     case 0: {
+      return ''
+    }
+    case 1: {
       return curNo + 1
     }
 
-    case 1: {
+    case 2: {
       return `(${curNo + 1})`
     }
     }
