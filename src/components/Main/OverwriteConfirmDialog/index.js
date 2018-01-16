@@ -1,3 +1,4 @@
+/* 保存されてないファイル存在する場合の確認用コンポーネント */
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'

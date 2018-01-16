@@ -1,3 +1,4 @@
+/* 編集エリア用共通コンポーネント */
 import React from 'react'
 import PropTypes from 'prop-types'
 

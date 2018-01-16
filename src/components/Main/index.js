@@ -1,3 +1,4 @@
+/* メイン画面用コンポーネント */
 import React, { Component } from 'react'
 import styled, { injectGlobal } from 'styled-components'
 import PropTypes from 'prop-types'

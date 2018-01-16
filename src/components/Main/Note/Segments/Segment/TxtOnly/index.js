@@ -6,7 +6,6 @@ import {pick, keys} from 'lodash'
 import LabNum from '../common/LabNum'
 import Sentences from '../Sentences'
 
-
 const SentenceArea = styled.div`
   display: flex;
   width: ${props => `${props.width}px`};

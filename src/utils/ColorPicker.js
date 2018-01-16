@@ -1,3 +1,4 @@
+/* 色変換用コンポーネント */
 import React from 'react'
 import PropTypes from 'prop-types'
 import reactCSS from 'reactcss'

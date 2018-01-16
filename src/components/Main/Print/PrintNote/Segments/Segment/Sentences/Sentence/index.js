@@ -1,3 +1,4 @@
+
 import React, {Component} from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
@@ -5,6 +6,9 @@ import ContentEditable from 'react-contenteditable'
 
 import FourLine from '../../common/FourLine'
 
+/* <<説明>> 
+   edgeの場合、背景画像が印刷できないため、4線が背景画像ではなく、FourLineコンポーネントで実装している
+   FourLineコンポーネントのロジックは4線作成用application(fourlineMaker)のFourLineコンポーネントと一致している。*/
 const TextArea = styled(ContentEditable)`
   margin: 0 0 0 1px;
   width: 95%;
