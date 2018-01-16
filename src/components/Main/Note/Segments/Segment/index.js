@@ -19,6 +19,7 @@ const DivInterval = styled.div`
   background-color: lightgreen;
 `
 const PageBreakLine = styled.div`
+  margin-bottom: 25px;
   width: 100%;
   height: 2;
   border:1px dotted blue;
@@ -115,7 +116,8 @@ class Segment extends Component{
           {content}
           <Actions type={type} {...pick(this.props, keys(Actions.propTypes))} />
         </SegArea>
-        <DivInterval interval={'50px'} />
+        {isPageBreak && <DivInterval interval={'25px'} /> }
+        {!isPageBreak && <DivInterval interval={'50px'} /> }
         <DrawPageBreakLine
           isPageBreak={isPageBreak}
           title={title}

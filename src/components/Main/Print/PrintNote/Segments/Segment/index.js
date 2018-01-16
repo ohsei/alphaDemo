@@ -25,6 +25,7 @@ const DivInterval = styled.div`
   background-color: white;
 `
 const PageBreakLine = styled.div`
+  margin-top: 25px;
   width: 100%;
   height: 2;
   border: 2px dotted black;
@@ -65,7 +66,6 @@ class Segment extends Component {
   render (){
     const {note, segmentId, setting, title, name} = this.props
     const type = note[segmentId].type
-
     const content = (()  => {
       if (type == 'imgOnly'){
         return <ImgOnly
