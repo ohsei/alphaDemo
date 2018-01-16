@@ -46,35 +46,23 @@ const ItemSetting = Item.extend`
 `
 
 class SetMenuItem extends Component{
-  constructor (props){
-    super(props)
-    this.state = {
-      isClicked: false,
-    }
-    this.onSettingClick = this.onSettingClick.bind(this)
-  }
 
-  onSettingClick (){
-    this.setState(prevState => ({
-      isClicked: !prevState.isClicked
-    }))
-  }
-
-  componentDidUpdate () {
-    const {onShowMenu} = this.props
-    onShowMenu(this.state.isClicked)
+  onSettingClick = () => {
+    const {onShowMenu, isShowMenu} = this.props
+    onShowMenu(!isShowMenu)
   }
 
   render (){
+    const {isShowMenu} = this.props
     return (
       <DivSetMenu>
         <ItemSetting vertical
           ref={(ref) => {this.setting = ref}}
-          clicked={this.state.isClicked}
+          clicked={isShowMenu}
           onClick={this.onSettingClick}>
           {this.props.setName}
         </ItemSetting>
-        <DivSetMenuDetail clicked={this.state.isClicked}>
+        <DivSetMenuDetail clicked={isShowMenu}>
           <ItemLayout
             name='用紙設定'
             {...pick(this.props, keys(ItemLayout.propTypes))}>
@@ -125,6 +113,7 @@ SetMenuItem.propTypes = {
   updateSetting: PropTypes.func.isRequired,
   updateWidth: PropTypes.func.isRequired,
   onShowMenu: PropTypes.func.isRequired,
+  isShowMenu: PropTypes.bool
 }
 
 export default SetMenuItem

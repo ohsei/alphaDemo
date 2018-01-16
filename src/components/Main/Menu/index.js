@@ -56,6 +56,7 @@ const ItemSetting = Item.extend`
     }
   }
 `
+const ItemLink = ItemSetting.withComponent('a')
 
 class Menu extends Component {
   constructor (props){
@@ -130,6 +131,11 @@ class Menu extends Component {
     onShowCreateFileConfirmDialog(true)
     updateIsNewFile(true)
   }
+
+  closeMenu = () => {
+    const {onShowMenu} = this.props
+    onShowMenu(false)
+  }
   
   componentDidUpdate () {
     const {isOverwrite, operateJson, onIsFilelistUpdate, updateOverwriteStatus, setOperateJson,
@@ -161,20 +167,20 @@ class Menu extends Component {
             setName='設定'
             {...pick(this.props, keys(SetMenuItem.propTypes))}
           ></SetMenuItem>
-          <ItemSetting vertical><a
+          <ItemLink vertical
             ref={(ref) => this.print = ref}
-            onClick={this.onPrint}>印刷</a></ItemSetting>
-          <ItemSetting vertical><a
+            onClick={this.onPrint}>印刷</ItemLink>
+          <ItemLink vertical
             ref={(ref) => {this.save = ref}}
-            onClick={this.onSaveFile}>保存</a></ItemSetting>
-          <ItemSetting vertical><a
+            onClick={this.onSaveFile}>保存</ItemLink>
+          <ItemLink vertical
             ref={(ref) => {this.newFile = ref}}
-            onClick={this.onCreateNewFile}>新規</a></ItemSetting>
-          <ItemSetting vertical><a
+            onClick={this.onCreateNewFile}>新規</ItemLink>
+          <ItemLink vertical
             ref={(ref) => {this.open = ref}}
-            onClick={this.onShowFileDialog}>開く</a></ItemSetting>
+            onClick={this.onShowFileDialog}>開く</ItemLink>
         </DivMenu>
-        <DivOverlap show={isShowMenu} />
+        <DivOverlap show={isShowMenu} onClick={this.closeMenu} />
       </div>
     )
   }
@@ -211,6 +217,7 @@ Menu.propTypes = {
   updateIsNewFile: PropTypes.func.isRequired,
   updateIsOpenFile: PropTypes.func.isRequired,
   updateOpenFileStatus: PropTypes.func.isRequired,
+  onShowMenu: PropTypes.func.isRequired,
 }
 
 export default Menu
