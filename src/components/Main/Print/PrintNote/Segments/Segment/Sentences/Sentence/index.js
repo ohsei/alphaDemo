@@ -2,14 +2,13 @@
 import React, {Component} from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import ContentEditable from 'react-contenteditable'
 
 import FourLine from '../../common/FourLine'
 
 /* <<説明>> 
    edgeの場合、背景画像が印刷できないため、4線が背景画像ではなく、FourLineコンポーネントで実装している
    FourLineコンポーネントのロジックは4線作成用application(fourlineMaker)のFourLineコンポーネントと一致している。*/
-const TextArea = styled(ContentEditable)`
+const TextArea = styled.div`
   margin: 0 0 0 1px;
   width: 95%;
   border: none;
@@ -35,13 +34,6 @@ const DivSen = styled.div`
 `
 
 class Sentence extends Component{
-  constructor (props){
-    super(props)
-    this.state = {
-      imeMode: 'inactive',
-      textAreaHeight: 0,
-    }
-  }
 
   static propTypes = {
     note: PropTypes.array,
@@ -95,10 +87,7 @@ class Sentence extends Component{
         <DivSen>
           <div ref={ref => this.senList = ref}>{senList}</div>
           <TextArea
-            html={note[segmentId].html}
-            disabled={true}
-            spellCheck={false}
-            style={{imeMode: this.state.imeMode}}
+            dangerouslySetInnerHTML={{__html: note[segmentId].html}}
             innerRef={(ref) => {this.inputText = ref}}
             fontFamily={font}
             fontSize={`${fontSize}px`}

@@ -1,8 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
-import html2canvas from 'html2canvas'
-import FileSaver from 'file-saver'
 
 const DivSen = styled.div`
   width: 95%;
@@ -51,18 +49,6 @@ class FourLine extends React.Component{
     lineNum: PropTypes.number,
     borderColor: PropTypes.string,
     enSize: PropTypes.string
-  }
-
-  onClick =  () => {
-    const {lineNum, borderColor, enSize, interval} = this.props
-    const fileName = `${lineNum}lines_${borderColor}_${enSize}_${interval}.png`
-    html2canvas (this.divsen, {
-      onrendered: function (canvas) {
-        canvas.toBlob(function (blob) {
-          FileSaver.saveAs(blob, fileName)
-        })
-      }
-    })
   }
 
   render (){
