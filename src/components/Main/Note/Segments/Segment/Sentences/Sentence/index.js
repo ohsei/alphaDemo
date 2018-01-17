@@ -191,7 +191,7 @@ class Sentence extends Component{
       }
     }
 
-    if (this.inputText.htmlEl.offsetHeight > (pageHeight - 300) && event.keyCode !== 8) {
+    if (this.inputText.htmlEl.offsetHeight > (pageHeight - 210) && event.keyCode !== 8) {
       onShowAddSegmentAlertDialog(true)
       const {updateNote, note, id} = this.props
 
