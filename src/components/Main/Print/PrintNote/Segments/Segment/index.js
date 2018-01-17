@@ -64,8 +64,9 @@ class Segment extends Component {
     loadedArray: PropTypes.array,
   }
   render (){
-    const {note, segmentId, setting, title, name} = this.props
+    const {note, segmentId, title, name} = this.props
     const type = note[segmentId].type
+    const isPageBreak = note[segmentId].isPageBreak
     const content = (()  => {
       if (type == 'imgOnly'){
         return <ImgOnly
@@ -94,7 +95,8 @@ class Segment extends Component {
         <DivSegs innerRef={(ref) => {this.segment = ref}}>
           { content }
         </DivSegs>
-        <DivInterval interval={setting.interval} />
+        {isPageBreak && <DivInterval interval={25} />}
+        {!isPageBreak && <DivInterval interval={50} />}
         <DrawPageBreakLine
           isPageBreak={note[segmentId].isPageBreak}
           title={title}

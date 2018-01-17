@@ -25,6 +25,7 @@ import {
   SHOW_CREATE_FILE_CONFIRM_DIALOG,
   UPDATE_IS_NEW_FILE,
   UPDATE_IS_OPEN_FILE,
+  SHOW_ADD_SEGMENT_ALERT_DIALOG
 } from './action-type'
 
 export const setFileTitle = (title) => {
@@ -184,6 +185,13 @@ export const updateIsNewFile = (status) => {
 export const updateIsOpenFile = (status) => {
   return {
     type: UPDATE_IS_OPEN_FILE,
+    payload: status
+  }
+}
+
+export const onShowAddSegmentAlertDialog = (status) => {
+  return {
+    type: SHOW_ADD_SEGMENT_ALERT_DIALOG,
     payload: status
   }
 }

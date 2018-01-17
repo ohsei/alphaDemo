@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 
 import ContentEditable from '../../common/ContentEditable'
 import {getBrowserType} from '../../../../../../../utils/browserType'
+import {defaultPageHeight, landscapePageHeight} from '../../../../../../../utils/const'
 
 const browserType = getBrowserType()
 
@@ -71,6 +72,7 @@ class Sentence extends Component{
     forceChange: PropTypes.bool,
     offForceChange: PropTypes.func.isRequired,
     onShowOnlyEnglishAlertDialog: PropTypes.func.isRequired,
+    onShowAddSegmentAlertDialog: PropTypes.func.isRequired,
   }
   setBold (){
     const {updateNote, note, id} = this.props
@@ -166,6 +168,10 @@ class Sentence extends Component{
     updateNote(newNote)
   }
   onKeyDown (event){
+    const {onShowAddSegmentAlertDialog, setting} = this.props
+
+    const pageHeight = setting.layout == 'landscape' ? landscapePageHeight : defaultPageHeight
+
     if (event.ctrlKey){
       isCtrlKeyPressed = true
     }
@@ -183,6 +189,17 @@ class Sentence extends Component{
           event.preventDefault()
         }
       }
+    }
+
+    if (this.inputText.htmlEl.offsetHeight > (pageHeight - 300) && event.keyCode !== 8) {
+      onShowAddSegmentAlertDialog(true)
+      const {updateNote, note, id} = this.props
+
+      let newNote = note.slice()
+      newNote[id].html = event.target.value
+      newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+      updateNote(newNote)
+      event.preventDefault()
     }
   }
   onPaste (e){
@@ -215,6 +232,7 @@ class Sentence extends Component{
 
   onTextAreaBlur (){
     const {onShowOnlyEnglishAlertDialog, updateNote, note, id} = this.props
+
     if (this.inputText.htmlEl.innerHTML.match(/[^\x01-\x7E]/)){
       onShowOnlyEnglishAlertDialog(true)
       let i = 0
@@ -267,7 +285,6 @@ class Sentence extends Component{
     let url = `url(${require(`../../../../../../../resources/img/${fileName}`)})`
     this.inputText.htmlEl.style.backgroundImage = url
   }
-
   componentDidUpdate (prevProps) {
     const {updateIsBold, updateIsItalic, updateIsUnderline, updateCurColor} = this.props
     const isBold = document.queryCommandState('bold')

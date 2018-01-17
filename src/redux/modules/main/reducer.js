@@ -25,6 +25,7 @@ import {
   UPDATE_IS_NEW_FILE,
   UPDATE_IS_OPEN_FILE,
   SHOW_ONLY_ENGLISH_ALERT_DIALOG,
+  SHOW_ADD_SEGMENT_ALERT_DIALOG,
 } from './action-type'
 
 const initialState = {
@@ -50,6 +51,7 @@ const initialState = {
   isNewFile: false,
   isOpenFile: false,
   isShowOnlyEnglishAlert: false,
+  isShowAddSegmentAlert: false,
 }
 
 const {assign} = Object
@@ -91,7 +93,8 @@ export default (state = initialState, action) => {
     return (() => {
       const {note, setting} = state
       let maxPageHeight = defaultPageHeight
-      if (setting.layout != 'portrait') {
+
+      if (setting.layout !== 'portrait') {
         maxPageHeight = landscapePageHeight
       }
       let pageHeight = 0
@@ -102,7 +105,7 @@ export default (state = initialState, action) => {
 
       for (let i = 0;i < note.length; i++) {
         if (note[i].segmentHeight > maxPageHeight) {
-          errorMessage = `第${i+1}セグメントの文章が一ページの範囲を超えているため、印刷レイアウトが崩れる可能性があります。`
+          errorMessage = `第${i + 1}セグメントの文章が一ページの範囲を超えているため、印刷レイアウトが崩れる可能性があります。`
         }
         pageHeight = note[i].segmentHeight + pageHeight
 
@@ -206,7 +209,7 @@ export default (state = initialState, action) => {
     return assign({}, state, {
       forceChange: false
     })
-  
+
   case ON_FORCECHANGE:
     return assign({}, state, {
       forceChange: true
@@ -236,17 +239,21 @@ export default (state = initialState, action) => {
     return assign({}, state, {
       isShowCreateFileConfirm: payload
     })
-  
+
   case UPDATE_IS_NEW_FILE:
     return assign({}, state, {
       isNewFile: payload
-    })   
+    })
 
   case UPDATE_IS_OPEN_FILE:
     return assign({}, state, {
       isOpenFile: payload
-    })   
+    })
 
+  case SHOW_ADD_SEGMENT_ALERT_DIALOG:
+    return assign({}, state, {
+      isShowAddSegmentAlert: payload
+    })
   default:
     return state
   }

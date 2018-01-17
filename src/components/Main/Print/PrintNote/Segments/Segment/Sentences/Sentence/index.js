@@ -61,13 +61,14 @@ class Sentence extends Component{
     if (setting.enFont === 1) {
       font = 'MyFamilyFont2'
     }
+
     if (note[segmentId].offsetHeight == 0 ) {
       height = 1
     }
     else {
       height = (note[segmentId].offsetHeight / segmentHeight).toFixed(0)
     }
-    
+
     let i = 0
     let marginTopArray = []
 
@@ -81,7 +82,7 @@ class Sentence extends Component{
         return  <FourLine  key={i}  interval={setting.interval} lineNum={setting.lineNum} borderColor={setting.lineColor} enSize={setting.enSize} isPrint={true} />
       })
     }
-  
+
     return (
       <div style={{display: 'flex'}}>
         <DivSen>

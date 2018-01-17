@@ -7,8 +7,8 @@ import {pick, keys} from 'lodash'
 import Flines_block_Regular_font1 from '../../resources/font/4lines_2018-Regular.otf'
 import Flines_block_Regular_font2 from '../../resources/font/4lines_block-Regular.otf'
 import ColorPicker from '../../utils/ColorPicker'
-import ContentEditable from './Note/Segments/Segment/common/ContentEditable'
 
+import ContentEditable from './Note/Segments/Segment/common/ContentEditable'
 import MenuContainer from './MenuContainer'
 import Segments from './Note/Segments'
 import PrintNoteContainer from './Print/PrintNoteContainer'
@@ -18,6 +18,7 @@ import FileSavedAlertDialog from './FileSavedAlertDialog'
 import OverwriteConfirmDialog from './OverwriteConfirmDialog'
 import EditingConfirmDialog from './EditingConfirmDialog'
 import OnlyEnglishAlertDialog from './OnlyEnglishAlertDialog'
+import AddSegmentAlertDialog from './AddSegmentAlertDialog'
 
 injectGlobal`
   @font-face {
@@ -28,6 +29,7 @@ injectGlobal`
     font-family: 'MyFamilyFont2';
     src: url('${Flines_block_Regular_font2}');
   }
+
 `
 /* define layout start*/
 const DivBg = styled.div.attrs({
@@ -191,25 +193,29 @@ class Main extends Component {
     setName: PropTypes.func.isRequired,
     name: PropTypes.string,
   }
-  countLength = (str) => { 
-    let r = 0 
-    for (let i = 0; i < str.length; i++) { 
-      let c = str.charCodeAt(i) 
+  countLength = (str) => {
+    let r = 0
+
+    for (let i = 0; i < str.length; i++) {
+      let c = str.charCodeAt(i)
+
       // Shift_JIS: 0x0 ～ 0x80, 0xa0 , 0xa1 ～ 0xdf , 0xfd ～ 0xff 
       // Unicode : 0x0 ～ 0x80, 0xf8f0, 0xff61 ～ 0xff9f, 0xf8f1 ～ 0xf8f3 
-      if ( (c >= 0x0 && c < 0x81) || (c == 0xf8f0) || (c >= 0xff61 && c < 0xffa0) || (c >= 0xf8f1 && c < 0xf8f4)) { 
-        r += 1 
-      } else { 
-        r += 2 
-      } 
-    } 
-    return r 
+      if ( (c >= 0x0 && c < 0x81) || (c == 0xf8f0) || (c >= 0xff61 && c < 0xffa0) || (c >= 0xf8f1 && c < 0xf8f4)) {
+        r += 1
+      } else {
+        r += 2
+      }
+    }
+    return r
   }
   onKeyDown = (event) => {
     const {saveFileTitle} = this.props
+
     if (event.keyCode == 13){
       event.preventDefault()
     }
+
     if (this.countLength(saveFileTitle) >= 40) {
       if (event.keyCode != 8) {
         event.preventDefault()
@@ -218,9 +224,11 @@ class Main extends Component {
   }
   onNameKeyDown = (event) => {
     const {name} = this.props
+
     if (event.keyCode == 13){
       event.preventDefault()
     }
+
     if (this.countLength(name) >= 20) {
       if (event.keyCode != 8) {
         event.preventDefault()
@@ -254,6 +262,7 @@ class Main extends Component {
 
   componentWillUpdate (nextProps) {
     const {isPrint} = this.props
+
     if (!isPrint) {
       this.saveFileTitle.value = nextProps.saveFileTitle
       this.name.value = nextProps.name
@@ -336,6 +345,7 @@ class Main extends Component {
           <OverwriteConfirmDialog {...pick(this.props, keys(OverwriteConfirmDialog.propTypes))} />
           <EditingConfirmDialog {...pick(this.props, keys(EditingConfirmDialog.propTypes))} />
           <OnlyEnglishAlertDialog {...pick(this.props, keys(OnlyEnglishAlertDialog.propTypes))} />
+          <AddSegmentAlertDialog {...pick(this.props, keys(AddSegmentAlertDialog.propTypes))} />
           <FileDialogContainer />
         </DivBg>}
         {isPrint && <PrintNoteContainer />}
