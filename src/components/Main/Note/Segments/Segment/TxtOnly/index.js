@@ -5,6 +5,7 @@ import {pick, keys} from 'lodash'
 
 import LabNum from '../common/LabNum'
 import Sentences from '../Sentences'
+import {defaultPageHeight, landscapePageHeight} from '../../../../../../utils/const'
 
 const SentenceArea = styled.div`
   display: flex;
@@ -19,6 +20,7 @@ class TxtOnly extends Component{
     this.setColor = this.setColor.bind(this)
     this.setItalic = this.setItalic.bind(this)
     this.setUnderline =  this.setUnderline.bind(this)
+    this.onKeyDown = this.onKeyDown.bind(this)
   }
   static propTypes = {
     id: PropTypes.number,
@@ -39,6 +41,11 @@ class TxtOnly extends Component{
     updateIsItalic: PropTypes.func.isRequired,
     updateIsUnderline: PropTypes.func.isRequired,
     updateCurColor: PropTypes.func.isRequired,
+    updateOverOnePage: PropTypes.func.isRequired,
+    isOverOnePage: PropTypes.bool,
+    onForceChange: PropTypes.func.isRequired,
+    setOverPageId: PropTypes.func.isRequired,
+    overPageId: PropTypes.number,
     ...Sentences.propTypes,
   }
 
@@ -59,7 +66,7 @@ class TxtOnly extends Component{
   }
 
   componentDidUpdate (prevProps) {
-    const {updateNote, note, id} = this.props
+    const {updateNote, note, id, onShowAddSegmentAlertDialog, updateOverOnePage, setting, setOverPageId} = this.props
     const segmentHeight = this.sentencearea.offsetHeight
 
     if (prevProps.note[id].segmentHeight != segmentHeight) {
@@ -67,16 +74,30 @@ class TxtOnly extends Component{
       newNote[id].segmentHeight = segmentHeight
       updateNote(newNote)
     }
-
+    const pageHeight = setting.layout == 'landscape' ? landscapePageHeight : defaultPageHeight
+    
+    if (this.sentencearea.offsetHeight > (pageHeight - 75)) {
+      onShowAddSegmentAlertDialog(true)
+      updateOverOnePage(true)
+      setOverPageId(id)
+    }
   }
 
+  onKeyDown = (event) => {
+   /* const {isOverOnePage} = this.props
+
+    if (isOverOnePage  && event.keyCode !== 8) {
+      event.preventDefault()
+    }*/
+  }
   render (){
     const {id, width, setting} = this.props
     return (
       <SentenceArea
         innerRef={ref => this.sentencearea = ref}
         width={width}
-        onClick={this.setCurSegment} >
+        onClick={this.setCurSegment}
+        onKeyDown={this.onKeyDown} >
         <LabNum lineNoType={setting.lineNos} id={id} />
         <Sentences
           ref={ref => this.sentences = ref}

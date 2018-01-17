@@ -9,6 +9,7 @@ import ImgOnly from './ImgOnly'
 import ImgTxt from './ImgTxt'
 import TxtImg from './TxtImg'
 
+
 const SegArea = styled.div`
   width: ${props => `${props.width}px`};
   background-color: white;
@@ -22,7 +23,7 @@ const PageBreakLine = styled.div`
   margin-bottom: 25px;
   width: 100%;
   height: 2;
-  border:1px dotted blue;
+  border:1px dotted black;
   page-break-after: always;
 
   @media print{

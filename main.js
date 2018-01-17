@@ -12,12 +12,12 @@ let mainWindow;
 function createWindow () {
   // メインウィンドウを作成します
   mainWindow = new BrowserWindow({width: 1200, height: 800, icon:  __dirname + '/public/alphaDemo.ico'});
-  
+  mainWindow.setMenu(null)
   // メインウィンドウに表示するURLを指定します
   // （今回はmain.jsと同じディレクトリのindex.html）
   mainWindow.loadURL("file://" + __dirname + "/public/index.html");
   //mainWindow.loadURL('http://localhost:3000');
-  mainWindow.webContents.openDevTools()
+  //mainWindow.webContents.openDevTools()
   // メインウィンドウが閉じられたときの処理
   mainWindow.on('closed', function () {
     mainWindow = null;

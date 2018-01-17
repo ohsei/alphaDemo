@@ -4,7 +4,7 @@ import styled, { injectGlobal } from 'styled-components'
 import PropTypes from 'prop-types'
 import {pick, keys} from 'lodash'
 
-import Flines_block_Regular_font1 from '../../resources/font/4lines_2018-Regular.otf'
+import Flines_block_Regular_font1 from '../../resources/font/4lines_2018-Regular.ttf'
 import Flines_block_Regular_font2 from '../../resources/font/4lines_block-Regular.otf'
 import ColorPicker from '../../utils/ColorPicker'
 

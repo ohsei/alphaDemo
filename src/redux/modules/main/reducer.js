@@ -26,6 +26,8 @@ import {
   UPDATE_IS_OPEN_FILE,
   SHOW_ONLY_ENGLISH_ALERT_DIALOG,
   SHOW_ADD_SEGMENT_ALERT_DIALOG,
+  UPDATE_OVER_ONE_PAGE,
+  SET_OVER_PAGE_ID
 } from './action-type'
 
 const initialState = {
@@ -52,6 +54,8 @@ const initialState = {
   isOpenFile: false,
   isShowOnlyEnglishAlert: false,
   isShowAddSegmentAlert: false,
+  isOverOnePage: false,
+  overPageId: 0,
 }
 
 const {assign} = Object
@@ -253,6 +257,16 @@ export default (state = initialState, action) => {
   case SHOW_ADD_SEGMENT_ALERT_DIALOG:
     return assign({}, state, {
       isShowAddSegmentAlert: payload
+    })
+  
+  case UPDATE_OVER_ONE_PAGE:
+    return assign({}, state, {
+      isOverOnePage: payload
+    })
+
+  case SET_OVER_PAGE_ID:
+    return assign({}, state, {
+      overPageId: payload
     })
   default:
     return state

@@ -128,7 +128,6 @@ class PrintNote extends Component{
       </StyledDiv>
     )
   }
-
 }
 
 PrintNote.propTypes = {

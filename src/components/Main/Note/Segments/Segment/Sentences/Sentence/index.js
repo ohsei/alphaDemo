@@ -73,6 +73,10 @@ class Sentence extends Component{
     offForceChange: PropTypes.func.isRequired,
     onShowOnlyEnglishAlertDialog: PropTypes.func.isRequired,
     onShowAddSegmentAlertDialog: PropTypes.func.isRequired,
+    isOverOnePage: PropTypes.bool,
+    overPageId: PropTypes.number,
+    updateOverOnePage: PropTypes.func.isRequired,
+
   }
   setBold (){
     const {updateNote, note, id} = this.props
@@ -168,10 +172,6 @@ class Sentence extends Component{
     updateNote(newNote)
   }
   onKeyDown (event){
-    const {onShowAddSegmentAlertDialog, setting} = this.props
-
-    const pageHeight = setting.layout == 'landscape' ? landscapePageHeight : defaultPageHeight
-
     if (event.ctrlKey){
       isCtrlKeyPressed = true
     }
@@ -190,17 +190,7 @@ class Sentence extends Component{
         }
       }
     }
-
-    if (this.inputText.htmlEl.offsetHeight > (pageHeight - 210) && event.keyCode !== 8) {
-      onShowAddSegmentAlertDialog(true)
-      const {updateNote, note, id} = this.props
-
-      let newNote = note.slice()
-      newNote[id].html = event.target.value
-      newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
-      updateNote(newNote)
-      event.preventDefault()
-    }
+    
   }
   onPaste (e){
     e.preventDefault()
@@ -258,7 +248,6 @@ class Sentence extends Component{
 
   onTextAreaChange (e){
     const {updateNote, note, id} = this.props
-
     let newNote = note.slice()
     newNote[id].html = e.target.value
     newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
@@ -286,7 +275,8 @@ class Sentence extends Component{
     this.inputText.htmlEl.style.backgroundImage = url
   }
   componentDidUpdate (prevProps) {
-    const {updateIsBold, updateIsItalic, updateIsUnderline, updateCurColor} = this.props
+    const {updateIsBold, updateIsItalic, updateIsUnderline, updateCurColor,
+      isOverOnePage, overPageId, id, updateOverOnePage, note, updateNote} = this.props
     const isBold = document.queryCommandState('bold')
     const isItalic = document.queryCommandState('italic')
     const isUnderline = document.queryCommandState('underline')
@@ -313,11 +303,19 @@ class Sentence extends Component{
 
     if ((prevProps.setting.enSize != this.props.setting.enSize) )
     {
-      const {updateNote, note, id} = this.props
-
       let newNote = note.slice()
       newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
       updateNote(newNote)
+    }
+
+    if (isOverOnePage && overPageId == id) {
+      const {updateNote, note, id} = this.props
+      document.execCommand('delete')
+      let newNote = note.slice()
+      newNote[id].html = this.inputText.htmlEl.innerHTML
+      newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+      updateNote(newNote)
+      updateOverOnePage(false)
     }
   }
 

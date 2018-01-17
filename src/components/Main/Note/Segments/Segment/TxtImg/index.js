@@ -6,6 +6,7 @@ import {pick, keys} from 'lodash'
 import Sentences from '../Sentences'
 import LabNum from '../common/LabNum'
 import Canvas from '../common/Canvas'
+import {defaultPageHeight, landscapePageHeight} from '../../../../../../utils/const'
 
 
 const SentenceArea = styled.div`
@@ -15,13 +16,28 @@ const SentenceArea = styled.div`
 
 class TxtImgSeg extends Component{
   componentDidUpdate (prevProps) {
-    const {updateNote, note, id} = this.props
+    const {updateNote, note, id, setting, onShowAddSegmentAlertDialog, updateOverOnePage, setOverPageId} = this.props
     const segmentHeight = this.sentencearea.offsetHeight
 
     if (prevProps.note[id].segmentHeight != segmentHeight){
       let newNote = note.slice()
       newNote[id].segmentHeight = segmentHeight
       updateNote(newNote)
+    }
+
+    const pageHeight = setting.layout == 'landscape' ? landscapePageHeight : defaultPageHeight
+    
+    if (this.sentencearea.offsetHeight > (pageHeight - 75)) {
+      onShowAddSegmentAlertDialog(true)
+      updateOverOnePage(true)
+      setOverPageId(id)
+    }
+  }
+  onKeyDown = (event) => {
+    const {isOverOnePage} = this.props
+    
+    if (isOverOnePage  && event.keyCode !== 8) {
+      event.preventDefault()
     }
   }
   render (){
@@ -39,6 +55,7 @@ class TxtImgSeg extends Component{
       <SentenceArea
         innerRef={ref => this.sentencearea = ref}
         width={width}
+        onKeyDown={this.onKeyDown}
         onClick={this.setCurSegment} >
         <LabNum lineNoType={setting.lineNos} id={id} />
         <Sentences
