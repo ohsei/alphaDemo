@@ -145,7 +145,7 @@ const InName = styled(ContentEditable).attrs({
 /* define layout end*/
 
 const PrintOrientation = (object) => {
-  if (object.layout == 'landscape'){
+  if (object.layout === 'landscape'){
     return (
       <style type='text/css'>
         {'@media print{@page {size: A4 landscape; margin: 0}}'}

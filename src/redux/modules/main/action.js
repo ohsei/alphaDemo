@@ -33,6 +33,8 @@ import {
   SET_OLD_SETTING,
   SHOW_CANNOT_CHANGE_SETTING_ALERT_DIALOG,
   SET_ALERT_MESSAGE,
+  UPDATE_WIDTH,
+  SET_MAX_LINE_NUM_MESSAGE
 } from './action-type'
 
 export const setFileTitle = (title) => {
@@ -249,5 +251,19 @@ export const setAlertMessage = (alertMessage) => {
   return {
     type: SET_ALERT_MESSAGE,
     payload: alertMessage
+  }
+}
+
+export const updateWidth = (width) => {
+  return {
+    type: UPDATE_WIDTH,
+    payload: width
+  }
+}
+
+export const setMaxLineNumMessage = (message) => {
+  return {
+    type: SET_MAX_LINE_NUM_MESSAGE,
+    payload: message
   }
 }

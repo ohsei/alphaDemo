@@ -46,6 +46,7 @@ const Button = styled.button`
 class CannotChangeSettingAlertDialog extends Component{
   static propTypes = {
     alertMessage: PropTypes.string,
+    maxLineNumMessage: PropTypes.string,
     isShowCannotChangeSettingAlert: PropTypes.bool,
     onShowCannotChangeSettingAlertDialog: PropTypes.func.isRequired,
   }
@@ -57,12 +58,15 @@ class CannotChangeSettingAlertDialog extends Component{
   }
 
   render () {
-    const {isShowCannotChangeSettingAlert, alertMessage} = this.props
+    const {isShowCannotChangeSettingAlert, alertMessage, maxLineNumMessage} = this.props
 
     return (
       <DivOverlap show={isShowCannotChangeSettingAlert}>
         <Wrapper>
           <h3 style={{flex: 8, marginLeft: 10}}>{alertMessage}</h3>
+          <br />
+          <p>※適切範囲とは</p>
+          <p dangerouslySetInnerHTML={{__html: maxLineNumMessage}} />
           <Button style={{float: 'right'}} onClick={this.onCancel}>OK</Button>
         </Wrapper>
       </DivOverlap>

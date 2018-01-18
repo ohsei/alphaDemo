@@ -57,6 +57,7 @@ class Actions extends Component{
 
     let newNote = note.slice()
     note[id].type = 'imgOnly'
+    note[id].html = ''
     updateNote(newNote)
   }
 
@@ -81,6 +82,7 @@ class Actions extends Component{
 
     let newNote = note.slice()
     note[id].type = 'txtOnly'
+    note[id].dataUrl = ''
     updateNote(newNote)
   }
 

@@ -6,6 +6,8 @@ import {pick, keys} from 'lodash'
 import LabNum from '../common/LabNum'
 import Sentences from '../Sentences'
 import {defaultPageHeight, landscapePageHeight} from '../../../../../../utils/const'
+import {changeFormat} from '../../../../../../utils/changeFormat'
+import {getMaxNumsWithSetting} from '../../../../../../utils/getMaxNumsWithSetting'
 
 const SentenceArea = styled.div`
   display: flex;
@@ -46,6 +48,7 @@ class TxtOnly extends Component{
     onForceChange: PropTypes.func.isRequired,
     setOverPageId: PropTypes.func.isRequired,
     overPageId: PropTypes.number,
+    updateWidth: PropTypes.func.isRequired,
     oldSetting: PropTypes.object,
     setOldSetting: PropTypes.func.isRequired,
     isChangedFormat: PropTypes.bool,
@@ -53,6 +56,7 @@ class TxtOnly extends Component{
     updateSetting: PropTypes.func.isRequired,
     onShowCannotChangeSettingAlertDialog: PropTypes.func.isRequired,
     setAlertMessage: PropTypes.func.isRequired,
+    setMaxLineNumMessage: PropTypes.func.isRequired,
     ...Sentences.propTypes,
   }
 
@@ -72,25 +76,12 @@ class TxtOnly extends Component{
     this.props.setCurSegment(this.props.id)
   }
 
-  changeFormat = (oldSetting, newSetting) => {
-    const isEnSizeChanged = oldSetting.enSize === newSetting.enSize ? false : true
-    const isIntervalChanged = oldSetting.interval === newSetting.interval ? false : true
-    const isUpJaSizeChanged = oldSetting.upJaSize === newSetting.upJaSize ? false : true
-    const isDownJaSizeChanged = oldSetting.downJaSize === newSetting.downJaSize ? false : true
-    const isLayoutChanged = oldSetting.layout === newSetting.layout ? false : true
-
-    if (isEnSizeChanged || isIntervalChanged || isUpJaSizeChanged || isDownJaSizeChanged || isLayoutChanged) {
-      return true
-    }
-
-    return false
-  }
-
   componentDidUpdate (prevProps) {
     const {updateNote, note, id, onShowAddSegmentAlertDialog, updateOverOnePage,
       setting, setOverPageId, updateSetting,
       setOldSetting, updateIsChangeFormat, isChangedFormat, oldSetting,
-      onShowCannotChangeSettingAlertDialog, setAlertMessage} = this.props
+      onShowCannotChangeSettingAlertDialog, setAlertMessage, setMaxLineNumMessage,
+      updateWidth} = this.props
     const segmentHeight = this.sentencearea.offsetHeight
 
     if (prevProps.note[id].segmentHeight != segmentHeight) {
@@ -101,7 +92,7 @@ class TxtOnly extends Component{
     const pageHeight = setting.layout == 'landscape' ? landscapePageHeight : defaultPageHeight
 
     if (this.sentencearea.offsetHeight > (pageHeight - 75)) {
-      const isChangeFormat = this.changeFormat(prevProps.setting, this.props.setting)
+      const isChangeFormat = changeFormat(prevProps.setting, this.props.setting)
 
       if (isChangeFormat) {
         updateIsChangeFormat(true)
@@ -112,7 +103,10 @@ class TxtOnly extends Component{
         onShowCannotChangeSettingAlertDialog(true)
         let newSetting = Object.assign({}, prevProps.setting)
         updateSetting(newSetting)
-        setAlertMessage(`設定変更する場合、第${id + 1}ボックスの内容は印刷一ページの範囲を超えたため、設定の変更ができません。内容を適切な範囲に変更してから、設定を変更してください。`)
+        updateWidth(prevProps.width)
+        const nums = getMaxNumsWithSetting(setting)
+        setAlertMessage(`設定変更する場合、第${id + 1}ボックスの内容は印刷一ページの範囲を超えたため、設定の変更ができません。内容を適切※な範囲に変更してから、設定を変更してください。`)
+        setMaxLineNumMessage(`用紙設定が<font color='#0000ff'>${setting.layout == 'portrait' ? '縦' : '横'}</font>、英字サイズが<font color='#0000ff'>${setting.enSize}</font>、行間が<font color='#0000ff'>${setting.interval}</font>に設定を変更したい場合、<br />和文一行として、英文は最大<font color='#ff0000'>${nums}</font>行しか入力できません。<br /><small>和文を多数行で入れる場合、英文の最大行数もっと減らして調整する可能性がある。</small>`)
         updateIsChangeFormat(false)
       }
       else {

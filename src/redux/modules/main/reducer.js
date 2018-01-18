@@ -31,7 +31,8 @@ import {
   UPDATE_IS_CHANGE_FORMAT,
   SET_OLD_SETTING,
   SHOW_CANNOT_CHANGE_SETTING_ALERT_DIALOG,
-  SET_ALERT_MESSAGE
+  SET_ALERT_MESSAGE,
+  SET_MAX_LINE_NUM_MESSAGE
 } from './action-type'
 
 const initialState = {
@@ -64,6 +65,7 @@ const initialState = {
   isChangedFormat: false,
   isShowCannotChangeSettingAlert: false,
   alertMessage: '',
+  maxLineNumMessage: ''
 }
 
 const {assign} = Object
@@ -295,6 +297,11 @@ export default (state = initialState, action) => {
   case SET_ALERT_MESSAGE:
     return assign({}, state, {
       alertMessage: payload
+    })
+  
+  case SET_MAX_LINE_NUM_MESSAGE:
+    return assign({}, state, {
+      maxLineNumMessage: payload
     })
   default:
     return state
