@@ -1,7 +1,7 @@
 import {
   UPDATE_OVERWRITE_STATUS,
   UPDATE_CREATE_FILE_STATUS,
-  UPDATE_OPEN_FILE_STATUS
+  UPDATE_OPEN_FILE_STATUS,
 } from '../menu/action-type'
 
 import {
@@ -27,7 +27,12 @@ import {
   UPDATE_IS_OPEN_FILE,
   SHOW_ADD_SEGMENT_ALERT_DIALOG,
   UPDATE_OVER_ONE_PAGE,
-  SET_OVER_PAGE_ID
+  SET_OVER_PAGE_ID,
+  UPDATE_SETTING,
+  UPDATE_IS_CHANGE_FORMAT,
+  SET_OLD_SETTING,
+  SHOW_CANNOT_CHANGE_SETTING_ALERT_DIALOG,
+  SET_ALERT_MESSAGE,
 } from './action-type'
 
 export const setFileTitle = (title) => {
@@ -198,6 +203,13 @@ export const onShowAddSegmentAlertDialog = (status) => {
   }
 }
 
+export const onShowCannotChangeSettingAlertDialog = (status) => {
+  return {
+    type: SHOW_CANNOT_CHANGE_SETTING_ALERT_DIALOG,
+    payload: status
+  }
+}
+
 export const updateOverOnePage = (status) => {
   return {
     type: UPDATE_OVER_ONE_PAGE,
@@ -209,5 +221,33 @@ export const setOverPageId = (id) => {
   return {
     type: SET_OVER_PAGE_ID,
     payload: id
+  }
+}
+
+export const updateSetting = (setting) => {
+  return {
+    type: UPDATE_SETTING,
+    payload: setting
+  }
+}
+
+export const updateIsChangeFormat = (isChangedFormat) => {
+  return {
+    type: UPDATE_IS_CHANGE_FORMAT,
+    payload: isChangedFormat
+  }
+}
+
+export const setOldSetting = (oldSetting) => {
+  return {
+    type: SET_OLD_SETTING,
+    payload: oldSetting
+  }
+}
+
+export const setAlertMessage = (alertMessage) => {
+  return {
+    type: SET_ALERT_MESSAGE,
+    payload: alertMessage
   }
 }

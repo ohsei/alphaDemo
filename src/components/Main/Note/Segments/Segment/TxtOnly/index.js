@@ -46,6 +46,13 @@ class TxtOnly extends Component{
     onForceChange: PropTypes.func.isRequired,
     setOverPageId: PropTypes.func.isRequired,
     overPageId: PropTypes.number,
+    oldSetting: PropTypes.object,
+    setOldSetting: PropTypes.func.isRequired,
+    isChangedFormat: PropTypes.bool,
+    updateIsChangeFormat: PropTypes.func.isRequired,
+    updateSetting: PropTypes.func.isRequired,
+    onShowCannotChangeSettingAlertDialog: PropTypes.func.isRequired,
+    setAlertMessage: PropTypes.func.isRequired,
     ...Sentences.propTypes,
   }
 
@@ -65,8 +72,25 @@ class TxtOnly extends Component{
     this.props.setCurSegment(this.props.id)
   }
 
+  changeFormat = (oldSetting, newSetting) => {
+    const isEnSizeChanged = oldSetting.enSize === newSetting.enSize ? false : true
+    const isIntervalChanged = oldSetting.interval === newSetting.interval ? false : true
+    const isUpJaSizeChanged = oldSetting.upJaSize === newSetting.upJaSize ? false : true
+    const isDownJaSizeChanged = oldSetting.downJaSize === newSetting.downJaSize ? false : true
+    const isLayoutChanged = oldSetting.layout === newSetting.layout ? false : true
+
+    if (isEnSizeChanged || isIntervalChanged || isUpJaSizeChanged || isDownJaSizeChanged || isLayoutChanged) {
+      return true
+    }
+
+    return false
+  }
+
   componentDidUpdate (prevProps) {
-    const {updateNote, note, id, onShowAddSegmentAlertDialog, updateOverOnePage, setting, setOverPageId} = this.props
+    const {updateNote, note, id, onShowAddSegmentAlertDialog, updateOverOnePage,
+      setting, setOverPageId, updateSetting,
+      setOldSetting, updateIsChangeFormat, isChangedFormat, oldSetting,
+      onShowCannotChangeSettingAlertDialog, setAlertMessage} = this.props
     const segmentHeight = this.sentencearea.offsetHeight
 
     if (prevProps.note[id].segmentHeight != segmentHeight) {
@@ -75,20 +99,36 @@ class TxtOnly extends Component{
       updateNote(newNote)
     }
     const pageHeight = setting.layout == 'landscape' ? landscapePageHeight : defaultPageHeight
-    
+
     if (this.sentencearea.offsetHeight > (pageHeight - 75)) {
-      onShowAddSegmentAlertDialog(true)
-      updateOverOnePage(true)
-      setOverPageId(id)
+      const isChangeFormat = this.changeFormat(prevProps.setting, this.props.setting)
+
+      if (isChangeFormat) {
+        updateIsChangeFormat(true)
+        setOldSetting(Object.assign({}, prevProps.setting))
+      }
+
+      if ((isChangeFormat || isChangedFormat) && (setting != oldSetting)) {
+        onShowCannotChangeSettingAlertDialog(true)
+        let newSetting = Object.assign({}, prevProps.setting)
+        updateSetting(newSetting)
+        setAlertMessage(`設定変更する場合、第${id + 1}ボックスの内容は印刷一ページの範囲を超えたため、設定の変更ができません。内容を適切な範囲に変更してから、設定を変更してください。`)
+        updateIsChangeFormat(false)
+      }
+      else {
+        onShowAddSegmentAlertDialog(true)
+        updateOverOnePage(true)
+        setOverPageId(id)
+      }
     }
   }
 
   onKeyDown = (event) => {
-   /* const {isOverOnePage} = this.props
+    const {isOverOnePage} = this.props
 
     if (isOverOnePage  && event.keyCode !== 8) {
       event.preventDefault()
-    }*/
+    }
   }
   render (){
     const {id, width, setting} = this.props

@@ -27,13 +27,18 @@ import {
   SHOW_ONLY_ENGLISH_ALERT_DIALOG,
   SHOW_ADD_SEGMENT_ALERT_DIALOG,
   UPDATE_OVER_ONE_PAGE,
-  SET_OVER_PAGE_ID
+  SET_OVER_PAGE_ID,
+  UPDATE_IS_CHANGE_FORMAT,
+  SET_OLD_SETTING,
+  SHOW_CANNOT_CHANGE_SETTING_ALERT_DIALOG,
+  SET_ALERT_MESSAGE
 } from './action-type'
 
 const initialState = {
   saveFileTitle: '',
   name: '',
   setting: Object.assign({}, defaultSetting),
+  oldSetting: Object.assign({}, defaultSetting),
   note: [Object.assign({}, defaultNote)],
   curSegmentNo: 0,
   curComponent: null,
@@ -56,6 +61,9 @@ const initialState = {
   isShowAddSegmentAlert: false,
   isOverOnePage: false,
   overPageId: 0,
+  isChangedFormat: false,
+  isShowCannotChangeSettingAlert: false,
+  alertMessage: '',
 }
 
 const {assign} = Object
@@ -258,7 +266,7 @@ export default (state = initialState, action) => {
     return assign({}, state, {
       isShowAddSegmentAlert: payload
     })
-  
+
   case UPDATE_OVER_ONE_PAGE:
     return assign({}, state, {
       isOverOnePage: payload
@@ -267,6 +275,26 @@ export default (state = initialState, action) => {
   case SET_OVER_PAGE_ID:
     return assign({}, state, {
       overPageId: payload
+    })
+
+  case UPDATE_IS_CHANGE_FORMAT:
+    return assign({}, state, {
+      isChangedFormat: payload
+    })
+
+  case SET_OLD_SETTING:
+    return assign({}, state, {
+      oldSetting: payload
+    })
+
+  case SHOW_CANNOT_CHANGE_SETTING_ALERT_DIALOG:
+    return assign({}, state, {
+      isShowCannotChangeSettingAlert: payload
+    })
+
+  case SET_ALERT_MESSAGE:
+    return assign({}, state, {
+      alertMessage: payload
     })
   default:
     return state

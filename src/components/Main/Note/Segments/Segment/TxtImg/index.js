@@ -16,7 +16,9 @@ const SentenceArea = styled.div`
 
 class TxtImgSeg extends Component{
   componentDidUpdate (prevProps) {
-    const {updateNote, note, id, setting, onShowAddSegmentAlertDialog, updateOverOnePage, setOverPageId} = this.props
+    const {updateNote, note, id, setting,
+      onShowAddSegmentAlertDialog, updateOverOnePage, setOverPageId}
+    = this.props
     const segmentHeight = this.sentencearea.offsetHeight
 
     if (prevProps.note[id].segmentHeight != segmentHeight){
@@ -26,7 +28,7 @@ class TxtImgSeg extends Component{
     }
 
     const pageHeight = setting.layout == 'landscape' ? landscapePageHeight : defaultPageHeight
-    
+
     if (this.sentencearea.offsetHeight > (pageHeight - 75)) {
       onShowAddSegmentAlertDialog(true)
       updateOverOnePage(true)
@@ -35,7 +37,7 @@ class TxtImgSeg extends Component{
   }
   onKeyDown = (event) => {
     const {isOverOnePage} = this.props
-    
+
     if (isOverOnePage  && event.keyCode !== 8) {
       event.preventDefault()
     }
@@ -45,12 +47,13 @@ class TxtImgSeg extends Component{
 
     const imgMaxWidth = (width - 50) * 0.4
     let senWidth = (width - 50) * 0.6
+
     if (note[id].imgWidth > 0) {
       if (imgMaxWidth > (note[id].imgWidth + 40)) {
         senWidth = width - 50 - note[id].imgWidth - 40
       }
     }
-    
+
     return (
       <SentenceArea
         innerRef={ref => this.sentencearea = ref}

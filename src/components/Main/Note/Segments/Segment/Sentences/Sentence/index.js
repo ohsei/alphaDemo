@@ -190,7 +190,7 @@ class Sentence extends Component{
         }
       }
     }
-    
+
   }
   onPaste (e){
     e.preventDefault()

@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import ContentEditable from '../common/ContentEditable'
 import {pick, keys} from 'lodash'
+
+import ContentEditable from '../common/ContentEditable'
 
 import Sentence from './Sentence'
 
@@ -52,7 +53,7 @@ class Sentences extends Component{
 
   onUpChange (){
     const {id, updateNote, note} = this.props
-    
+
     let newNote = note.slice()
     newNote[id].jaHtml = this.upJaHtml.htmlEl.innerHTML
 
@@ -102,16 +103,18 @@ class Sentences extends Component{
 
     let i = 0
     let tabNode = null
+
     if (tabNodeList) {
       while (tabNodeList[i].id != id){
         i++
       }
       tabNode = tabNodeList[i]
     }
-    
+
     if (tabNode){
       const tabNodeJson = JSON.stringify(tabNode.node)
       const nodeJson = JSON.stringify(node)
+
       if (tabNodeJson !== nodeJson) {
         this.updateTabNode({id: id, node: node})
       }
@@ -192,7 +195,7 @@ class Sentences extends Component{
 
     const upJaSize = setting.upJaSize
     const downJaSize = setting.downJaSize
-    
+
 
     return (
       <DivSentences
@@ -200,7 +203,7 @@ class Sentences extends Component{
         onKeyDown={this.keyDown}
         innerRef={ref => this.divSentences = ref}
         width={senWidth}>
-        {setting.upJaSize != 'オフ' && <DivJan id={`up${id}`} html={note[id].jaHtml} innerRef={ref => this.upJaHtml = ref} fontSize={upJaSize} spellCheck={false} disabled={false} onChange={this.onUpChange} 
+        {setting.upJaSize != 'オフ' && <DivJan id={`up${id}`} html={note[id].jaHtml} innerRef={ref => this.upJaHtml = ref} fontSize={upJaSize} spellCheck={false} disabled={false} onChange={this.onUpChange}
           forceChange={true}
           offForceChange={offForceChange} />}
         <Sentence
@@ -208,7 +211,7 @@ class Sentences extends Component{
           lineNum={setting.lineNum}
           {...pick(this.props, keys(Sentence.propTypes))}
         />
-        {setting.downJaSize != 'オフ' && <DivJan id={`down${id}`} html={note[id].jaHtml} innerRef={ref => this.downJaHtml = ref} fontSize={downJaSize} spellCheck={false} disabled={false} onChange={this.onDownChange} 
+        {setting.downJaSize != 'オフ' && <DivJan id={`down${id}`} html={note[id].jaHtml} innerRef={ref => this.downJaHtml = ref} fontSize={downJaSize} spellCheck={false} disabled={false} onChange={this.onDownChange}
           forceChange={true}
           offForceChange={offForceChange} />}
       </DivSentences>

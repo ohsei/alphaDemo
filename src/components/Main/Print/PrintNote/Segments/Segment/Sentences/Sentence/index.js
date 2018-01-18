@@ -45,7 +45,7 @@ class Sentence extends Component{
   render (){
     const {note, segmentId, setting} = this.props
     let height = 0
-    let segmentHeight = 120 * setting.interval / 1.5
+    let segmentHeight = 120 * parseFloat(setting.interval) / 1.5
     let fontSize = 80
     let font = 'MyFamilyFont1'
 
