@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import {pick, keys} from 'lodash'
 
 import Flines_block_Regular_font1 from '../../resources/font/4lines_2018-Regular.ttf'
-import Flines_block_Regular_font2 from '../../resources/font/4lines_block-Regular.otf'
+import Flines_block_Regular_font2 from '../../resources/font/4lines_block-Regular.ttf'
 import ColorPicker from '../../utils/ColorPicker'
 
 import ContentEditable from './Note/Segments/Segment/common/ContentEditable'
@@ -30,7 +30,6 @@ injectGlobal`
     font-family: 'MyFamilyFont2';
     src: url('${Flines_block_Regular_font2}');
   }
-
 `
 /* define layout start*/
 const DivBg = styled.div.attrs({
@@ -55,7 +54,6 @@ const DivFixed = styled.div.attrs({
   left: 0;
   background-color: lightgreen;
 `
-
 const DivMenu = styled.div.attrs({
   tabIndex: -1,
 })`
@@ -86,6 +84,13 @@ const DivSegments = styled.div`
     padding: 0;
   }
 `
+const DisabledColor = styled.div.attrs({
+  tabIndex: -1,
+})`
+  width: 55px;
+  height: 50px;
+  background-color: gray;
+`
 const Button = styled.button.attrs({
   tabIndex: -1,
 })`
@@ -108,7 +113,6 @@ const DivFixedTitle = styled.label.attrs({
   color: white;
   text-align: center;
 `
-
 const InFileTitle = styled(ContentEditable).attrs({
   tabIndex: -1,
 })`
@@ -193,6 +197,7 @@ class Main extends Component {
     offForceChange: PropTypes.func.isRequired,
     setName: PropTypes.func.isRequired,
     name: PropTypes.string,
+    isJaInputing: PropTypes.bool,
   }
   countLength = (str) => {
     let r = 0
@@ -279,7 +284,7 @@ class Main extends Component {
   }
 
   render () {
-    const { isPrint, setting, width, isBold, isItalic, isUnderline, saveFileTitle, offForceChange, name} = this.props
+    const { isPrint, setting, width, isBold, isItalic, isUnderline, saveFileTitle, offForceChange, name, isJaInputing} = this.props
     return (
       <div>
         <PrintOrientation layout={setting.layout} />
@@ -301,23 +306,28 @@ class Main extends Component {
               <MenuContainer />
             </DivMenu>
             <StyleEditArea>
-              <ColorPicker
+
+              {!isJaInputing && <ColorPicker
                 ref={ref => this.colorChange = ref}
                 setColor={this.setColor}
-              />
+              />}
+              {isJaInputing && <DisabledColor />}
               <Button
+                disabled={isJaInputing ? true : false}
                 active={isBold}
                 innerRef={ref => this.boldChange = ref}
                 onClick={this.setBold}>
                 B
               </Button>
               <Button
+                disabled={isJaInputing ? true : false}
                 active={isItalic}
                 innerRef={ref => this.italicChange = ref}
                 onClick={this.setItalic}>
                 /
               </Button>
               <Button
+                disabled={isJaInputing ? true : false}
                 active={isUnderline}
                 ref={ref => this.underlineChange = ref}
                 onClick={this.setUnderline}>

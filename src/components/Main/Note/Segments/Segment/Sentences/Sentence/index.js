@@ -31,7 +31,6 @@ const DivSen = styled.div`
 `
 let isShiftKeyPressed = false
 let isNewLine = false
-let isCtrlKeyPressed = false
 
 class Sentence extends Component{
   constructor (props){
@@ -76,7 +75,8 @@ class Sentence extends Component{
     isOverOnePage: PropTypes.bool,
     overPageId: PropTypes.number,
     updateOverOnePage: PropTypes.func.isRequired,
-
+    updateOmitZenkaku: PropTypes.func.isRequired,
+    isOmitZenkaku: PropTypes.bool,
   }
   setBold (){
     const {updateNote, note, id} = this.props
@@ -172,9 +172,6 @@ class Sentence extends Component{
     updateNote(newNote)
   }
   onKeyDown (event){
-    if (event.ctrlKey){
-      isCtrlKeyPressed = true
-    }
 
     if (event.keyCode == 16){
       isShiftKeyPressed = true
@@ -248,6 +245,7 @@ class Sentence extends Component{
 
   onTextAreaChange (e){
     const {updateNote, note, id} = this.props
+    
     let newNote = note.slice()
     newNote[id].html = e.target.value
     newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight

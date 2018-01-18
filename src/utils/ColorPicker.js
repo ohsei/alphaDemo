@@ -19,6 +19,7 @@ class ColorPicker extends React.Component {
 
   static propTypes = {
     setColor: PropTypes.func.isRequired,
+    disabled: PropTypes.bool,
   }
   setColor = (color) => {
     color = color.substr(4, color.length - 5)
@@ -37,7 +38,10 @@ class ColorPicker extends React.Component {
   }
 
   handleClick = () => {
-    this.setState({ displayColorPicker: !this.state.displayColorPicker })
+    const {disabled} = this.props
+    if (!disabled ) {
+      this.setState({ displayColorPicker: !this.state.displayColorPicker })
+    }
   };
 
   handleClose = () => {

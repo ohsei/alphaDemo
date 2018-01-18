@@ -163,7 +163,10 @@ class Actions extends Component{
 
           let newNote = note.slice()
           newNote[id].dataUrl = dataUrl
-
+          newNote[id].imgWidth = 0
+          newNote[id].imgHeight = 0
+          newNote[id].posX = 20
+          newNote[id].posY = 20
           updateNote(newNote)
         }.bind(this)
       }.bind(this)

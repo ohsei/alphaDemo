@@ -34,7 +34,9 @@ import {
   SHOW_CANNOT_CHANGE_SETTING_ALERT_DIALOG,
   SET_ALERT_MESSAGE,
   UPDATE_WIDTH,
-  SET_MAX_LINE_NUM_MESSAGE
+  SET_MAX_LINE_NUM_MESSAGE,
+  UPDATE_JA_INPUTING,
+  UPDATE_OMIT_ZENKAKU
 } from './action-type'
 
 export const setFileTitle = (title) => {
@@ -265,5 +267,19 @@ export const setMaxLineNumMessage = (message) => {
   return {
     type: SET_MAX_LINE_NUM_MESSAGE,
     payload: message
+  }
+}
+
+export const updateJaInputing = (status) => {
+  return {
+    type: UPDATE_JA_INPUTING,
+    payload: status
+  }
+}
+
+export const updateOmitZenkaku = (status) => {
+  return {
+    type: UPDATE_OMIT_ZENKAKU,
+    payload: status
   }
 }

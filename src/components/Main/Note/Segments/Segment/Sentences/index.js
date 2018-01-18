@@ -44,6 +44,7 @@ class Sentences extends Component{
     updateIsUnderline: PropTypes.func.isRequired,
     updateCurColor: PropTypes.func.isRequired,
     offForceChange: PropTypes.func.isRequired,
+    updateJaInputing: PropTypes.func.isRequired,
     ...Sentence.propTypes,
   }
 
@@ -69,6 +70,14 @@ class Sentences extends Component{
     updateNote(newNote)
   }
 
+  onUpJaFocus = () => {
+    const {updateJaInputing} = this.props
+    updateJaInputing(true)
+  }
+  onUpJaBlur = () => {
+    const {updateJaInputing} = this.props
+    updateJaInputing(false)
+  }
   onFocus (){
     const {id, setCurSegment, setCurComponent} = this.props
     setCurSegment(id)
@@ -192,10 +201,8 @@ class Sentences extends Component{
 
   render (){
     const {note, id, setting, senWidth, offForceChange} = this.props
-
     const upJaSize = setting.upJaSize
     const downJaSize = setting.downJaSize
-
 
     return (
       <DivSentences
@@ -205,7 +212,9 @@ class Sentences extends Component{
         width={senWidth}>
         {setting.upJaSize != 'オフ' && <DivJan id={`up${id}`} html={note[id].jaHtml} innerRef={ref => this.upJaHtml = ref} fontSize={upJaSize} spellCheck={false} disabled={false} onChange={this.onUpChange}
           forceChange={true}
-          offForceChange={offForceChange} />}
+          offForceChange={offForceChange}
+          onFocus={this.onUpJaFocus}
+          onBlur={this.onUpJaBlur} />}
         <Sentence
           ref={ref => this.sentence = ref}
           lineNum={setting.lineNum}
@@ -213,7 +222,9 @@ class Sentences extends Component{
         />
         {setting.downJaSize != 'オフ' && <DivJan id={`down${id}`} html={note[id].jaHtml} innerRef={ref => this.downJaHtml = ref} fontSize={downJaSize} spellCheck={false} disabled={false} onChange={this.onDownChange}
           forceChange={true}
-          offForceChange={offForceChange} />}
+          offForceChange={offForceChange}
+          onFocus={this.onDownJaFocus}
+          onBlur={this.onDownBlur} />}
       </DivSentences>
     )
   }

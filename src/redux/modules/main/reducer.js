@@ -32,7 +32,9 @@ import {
   SET_OLD_SETTING,
   SHOW_CANNOT_CHANGE_SETTING_ALERT_DIALOG,
   SET_ALERT_MESSAGE,
-  SET_MAX_LINE_NUM_MESSAGE
+  SET_MAX_LINE_NUM_MESSAGE,
+  UPDATE_JA_INPUTING,
+  UPDATE_OMIT_ZENKAKU
 } from './action-type'
 
 const initialState = {
@@ -65,7 +67,9 @@ const initialState = {
   isChangedFormat: false,
   isShowCannotChangeSettingAlert: false,
   alertMessage: '',
-  maxLineNumMessage: ''
+  maxLineNumMessage: '',
+  isJaInputing: false,
+  isOmitZenkaku: false,
 }
 
 const {assign} = Object
@@ -302,6 +306,16 @@ export default (state = initialState, action) => {
   case SET_MAX_LINE_NUM_MESSAGE:
     return assign({}, state, {
       maxLineNumMessage: payload
+    })
+
+  case UPDATE_JA_INPUTING:
+    return assign({}, state, {
+      isJaInputing: payload
+    })
+  
+  case UPDATE_OMIT_ZENKAKU:
+    return assign({}, state, {
+      isOmitZenkaku: payload
     })
   default:
     return state
