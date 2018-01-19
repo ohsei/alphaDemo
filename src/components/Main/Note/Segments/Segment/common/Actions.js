@@ -117,13 +117,14 @@ class Actions extends Component{
   }
 
   addPageBreak = () => {
-    const {updateNote, id, note} = this.props
+    const {updateNote, id, note, onForceChange} = this.props
 
     let newNote = note.slice()
 
     if (newNote[id].isPageBreak) {
       newNote[id].isPageBreak = false
       updateNote(newNote)
+      onForceChange()
       return
     }
     newNote[id].isPageBreak = true
@@ -135,6 +136,7 @@ class Actions extends Component{
     curNo++
     newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, offsetHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20, })
     updateNote(newNote)
+    onForceChange()
   }
 
   imgAdd = (event) => {

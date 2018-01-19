@@ -222,10 +222,9 @@ class Sentence extends Component{
   }
 
   onTextAreaBlur (){
-    const {onShowOnlyEnglishAlertDialog, updateNote, note, id} = this.props
+    const {updateNote, note, id} = this.props
 
     if (this.inputText.htmlEl.innerHTML.match(/[^\x01-\x7E]/)){
-      onShowOnlyEnglishAlertDialog(true)
       let i = 0
       let newText = ''
 
@@ -263,7 +262,7 @@ class Sentence extends Component{
     const enSize = setting.enSize
     const interval = setting.interval
     const fileName = `${lineNum}lines_${lineColor}_${enSize}_${interval}.png`
-    let url = `url(${require(`../../../../../../../resources/img/${fileName}`)})`
+    let url = `url(${require(`../../../../../../../resources/img/4lines/${fileName}`)})`
     this.inputText.htmlEl.style.backgroundImage = url
   }
   componentWillReceiveProps (nextProps) {
@@ -273,7 +272,7 @@ class Sentence extends Component{
     const enSize = setting.enSize
     const interval = setting.interval
     const fileName = `${lineNum}lines_${lineColor}_${enSize}_${interval}.png`
-    let url = `url(${require(`../../../../../../../resources/img/${fileName}`)})`
+    let url = `url(${require(`../../../../../../../resources/img/4lines/${fileName}`)})`
     this.inputText.htmlEl.style.backgroundImage = url
   }
   componentDidUpdate (prevProps) {
@@ -326,10 +325,10 @@ class Sentence extends Component{
     let fontSize = 80
     let font = 'MyFamilyFont1'
 
-    if (setting.enSize === '２倍') {
+    if (setting.enSize === '1') {
       fontSize = 80 * 2
     }
-    else if (setting.enSize === '４倍' ) {
+    else if (setting.enSize === '2' ) {
       fontSize = 80 * 4
     }
 

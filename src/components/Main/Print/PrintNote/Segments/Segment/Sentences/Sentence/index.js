@@ -49,11 +49,11 @@ class Sentence extends Component{
     let fontSize = 80
     let font = 'MyFamilyFont1'
 
-    if (setting.enSize === '２倍') {
+    if (setting.enSize === '1') {
       fontSize = 80 * 2
       segmentHeight = 2 * segmentHeight
     }
-    else if (setting.enSize === '４倍') {
+    else if (setting.enSize === '2') {
       fontSize = 80 * 4
       segmentHeight = 4 * segmentHeight
     }

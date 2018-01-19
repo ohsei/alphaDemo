@@ -64,7 +64,7 @@ class OnlyEnglishAlertDialog extends Component{
     return (
       <DivOverlap show={isShowOnlyEnglishAlert}>
         <Wrapper>
-          <h3 style={{flex: 8, marginLeft: 10}}>英字のみでお願いいします。</h3>
+          <h3 style={{flex: 8, marginLeft: 10}}>半角モードで入力してください。</h3>
           <Button style={{float: 'right'}} onClick={this.onCancel}>OK</Button>
         </Wrapper>
       </DivOverlap>

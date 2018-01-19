@@ -16,7 +16,7 @@ import ItemInterval from './ItemInterval'
 /* define layout start */
 const Item = styled.div`
   width: 30px;
-  background-color: orange;
+  background-color: #FFAE72;
   color: white;
   -webkit-writing-mode: ${props => props.vertical ? 'vertical-lr' : 'horizontal-tb'};
   -ms-writing-mode:  ${props => props.vertical ? 'tb-lr' : 'lr-tb'};

@@ -30,7 +30,7 @@ class ItemEnSize extends Component{
   render (){
     const {setting} = this.props
     let enSizeLst = enSizeList.map((list) =>
-      <option key={list.id} value={list.value}>{list.value}</option>
+      <option key={list.id} value={list.id}>{list.value}</option>
     )
 
     return (

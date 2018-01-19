@@ -69,7 +69,7 @@ class FourLine extends React.Component{
     let bottomPadding = bottomPadding1
     let topPadding = bottomPadding + padding
     
-    if (enSize === '１倍') {
+    if (enSize === '0') {
       const newSegmentHeight1 = intervalFloat * segmentHeight1 / 1.5
       const diff1 = newSegmentHeight1 - segmentHeight1
       padding = padding1
@@ -77,14 +77,14 @@ class FourLine extends React.Component{
       topPadding = bottomPadding + padding
           
     }
-    else if (enSize === '２倍') {
+    else if (enSize === '1') {
       const newSegmentHeight2 = intervalFloat * segmentHeight2 / 1.5
       const diff2 = newSegmentHeight2 - segmentHeight2
       padding = padding2
       bottomPadding = bottomPadding2 + (diff2 / 2)
       topPadding = bottomPadding + padding
     }
-    else if (enSize === '４倍') {
+    else if (enSize === '2') {
       const newSegmentHeight4 = intervalFloat * segmentHeight4 / 1.5
       const diff4 = newSegmentHeight4 - segmentHeight4
       padding = padding4
@@ -97,7 +97,7 @@ class FourLine extends React.Component{
         padding={bottomPadding}>
         <DivLineTop lineNum={lineNum} borderColor={borderColor} padding={topPadding} />
         <DivLine borderColor={borderColor} padding={padding} />
-        <DivLine borderColor='orange' padding={padding} />
+        <DivLine borderColor='#FFAE72' padding={padding} />
         <DivLineDown lineNum={lineNum} borderColor={borderColor} padding={padding} />
       </DivSen>
     )

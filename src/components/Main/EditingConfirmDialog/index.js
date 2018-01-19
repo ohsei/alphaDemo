@@ -81,10 +81,10 @@ class EditingConfirmDialog extends Component{
     const {isShowCreateFileConfirm, isNewFile, isOpenFile} = this.props
     let message = ''
     if (isNewFile) {
-      message = 'このファイルは保存されていません。このまま新規ファイルを作成しますか？'
+      message = '保存していない編集は削除されます。新規ファイルを作成しますか？'
     }
     if (isOpenFile) {
-      message = 'このファイルは保存されていません。このままファイルを開きますか？'
+      message = '保存していない編集は削除されます。ファイルを開きますか？'
     }
 
     return (

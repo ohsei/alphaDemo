@@ -8,7 +8,6 @@ import Flines_block_Regular_font1 from '../../resources/font/4lines_2018-Regular
 import Flines_block_Regular_font2 from '../../resources/font/4lines_block-Regular.ttf'
 import ColorPicker from '../../utils/ColorPicker'
 
-import ContentEditable from './Note/Segments/Segment/common/ContentEditable'
 import MenuContainer from './MenuContainer'
 import Segments from './Note/Segments'
 import PrintNoteContainer from './Print/PrintNoteContainer'
@@ -37,7 +36,7 @@ const DivBg = styled.div.attrs({
 })`
   display: ${props => props.isPrint ? 'none' : 'block'};
   position: relative;
-  background-color: lightgreen;
+  background-color: #E2FFF4;
   width: 100%;
   height: 100%;
   margin: 0;
@@ -52,7 +51,7 @@ const DivFixed = styled.div.attrs({
   z-index: 9;
   top: 0;
   left: 0;
-  background-color: lightgreen;
+  background-color: #E2FFF4;
 `
 const DivMenu = styled.div.attrs({
   tabIndex: -1,
@@ -72,7 +71,7 @@ const StyleEditArea = styled.div.attrs({
   width: 100%;
   padding: 10px 0px 20px 0px;
   height: 50px;
-  background-color: lightgreen;
+  background-color: #E2FFF4;
 `
 const DivSegments = styled.div`
   z-index: 0;
@@ -113,24 +112,21 @@ const DivFixedTitle = styled.label.attrs({
   color: white;
   text-align: center;
 `
-const InFileTitle = styled(ContentEditable).attrs({
+const InFileTitle = styled.input.attrs({
   tabIndex: -1,
+  maxLength: 30,
 })`
- :empty:not(:focus):before {
-  content: attr(data-placeholder);
-  color: gray;
-  font-size: 18px;
-}
   position: fixed;
   top: 5px;
   left: 300px;
   width: 750px;
   font-size: 24px;
-  border: 2px solid orange;
+  border: 2px solid #FFAE72;
   background-color: white;
 `
 const InName = styled.input.attrs({
   tabIndex: -1,
+  maxLength: 15
 })`
   position: fixed;
   top: 60px;
@@ -138,7 +134,7 @@ const InName = styled.input.attrs({
   width: 350px;
   height: 40px;
   font-size: 24px;
-  border: 2px solid orange;
+  border: 2px solid #FFAE72;
   background-color: white;
 `
 /* define layout end*/
@@ -194,48 +190,6 @@ class Main extends Component {
     name: PropTypes.string,
     isJaInputing: PropTypes.bool,
   }
-  countLength = (str) => {
-    let r = 0
-
-    for (let i = 0; i < str.length; i++) {
-      let c = str.charCodeAt(i)
-
-      // Shift_JIS: 0x0 ～ 0x80, 0xa0 , 0xa1 ～ 0xdf , 0xfd ～ 0xff 
-      // Unicode : 0x0 ～ 0x80, 0xf8f0, 0xff61 ～ 0xff9f, 0xf8f1 ～ 0xf8f3 
-      if ( (c >= 0x0 && c < 0x81) || (c == 0xf8f0) || (c >= 0xff61 && c < 0xffa0) || (c >= 0xf8f1 && c < 0xf8f4)) {
-        r += 1
-      } else {
-        r += 2
-      }
-    }
-    return r
-  }
-  onKeyDown = (event) => {
-    const {saveFileTitle} = this.props
-
-    if (event.keyCode == 13){
-      event.preventDefault()
-    }
-
-    if (this.countLength(saveFileTitle) >= 40) {
-      if (event.keyCode != 8) {
-        event.preventDefault()
-      }
-    }
-  }
-  onNameKeyDown = (event) => {
-    const {name} = this.props
-
-    if (event.keyCode == 13){
-      event.preventDefault()
-    }
-
-    if (this.countLength(name) >= 20) {
-      if (event.keyCode != 8) {
-        event.preventDefault()
-      }
-    }
-  }
   setName = (event) => {
     const {setName} = this.props
     setName(event.target.value)
@@ -261,15 +215,6 @@ class Main extends Component {
     curComponent.setColor(color)
   }
 
-  componentWillUpdate (nextProps) {
-    const {isPrint} = this.props
-
-    if (!isPrint) {
-      this.saveFileTitle.value = nextProps.saveFileTitle
-      this.name.value = nextProps.name
-    }
-  }
-
   componentWillReceiveProps (nextProps) {
     const {curColor} = this.props
 
@@ -279,7 +224,7 @@ class Main extends Component {
   }
 
   render () {
-    const { isPrint, setting, width, isBold, isItalic, isUnderline, saveFileTitle, offForceChange, name, isJaInputing} = this.props
+    const { isPrint, setting, width, isBold, isItalic, isUnderline, isJaInputing, saveFileTitle, name} = this.props
     return (
       <div>
         <PrintOrientation layout={setting.layout} />
@@ -287,21 +232,18 @@ class Main extends Component {
           <DivFixed>
             <DivFixedTitle>　　　英語4線ラクラクプリント 　　　</DivFixedTitle>
             <InFileTitle
-              data-placeholder='新規ファイル'
-              html={saveFileTitle}
-              disabled={false}
-              spellCheck={false}
-              innerRef={(ref) => {this.saveFileTitle = ref}}
+              type='text'
+              placeholder='名称未設定'
+              name='title'
+              ref={(ref) => {this.saveFileTitle = ref}}
               onChange={this.setFileTitle}
-              forceChange={true}
               onKeyDown={this.onKeyDown}
-              offForceChange={offForceChange}
+              value={saveFileTitle}
             />
             <DivMenu>
               <MenuContainer />
             </DivMenu>
             <StyleEditArea>
-
               {!isJaInputing && <ColorPicker
                 ref={ref => this.colorChange = ref}
                 setColor={this.setColor}
@@ -335,6 +277,8 @@ class Main extends Component {
               name='name'
               placeholder='名前'
               onChange={this.setName}
+              onKeyDown={this.onNameKeyDown}
+              value={name}
             />
           </DivFixed>
           <DivSegments

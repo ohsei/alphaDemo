@@ -50323,7 +50323,7 @@ var _templateObject = _taggedTemplateLiteral(['\n  @font-face {\n    font-family
     _templateObject7 = _taggedTemplateLiteral(['\n  width: 55px;\n  height: 50px;\n  background-color: gray;\n'], ['\n  width: 55px;\n  height: 50px;\n  background-color: gray;\n']),
     _templateObject8 = _taggedTemplateLiteral(['\n  width: 50px;\n  height: 50px;\n  border: ', ';\n  font-size: 1.5em;\n  color: #aaa;\n  text-align: center;\n  text-decoration: ', ';\n  background-color: white;\n'], ['\n  width: 50px;\n  height: 50px;\n  border: ', ';\n  font-size: 1.5em;\n  color: #aaa;\n  text-align: center;\n  text-decoration: ', ';\n  background-color: white;\n']),
     _templateObject9 = _taggedTemplateLiteral(['\n  min-width: 200px;\n  height: 50px;\n  font-size: 18px;\n  line-height: 2.5;\n  color: white;\n  text-align: center;\n'], ['\n  min-width: 200px;\n  height: 50px;\n  font-size: 18px;\n  line-height: 2.5;\n  color: white;\n  text-align: center;\n']),
-    _templateObject10 = _taggedTemplateLiteral(['\n :empty:not(:focus):before {\n  content: attr(data-placeholder);\n  color: gray;\n  font-size: 18px;\n}\n  position: fixed;\n  top: 5px;\n  left: 300px;\n  width: 750px;\n  font-size: 24px;\n  border: 2px solid orange;\n  background-color: white;\n'], ['\n :empty:not(:focus):before {\n  content: attr(data-placeholder);\n  color: gray;\n  font-size: 18px;\n}\n  position: fixed;\n  top: 5px;\n  left: 300px;\n  width: 750px;\n  font-size: 24px;\n  border: 2px solid orange;\n  background-color: white;\n']),
+    _templateObject10 = _taggedTemplateLiteral(['\n  position: fixed;\n  top: 5px;\n  left: 300px;\n  width: 750px;\n  font-size: 24px;\n  border: 2px solid orange;\n  background-color: white;\n'], ['\n  position: fixed;\n  top: 5px;\n  left: 300px;\n  width: 750px;\n  font-size: 24px;\n  border: 2px solid orange;\n  background-color: white;\n']),
     _templateObject11 = _taggedTemplateLiteral(['\n  position: fixed;\n  top: 60px;\n  left: 700px;\n  width: 350px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid orange;\n  background-color: white;\n'], ['\n  position: fixed;\n  top: 60px;\n  left: 700px;\n  width: 350px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid orange;\n  background-color: white;\n']);
 
 var _react = __webpack_require__(0);
@@ -50451,11 +50451,13 @@ var Button = _styledComponents2.default.button.attrs({
 var DivFixedTitle = _styledComponents2.default.label.attrs({
   tabIndex: -1
 })(_templateObject9);
-var InFileTitle = (0, _styledComponents2.default)(_ContentEditable2.default).attrs({
-  tabIndex: -1
+var InFileTitle = _styledComponents2.default.input.attrs({
+  tabIndex: -1,
+  maxLength: 30
 })(_templateObject10);
 var InName = _styledComponents2.default.input.attrs({
-  tabIndex: -1
+  tabIndex: -1,
+  maxLength: 15
 })(_templateObject11);
 /* define layout end*/
 
@@ -50483,53 +50485,6 @@ var Main = function (_Component) {
 
     /* 色設定 */
     var _this = _possibleConstructorReturn(this, (Main.__proto__ || Object.getPrototypeOf(Main)).call(this, props));
-
-    _this.countLength = function (str) {
-      var r = 0;
-
-      for (var i = 0; i < str.length; i++) {
-        var c = str.charCodeAt(i);
-
-        // Shift_JIS: 0x0 ～ 0x80, 0xa0 , 0xa1 ～ 0xdf , 0xfd ～ 0xff 
-        // Unicode : 0x0 ～ 0x80, 0xf8f0, 0xff61 ～ 0xff9f, 0xf8f1 ～ 0xf8f3 
-        if (c >= 0x0 && c < 0x81 || c == 0xf8f0 || c >= 0xff61 && c < 0xffa0 || c >= 0xf8f1 && c < 0xf8f4) {
-          r += 1;
-        } else {
-          r += 2;
-        }
-      }
-      return r;
-    };
-
-    _this.onKeyDown = function (event) {
-      var saveFileTitle = _this.props.saveFileTitle;
-
-
-      if (event.keyCode == 13) {
-        event.preventDefault();
-      }
-
-      if (_this.countLength(saveFileTitle) >= 40) {
-        if (event.keyCode != 8) {
-          event.preventDefault();
-        }
-      }
-    };
-
-    _this.onNameKeyDown = function (event) {
-      var name = _this.props.name;
-
-
-      if (event.keyCode == 13) {
-        event.preventDefault();
-      }
-
-      if (_this.countLength(name) >= 20) {
-        if (event.keyCode != 8) {
-          event.preventDefault();
-        }
-      }
-    };
 
     _this.setName = function (event) {
       var setName = _this.props.setName;
@@ -50581,17 +50536,6 @@ var Main = function (_Component) {
       curComponent.setColor(color);
     }
   }, {
-    key: 'componentWillUpdate',
-    value: function componentWillUpdate(nextProps) {
-      var isPrint = this.props.isPrint;
-
-
-      if (!isPrint) {
-        this.saveFileTitle.value = nextProps.saveFileTitle;
-        this.name.value = nextProps.name;
-      }
-    }
-  }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       var curColor = this.props.curColor;
@@ -50613,10 +50557,9 @@ var Main = function (_Component) {
           isBold = _props.isBold,
           isItalic = _props.isItalic,
           isUnderline = _props.isUnderline,
+          isJaInputing = _props.isJaInputing,
           saveFileTitle = _props.saveFileTitle,
-          offForceChange = _props.offForceChange,
-          name = _props.name,
-          isJaInputing = _props.isJaInputing;
+          name = _props.name;
 
       return _react2.default.createElement(
         'div',
@@ -50634,17 +50577,15 @@ var Main = function (_Component) {
               '\u3000\u3000\u3000\u82F1\u8A9E4\u7DDA\u30E9\u30AF\u30E9\u30AF\u30D7\u30EA\u30F3\u30C8 \u3000\u3000\u3000'
             ),
             _react2.default.createElement(InFileTitle, {
-              'data-placeholder': '\u65B0\u898F\u30D5\u30A1\u30A4\u30EB',
-              html: saveFileTitle,
-              disabled: false,
-              spellCheck: false,
-              innerRef: function innerRef(ref) {
-                _this2.saveFileTitle = ref;
+              type: 'text',
+              placeholder: '\u540D\u79F0\u672A\u8A2D\u5B9A',
+              name: 'title',
+              ref: function ref(_ref) {
+                _this2.saveFileTitle = _ref;
               },
               onChange: this.setFileTitle,
-              forceChange: true,
               onKeyDown: this.onKeyDown,
-              offForceChange: offForceChange
+              value: saveFileTitle
             }),
             _react2.default.createElement(
               DivMenu,
@@ -50655,8 +50596,8 @@ var Main = function (_Component) {
               StyleEditArea,
               null,
               !isJaInputing && _react2.default.createElement(_ColorPicker2.default, {
-                ref: function ref(_ref) {
-                  return _this2.colorChange = _ref;
+                ref: function ref(_ref2) {
+                  return _this2.colorChange = _ref2;
                 },
                 setColor: this.setColor
               }),
@@ -50688,8 +50629,8 @@ var Main = function (_Component) {
                 {
                   disabled: isJaInputing ? true : false,
                   active: isUnderline,
-                  ref: function ref(_ref2) {
-                    return _this2.underlineChange = _ref2;
+                  ref: function ref(_ref3) {
+                    return _this2.underlineChange = _ref3;
                   },
                   onClick: this.setUnderline },
                 'U'
@@ -50697,12 +50638,14 @@ var Main = function (_Component) {
             ),
             _react2.default.createElement(InName, {
               type: 'text',
-              ref: function ref(_ref3) {
-                return _this2.name = _ref3;
+              ref: function ref(_ref4) {
+                return _this2.name = _ref4;
               },
               name: 'name',
               placeholder: '\u540D\u524D',
-              onChange: this.setName
+              onChange: this.setName,
+              onKeyDown: this.onNameKeyDown,
+              value: name
             })
           ),
           _react2.default.createElement(
@@ -64924,7 +64867,8 @@ var Actions = function (_Component) {
       var _this$props8 = _this.props,
           updateNote = _this$props8.updateNote,
           id = _this$props8.id,
-          note = _this$props8.note;
+          note = _this$props8.note,
+          onForceChange = _this$props8.onForceChange;
 
 
       var newNote = note.slice();
@@ -64932,6 +64876,7 @@ var Actions = function (_Component) {
       if (newNote[id].isPageBreak) {
         newNote[id].isPageBreak = false;
         updateNote(newNote);
+        onForceChange();
         return;
       }
       newNote[id].isPageBreak = true;
@@ -64943,6 +64888,7 @@ var Actions = function (_Component) {
       curNo++;
       newNote.splice(curNo, 0, { id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, offsetHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20 });
       updateNote(newNote);
+      onForceChange();
     }, _this.imgAdd = function (event) {
       var _this$props9 = _this.props,
           updateNote = _this$props9.updateNote,
@@ -65665,7 +65611,12 @@ var Sentence = function (_Component) {
   }, {
     key: 'onKeyDown',
     value: function onKeyDown(event) {
+      var onShowOnlyEnglishAlertDialog = this.props.onShowOnlyEnglishAlertDialog;
 
+
+      if (this.inputText.htmlEl.innerHTML.match(/[^\x01-\x7E]/)) {
+        onShowOnlyEnglishAlertDialog(true);
+      }
       if (event.keyCode == 16) {
         isShiftKeyPressed = true;
       }
@@ -65713,14 +65664,12 @@ var Sentence = function (_Component) {
     key: 'onTextAreaBlur',
     value: function onTextAreaBlur() {
       var _props6 = this.props,
-          onShowOnlyEnglishAlertDialog = _props6.onShowOnlyEnglishAlertDialog,
           updateNote = _props6.updateNote,
           note = _props6.note,
           id = _props6.id;
 
 
       if (this.inputText.htmlEl.innerHTML.match(/[^\x01-\x7E]/)) {
-        onShowOnlyEnglishAlertDialog(true);
         var i = 0;
         var newText = '';
 
@@ -67836,18 +67785,29 @@ var ContentEditable = function (_React$Component) {
   }, {
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate(nextProps) {
-      // We need not rerender if the change of props simply reflects the user's
-      // edits. Rerendering in this case would make the cursor/caret jump.
-      return (
-        // Rerender if there is no element yet... (somehow?)
-        !this.htmlEl
-        // ...or if html really changed... (programmatically, not by user edit)
-        || nextProps.html !== this.htmlEl.innerHTML && nextProps.html !== this.props.html
-        // ...or if editing is enabled or disabled.
-        || this.props.disabled !== nextProps.disabled
-        // ...or if className changed
-        || this.props.className !== nextProps.className
-      );
+      var props = this.props,
+          htmlEl = this.htmlEl;
+
+      // We need not rerender if the change of props simply reflects the user's edits.
+      // Rerendering in this case would make the cursor/caret jump
+
+      // Rerender if there is no element yet... (somehow?)
+
+      if (!htmlEl) {
+        return true;
+      }
+
+      // ...or if html really changed... (programmatically, not by user edit)
+      if (nextProps.html !== htmlEl.innerHTML && nextProps.html !== props.html) {
+        return true;
+      }
+
+      var optional = ['style', 'className', 'disable', 'tagName'];
+
+      // Handle additional properties
+      return optional.some(function (name) {
+        return props[name] !== nextProps[name];
+      });
     }
   }, {
     key: 'componentDidUpdate',
@@ -69253,10 +69213,10 @@ var EditingConfirmDialog = function (_Component) {
 
       var message = '';
       if (isNewFile) {
-        message = 'このファイルは保存されていません。このまま新規ファイルを作成しますか？';
+        message = '保存していない編集は削除されます。新規ファイルを作成しますか？';
       }
       if (isOpenFile) {
-        message = 'このファイルは保存されていません。このままファイルを開きますか？';
+        message = '保存していない編集は削除されます。ファイルを開きますか？';
       }
 
       return _react2.default.createElement(
@@ -69383,7 +69343,7 @@ var OnlyEnglishAlertDialog = function (_Component) {
           _react2.default.createElement(
             'h3',
             { style: { flex: 8, marginLeft: 10 } },
-            '\u82F1\u5B57\u306E\u307F\u3067\u304A\u9858\u3044\u3044\u3057\u307E\u3059\u3002'
+            '\u534A\u89D2\u30E2\u30FC\u30C9\u3067\u5165\u529B\u3057\u3066\u304F\u3060\u3055\u3044\u3002'
           ),
           _react2.default.createElement(
             Button,

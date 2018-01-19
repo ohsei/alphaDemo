@@ -4,7 +4,7 @@ export const getMaxNumsWithSetting = (setting) => {
   const layout = setting.layout
 
   if (layout == 'portrait') {
-    if (enSize == '１倍') {
+    if (enSize == '0') {
       if (interval == 1.5) {
         return 10
       }
@@ -18,7 +18,7 @@ export const getMaxNumsWithSetting = (setting) => {
         return 5
       }
     }
-    else if (enSize == '２倍') {
+    else if (enSize == '1') {
       if (interval == 1.5) {
         return 5
       }
@@ -32,7 +32,7 @@ export const getMaxNumsWithSetting = (setting) => {
         return 2
       }
     }
-    else if (enSize == '４倍') {
+    else if (enSize == '2') {
       if (interval == 1.5) {
         return 2
       }
@@ -48,7 +48,7 @@ export const getMaxNumsWithSetting = (setting) => {
     }
   }
   else {
-    if (enSize == '１倍') {
+    if (enSize == '0') {
       if (interval == 1.5) {
         return 8
       }
@@ -62,7 +62,7 @@ export const getMaxNumsWithSetting = (setting) => {
         return 4
       }
     }
-    else if (enSize == '２倍') {
+    else if (enSize == '1') {
       if (interval == 1.5) {
         return 4
       }
@@ -76,7 +76,7 @@ export const getMaxNumsWithSetting = (setting) => {
         return 2
       }
     }
-    else if (enSize == '４倍') {
+    else if (enSize == '2') {
       if (interval == 1.5) {
         return 2
       }

@@ -22,7 +22,7 @@ const DivOverlap = styled.div`
 `
 const Wrapper = styled.div`
   position: fixed;
-  width: 600px;
+  width: 700px;
   top: 150px;
   left: 100px;
   z-index: 9999;
@@ -41,14 +41,23 @@ const DialogDiv = styled.div`
   color: black;
 `
 const ListLabel = styled.div`
-  padding-left: 10px;
+  padding: 0 25px 0 15px;
   width: 100%;
   height: 50px;
   line-height: 2.5;
   border: 1px solid gray;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  z-index: 999;
+  background-color: ${props => props.isSelected ? '#FFAE72' : 'white'}
 `
-const SelectedLabel = ListLabel.extend`
-  background-color: orange;
+const FileNameLabel = styled.div`
+  width: 70%;
+`
+const TimeLable = styled.div`
+  width: 30%;
+  text-align: left;
 `
 const Button = styled.button`
   margin: 15px;
@@ -80,7 +89,7 @@ class FileDialog extends Component{
     onLoadFile: PropTypes.func.isRequired,
     onShowFileDialog: PropTypes.func.isRequired,
     updateContent: PropTypes.func.isRequired,
-    content: PropTypes.arrayOf(PropTypes.string),
+    content: PropTypes.arrayOf(PropTypes.object),
     updateSelectFile: PropTypes.func.isRequired,
     selectedFile: PropTypes.string,
     offIsFilelistUpdate: PropTypes.func.isRequired,
@@ -171,25 +180,17 @@ class FileDialog extends Component{
           <h3 style={{flex: 8, marginLeft: 10}}>保存したファイル</h3>
           <DialogDiv show={isShowFileDialog}>
 
-            {content.map((file, i) => {
-              if (selectedFile == file) {
-                return (
-                  <SelectedLabel
-                    key={i}
-                    ref={ref => this.files.set(i, ref)}
-                    onClick={this.onSelectFile}>{file}
-                  </SelectedLabel>
-                )
-              }
-              else {
-                return (
-                  <ListLabel
-                    key={i}
-                    ref={ref => this.files.set(i, ref)}
-                    onClick={this.onSelectFile}>{file}
-                  </ListLabel>
-                )
-              }
+            {content.map((fileObj, i) => {     
+              return (
+                <ListLabel
+                  isSelected={selectedFile == fileObj.filename}
+                  key={i}
+                  ref={ref => this.files.set(i, ref)}
+                  onClick={this.onSelectFile}>
+                  <FileNameLabel isSelected={selectedFile == fileObj.filename} onClick={this.onSelectFile}>{fileObj.filename}</FileNameLabel>
+                  <TimeLable isSelected={selectedFile == fileObj.filename}>{fileObj.time}</TimeLable>
+                </ListLabel>
+              )
             })}
 
           </DialogDiv>

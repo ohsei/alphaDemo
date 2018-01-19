@@ -41,11 +41,34 @@ export const dbOperate = (pattern, operateJson) => {
 
     case SAVE_ONE_FILE: {
       const fileObj = operateJson.fileObj
+      const time = new Date()
+      const year = time.getFullYear()
+      const month = time.getMonth() + 1
+      let monthStr = month.toString()
+      if (monthStr.length == 1) {
+        monthStr = '0'+ monthStr
+      }
+      const date = time.getDate()
+      let dateStr = date.toString()
+      if (dateStr.length == 1) {
+        dateStr = '0'+ dateStr
+      }
+      const hours =  time.getHours()
+      let hoursStr = hours.toString()
+      if (hoursStr.length == 1) {
+        hoursStr = '0'+ hoursStr
+      }
+      const minutes = time.getMinutes()
+      let minutesStr = minutes.toString()
+      if (minutesStr.length == 1) {
+        minutesStr = '0'+ minutesStr
+      }
+      const createtime = `${year}/${monthStr}/${dateStr}  ${hoursStr}:${minutesStr}`
       req = store.put(
         {
           filename: fileObj.filename,
           data: fileObj.data,
-          createtime: new Date()
+          createtime: createtime
         }
       )
       break
@@ -70,7 +93,7 @@ export const dbOperate = (pattern, operateJson) => {
         var cursor = event.target.result
 
         if (cursor){
-          fileList.push(cursor.value.filename)
+          fileList.push({filename: cursor.value.filename, time: cursor.value.createtime})
           cursor.continue()
         }
       }
@@ -82,7 +105,6 @@ export const dbOperate = (pattern, operateJson) => {
       if (pattern == SAVE_ONE_FILE){
         operateJson.callback()
       }
-
     }
 
     trans.oncomplete = () => {

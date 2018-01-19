@@ -40,3 +40,7 @@ app.on('activate', function () {
     createWindow();
   }
 });
+
+var shouldQuit = app.makeSingleInstance((argv, workingDirectory) => {
+})
+if (shouldQuit) app.quit()

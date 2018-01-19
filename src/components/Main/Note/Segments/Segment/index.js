@@ -13,11 +13,11 @@ import TxtImg from './TxtImg'
 const SegArea = styled.div`
   width: ${props => `${props.width}px`};
   background-color: white;
-  border: 2px solid orange;
+  border: 2px solid #FFAE72;
 `
 const DivInterval = styled.div`
   height: ${props => props.interval};
-  background-color: lightgreen;
+  background-color: #E2FFF4;
 `
 const PageBreakLine = styled.div`
   margin-bottom: 25px;
