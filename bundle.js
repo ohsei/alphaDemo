@@ -24265,6 +24265,8 @@ var SET_MAX_LINE_NUM_MESSAGE = exports.SET_MAX_LINE_NUM_MESSAGE = 'main/SET_MAX_
 
 var UPDATE_JA_INPUTING = exports.UPDATE_JA_INPUTING = 'main/UPDATE_JA_INPUTING';
 
+var UPDATE_OMIT_ZENKAKU = exports.UPDATE_OMIT_ZENKAKU = 'main/UPDATE_OMIT_ZENKAKU';
+
 /***/ }),
 /* 50 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -28955,13 +28957,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 var changeFormat = exports.changeFormat = function changeFormat(oldSetting, newSetting) {
+  var isEnFontChanged = oldSetting.enFont === newSetting.enFont ? false : true;
   var isEnSizeChanged = oldSetting.enSize === newSetting.enSize ? false : true;
   var isIntervalChanged = oldSetting.interval === newSetting.interval ? false : true;
   var isUpJaSizeChanged = oldSetting.upJaSize === newSetting.upJaSize ? false : true;
   var isDownJaSizeChanged = oldSetting.downJaSize === newSetting.downJaSize ? false : true;
   var isLayoutChanged = oldSetting.layout === newSetting.layout ? false : true;
 
-  if (isEnSizeChanged || isIntervalChanged || isUpJaSizeChanged || isDownJaSizeChanged || isLayoutChanged) {
+  if (isEnFontChanged || isEnSizeChanged || isIntervalChanged || isUpJaSizeChanged || isDownJaSizeChanged || isLayoutChanged) {
     return true;
   }
 
@@ -29233,12 +29236,9 @@ var Canvas = function (_Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      var _props3 = this.props,
-          note = _props3.note,
-          id = _props3.id;
+      var id = this.props.id;
 
-
-      if (note[id].dataUrl != nextProps.note[id].dataUrl) {
+      if (nextProps.note[id].imgWidth == 0 && nextProps.note[id].imgHeight == 0) {
         this.setState({ imgWidth: 0 });
         this.setState({ imgHeight: 0 });
       }
@@ -29255,10 +29255,10 @@ var Canvas = function (_Component) {
 
 
       if (prevState.imgWidth !== imgWidth || prevState.imgHeight !== imgHeight || prevState.objX !== objX || prevState.objY !== objY) {
-        var _props4 = this.props,
-            updateNote = _props4.updateNote,
-            note = _props4.note,
-            id = _props4.id;
+        var _props3 = this.props,
+            updateNote = _props3.updateNote,
+            note = _props3.note,
+            id = _props3.id;
 
         var newNote = note.slice();
 
@@ -49592,7 +49592,8 @@ var initialState = {
   isShowCannotChangeSettingAlert: false,
   alertMessage: '',
   maxLineNumMessage: '',
-  isJaInputing: false
+  isJaInputing: false,
+  isOmitZenkaku: false
 };
 
 var assign = Object.assign;
@@ -49836,6 +49837,11 @@ exports.default = function () {
       return assign({}, state, {
         isJaInputing: payload
       });
+
+    case _actionType.UPDATE_OMIT_ZENKAKU:
+      return assign({}, state, {
+        isOmitZenkaku: payload
+      });
     default:
       return state;
   }
@@ -50046,7 +50052,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.updateJaInputing = exports.setMaxLineNumMessage = exports.updateWidth = exports.setAlertMessage = exports.setOldSetting = exports.updateIsChangeFormat = exports.updateSetting = exports.setOverPageId = exports.updateOverOnePage = exports.onShowCannotChangeSettingAlertDialog = exports.onShowAddSegmentAlertDialog = exports.updateIsOpenFile = exports.updateIsNewFile = exports.updateOpenFileStatus = exports.onShowCreateFileConfirmDialog = exports.updateCreateFileStatus = exports.updateOverwriteStatus = exports.onShowOverwriteConfirmDialog = exports.onShowSavedAlertDialog = exports.onShowOnlyEnglishAlertDialog = exports.onShowTitleAlertDialog = exports.onForceChange = exports.offForceChange = exports.updateCurColor = exports.updateIsUnderline = exports.updateIsItalic = exports.updateIsBold = exports.updateTabNodeList = exports.updateNote = exports.setCurComponent = exports.setCurSegment = exports.printFinish = exports.setName = exports.setFileTitle = undefined;
+exports.updateOmitZenkaku = exports.updateJaInputing = exports.setMaxLineNumMessage = exports.updateWidth = exports.setAlertMessage = exports.setOldSetting = exports.updateIsChangeFormat = exports.updateSetting = exports.setOverPageId = exports.updateOverOnePage = exports.onShowCannotChangeSettingAlertDialog = exports.onShowAddSegmentAlertDialog = exports.updateIsOpenFile = exports.updateIsNewFile = exports.updateOpenFileStatus = exports.onShowCreateFileConfirmDialog = exports.updateCreateFileStatus = exports.updateOverwriteStatus = exports.onShowOverwriteConfirmDialog = exports.onShowSavedAlertDialog = exports.onShowOnlyEnglishAlertDialog = exports.onShowTitleAlertDialog = exports.onForceChange = exports.offForceChange = exports.updateCurColor = exports.updateIsUnderline = exports.updateIsItalic = exports.updateIsBold = exports.updateTabNodeList = exports.updateNote = exports.setCurComponent = exports.setCurSegment = exports.printFinish = exports.setName = exports.setFileTitle = undefined;
 
 var _actionType = __webpack_require__(93);
 
@@ -50288,6 +50294,13 @@ var updateJaInputing = exports.updateJaInputing = function updateJaInputing(stat
   };
 };
 
+var updateOmitZenkaku = exports.updateOmitZenkaku = function updateOmitZenkaku(status) {
+  return {
+    type: _actionType2.UPDATE_OMIT_ZENKAKU,
+    payload: status
+  };
+};
+
 /***/ }),
 /* 338 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -50307,10 +50320,11 @@ var _templateObject = _taggedTemplateLiteral(['\n  @font-face {\n    font-family
     _templateObject4 = _taggedTemplateLiteral(['\n  position: fixed;\n  z-index: 999;\n  top: 45px;\n  left: 5px;\n'], ['\n  position: fixed;\n  z-index: 999;\n  top: 45px;\n  left: 5px;\n']),
     _templateObject5 = _taggedTemplateLiteral(['\n  position: fixed;\n  display: flex;\n  top: 45px;\n  left: 50px;\n  width: 100%;\n  padding: 10px 0px 20px 0px;\n  height: 50px;\n  background-color: lightgreen;\n'], ['\n  position: fixed;\n  display: flex;\n  top: 45px;\n  left: 50px;\n  width: 100%;\n  padding: 10px 0px 20px 0px;\n  height: 50px;\n  background-color: lightgreen;\n']),
     _templateObject6 = _taggedTemplateLiteral(['\n  z-index: 0;\n  margin: 150px 0 0 50px;\n  width: ', ';\n\n  @media print{\n    margin: 0;\n    padding: 0;\n  }\n'], ['\n  z-index: 0;\n  margin: 150px 0 0 50px;\n  width: ', ';\n\n  @media print{\n    margin: 0;\n    padding: 0;\n  }\n']),
-    _templateObject7 = _taggedTemplateLiteral(['\n  width: 50px;\n  height: 50px;\n  border: ', ';\n  font-size: 1.5em;\n  color: #aaa;\n  text-align: center;\n  text-decoration: ', ';\n  background-color: white;\n'], ['\n  width: 50px;\n  height: 50px;\n  border: ', ';\n  font-size: 1.5em;\n  color: #aaa;\n  text-align: center;\n  text-decoration: ', ';\n  background-color: white;\n']),
-    _templateObject8 = _taggedTemplateLiteral(['\n  min-width: 200px;\n  height: 50px;\n  font-size: 18px;\n  line-height: 2.5;\n  color: white;\n  text-align: center;\n'], ['\n  min-width: 200px;\n  height: 50px;\n  font-size: 18px;\n  line-height: 2.5;\n  color: white;\n  text-align: center;\n']),
-    _templateObject9 = _taggedTemplateLiteral(['\n :empty:not(:focus):before {\n  content: attr(data-placeholder);\n  color: gray;\n  font-size: 18px;\n}\n  position: fixed;\n  top: 5px;\n  left: 300px;\n  width: 750px;\n  font-size: 24px;\n  border: 2px solid orange;\n  background-color: white;\n'], ['\n :empty:not(:focus):before {\n  content: attr(data-placeholder);\n  color: gray;\n  font-size: 18px;\n}\n  position: fixed;\n  top: 5px;\n  left: 300px;\n  width: 750px;\n  font-size: 24px;\n  border: 2px solid orange;\n  background-color: white;\n']),
-    _templateObject10 = _taggedTemplateLiteral(['\n :empty:not(:focus):before {\n  content: attr(data-placeholder);\n  color: gray;\n  font-size: 18px;\n}\n  position: fixed;\n  top: 60px;\n  left: 700px;\n  width: 350px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid orange;\n  background-color: white;\n'], ['\n :empty:not(:focus):before {\n  content: attr(data-placeholder);\n  color: gray;\n  font-size: 18px;\n}\n  position: fixed;\n  top: 60px;\n  left: 700px;\n  width: 350px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid orange;\n  background-color: white;\n']);
+    _templateObject7 = _taggedTemplateLiteral(['\n  width: 55px;\n  height: 50px;\n  background-color: gray;\n'], ['\n  width: 55px;\n  height: 50px;\n  background-color: gray;\n']),
+    _templateObject8 = _taggedTemplateLiteral(['\n  width: 50px;\n  height: 50px;\n  border: ', ';\n  font-size: 1.5em;\n  color: #aaa;\n  text-align: center;\n  text-decoration: ', ';\n  background-color: white;\n'], ['\n  width: 50px;\n  height: 50px;\n  border: ', ';\n  font-size: 1.5em;\n  color: #aaa;\n  text-align: center;\n  text-decoration: ', ';\n  background-color: white;\n']),
+    _templateObject9 = _taggedTemplateLiteral(['\n  min-width: 200px;\n  height: 50px;\n  font-size: 18px;\n  line-height: 2.5;\n  color: white;\n  text-align: center;\n'], ['\n  min-width: 200px;\n  height: 50px;\n  font-size: 18px;\n  line-height: 2.5;\n  color: white;\n  text-align: center;\n']),
+    _templateObject10 = _taggedTemplateLiteral(['\n :empty:not(:focus):before {\n  content: attr(data-placeholder);\n  color: gray;\n  font-size: 18px;\n}\n  position: fixed;\n  top: 5px;\n  left: 300px;\n  width: 750px;\n  font-size: 24px;\n  border: 2px solid orange;\n  background-color: white;\n'], ['\n :empty:not(:focus):before {\n  content: attr(data-placeholder);\n  color: gray;\n  font-size: 18px;\n}\n  position: fixed;\n  top: 5px;\n  left: 300px;\n  width: 750px;\n  font-size: 24px;\n  border: 2px solid orange;\n  background-color: white;\n']),
+    _templateObject11 = _taggedTemplateLiteral(['\n  position: fixed;\n  top: 60px;\n  left: 700px;\n  width: 350px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid orange;\n  background-color: white;\n'], ['\n  position: fixed;\n  top: 60px;\n  left: 700px;\n  width: 350px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid orange;\n  background-color: white;\n']);
 
 var _react = __webpack_require__(0);
 
@@ -50416,9 +50430,12 @@ var StyleEditArea = _styledComponents2.default.div.attrs({
 var DivSegments = _styledComponents2.default.div(_templateObject6, function (props) {
   return props.width + 'px';
 });
+var DisabledColor = _styledComponents2.default.div.attrs({
+  tabIndex: -1
+})(_templateObject7);
 var Button = _styledComponents2.default.button.attrs({
   tabIndex: -1
-})(_templateObject7, function (props) {
+})(_templateObject8, function (props) {
   if (props.active == true) {
     return '2px solid black';
   } else {
@@ -50433,13 +50450,13 @@ var Button = _styledComponents2.default.button.attrs({
 });
 var DivFixedTitle = _styledComponents2.default.label.attrs({
   tabIndex: -1
-})(_templateObject8);
+})(_templateObject9);
 var InFileTitle = (0, _styledComponents2.default)(_ContentEditable2.default).attrs({
   tabIndex: -1
-})(_templateObject9);
-var InName = (0, _styledComponents2.default)(_ContentEditable2.default).attrs({
-  tabIndex: -1
 })(_templateObject10);
+var InName = _styledComponents2.default.input.attrs({
+  tabIndex: -1
+})(_templateObject11);
 /* define layout end*/
 
 var PrintOrientation = function PrintOrientation(object) {
@@ -50637,12 +50654,13 @@ var Main = function (_Component) {
             _react2.default.createElement(
               StyleEditArea,
               null,
-              _react2.default.createElement(_ColorPicker2.default, {
+              !isJaInputing && _react2.default.createElement(_ColorPicker2.default, {
                 ref: function ref(_ref) {
                   return _this2.colorChange = _ref;
                 },
                 setColor: this.setColor
               }),
+              isJaInputing && _react2.default.createElement(DisabledColor, null),
               _react2.default.createElement(
                 Button,
                 {
@@ -50678,17 +50696,13 @@ var Main = function (_Component) {
               )
             ),
             _react2.default.createElement(InName, {
-              'data-placeholder': '\u540D\u524D',
-              html: name,
-              disabled: false,
-              spellCheck: false,
-              innerRef: function innerRef(ref) {
-                _this2.name = ref;
+              type: 'text',
+              ref: function ref(_ref3) {
+                return _this2.name = _ref3;
               },
-              onChange: this.setName,
-              forceChange: true,
-              onKeyDown: this.onNameKeyDown,
-              offForceChange: offForceChange
+              name: 'name',
+              placeholder: '\u540D\u524D',
+              onChange: this.setName
             })
           ),
           _react2.default.createElement(
@@ -64959,7 +64973,10 @@ var Actions = function (_Component) {
 
             var newNote = note.slice();
             newNote[id].dataUrl = dataUrl;
-
+            newNote[id].imgWidth = 0;
+            newNote[id].imgHeight = 0;
+            newNote[id].posX = 20;
+            newNote[id].posY = 20;
             updateNote(newNote);
           }.bind(this);
         }.bind(_this);
@@ -65492,7 +65509,6 @@ var TextArea = (0, _styledComponents2.default)(_ContentEditable2.default)(_templ
 var DivSen = _styledComponents2.default.div(_templateObject2);
 var isShiftKeyPressed = false;
 var isNewLine = false;
-var isCtrlKeyPressed = false;
 
 var Sentence = function (_Component) {
   _inherits(Sentence, _Component);
@@ -65649,9 +65665,6 @@ var Sentence = function (_Component) {
   }, {
     key: 'onKeyDown',
     value: function onKeyDown(event) {
-      if (event.ctrlKey) {
-        isCtrlKeyPressed = true;
-      }
 
       if (event.keyCode == 16) {
         isShiftKeyPressed = true;
@@ -65734,6 +65747,7 @@ var Sentence = function (_Component) {
           updateNote = _props7.updateNote,
           note = _props7.note,
           id = _props7.id;
+
 
       var newNote = note.slice();
       newNote[id].html = e.target.value;
@@ -65901,8 +65915,9 @@ Sentence.propTypes = {
   onShowAddSegmentAlertDialog: _propTypes2.default.func.isRequired,
   isOverOnePage: _propTypes2.default.bool,
   overPageId: _propTypes2.default.number,
-  updateOverOnePage: _propTypes2.default.func.isRequired
-
+  updateOverOnePage: _propTypes2.default.func.isRequired,
+  updateOmitZenkaku: _propTypes2.default.func.isRequired,
+  isOmitZenkaku: _propTypes2.default.bool
 };
 exports.default = Sentence;
 
@@ -67821,29 +67836,18 @@ var ContentEditable = function (_React$Component) {
   }, {
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate(nextProps) {
-      var props = this.props,
-          htmlEl = this.htmlEl;
-
-      // We need not rerender if the change of props simply reflects the user's edits.
-      // Rerendering in this case would make the cursor/caret jump
-
-      // Rerender if there is no element yet... (somehow?)
-
-      if (!htmlEl) {
-        return true;
-      }
-
-      // ...or if html really changed... (programmatically, not by user edit)
-      if (nextProps.html !== htmlEl.innerHTML && nextProps.html !== props.html) {
-        return true;
-      }
-
-      var optional = ['style', 'className', 'disable', 'tagName'];
-
-      // Handle additional properties
-      return optional.some(function (name) {
-        return props[name] !== nextProps[name];
-      });
+      // We need not rerender if the change of props simply reflects the user's
+      // edits. Rerendering in this case would make the cursor/caret jump.
+      return (
+        // Rerender if there is no element yet... (somehow?)
+        !this.htmlEl
+        // ...or if html really changed... (programmatically, not by user edit)
+        || nextProps.html !== this.htmlEl.innerHTML && nextProps.html !== this.props.html
+        // ...or if editing is enabled or disabled.
+        || this.props.disabled !== nextProps.disabled
+        // ...or if className changed
+        || this.props.className !== nextProps.className
+      );
     }
   }, {
     key: 'componentDidUpdate',

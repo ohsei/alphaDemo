@@ -302,7 +302,7 @@ export default (state = initialState, action) => {
     return assign({}, state, {
       alertMessage: payload
     })
-  
+
   case SET_MAX_LINE_NUM_MESSAGE:
     return assign({}, state, {
       maxLineNumMessage: payload

@@ -172,7 +172,11 @@ class Sentence extends Component{
     updateNote(newNote)
   }
   onKeyDown (event){
+    const {onShowOnlyEnglishAlertDialog} = this.props
 
+    if (this.inputText.htmlEl.innerHTML.match(/[^\x01-\x7E]/)){
+      onShowOnlyEnglishAlertDialog(true)
+    }
     if (event.keyCode == 16){
       isShiftKeyPressed = true
     }
@@ -245,7 +249,7 @@ class Sentence extends Component{
 
   onTextAreaChange (e){
     const {updateNote, note, id} = this.props
-    
+
     let newNote = note.slice()
     newNote[id].html = e.target.value
     newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight

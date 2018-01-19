@@ -129,14 +129,9 @@ const InFileTitle = styled(ContentEditable).attrs({
   border: 2px solid orange;
   background-color: white;
 `
-const InName = styled(ContentEditable).attrs({
+const InName = styled.input.attrs({
   tabIndex: -1,
 })`
- :empty:not(:focus):before {
-  content: attr(data-placeholder);
-  color: gray;
-  font-size: 18px;
-}
   position: fixed;
   top: 60px;
   left: 700px;
@@ -335,15 +330,11 @@ class Main extends Component {
               </Button>
             </StyleEditArea>
             <InName
-              data-placeholder='名前'
-              html={name}
-              disabled={false}
-              spellCheck={false}
-              innerRef={(ref) => {this.name = ref}}
+              type='text'
+              ref={ref => this.name = ref}
+              name='name'
+              placeholder='名前'
               onChange={this.setName}
-              forceChange={true}
-              onKeyDown={this.onNameKeyDown}
-              offForceChange={offForceChange}
             />
           </DivFixed>
           <DivSegments
