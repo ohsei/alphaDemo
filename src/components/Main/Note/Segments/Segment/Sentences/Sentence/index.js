@@ -303,7 +303,7 @@ class Sentence extends Component{
       }
     }
 
-    if ((prevProps.setting.enSize != this.props.setting.enSize) )
+    if ((prevProps.setting != this.props.setting) )
     {
       let newNote = note.slice()
       newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight

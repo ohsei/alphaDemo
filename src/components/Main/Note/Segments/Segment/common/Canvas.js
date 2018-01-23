@@ -95,11 +95,11 @@ class Canvas extends Component{
         canvas.height = picHeight + anchorSize * 2
       }
       else {
-        if ( (picHeight + anchorSize * 2) > note[id].segmentHeight) {
+        if ( (picHeight + anchorSize * 2) > note[id].offsetHeight) {
           canvas.height = picHeight + anchorSize * 2
         }
         else {
-          canvas.height = note[id].segmentHeight
+          canvas.height = note[id].offsetHeight
         }
       }
 
