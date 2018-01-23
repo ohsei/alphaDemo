@@ -226,7 +226,6 @@ class Main extends Component {
     }
   }
   componentDidMount () {
-
   }
   render () {
     const { isPrint, setting, width, isBold, isItalic, isUnderline, isJaInputing, saveFileTitle, name} = this.props

@@ -112,6 +112,7 @@ class TxtOnly extends Component{
         onShowAddSegmentAlertDialog(true)
         updateOverOnePage(true)
         setOverPageId(id)
+        return
       }
     }
   }

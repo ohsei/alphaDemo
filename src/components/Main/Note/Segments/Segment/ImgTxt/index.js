@@ -82,6 +82,7 @@ class ImgTxt extends Component{
         onShowAddSegmentAlertDialog(true)
         updateOverOnePage(true)
         setOverPageId(id)
+        return
       }
     }
   }
