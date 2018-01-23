@@ -42,6 +42,16 @@ class ImgOnly extends Component{
       updateNote(newNote)
     }
   }
+  updateHeight = () => {
+    const {updateNote, note, id} = this.props
+    const segmentHeight = this.sentencearea.offsetHeight
+
+    if (note[id].segmentHeight != segmentHeight) {
+      let newNote = note.slice()
+      newNote[id].segmentHeight = segmentHeight
+      updateNote(newNote)
+    }
+  }
   render (){
     const { setting, id, width } = this.props
     return (
@@ -53,6 +63,7 @@ class ImgOnly extends Component{
           <Canvas
             imgMaxWidth={width - 50}
             canvasWidth={width - 50}
+            updateHeight={this.updateHeight}
             {...pick(this.props, keys(Canvas.propTypes))}
           />
         </DivCanvas>

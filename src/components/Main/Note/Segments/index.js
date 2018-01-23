@@ -5,11 +5,6 @@ import {pick, keys} from 'lodash'
 import Segment from './Segment'
 
 class Segments extends Component{
-  constructor (props){
-    super(props)
-    this.onKeyDown = this.onKeyDown.bind(this)
-  }
-
   static propTypes = {
     width: PropTypes.number,
     setting: PropTypes.object,
@@ -32,24 +27,6 @@ class Segments extends Component{
     ...Segment.propTypes,
   }
 
-  onKeyDown (event){
-    const {tabNodeList} = this.props
-
-    if (tabNodeList.length > 0 && event.keyCode == 9){
-      const length =  tabNodeList[tabNodeList.length - 1].node.length
-
-      const lastNodeId  = tabNodeList[tabNodeList.length - 1].node[length - 1].node
-      const lastNode = document.getElementById(lastNodeId)
-
-      if (event.target == lastNode){
-        event.preventDefault()
-        const nodeId = tabNodeList[0].node[0].node
-        const node = document.getElementById(nodeId)
-        node.focus()
-      }
-    }
-  }
-
   render (){
     const {note} = this.props
     const segList = note.map((obj, i) => {
@@ -63,7 +40,7 @@ class Segments extends Component{
     })
 
     return (
-      <div ref={ref => this.segments = ref} onKeyDown={this.onKeyDown}>{segList}</div>
+      <div ref={ref => this.segments = ref}>{segList}</div>
     )
   }
 }

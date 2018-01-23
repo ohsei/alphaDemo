@@ -51,6 +51,7 @@ const DivFixed = styled.div.attrs({
   z-index: 9;
   top: 0;
   left: 0;
+  height: 65px;
   background-color: #E2FFF4;
 `
 const DivMenu = styled.div.attrs({
@@ -58,7 +59,7 @@ const DivMenu = styled.div.attrs({
 })`
   position: fixed;
   z-index: 999;
-  top: 45px;
+  top: 60px;
   left: 5px;
 `
 const StyleEditArea = styled.div.attrs({
@@ -66,7 +67,7 @@ const StyleEditArea = styled.div.attrs({
 })`
   position: fixed;
   display: flex;
-  top: 45px;
+  top: 60px;
   left: 50px;
   width: 100%;
   padding: 10px 0px 20px 0px;
@@ -102,24 +103,26 @@ const Button = styled.button.attrs({
   text-decoration: ${props => {if (props.active == true) {return 'underline'} else {return 'none'}}};
   background-color: white;
 `
-const DivFixedTitle = styled.label.attrs({
+const DivFixedTitle = styled.div.attrs({
   tabIndex: -1,
 })`
-  min-width: 200px;
-  height: 50px;
-  font-size: 18px;
-  line-height: 2.5;
+  width: 418px;
+  height: 40px;
   color: white;
   text-align: center;
+  position: fixed;
+  top: 14px;
+  left: 14px;
 `
 const InFileTitle = styled.input.attrs({
   tabIndex: -1,
-  maxLength: 30,
+  maxLength: 25,
 })`
   position: fixed;
-  top: 5px;
-  left: 300px;
-  width: 750px;
+  top: 14px;
+  left: 450px;
+  width: 600px;
+  height: 40px;
   font-size: 24px;
   border: 2px solid #FFAE72;
   background-color: white;
@@ -129,7 +132,7 @@ const InName = styled.input.attrs({
   maxLength: 15
 })`
   position: fixed;
-  top: 60px;
+  top: 75px;
   left: 700px;
   width: 350px;
   height: 40px;
@@ -222,27 +225,17 @@ class Main extends Component {
       this.colorChange.setColor(nextProps.curColor)
     }
   }
-  onKeyDown = (event) => {
- /*   console.log(event.target.id)
-    const enPos = event.target.id.indexOf('en')
-    const upPos = event.target.id.indexOf('up')
-    const downPos = event.target.id.indexOf('down')
+  componentDidMount () {
 
-    if ((enPos == 0) || (upPos == 0) || (downPos == 0)) {
-      console.log('OK')
-    }
-    else {
-      console.log('NG')
-    }*/
   }
   render () {
     const { isPrint, setting, width, isBold, isItalic, isUnderline, isJaInputing, saveFileTitle, name} = this.props
     return (
       <div>
         <PrintOrientation layout={setting.layout} />
-        {!isPrint && <DivBg style={{minWidth: width}} onKeyDown={this.onKeyDown}>
+        {!isPrint && <DivBg style={{minWidth: width}} >
           <DivFixed>
-            <DivFixedTitle>　　　英語4線ラクラクプリント 　　　</DivFixedTitle>
+            <DivFixedTitle style={{backgroundImage: `url(${require('../../resources/img/4line_logo.png')})`}}></DivFixedTitle>
             <InFileTitle
               type='text'
               placeholder='名称未設定'

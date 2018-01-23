@@ -116,7 +116,7 @@ export default (state = initialState, action) => {
         maxPageHeight = landscapePageHeight
       }
       let pageHeight = 0
-      const newNote = note.slice()
+      let newNote = note.slice()
       const pages = [[]]
       let errorMessage = ''
       let pageNum = 0
@@ -132,7 +132,7 @@ export default (state = initialState, action) => {
             newNote[i - 1].isPageBreak = true
             pages.push([i])
             pageNum++
-            pageHeight = 0
+            pageHeight = note[i].segmentHeight
           }
           else if (i == 0 ){
             newNote[i].isPageBreak = true

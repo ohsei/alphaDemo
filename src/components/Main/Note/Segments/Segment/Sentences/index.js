@@ -79,125 +79,20 @@ class Sentences extends Component{
     updateJaInputing(false)
   }
   onFocus (){
-    const {id, setCurSegment, setCurComponent} = this.props
+    const {id, setCurSegment} = this.props
     setCurSegment(id)
-    setCurComponent(this.sentence)
+ 
   }
 
-  updateTabNode = (node) => {
-    const {updateTabNodeList, tabNodeList} = this.props
 
-    let newTabNodeList = tabNodeList.slice()
-    newTabNodeList[node.index] = node.updateNode
-    updateTabNodeList(newTabNodeList)
-  }
-
-  componentDidUpdate (){
-    const {id, tabNodeList} = this.props
-    const upJaNode = () => { return (this.upJaHtml ? this.upJaHtml.htmlEl.id : null)}
-    const enNode = this.sentence.inputText.htmlEl.id
-    const downJaNode = () => {return (this.downJaHtml ? this.downJaHtml.htmlEl.id : null)}
-
-    let node = []
-
-    if (upJaNode()){
-      node = [{label: 'up', node: upJaNode()}, {label: 'en', node: enNode}]
-    }
-    else if (downJaNode()){
-      node = [{label: 'en', node: enNode}, {label: 'down', node: downJaNode()}]
-    }
-    else {
-      node = [{label: 'en', node: enNode}]
-    }
-
-    let i = 0
-    let tabNode = null
-
-    if (tabNodeList) {
-      while (tabNodeList[i].id != id){
-        i++
-      }
-      tabNode = tabNodeList[i]
-    }
-
-    if (tabNode){
-      const tabNodeJson = JSON.stringify(tabNode.node)
-      const nodeJson = JSON.stringify(node)
-
-      if (tabNodeJson !== nodeJson) {
-        this.updateTabNode({index: i, updateNote: {id: id, node: node}})
-      }
-    }
-  }
-
-  addTabNode = (node) => {
-    const {updateTabNodeList, tabNodeList} = this.props
-
-    let newTabNodeList = tabNodeList.slice()
-    newTabNodeList.splice(node.index, 0, node.addNode)
-    updateTabNodeList(newTabNodeList)
-  }
-
+ 
   componentDidMount (){
-    const {id, setCurSegment, setCurComponent, tabNodeList} = this.props
-    const enNode = this.sentence.inputText.htmlEl.id
-
-    const upJaNode = () => {
-      return (this.upJaHtml ? this.upJaHtml.htmlEl.id : null)
-    }
-
-    const downJaNode = () => {
-      return (this.downJaHtml ? this.downJaHtml.htmlEl.id : null)
-    }
-
-    let node = []
-
-    if (upJaNode()){
-      node = [{label: 'up', node: upJaNode()}, {label: 'en', node: enNode}]
-    }
-    else if (downJaNode()){
-      node = [{label: 'en', node: enNode}, {label: 'down', node: downJaNode()}]
-    }
-    else {
-      node = [{label: 'en', node: enNode}]
-    }
-
-    let i = 0
-    let tabNode = tabNodeList[i]
-
-    while (tabNode && tabNodeList[i].id < id){
-      i++
-      tabNode = tabNodeList[i]
-    }
-
-    if (tabNode && tabNode.id == id){
-      this.updateTabNode({index: i, updateNode: {id: id, node: node}})
-    }
-    else {
-      this.addTabNode({index: i, addNode: {id: id, node: node }})
-    }
-
+    const {id, setCurSegment} = this.props
+ 
     setCurSegment(id)
-    setCurComponent(this.sentence)
   }
 
-  delTabNode = (id) => {
-    const {updateTabNodeList, tabNodeList} = this.props
-
-    let newTabNodeList = tabNodeList.slice()
-    let i = 0
-
-    while (newTabNodeList[i].id != id){
-      i++
-    }
-    newTabNodeList.splice(i, 1)
-    updateTabNodeList(newTabNodeList)
-  }
-
-  componentWillUnmount (){
-    const {id} = this.props
-    this.delTabNode(id)
-  }
+  
 
   render (){
     const {note, id, setting, senWidth, offForceChange} = this.props

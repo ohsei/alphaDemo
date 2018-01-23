@@ -2,7 +2,9 @@ import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-const CustomCanvas = styled.canvas`
+const CustomCanvas = styled.canvas.attrs({
+  tabIndex: -1,
+})`
   width: 100%';
   height: 100%;
 `
@@ -45,10 +47,11 @@ class Canvas extends Component{
     canvasWidth: PropTypes.number,
     updateNote: PropTypes.func.isRequired,
     note: PropTypes.array,
+    updateHeight: PropTypes.func
   }
 
   loadImage (){
-    const {note, id, imgMaxWidth} = this.props
+    const {note, id, imgMaxWidth, updateHeight} = this.props
     let img = new Image()
     let canvas = this.imgCanvas
     let ctx = canvas.getContext('2d')
@@ -117,6 +120,7 @@ class Canvas extends Component{
         ctx.strokeRect(this.state.objX - anchorSize, this.state.objY + picHeight, anchorSize, anchorSize )
         ctx.strokeRect(this.state.objX + picWidth, this.state.objY + picHeight, anchorSize, anchorSize )
       }
+      updateHeight()
     }.bind(this)
     img.src = note[id].dataUrl
   }
@@ -324,7 +328,6 @@ class Canvas extends Component{
         width={canvasWidth}
         height='200px'
         innerRef={(ref) => {this.imgCanvas = ref}}
-        tabIndex='0'
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onMouseDown={this.handleMouseDown}

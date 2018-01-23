@@ -62,6 +62,16 @@ class TxtImgSeg extends Component{
       event.preventDefault()
     }
   }
+  updateHeight = () => {
+    const {updateNote, note, id} = this.props
+    const segmentHeight = this.sentencearea.offsetHeight
+
+    if (note[id].segmentHeight != segmentHeight) {
+      let newNote = note.slice()
+      newNote[id].segmentHeight = segmentHeight
+      updateNote(newNote)
+    }
+  }
   render (){
     const {id, width, setting, note} = this.props
 
@@ -89,6 +99,7 @@ class TxtImgSeg extends Component{
         <Canvas
           imgMaxWidth={imgMaxWidth}
           canvasWidth={note[id].imgWidth == 0 ? imgMaxWidth : note[id].imgWidth + 40}
+          updateHeight={this.updateHeight}
           {...pick(this.props, keys(Canvas.propTypes))}
         />
       </SentenceArea>
