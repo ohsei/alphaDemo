@@ -88,7 +88,7 @@ class Sentences extends Component{
     const {updateTabNodeList, tabNodeList} = this.props
 
     let newTabNodeList = tabNodeList.slice()
-    newTabNodeList[node.id] = node
+    newTabNodeList[node.index] = node.updateNode
     updateTabNodeList(newTabNodeList)
   }
 
@@ -125,7 +125,7 @@ class Sentences extends Component{
       const nodeJson = JSON.stringify(node)
 
       if (tabNodeJson !== nodeJson) {
-        this.updateTabNode({id: id, node: node})
+        this.updateTabNode({index: i, updateNote: {id: id, node: node}})
       }
     }
   }
@@ -134,7 +134,7 @@ class Sentences extends Component{
     const {updateTabNodeList, tabNodeList} = this.props
 
     let newTabNodeList = tabNodeList.slice()
-    newTabNodeList.splice(node.id, 0, node)
+    newTabNodeList.splice(node.index, 0, node.addNode)
     updateTabNodeList(newTabNodeList)
   }
 
@@ -165,16 +165,16 @@ class Sentences extends Component{
     let i = 0
     let tabNode = tabNodeList[i]
 
-    while (tabNode && tabNodeList[i].id != id){
+    while (tabNode && tabNodeList[i].id < id){
       i++
       tabNode = tabNodeList[i]
     }
 
-    if (tabNode){
-      this.updateTabNode({id: id, node: node})
+    if (tabNode && tabNode.id == id){
+      this.updateTabNode({index: i, updateNode: {id: id, node: node}})
     }
     else {
-      this.addTabNode({id: id, node: node })
+      this.addTabNode({index: i, addNode: {id: id, node: node }})
     }
 
     setCurSegment(id)

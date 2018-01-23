@@ -105,7 +105,6 @@ TxtImgSeg.propTypes = {
   curSegmentNo: PropTypes.any,
   updateNote: PropTypes.func.isRequired,
   tabNodeList: PropTypes.array,
-  updateTabNodeList: PropTypes.func.isRequired,
   setCurComponent: PropTypes.func,
   isBold: PropTypes.bool,
   isItalic: PropTypes.bool,

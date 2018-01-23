@@ -35,7 +35,6 @@ class TxtOnly extends Component{
     setting: PropTypes.object,
     updateNote: PropTypes.func,
     tabNodeList: PropTypes.array,
-    updateTabNodeList: PropTypes.func.isRequired,
     isBold: PropTypes.bool,
     isItalic: PropTypes.bool,
     isUnderline: PropTypes.bool,

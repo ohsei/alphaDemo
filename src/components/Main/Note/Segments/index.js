@@ -20,7 +20,6 @@ class Segments extends Component{
     delSegment: PropTypes.func,
     setCurSegment: PropTypes.func,
     setCurComponent: PropTypes.func,
-    updateTabNodeList: PropTypes.func.isRequired,
     isPrint: PropTypes.bool,
     isBold: PropTypes.bool,
     isItalic: PropTypes.bool,

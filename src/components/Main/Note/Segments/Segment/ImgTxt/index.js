@@ -26,7 +26,6 @@ class ImgTxt extends Component{
     curSegmentNo: PropTypes.any,
     updateNote: PropTypes.func.isRequired,
     tabNodeList: PropTypes.array,
-    updateTabNodeList: PropTypes.func.isRequired,
     isBold: PropTypes.bool,
     isItalic: PropTypes.bool,
     isUnderline: PropTypes.bool,

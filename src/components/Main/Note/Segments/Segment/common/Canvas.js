@@ -143,15 +143,16 @@ class Canvas extends Component{
 
   componentWillReceiveProps (nextProps){
     const {id} = this.props
+
     if (nextProps.note[id].imgWidth == 0 && nextProps.note[id].imgHeight == 0) {
       this.setState({imgWidth: 0})
       this.setState({imgHeight: 0})
     }
   }
-
   componentDidUpdate (prevProps, prevState){
-    this.loadImage ()
     const {imgWidth, imgHeight, objX, objY} = this.state
+
+    this.loadImage ()
 
     if ((prevState.imgWidth !== imgWidth) ||
     (prevState.imgHeight !== imgHeight) ||

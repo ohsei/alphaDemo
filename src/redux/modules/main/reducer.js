@@ -189,6 +189,7 @@ export default (state = initialState, action) => {
         isPrint: false,
         curColor: 'rgb(0,0,0)',
         forceChange: true,
+        tabNodeList: [],
         name: ''
       })
     })()

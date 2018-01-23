@@ -177,6 +177,7 @@ class Sentence extends Component{
     if (this.inputText.htmlEl.innerHTML.match(/[^\x01-\x7E]/)){
       onShowOnlyEnglishAlertDialog(true)
     }
+
     if (event.keyCode == 16){
       isShiftKeyPressed = true
     }

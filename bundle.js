@@ -28506,7 +28506,7 @@ var Sentences = function (_Component) {
 
 
       var newTabNodeList = tabNodeList.slice();
-      newTabNodeList[node.id] = node;
+      newTabNodeList[node.index] = node.updateNode;
       updateTabNodeList(newTabNodeList);
     };
 
@@ -28517,7 +28517,7 @@ var Sentences = function (_Component) {
 
 
       var newTabNodeList = tabNodeList.slice();
-      newTabNodeList.splice(node.id, 0, node);
+      newTabNodeList.splice(node.index, 0, node.addNode);
       updateTabNodeList(newTabNodeList);
     };
 
@@ -28630,7 +28630,7 @@ var Sentences = function (_Component) {
         var nodeJson = JSON.stringify(node);
 
         if (tabNodeJson !== nodeJson) {
-          this.updateTabNode({ id: id, node: node });
+          this.updateTabNode({ index: i, updateNote: { id: id, node: node } });
         }
       }
     }
@@ -28668,15 +28668,15 @@ var Sentences = function (_Component) {
       var i = 0;
       var tabNode = tabNodeList[i];
 
-      while (tabNode && tabNodeList[i].id != id) {
+      while (tabNode && tabNodeList[i].id < id) {
         i++;
         tabNode = tabNodeList[i];
       }
 
-      if (tabNode) {
-        this.updateTabNode({ id: id, node: node });
+      if (tabNode && tabNode.id == id) {
+        this.updateTabNode({ index: i, updateNode: { id: id, node: node } });
       } else {
-        this.addTabNode({ id: id, node: node });
+        this.addTabNode({ index: i, addNode: { id: id, node: node } });
       }
 
       setCurSegment(id);
@@ -29056,6 +29056,7 @@ var Canvas = function (_Component) {
     value: function componentWillReceiveProps(nextProps) {
       var id = this.props.id;
 
+
       if (nextProps.note[id].imgWidth == 0 && nextProps.note[id].imgHeight == 0) {
         this.setState({ imgWidth: 0 });
         this.setState({ imgHeight: 0 });
@@ -29064,13 +29065,14 @@ var Canvas = function (_Component) {
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate(prevProps, prevState) {
-      this.loadImage();
       var _state = this.state,
           imgWidth = _state.imgWidth,
           imgHeight = _state.imgHeight,
           objX = _state.objX,
           objY = _state.objY;
 
+
+      this.loadImage();
 
       if (prevState.imgWidth !== imgWidth || prevState.imgHeight !== imgHeight || prevState.objX !== objX || prevState.objY !== objY) {
         var _props3 = this.props,
@@ -49693,6 +49695,7 @@ exports.default = function () {
           isPrint: false,
           curColor: 'rgb(0,0,0)',
           forceChange: true,
+          tabNodeList: [],
           name: ''
         });
       }();
@@ -50479,6 +50482,19 @@ var Main = function (_Component) {
       curComponent.setBold();
     };
 
+    _this.onKeyDown = function (event) {
+      console.log(event.target.id);
+      var enPos = event.target.id.indexOf('en');
+      var upPos = event.target.id.indexOf('up');
+      var downPos = event.target.id.indexOf('down');
+
+      if (enPos == 0 || upPos == 0 || downPos == 0) {
+        console.log('OK');
+      } else {
+        console.log('NG');
+      }
+    };
+
     _this.setColor = _this.setColor.bind(_this);
     /* Bold設定 */
     _this.setBold = _this.setBold.bind(_this);
@@ -50542,7 +50558,7 @@ var Main = function (_Component) {
         _react2.default.createElement(PrintOrientation, { layout: setting.layout }),
         !isPrint && _react2.default.createElement(
           DivBg,
-          { style: { minWidth: width } },
+          { style: { minWidth: width }, onKeyDown: this.onKeyDown },
           _react2.default.createElement(
             DivFixed,
             null,
@@ -50571,6 +50587,7 @@ var Main = function (_Component) {
               StyleEditArea,
               null,
               !isJaInputing && _react2.default.createElement(_ColorPicker2.default, {
+                tabIndex: -1,
                 ref: function ref(_ref2) {
                   return _this2.colorChange = _ref2;
                 },
@@ -64423,22 +64440,18 @@ var Segments = function (_Component) {
   _createClass(Segments, [{
     key: 'onKeyDown',
     value: function onKeyDown(event) {
-      var tabNodeList = this.props.tabNodeList;
-
-
-      if (tabNodeList.length > 0 && event.keyCode == 9) {
-        var length = tabNodeList[tabNodeList.length - 1].node.length;
-
-        var lastNodeId = tabNodeList[tabNodeList.length - 1].node[length - 1].node;
-        var lastNode = document.getElementById(lastNodeId);
-
-        if (event.target == lastNode) {
-          event.preventDefault();
-          var nodeId = tabNodeList[0].node[0].node;
-          var node = document.getElementById(nodeId);
-          node.focus();
-        }
-      }
+      /*  const {tabNodeList} = this.props
+         if (tabNodeList.length > 0 && event.keyCode == 9){
+          const length =  tabNodeList[tabNodeList.length - 1].node.length
+           const lastNodeId  = tabNodeList[tabNodeList.length - 1].node[length - 1].node
+          const lastNode = document.getElementById(lastNodeId)
+           if (event.target == lastNode){
+            event.preventDefault()
+            const nodeId = tabNodeList[0].node[0].node
+            const node = document.getElementById(nodeId)
+            node.focus()
+          }
+        }*/
     }
   }, {
     key: 'render',
@@ -64480,7 +64493,6 @@ Segments.propTypes = _extends({
   delSegment: _propTypes2.default.func,
   setCurSegment: _propTypes2.default.func,
   setCurComponent: _propTypes2.default.func,
-  updateTabNodeList: _propTypes2.default.func.isRequired,
   isPrint: _propTypes2.default.bool,
   isBold: _propTypes2.default.bool,
   isItalic: _propTypes2.default.bool,
@@ -64673,7 +64685,6 @@ Segment.propTypes = _extends({
   setCurComponent: _propTypes2.default.func,
   isPrint: _propTypes2.default.bool,
   tabNodeList: _propTypes2.default.array,
-  updateTabNodeList: _propTypes2.default.func.isRequired,
   isBold: _propTypes2.default.bool,
   isItalic: _propTypes2.default.bool,
   isUnderline: _propTypes2.default.bool,
@@ -65359,7 +65370,6 @@ TxtOnly.propTypes = _extends({
   setting: _propTypes2.default.object,
   updateNote: _propTypes2.default.func,
   tabNodeList: _propTypes2.default.array,
-  updateTabNodeList: _propTypes2.default.func.isRequired,
   isBold: _propTypes2.default.bool,
   isItalic: _propTypes2.default.bool,
   isUnderline: _propTypes2.default.bool,
@@ -65604,6 +65614,7 @@ var Sentence = function (_Component) {
       if (this.inputText.htmlEl.innerHTML.match(/[^\x01-\x7E]/)) {
         onShowOnlyEnglishAlertDialog(true);
       }
+
       if (event.keyCode == 16) {
         isShiftKeyPressed = true;
       }
@@ -66631,7 +66642,6 @@ ImgTxt.propTypes = _extends({
   curSegmentNo: _propTypes2.default.any,
   updateNote: _propTypes2.default.func.isRequired,
   tabNodeList: _propTypes2.default.array,
-  updateTabNodeList: _propTypes2.default.func.isRequired,
   isBold: _propTypes2.default.bool,
   isItalic: _propTypes2.default.bool,
   isUnderline: _propTypes2.default.bool,
@@ -66849,7 +66859,6 @@ TxtImgSeg.propTypes = _extends({
   curSegmentNo: _propTypes2.default.any,
   updateNote: _propTypes2.default.func.isRequired,
   tabNodeList: _propTypes2.default.array,
-  updateTabNodeList: _propTypes2.default.func.isRequired,
   setCurComponent: _propTypes2.default.func,
   isBold: _propTypes2.default.bool,
   isItalic: _propTypes2.default.bool,
@@ -67664,29 +67673,18 @@ var ContentEditable = function (_React$Component) {
   }, {
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate(nextProps) {
-      var props = this.props,
-          htmlEl = this.htmlEl;
-
-      // We need not rerender if the change of props simply reflects the user's edits.
-      // Rerendering in this case would make the cursor/caret jump
-
-      // Rerender if there is no element yet... (somehow?)
-
-      if (!htmlEl) {
-        return true;
-      }
-
-      // ...or if html really changed... (programmatically, not by user edit)
-      if (nextProps.html !== htmlEl.innerHTML && nextProps.html !== props.html) {
-        return true;
-      }
-
-      var optional = ['style', 'className', 'disable', 'tagName'];
-
-      // Handle additional properties
-      return optional.some(function (name) {
-        return props[name] !== nextProps[name];
-      });
+      // We need not rerender if the change of props simply reflects the user's
+      // edits. Rerendering in this case would make the cursor/caret jump.
+      return (
+        // Rerender if there is no element yet... (somehow?)
+        !this.htmlEl
+        // ...or if html really changed... (programmatically, not by user edit)
+        || nextProps.html !== this.htmlEl.innerHTML && nextProps.html !== this.props.html
+        // ...or if editing is enabled or disabled.
+        || this.props.disabled !== nextProps.disabled
+        // ...or if className changed
+        || this.props.className !== nextProps.className
+      );
     }
   }, {
     key: 'componentDidUpdate',

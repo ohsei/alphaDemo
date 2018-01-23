@@ -59,7 +59,6 @@ class Segment extends Component{
     setCurComponent: PropTypes.func,
     isPrint: PropTypes.bool,
     tabNodeList: PropTypes.array,
-    updateTabNodeList: PropTypes.func.isRequired,
     isBold: PropTypes.bool,
     isItalic: PropTypes.bool,
     isUnderline: PropTypes.bool,

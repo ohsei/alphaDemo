@@ -222,13 +222,25 @@ class Main extends Component {
       this.colorChange.setColor(nextProps.curColor)
     }
   }
+  onKeyDown = (event) => {
+ /*   console.log(event.target.id)
+    const enPos = event.target.id.indexOf('en')
+    const upPos = event.target.id.indexOf('up')
+    const downPos = event.target.id.indexOf('down')
 
+    if ((enPos == 0) || (upPos == 0) || (downPos == 0)) {
+      console.log('OK')
+    }
+    else {
+      console.log('NG')
+    }*/
+  }
   render () {
     const { isPrint, setting, width, isBold, isItalic, isUnderline, isJaInputing, saveFileTitle, name} = this.props
     return (
       <div>
         <PrintOrientation layout={setting.layout} />
-        {!isPrint && <DivBg style={{minWidth: width}}>
+        {!isPrint && <DivBg style={{minWidth: width}} onKeyDown={this.onKeyDown}>
           <DivFixed>
             <DivFixedTitle>　　　英語4線ラクラクプリント 　　　</DivFixedTitle>
             <InFileTitle
@@ -245,6 +257,7 @@ class Main extends Component {
             </DivMenu>
             <StyleEditArea>
               {!isJaInputing && <ColorPicker
+                tabIndex={-1}
                 ref={ref => this.colorChange = ref}
                 setColor={this.setColor}
               />}
