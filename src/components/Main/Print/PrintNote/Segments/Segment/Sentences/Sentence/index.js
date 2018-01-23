@@ -38,7 +38,6 @@ class Sentence extends Component{
   static propTypes = {
     note: PropTypes.array,
     segmentId: PropTypes.number,
-    offsetHeight: PropTypes.number,
     setting: PropTypes.object,
   }
 
@@ -66,7 +65,7 @@ class Sentence extends Component{
       height = 1
     }
     else {
-      height = (note[segmentId].offsetHeight / segmentHeight).toFixed(0)
+      height = (note[segmentId].segmentHeight / segmentHeight).toFixed(0)
     }
 
     let i = 0
