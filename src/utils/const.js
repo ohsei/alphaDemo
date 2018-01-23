@@ -13,13 +13,13 @@ export const DEL_ONE_FILE = 'DEL_ONE_FILE'
 export const defaultSetting = {
   layout: 'portrait',
   jaPos: 'up',
-  enSize: 0,
+  enSize: '0',
   enFont: 0,
   upJaSize: '24pt',
   downJaSize: 'オフ',
   lineColor: 'gray',
   lineNum: 4,
-  interval: 1.5,
+  interval: '1.5',
   lineNos: 0,
 }
 

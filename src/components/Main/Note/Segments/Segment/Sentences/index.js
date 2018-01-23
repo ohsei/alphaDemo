@@ -79,19 +79,17 @@ class Sentences extends Component{
     updateJaInputing(false)
   }
   onFocus (){
-    const {id, setCurSegment} = this.props
+    const {id, setCurSegment, setCurComponent} = this.props
     setCurSegment(id)
- 
+    setCurComponent(this.sentence)
   }
 
-
- 
   componentDidMount (){
-    const {id, setCurSegment} = this.props
+    const {id, setCurSegment, setCurComponent} = this.props
  
     setCurSegment(id)
+    setCurComponent(this.sentence)
   }
-
   
 
   render (){

@@ -120,7 +120,9 @@ class Canvas extends Component{
         ctx.strokeRect(this.state.objX - anchorSize, this.state.objY + picHeight, anchorSize, anchorSize )
         ctx.strokeRect(this.state.objX + picWidth, this.state.objY + picHeight, anchorSize, anchorSize )
       }
-      updateHeight()
+      if (this.imgCanvas) {
+        updateHeight()
+      }
     }.bind(this)
     img.src = note[id].dataUrl
   }
