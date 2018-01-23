@@ -44,7 +44,6 @@ TxtImg.propTypes = {
   jaSentence: PropTypes.any,
   setting: PropTypes.any,
   curSegmentNo: PropTypes.any,
-  offsetHeight: PropTypes.any,
   isPageBreak: PropTypes.any,
   updateLoadedArray: PropTypes.func.isRequired,
   noteId: PropTypes.number,

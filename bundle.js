@@ -20922,13 +20922,13 @@ var DEL_ONE_FILE = exports.DEL_ONE_FILE = 'DEL_ONE_FILE';
 var defaultSetting = exports.defaultSetting = {
   layout: 'portrait',
   jaPos: 'up',
-  enSize: 0,
+  enSize: '0',
   enFont: 0,
   upJaSize: '24pt',
   downJaSize: 'オフ',
   lineColor: 'gray',
   lineNum: 4,
-  interval: 1.5,
+  interval: '1.5',
   lineNos: 0
 };
 
@@ -20939,8 +20939,9 @@ var defaultNote = exports.defaultNote = {
   jaHtml: '',
   dataUrl: '',
   isPageBreak: false,
-  offsetHeight: 0,
-  segmentHeight: 0,
+  jaHeight: 0, /* 和文のみ高さ */
+  enHeight: 0, /* 英文のみ高さ */
+  segmentHeight: 0, /* 英文、和文、画像を含む高さ */
   imgWidth: 0,
   imgHeight: 0,
   posX: 20,
@@ -28522,6 +28523,7 @@ var Sentences = function (_Component) {
 
       var newNote = note.slice();
       newNote[id].jaHtml = this.upJaHtml.htmlEl.innerHTML;
+      newNote[id].jaHeight = this.upJaHtml.htmlEl.offsetHeight;
 
       updateNote(newNote);
     }
@@ -28536,6 +28538,7 @@ var Sentences = function (_Component) {
 
       var newNote = note.slice();
       newNote[id].jaHtml = this.downJaHtml.htmlEl.innerHTML;
+      newNote[id].jaHeight = this.upJaHtml.htmlEl.offsetHeight;
 
       updateNote(newNote);
     }
@@ -28544,31 +28547,51 @@ var Sentences = function (_Component) {
     value: function onFocus() {
       var _props3 = this.props,
           id = _props3.id,
-          setCurSegment = _props3.setCurSegment;
+          setCurSegment = _props3.setCurSegment,
+          setCurComponent = _props3.setCurComponent;
 
       setCurSegment(id);
+      setCurComponent(this.sentence);
     }
   }, {
     key: 'componentDidMount',
     value: function componentDidMount() {
       var _props4 = this.props,
           id = _props4.id,
-          setCurSegment = _props4.setCurSegment;
+          setCurSegment = _props4.setCurSegment,
+          setCurComponent = _props4.setCurComponent;
 
 
       setCurSegment(id);
+      setCurComponent(this.sentence);
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps) {
+      var _props5 = this.props,
+          setting = _props5.setting,
+          note = _props5.note,
+          updateNote = _props5.updateNote,
+          id = _props5.id;
+
+
+      if (prevProps.setting != setting) {
+        var newNote = note.slice();
+        newNote[id].jaHeight = this.upJaHtml.htmlEl.offsetHeight;
+        updateNote(newNote);
+      }
     }
   }, {
     key: 'render',
     value: function render() {
       var _this2 = this;
 
-      var _props5 = this.props,
-          note = _props5.note,
-          id = _props5.id,
-          setting = _props5.setting,
-          senWidth = _props5.senWidth,
-          offForceChange = _props5.offForceChange;
+      var _props6 = this.props,
+          note = _props6.note,
+          id = _props6.id,
+          setting = _props6.setting,
+          senWidth = _props6.senWidth,
+          offForceChange = _props6.offForceChange;
 
       var upJaSize = setting.upJaSize;
       var downJaSize = setting.downJaSize;
@@ -28871,10 +28894,10 @@ var Canvas = function (_Component) {
         if (canvas.offsetHeight < picHeight + anchorSize * 2) {
           canvas.height = picHeight + anchorSize * 2;
         } else {
-          if (picHeight + anchorSize * 2 > note[id].segmentHeight) {
+          if (picHeight + anchorSize * 2 > note[id].enHeight + note[id].jaHeight) {
             canvas.height = picHeight + anchorSize * 2;
           } else {
-            canvas.height = note[id].segmentHeight;
+            canvas.height = note[id].enHeight + note[id].jaHeight;
           }
         }
 
@@ -28895,7 +28918,9 @@ var Canvas = function (_Component) {
           ctx.strokeRect(this.state.objX - anchorSize, this.state.objY + picHeight, anchorSize, anchorSize);
           ctx.strokeRect(this.state.objX + picWidth, this.state.objY + picHeight, anchorSize, anchorSize);
         }
-        updateHeight();
+        if (this.imgCanvas) {
+          updateHeight();
+        }
       }.bind(this);
       img.src = note[id].dataUrl;
     }
@@ -64685,7 +64710,7 @@ var Actions = function (_Component) {
       }
 
       var curNo = id + 1;
-      newNote.splice(curNo, 0, { id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, offsetHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20 });
+      newNote.splice(curNo, 0, { id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, jaHeight: 0, enHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20 });
       updateNote(newNote);
       onForceChange();
       setCurSegment(curNo);
@@ -64712,7 +64737,7 @@ var Actions = function (_Component) {
         newNote[i].id++;
       }
       curNo++;
-      newNote.splice(curNo, 0, { id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, offsetHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20 });
+      newNote.splice(curNo, 0, { id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, jaHeight: 0, enHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20 });
       updateNote(newNote);
       onForceChange();
     }, _this.imgAdd = function (event) {
@@ -65339,7 +65364,7 @@ var Sentence = function (_Component) {
       document.execCommand('bold', false);
       var newNote = note.slice();
       newNote[id].html = this.inputText.htmlEl.innerHTML;
-      newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight;
+      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight;
       updateNote(newNote);
     }
   }, {
@@ -65353,7 +65378,7 @@ var Sentence = function (_Component) {
       document.execCommand('italic', false);
       var newNote = note.slice();
       newNote[id].html = this.inputText.htmlEl.innerHTML;
-      newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight;
+      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight;
       updateNote(newNote);
     }
   }, {
@@ -65367,7 +65392,7 @@ var Sentence = function (_Component) {
       document.execCommand('underline', false);
       var newNote = note.slice();
       newNote[id].html = this.inputText.htmlEl.innerHTML;
-      newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight;
+      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight;
       updateNote(newNote);
     }
   }, {
@@ -65413,7 +65438,7 @@ var Sentence = function (_Component) {
       document.execCommand('foreColor', false, newColor);
       var newNote = note.slice();
       newNote[id].html = this.inputText.htmlEl.innerHTML;
-      newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight;
+      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight;
       updateNote(newNote);
     }
   }, {
@@ -65442,7 +65467,7 @@ var Sentence = function (_Component) {
       this.setState({ range: this.saveSelection() });
       var newNote = note.slice();
       newNote[id].html = this.inputText.htmlEl.innerHTML;
-      newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight;
+      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight;
       updateNote(newNote);
     }
   }, {
@@ -65523,7 +65548,7 @@ var Sentence = function (_Component) {
 
         var newNote = note.slice();
         newNote[id].html = this.inputText.htmlEl.innerHTML;
-        newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight;
+        newNote[id].enHeight = this.inputText.htmlEl.offsetHeight;
         updateNote(newNote);
       }
     }
@@ -65538,7 +65563,7 @@ var Sentence = function (_Component) {
 
       var newNote = note.slice();
       newNote[id].html = e.target.value;
-      newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight;
+      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight;
       updateNote(newNote);
     }
   }, {
@@ -65606,9 +65631,9 @@ var Sentence = function (_Component) {
         }
       }
 
-      if (prevProps.setting.enSize != this.props.setting.enSize) {
+      if (prevProps.setting != this.props.setting) {
         var newNote = note.slice();
-        newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight;
+        newNote[id].enHeight = this.inputText.htmlEl.offsetHeight;
         updateNote(newNote);
       }
 
@@ -65621,7 +65646,7 @@ var Sentence = function (_Component) {
         document.execCommand('delete');
         var _newNote = _note.slice();
         _newNote[_id].html = this.inputText.htmlEl.innerHTML;
-        _newNote[_id].offsetHeight = this.inputText.htmlEl.offsetHeight;
+        _newNote[_id].enHeight = this.inputText.htmlEl.offsetHeight;
         _updateNote(_newNote);
         updateOverOnePage(false);
       }
@@ -67702,10 +67727,10 @@ var Sentence = function (_Component) {
         font = 'MyFamilyFont2';
       }
 
-      if (note[segmentId].offsetHeight == 0) {
+      if (note[segmentId].enHeight == 0) {
         height = 1;
       } else {
-        height = (note[segmentId].offsetHeight / segmentHeight).toFixed(0);
+        height = (note[segmentId].enHeight / segmentHeight).toFixed(0);
       }
 
       var i = 0;
@@ -67755,7 +67780,6 @@ var Sentence = function (_Component) {
 Sentence.propTypes = {
   note: _propTypes2.default.array,
   segmentId: _propTypes2.default.number,
-  offsetHeight: _propTypes2.default.number,
   setting: _propTypes2.default.object
 };
 exports.default = Sentence;
@@ -67984,7 +68008,6 @@ var ImgOnly = function (_Component) {
 
 ImgOnly.propTypes = _extends({
   setting: _propTypes2.default.object,
-  offsetHeight: _propTypes2.default.any,
   note: _propTypes2.default.array,
   segmentId: _propTypes2.default.number,
   width: _propTypes2.default.number
@@ -68096,7 +68119,6 @@ ImgTxt.propTypes = _extends({
   note: _propTypes2.default.array,
   width: _propTypes2.default.number,
   setting: _propTypes2.default.any,
-  offsetHeight: _propTypes2.default.any,
   segmentId: _propTypes2.default.number
 }, _Canvas2.default.propTypes);
 
@@ -68210,7 +68232,6 @@ TxtImg.propTypes = {
   jaSentence: _propTypes2.default.any,
   setting: _propTypes2.default.any,
   curSegmentNo: _propTypes2.default.any,
-  offsetHeight: _propTypes2.default.any,
   isPageBreak: _propTypes2.default.any,
   updateLoadedArray: _propTypes2.default.func.isRequired,
   noteId: _propTypes2.default.number,

@@ -30,8 +30,9 @@ export const defaultNote = {
   jaHtml: '',
   dataUrl: '',
   isPageBreak: false,
-  offsetHeight: 0,
-  segmentHeight: 0,
+  jaHeight: 0,  /* 和文のみ高さ */
+  enHeight: 0,  /* 英文のみ高さ */
+  segmentHeight: 0, /* 英文、和文、画像を含む高さ */
   imgWidth: 0,
   imgHeight: 0,
   posX: 20,

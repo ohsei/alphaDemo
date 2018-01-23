@@ -15,7 +15,6 @@ const SentenceArea = styled.div`
 class ImgOnly extends Component{
   static propTypes = {
     setting: PropTypes.object,
-    offsetHeight: PropTypes.any,
     note: PropTypes.array,
     segmentId: PropTypes.number,
     width: PropTypes.number,

@@ -6,27 +6,27 @@ export const getMaxNumsWithSetting = (setting) => {
   if (layout == 'portrait') {
     if (enSize == '0') {
       if (interval == 1.5) {
-        return 10
+        return 9
       }
       else if (interval == 2) {
         return 7
       }
       else if (interval == 2.5) {
-        return 6
+        return 5
       }
       else if (interval == 3) {
-        return 5
+        return 4
       }
     }
     else if (enSize == '1') {
       if (interval == 1.5) {
-        return 5
+        return 4
       }
       else if (interval == 2) {
         return 3
       }
       else if (interval == 2.5) {
-        return 3
+        return 2
       }
       else if (interval == 3) {
         return 2

@@ -83,7 +83,7 @@ class Sentence extends Component{
     document.execCommand('bold', false)
     let newNote = note.slice()
     newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+    newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
   }
   setItalic (){
@@ -91,7 +91,7 @@ class Sentence extends Component{
     document.execCommand('italic', false)
     let newNote = note.slice()
     newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+    newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
   }
   setUnderline (){
@@ -99,7 +99,7 @@ class Sentence extends Component{
     document.execCommand('underline', false)
     let newNote = note.slice()
     newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+    newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
   }
   saveSelection () {
@@ -146,7 +146,7 @@ class Sentence extends Component{
     document.execCommand('foreColor', false,  newColor)
     let newNote = note.slice()
     newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+    newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
 
   }
@@ -168,7 +168,7 @@ class Sentence extends Component{
     this.setState({range: this.saveSelection()})
     let newNote = note.slice()
     newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+    newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
   }
   onKeyDown (event){
@@ -242,7 +242,7 @@ class Sentence extends Component{
 
       let newNote = note.slice()
       newNote[id].html = this.inputText.htmlEl.innerHTML
-      newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
       updateNote(newNote)
     }
   }
@@ -252,7 +252,7 @@ class Sentence extends Component{
 
     let newNote = note.slice()
     newNote[id].html = e.target.value
-    newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+    newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
   }
 
@@ -306,7 +306,7 @@ class Sentence extends Component{
     if ((prevProps.setting != this.props.setting) )
     {
       let newNote = note.slice()
-      newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
       updateNote(newNote)
     }
 
@@ -315,7 +315,7 @@ class Sentence extends Component{
       document.execCommand('delete')
       let newNote = note.slice()
       newNote[id].html = this.inputText.htmlEl.innerHTML
-      newNote[id].offsetHeight = this.inputText.htmlEl.offsetHeight
+      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
       updateNote(newNote)
       updateOverOnePage(false)
     }

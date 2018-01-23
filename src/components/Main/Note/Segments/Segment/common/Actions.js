@@ -58,6 +58,11 @@ class Actions extends Component{
     let newNote = note.slice()
     note[id].type = 'imgOnly'
     note[id].html = ''
+    note[id].jaHtml = ''
+    note[id].imgWidth = 0
+    note[id].imgHeight = 0
+    note[id].enHeight = 0
+    note[id].jaHeight = 0
     updateNote(newNote)
   }
 
@@ -66,6 +71,8 @@ class Actions extends Component{
 
     let newNote = note.slice()
     note[id].type = 'imgTxt'
+    note[id].imgWidth = 0
+    note[id].imgHeight = 0
     updateNote(newNote)
   }
 
@@ -74,6 +81,8 @@ class Actions extends Component{
 
     let newNote = note.slice()
     note[id].type = 'txtImg'
+    note[id].imgWidth = 0
+    note[id].imgHeight = 0
     updateNote(newNote)
   }
 
@@ -83,6 +92,8 @@ class Actions extends Component{
     let newNote = note.slice()
     note[id].type = 'txtOnly'
     note[id].dataUrl = ''
+    note[id].imgWidth = 0
+    note[id].imgHeight = 0
     updateNote(newNote)
   }
 
@@ -110,7 +121,7 @@ class Actions extends Component{
     }
 
     const curNo = id + 1
-    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, offsetHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20})
+    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, jaHeight: 0, enHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20})
     updateNote(newNote)
     onForceChange()
     setCurSegment(curNo)
@@ -134,7 +145,7 @@ class Actions extends Component{
       newNote[i].id++
     }
     curNo++
-    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, offsetHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20, })
+    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, jaHeight: 0, enHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20, })
     updateNote(newNote)
     onForceChange()
   }

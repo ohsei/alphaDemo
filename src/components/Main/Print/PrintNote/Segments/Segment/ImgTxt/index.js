@@ -41,7 +41,6 @@ ImgTxt.propTypes = {
   note: PropTypes.array,
   width: PropTypes.number,
   setting: PropTypes.any,
-  offsetHeight: PropTypes.any,
   segmentId: PropTypes.number,
   ...Canvas.propTypes,
 }

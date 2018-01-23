@@ -61,11 +61,11 @@ class Sentence extends Component{
       font = 'MyFamilyFont2'
     }
 
-    if (note[segmentId].offsetHeight == 0 ) {
+    if (note[segmentId].enHeight == 0 ) {
       height = 1
     }
     else {
-      height = (note[segmentId].segmentHeight / segmentHeight).toFixed(0)
+      height = (note[segmentId].enHeight / segmentHeight).toFixed(0)
     }
 
     let i = 0

@@ -57,6 +57,7 @@ class Sentences extends Component{
 
     let newNote = note.slice()
     newNote[id].jaHtml = this.upJaHtml.htmlEl.innerHTML
+    newNote[id].jaHeight = this.upJaHtml.htmlEl.offsetHeight
 
     updateNote(newNote)
   }
@@ -66,6 +67,7 @@ class Sentences extends Component{
 
     let newNote = note.slice()
     newNote[id].jaHtml = this.downJaHtml.htmlEl.innerHTML
+    newNote[id].jaHeight = this.upJaHtml.htmlEl.offsetHeight
 
     updateNote(newNote)
   }
@@ -90,7 +92,16 @@ class Sentences extends Component{
     setCurSegment(id)
     setCurComponent(this.sentence)
   }
-  
+  componentDidUpdate (prevProps) {
+    const {setting, note, updateNote, id} = this.props
+
+    if ((prevProps.setting != setting) )
+    {
+      let newNote = note.slice()
+      newNote[id].jaHeight = this.upJaHtml.htmlEl.offsetHeight
+      updateNote(newNote)
+    }
+  }
 
   render (){
     const {note, id, setting, senWidth, offForceChange} = this.props
