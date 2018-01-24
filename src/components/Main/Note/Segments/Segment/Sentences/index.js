@@ -25,24 +25,13 @@ class Sentences extends Component{
     this.onFocus = this.onFocus.bind(this)
   }
   static propTypes = {
-    curSegmentNo: PropTypes.number,
     id: PropTypes.number,
     senWidth: PropTypes.number,
     note: PropTypes.array,
     setting: PropTypes.object,
-    isPrint: PropTypes.bool,
     updateNote: PropTypes.func,
-    tabNodeList: PropTypes.array,
-    updateTabNodeList: PropTypes.func.isRequired,
     setCurSegment: PropTypes.func,
     setCurComponent: PropTypes.func,
-    isBold: PropTypes.bool,
-    isItalic: PropTypes.bool,
-    isUnderline: PropTypes.bool,
-    updateIsBold: PropTypes.func.isRequired,
-    updateIsItalic: PropTypes.func.isRequired,
-    updateIsUnderline: PropTypes.func.isRequired,
-    updateCurColor: PropTypes.func.isRequired,
     offForceChange: PropTypes.func.isRequired,
     updateJaInputing: PropTypes.func.isRequired,
     ...Sentence.propTypes,
@@ -51,7 +40,6 @@ class Sentences extends Component{
   getHeight (){
     return this.divSentences.offsetHeight
   }
-
   onUpChange (){
     const {id, updateNote, note} = this.props
 
@@ -61,17 +49,15 @@ class Sentences extends Component{
 
     updateNote(newNote)
   }
-
   onDownChange (){
     const {id, updateNote, note} = this.props
 
     let newNote = note.slice()
     newNote[id].jaHtml = this.downJaHtml.htmlEl.innerHTML
-    newNote[id].jaHeight = this.upJaHtml.htmlEl.offsetHeight
+    newNote[id].jaHeight = this.downJaHtml.htmlEl.offsetHeight
 
     updateNote(newNote)
   }
-
   onUpJaFocus = () => {
     const {updateJaInputing} = this.props
     updateJaInputing(true)
@@ -80,12 +66,19 @@ class Sentences extends Component{
     const {updateJaInputing} = this.props
     updateJaInputing(false)
   }
+  onDownJaFocus = () => {
+    const {updateJaInputing} = this.props
+    updateJaInputing(true)
+  }
+  onDownJaBlur = () => {
+    const {updateJaInputing} = this.props
+    updateJaInputing(false)
+  }
   onFocus (){
     const {id, setCurSegment, setCurComponent} = this.props
     setCurSegment(id)
     setCurComponent(this.sentence)
   }
-
   componentDidMount (){
     const {id, setCurSegment, setCurComponent} = this.props
  
@@ -98,7 +91,16 @@ class Sentences extends Component{
     if ((prevProps.setting != setting) )
     {
       let newNote = note.slice()
-      newNote[id].jaHeight = this.upJaHtml.htmlEl.offsetHeight
+      
+      if (this.upJaHtml) {
+        newNote[id].jaHeight = this.upJaHtml.htmlEl.offsetHeight
+      }
+      else if (this.downJaHtml) {
+        newNote[id].jaHeight = this.downJaHtml.htmlEl.offsetHeight
+      }
+      else {
+        newNote[id].jaHeight = 0
+      }
       updateNote(newNote)
     }
   }

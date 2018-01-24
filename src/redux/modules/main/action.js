@@ -36,7 +36,9 @@ import {
   UPDATE_WIDTH,
   SET_MAX_LINE_NUM_MESSAGE,
   UPDATE_JA_INPUTING,
-  UPDATE_OMIT_ZENKAKU
+  UPDATE_OMIT_ZENKAKU,
+  UPDATE_IS_CHANGE_NOTE,
+  SET_OLD_TYPE,
 } from './action-type'
 
 export const setFileTitle = (title) => {
@@ -242,6 +244,12 @@ export const updateIsChangeFormat = (isChangedFormat) => {
   }
 }
 
+export const updateIsChangeNote = (isChangedNote) => {
+  return {
+    type: UPDATE_IS_CHANGE_NOTE,
+    payload: isChangedNote
+  }
+}
 export const setOldSetting = (oldSetting) => {
   return {
     type: SET_OLD_SETTING,
@@ -281,5 +289,12 @@ export const updateOmitZenkaku = (status) => {
   return {
     type: UPDATE_OMIT_ZENKAKU,
     payload: status
+  }
+}
+
+export const setOldType = (oldType) => {
+  return {
+    type: SET_OLD_TYPE,
+    payload: oldType
   }
 }

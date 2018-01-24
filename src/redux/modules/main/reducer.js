@@ -34,7 +34,9 @@ import {
   SET_ALERT_MESSAGE,
   SET_MAX_LINE_NUM_MESSAGE,
   UPDATE_JA_INPUTING,
-  UPDATE_OMIT_ZENKAKU
+  UPDATE_OMIT_ZENKAKU,
+  UPDATE_IS_CHANGE_NOTE,
+  SET_OLD_TYPE,
 } from './action-type'
 
 const initialState = {
@@ -70,6 +72,8 @@ const initialState = {
   maxLineNumMessage: '',
   isJaInputing: false,
   isOmitZenkaku: false,
+  isChangedType: false,
+  oldType: 'txtOnly',
 }
 
 const {assign} = Object
@@ -289,6 +293,11 @@ export default (state = initialState, action) => {
       isChangedFormat: payload
     })
 
+  case UPDATE_IS_CHANGE_NOTE:
+    return assign({}, state, {
+      isChangedType: payload
+    })
+
   case SET_OLD_SETTING:
     return assign({}, state, {
       oldSetting: payload
@@ -317,6 +326,11 @@ export default (state = initialState, action) => {
   case UPDATE_OMIT_ZENKAKU:
     return assign({}, state, {
       isOmitZenkaku: payload
+    })
+
+  case SET_OLD_TYPE:
+    return assign({}, state, {
+      oldType: payload
     })
   default:
     return state

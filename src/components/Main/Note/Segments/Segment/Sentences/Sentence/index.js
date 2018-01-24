@@ -3,10 +3,6 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 import ContentEditable from '../../common/ContentEditable'
-import {getBrowserType} from '../../../../../../../utils/browserType'
-import {defaultPageHeight, landscapePageHeight} from '../../../../../../../utils/const'
-
-const browserType = getBrowserType()
 
 const TextArea = styled(ContentEditable)`
   margin: 0 0 1px 1px;
@@ -29,14 +25,11 @@ const DivSen = styled.div`
   display: block;
   position: relative;
 `
-let isShiftKeyPressed = false
-let isNewLine = false
 
 class Sentence extends Component{
   constructor (props){
     super(props)
     this.state = {
-      imeMode: 'inactive',
       range: null,
     }
     this.onKeyUp = this.onKeyUp.bind(this)
@@ -56,8 +49,6 @@ class Sentence extends Component{
   static propTypes = {
     note: PropTypes.array,
     id: PropTypes.number,
-    addSentence: PropTypes.func,
-    delSentence: PropTypes.func,
     updateNote: PropTypes.func,
     setting: PropTypes.object,
     isBold: PropTypes.bool,
@@ -77,6 +68,7 @@ class Sentence extends Component{
     updateOverOnePage: PropTypes.func.isRequired,
     updateOmitZenkaku: PropTypes.func.isRequired,
     isOmitZenkaku: PropTypes.bool,
+    isShowOnlyEnglishAlert: PropTypes.bool,
   }
   setBold (){
     const {updateNote, note, id} = this.props
@@ -148,51 +140,17 @@ class Sentence extends Component{
     newNote[id].html = this.inputText.htmlEl.innerHTML
     newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
     updateNote(newNote)
-
   }
   handelMouseUp () {
     this.setState({range: this.saveSelection()})
   }
-  onKeyUp (event){
-    const {updateNote, note, id} = this.props
-
-    if (event.keyCode == 16){
-      isShiftKeyPressed = false
-    }
-
-    if (browserType == 'ie' ){
-      if (isNewLine) {
-        isNewLine = false
-      }
-    }
+  onKeyUp (){
     this.setState({range: this.saveSelection()})
-    let newNote = note.slice()
-    newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
-    updateNote(newNote)
   }
   onKeyDown (event){
-    const {onShowOnlyEnglishAlertDialog} = this.props
-
-    if (this.inputText.htmlEl.innerHTML.match(/[^\x01-\x7E]/)){
-      onShowOnlyEnglishAlertDialog(true)
+    if (event.keyCode === 229) {
+      event.preventDefault()
     }
-
-    if (event.keyCode == 16){
-      isShiftKeyPressed = true
-    }
-
-    if (browserType == 'ie'){
-      if (event.keyCode == 13){
-        if (isShiftKeyPressed == true){
-          isNewLine = true
-        }
-        else {
-          event.preventDefault()
-        }
-      }
-    }
-
   }
   onPaste (e){
     e.preventDefault()
@@ -249,7 +207,6 @@ class Sentence extends Component{
 
   onTextAreaChange (e){
     const {updateNote, note, id} = this.props
-
     let newNote = note.slice()
     newNote[id].html = e.target.value
     newNote[id].enHeight = this.inputText.htmlEl.offsetHeight

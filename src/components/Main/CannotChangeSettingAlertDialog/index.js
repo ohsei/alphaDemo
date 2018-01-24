@@ -1,4 +1,4 @@
-/* ファイル保存済み時の提示メッセージ用コンポーネント */
+/* 印刷一ページを超えた場合提示用コンポーネント */
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
@@ -56,7 +56,6 @@ class CannotChangeSettingAlertDialog extends Component{
 
     onShowCannotChangeSettingAlertDialog(false)
   }
-
   render () {
     const {isShowCannotChangeSettingAlert, alertMessage, maxLineNumMessage} = this.props
 

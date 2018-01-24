@@ -65,3 +65,7 @@ export const SET_MAX_LINE_NUM_MESSAGE = 'main/SET_MAX_LINE_NUM_MESSAGE'
 export const UPDATE_JA_INPUTING = 'main/UPDATE_JA_INPUTING'
 
 export const UPDATE_OMIT_ZENKAKU = 'main/UPDATE_OMIT_ZENKAKU'
+
+export const UPDATE_IS_CHANGE_NOTE = 'main/UPDATE_IS_CHANGE_NOTE'
+
+export const SET_OLD_TYPE = 'main/SET_OLD_TYPE'

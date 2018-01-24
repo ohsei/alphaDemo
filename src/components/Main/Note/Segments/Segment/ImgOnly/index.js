@@ -6,7 +6,6 @@ import {pick, keys} from 'lodash'
 import LabNum from '../common/LabNum'
 import Canvas from '../common/Canvas'
 
-
 const SentenceArea = styled.div`
   display: flex;
   width: 100%;
@@ -27,21 +26,11 @@ class ImgOnly extends Component{
   static propTypes = {
     width: PropTypes.number,
     setting: PropTypes.object,
-    setCurSegment: PropTypes.any,
     id: PropTypes.any,
     note: PropTypes.array,
     updateNote: PropTypes.func.isRequired,
   }
-  componentDidUpdate (prevProps) {
-    const {updateNote, note, id} = this.props
-    const segmentHeight = this.sentencearea.offsetHeight
 
-    if (prevProps.note[id].segmentHeight != segmentHeight){
-      let newNote = note.slice()
-      newNote[id].segmentHeight = segmentHeight
-      updateNote(newNote)
-    }
-  }
   updateHeight = () => {
     const {updateNote, note, id} = this.props
     const segmentHeight = this.sentencearea.offsetHeight
@@ -56,8 +45,7 @@ class ImgOnly extends Component{
     const { setting, id, width } = this.props
     return (
       <SentenceArea
-        innerRef={ref => this.sentencearea = ref}
-        onClick={this.setCurSegment} >
+        innerRef={ref => this.sentencearea = ref} >
         <LabNum lineNoType={setting.lineNos} id={id} />
         <DivCanvas>
           <Canvas

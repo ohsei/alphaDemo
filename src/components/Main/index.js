@@ -177,11 +177,9 @@ class Main extends Component {
     note: PropTypes.array,
     setting: PropTypes.object,
     isShowFileDialog: PropTypes.bool,
-    curSegmentNo: PropTypes.number,
     saveFileTitle: PropTypes.string,
     setFileTitle: PropTypes.func.isRequired,
     isPrint: PropTypes.bool,
-    printFinish: PropTypes.func.isRequired,
     curComponent: PropTypes.object,
     isBold: PropTypes.bool,
     isItalic: PropTypes.bool,
@@ -192,6 +190,7 @@ class Main extends Component {
     setName: PropTypes.func.isRequired,
     name: PropTypes.string,
     isJaInputing: PropTypes.bool,
+    isShowOnlyEnglishAlert: PropTypes.bool,
   }
   setName = (event) => {
     const {setName} = this.props
@@ -225,14 +224,13 @@ class Main extends Component {
       this.colorChange.setColor(nextProps.curColor)
     }
   }
-  componentDidMount () {
-  }
+
   render () {
     const { isPrint, setting, width, isBold, isItalic, isUnderline, isJaInputing, saveFileTitle, name} = this.props
     return (
       <div>
         <PrintOrientation layout={setting.layout} />
-        {!isPrint && <DivBg style={{minWidth: width}} >
+        {!isPrint && <DivBg style={{minWidth: width}}>
           <DivFixed>
             <DivFixedTitle style={{backgroundImage: `url(${require('../../resources/img/4line_logo.png')})`}}></DivFixedTitle>
             <InFileTitle
@@ -241,7 +239,6 @@ class Main extends Component {
               name='title'
               ref={(ref) => {this.saveFileTitle = ref}}
               onChange={this.setFileTitle}
-              onKeyDown={this.onKeyDown}
               value={saveFileTitle}
             />
             <DivMenu>
@@ -282,7 +279,6 @@ class Main extends Component {
               name='name'
               placeholder='名前'
               onChange={this.setName}
-              onKeyDown={this.onNameKeyDown}
               value={name}
             />
           </DivFixed>

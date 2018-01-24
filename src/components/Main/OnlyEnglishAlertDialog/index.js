@@ -57,12 +57,16 @@ class OnlyEnglishAlertDialog extends Component{
     const {onShowOnlyEnglishAlertDialog} = this.props
     onShowOnlyEnglishAlertDialog(false)
   }
-  
+
+  onClick = () => {
+    const {onShowOnlyEnglishAlertDialog, isShowOnlyEnglishAlert} = this.props
+    onShowOnlyEnglishAlertDialog(!isShowOnlyEnglishAlert)
+  }
   render () {
     const {isShowOnlyEnglishAlert} = this.props
 
     return (
-      <DivOverlap show={isShowOnlyEnglishAlert}>
+      <DivOverlap show={isShowOnlyEnglishAlert} onClick={this.onClick}>
         <Wrapper>
           <h3 style={{flex: 8, marginLeft: 10}}>半角モードで入力してください。</h3>
           <Button style={{float: 'right'}} onClick={this.onCancel}>OK</Button>
