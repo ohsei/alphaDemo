@@ -7,6 +7,7 @@ import {pick, keys} from 'lodash'
 import Segments from './Segments'
 
 const StyledDiv = styled.div`
+  margin: 0 0 0 0.5cm;
   display: ${props => props.isPrint ? 'block' : 'none'};
   width: ${props => `${props.width}px`};
 `

@@ -146,14 +146,14 @@ const PrintOrientation = (object) => {
   if (object.layout === 'landscape'){
     return (
       <style type='text/css'>
-        {'@media print{@page {size: A4 landscape; margin: 0}}'}
+        {'@media print{@page {size: A4 landscape; margin: 0.5cm 2cm 2.5cm 1.5cm}}'}
       </style>
     )
   }
   else {
     return (
       <style type='text/css'>
-        {'@media print{@page {size: A4 portrait; margin: 0}}'}
+        {'@media print{@page {size: A4 portrait; margin: 0.5cm 2cm 2.5cm 1.5cm}}'}
       </style>
     )
   }

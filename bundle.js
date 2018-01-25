@@ -21031,7 +21031,7 @@ var landscapeWidth = exports.landscapeWidth = defaultWidth * 1.5;
 
 var defaultPageHeight = exports.defaultPageHeight = 1325;
 
-var landscapePageHeight = exports.landscapePageHeight = 1090;
+var landscapePageHeight = exports.landscapePageHeight = 900;
 
 /***/ }),
 /* 14 */
@@ -28504,6 +28504,44 @@ var Sentences = function (_Component) {
       updateJaInputing(false);
     };
 
+    _this.onUpPaste = function (e) {
+      e.preventDefault();
+      var text;
+      var range;
+
+      if (window.clipboardData) {
+        text = window.clipboardData.getData('text');
+      } else {
+        text = e.clipboardData.getData('text/plain');
+      }
+
+      if (document.selection) {
+        // 〜Internet Explorer 10
+        range = document.selection.createRange();
+        range.text = text;
+      } else {
+        // Internet Explorer 11/Chrome/Firefox
+        var selection = window.getSelection();
+        range = selection.getRangeAt(0);
+        var node = document.createTextNode(text);
+        range.insertNode(node);
+        range.setStartAfter(node);
+        range.setEndAfter(node);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+
+      var _this$props = _this.props,
+          updateNote = _this$props.updateNote,
+          note = _this$props.note,
+          id = _this$props.id;
+
+      var newNote = note.slice();
+      newNote[id].jaHtml = _this.upJaHtml.htmlEl.innerHTML;
+      newNote[id].jaHeight = _this.upJaHtml.htmlEl.offsetHeight;
+      updateNote(newNote);
+    };
+
     _this.onDownJaFocus = function () {
       var updateJaInputing = _this.props.updateJaInputing;
 
@@ -28514,6 +28552,44 @@ var Sentences = function (_Component) {
       var updateJaInputing = _this.props.updateJaInputing;
 
       updateJaInputing(false);
+    };
+
+    _this.onDownPaste = function (e) {
+      e.preventDefault();
+      var text;
+      var range;
+
+      if (window.clipboardData) {
+        text = window.clipboardData.getData('text');
+      } else {
+        text = e.clipboardData.getData('text/plain');
+      }
+
+      if (document.selection) {
+        // 〜Internet Explorer 10
+        range = document.selection.createRange();
+        range.text = text;
+      } else {
+        // Internet Explorer 11/Chrome/Firefox
+        var selection = window.getSelection();
+        range = selection.getRangeAt(0);
+        var node = document.createTextNode(text);
+        range.insertNode(node);
+        range.setStartAfter(node);
+        range.setEndAfter(node);
+        selection.removeAllRanges();
+        selection.addRange(range);
+      }
+
+      var _this$props2 = _this.props,
+          updateNote = _this$props2.updateNote,
+          note = _this$props2.note,
+          id = _this$props2.id;
+
+      var newNote = note.slice();
+      newNote[id].jaHtml = _this.downJaHtml.htmlEl.innerHTML;
+      newNote[id].jaHeight = _this.downJaHtml.htmlEl.offsetHeight;
+      updateNote(newNote);
     };
 
     _this.getHeight = _this.getHeight.bind(_this);
@@ -28634,7 +28710,8 @@ var Sentences = function (_Component) {
           forceChange: true,
           offForceChange: offForceChange,
           onFocus: this.onUpJaFocus,
-          onBlur: this.onUpJaBlur }),
+          onBlur: this.onUpJaBlur,
+          onPaste: this.onUpPaste }),
         _react2.default.createElement(_Sentence2.default, _extends({
           ref: function ref(_ref) {
             return _this2.sentence = _ref;
@@ -28647,7 +28724,8 @@ var Sentences = function (_Component) {
           forceChange: true,
           offForceChange: offForceChange,
           onFocus: this.onDownJaFocus,
-          onBlur: this.onDownBlur })
+          onBlur: this.onDownBlur,
+          onPaste: this.onDownPaste })
       );
     }
   }]);
@@ -49428,14 +49506,15 @@ exports.default = function () {
             setting = state.setting;
 
         var maxPageHeight = _const.defaultPageHeight;
-
+        var errorMessage = '';
         if (setting.layout !== 'portrait') {
           maxPageHeight = _const.landscapePageHeight;
+          errorMessage = '注意：　用紙設定が「横」となっているため、印刷の向きを「横」に設定する必要がある。';
         }
         var pageHeight = 0;
         var newNote = note.slice();
         var pages = [[]];
-        var errorMessage = '';
+
         var pageNum = 0;
 
         for (var i = 0; i < note.length; i++) {
@@ -50274,13 +50353,13 @@ var PrintOrientation = function PrintOrientation(object) {
     return _react2.default.createElement(
       'style',
       { type: 'text/css' },
-      '@media print{@page {size: A4 landscape; margin: 0}}'
+      '@media print{@page {size: A4 landscape; margin: 0.5cm 2cm 2.5cm 1.5cm}}'
     );
   } else {
     return _react2.default.createElement(
       'style',
       { type: 'text/css' },
-      '@media print{@page {size: A4 portrait; margin: 0}}'
+      '@media print{@page {size: A4 portrait; margin: 0.5cm 2cm 2.5cm 1.5cm}}'
     );
   }
 };
@@ -65496,14 +65575,24 @@ var Sentence = function (_Component) {
         selection.removeAllRanges();
         selection.addRange(range);
       }
-    }
-  }, {
-    key: 'onTextAreaBlur',
-    value: function onTextAreaBlur() {
+
       var _props5 = this.props,
           updateNote = _props5.updateNote,
           note = _props5.note,
           id = _props5.id;
+
+      var newNote = note.slice();
+      newNote[id].html = this.inputText.htmlEl.innerHTML;
+      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight;
+      updateNote(newNote);
+    }
+  }, {
+    key: 'onTextAreaBlur',
+    value: function onTextAreaBlur() {
+      var _props6 = this.props,
+          updateNote = _props6.updateNote,
+          note = _props6.note,
+          id = _props6.id;
 
 
       if (this.inputText.htmlEl.innerHTML.match(/[^\x01-\x7E]/)) {
@@ -65529,10 +65618,10 @@ var Sentence = function (_Component) {
   }, {
     key: 'onTextAreaChange',
     value: function onTextAreaChange(e) {
-      var _props6 = this.props,
-          updateNote = _props6.updateNote,
-          note = _props6.note,
-          id = _props6.id;
+      var _props7 = this.props,
+          updateNote = _props7.updateNote,
+          note = _props7.note,
+          id = _props7.id;
 
       var newNote = note.slice();
       newNote[id].html = e.target.value;
@@ -65568,17 +65657,17 @@ var Sentence = function (_Component) {
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate(prevProps) {
-      var _props7 = this.props,
-          updateIsBold = _props7.updateIsBold,
-          updateIsItalic = _props7.updateIsItalic,
-          updateIsUnderline = _props7.updateIsUnderline,
-          updateCurColor = _props7.updateCurColor,
-          isOverOnePage = _props7.isOverOnePage,
-          overPageId = _props7.overPageId,
-          id = _props7.id,
-          updateOverOnePage = _props7.updateOverOnePage,
-          note = _props7.note,
-          updateNote = _props7.updateNote;
+      var _props8 = this.props,
+          updateIsBold = _props8.updateIsBold,
+          updateIsItalic = _props8.updateIsItalic,
+          updateIsUnderline = _props8.updateIsUnderline,
+          updateCurColor = _props8.updateCurColor,
+          isOverOnePage = _props8.isOverOnePage,
+          overPageId = _props8.overPageId,
+          id = _props8.id,
+          updateOverOnePage = _props8.updateOverOnePage,
+          note = _props8.note,
+          updateNote = _props8.updateNote;
 
       var isBold = document.queryCommandState('bold');
       var isItalic = document.queryCommandState('italic');
@@ -65611,10 +65700,10 @@ var Sentence = function (_Component) {
       }
 
       if (isOverOnePage && overPageId == id) {
-        var _props8 = this.props,
-            _updateNote = _props8.updateNote,
-            _note = _props8.note,
-            _id = _props8.id;
+        var _props9 = this.props,
+            _updateNote = _props9.updateNote,
+            _note = _props9.note,
+            _id = _props9.id;
 
         document.execCommand('delete');
         var _newNote = _note.slice();
@@ -65629,12 +65718,12 @@ var Sentence = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var _props9 = this.props,
-          id = _props9.id,
-          note = _props9.note,
-          setting = _props9.setting,
-          forceChange = _props9.forceChange,
-          offForceChange = _props9.offForceChange;
+      var _props10 = this.props,
+          id = _props10.id,
+          note = _props10.note,
+          setting = _props10.setting,
+          forceChange = _props10.forceChange,
+          offForceChange = _props10.offForceChange;
 
       var fontSize = 80;
       var font = 'MyFamilyFont1';
@@ -66653,7 +66742,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['\n  display: ', ';\n  width: ', ';\n'], ['\n  display: ', ';\n  width: ', ';\n']),
+var _templateObject = _taggedTemplateLiteral(['\n  margin: 0 0 0 0.5cm;\n  display: ', ';\n  width: ', ';\n'], ['\n  margin: 0 0 0 0.5cm;\n  display: ', ';\n  width: ', ';\n']),
     _templateObject2 = _taggedTemplateLiteral(['\n  width: 150px;\n  height: 50px;\n  font-size: 20px;\n\n  @media print{\n    display: none;\n  }\n'], ['\n  width: 150px;\n  height: 50px;\n  font-size: 20px;\n\n  @media print{\n    display: none;\n  }\n']),
     _templateObject3 = _taggedTemplateLiteral(['\n  position: fixed;\n  display: flex;\n  top: 5px;\n  left: 500px;\n  width: 50%;\n  padding: 10px 0px 20px 0px;\n  height: 50px;\n  color: #f00;\n  z-index: 99;\n\n  @media print{\n    display: none;\n  }\n'], ['\n  position: fixed;\n  display: flex;\n  top: 5px;\n  left: 500px;\n  width: 50%;\n  padding: 10px 0px 20px 0px;\n  height: 50px;\n  color: #f00;\n  z-index: 99;\n\n  @media print{\n    display: none;\n  }\n']);
 

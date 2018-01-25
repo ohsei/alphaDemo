@@ -178,6 +178,12 @@ class Sentence extends Component{
       selection.removeAllRanges()
       selection.addRange(range)
     }
+
+    const {updateNote, note, id} = this.props
+    let newNote = note.slice()
+    newNote[id].html = this.inputText.htmlEl.innerHTML
+    newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
+    updateNote(newNote)
   }
 
   onTextAreaBlur (){

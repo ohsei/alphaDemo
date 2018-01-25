@@ -115,14 +115,15 @@ export default (state = initialState, action) => {
     return (() => {
       const {note, setting} = state
       let maxPageHeight = defaultPageHeight
-
+      let errorMessage = ''
       if (setting.layout !== 'portrait') {
         maxPageHeight = landscapePageHeight
+        errorMessage = '注意：　用紙設定が「横」となっているため、印刷の向きを「横」に設定する必要がある。'
       }
       let pageHeight = 0
       let newNote = note.slice()
       const pages = [[]]
-      let errorMessage = ''
+
       let pageNum = 0
 
       for (let i = 0;i < note.length; i++) {

@@ -66,6 +66,39 @@ class Sentences extends Component{
     const {updateJaInputing} = this.props
     updateJaInputing(false)
   }
+  onUpPaste = (e) => {
+    e.preventDefault()
+    var text
+    var range
+
+    if (window.clipboardData) {
+      text = window.clipboardData.getData('text')
+    } else {
+      text = e.clipboardData.getData('text/plain')
+    }
+
+    if (document.selection) {
+    // 〜Internet Explorer 10
+      range = document.selection.createRange()
+      range.text = text
+    } else {
+    // Internet Explorer 11/Chrome/Firefox
+      var selection = window.getSelection()
+      range = selection.getRangeAt(0)
+      var node = document.createTextNode(text)
+      range.insertNode(node)
+      range.setStartAfter(node)
+      range.setEndAfter(node)
+      selection.removeAllRanges()
+      selection.addRange(range)
+    }
+
+    const {updateNote, note, id} = this.props
+    let newNote = note.slice()
+    newNote[id].jaHtml = this.upJaHtml.htmlEl.innerHTML
+    newNote[id].jaHeight = this.upJaHtml.htmlEl.offsetHeight
+    updateNote(newNote)
+  }
   onDownJaFocus = () => {
     const {updateJaInputing} = this.props
     updateJaInputing(true)
@@ -73,6 +106,39 @@ class Sentences extends Component{
   onDownJaBlur = () => {
     const {updateJaInputing} = this.props
     updateJaInputing(false)
+  }
+  onDownPaste = (e) => {
+    e.preventDefault()
+    var text
+    var range
+
+    if (window.clipboardData) {
+      text = window.clipboardData.getData('text')
+    } else {
+      text = e.clipboardData.getData('text/plain')
+    }
+
+    if (document.selection) {
+    // 〜Internet Explorer 10
+      range = document.selection.createRange()
+      range.text = text
+    } else {
+    // Internet Explorer 11/Chrome/Firefox
+      var selection = window.getSelection()
+      range = selection.getRangeAt(0)
+      var node = document.createTextNode(text)
+      range.insertNode(node)
+      range.setStartAfter(node)
+      range.setEndAfter(node)
+      selection.removeAllRanges()
+      selection.addRange(range)
+    }
+
+    const {updateNote, note, id} = this.props
+    let newNote = note.slice()
+    newNote[id].jaHtml = this.downJaHtml.htmlEl.innerHTML
+    newNote[id].jaHeight = this.downJaHtml.htmlEl.offsetHeight
+    updateNote(newNote)
   }
   onFocus (){
     const {id, setCurSegment, setCurComponent} = this.props
@@ -120,7 +186,8 @@ class Sentences extends Component{
           forceChange={true}
           offForceChange={offForceChange}
           onFocus={this.onUpJaFocus}
-          onBlur={this.onUpJaBlur} />}
+          onBlur={this.onUpJaBlur}
+          onPaste={this.onUpPaste} />}
         <Sentence
           ref={ref => this.sentence = ref}
           lineNum={setting.lineNum}
@@ -130,7 +197,8 @@ class Sentences extends Component{
           forceChange={true}
           offForceChange={offForceChange}
           onFocus={this.onDownJaFocus}
-          onBlur={this.onDownBlur} />}
+          onBlur={this.onDownBlur}
+          onPaste={this.onDownPaste}  />}
       </DivSentences>
     )
   }

@@ -152,4 +152,4 @@ export const landscapeWidth = defaultWidth * 1.5
 
 export const defaultPageHeight = 1325
 
-export const landscapePageHeight = 1090
+export const landscapePageHeight = 900
