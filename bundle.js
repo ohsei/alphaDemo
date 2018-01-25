@@ -22486,7 +22486,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  padding-right: 5px;\n  height: 30px;\n  width: 150px;\n  text-align: right;\n  cursor: pointer;\n'], ['\n  padding-right: 5px;\n  height: 30px;\n  width: 150px;\n  text-align: right;\n  cursor: pointer;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  padding-right: 5px;\n  height: 30px;\n  width: 150px;\n  text-align: right;\n  cursor: pointer;\n  position: relative;\n  z-index: 999;\n'], ['\n  padding-right: 5px;\n  height: 30px;\n  width: 150px;\n  text-align: right;\n  cursor: pointer;\n  position: relative;\n  z-index: 999;\n']);
 
 var _Item = __webpack_require__(190);
 
@@ -23101,7 +23101,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  width: 92px;\n  height: 32px;\n  border: 1px solid white;\n'], ['\n  width: 92px;\n  height: 32px;\n  border: 1px solid white;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  width: 92px;\n  height: 32px;\n  border: 1px solid white;\n  position: relative;\n  z-index: 999;\n'], ['\n  width: 92px;\n  height: 32px;\n  border: 1px solid white;\n  position: relative;\n  z-index: 999;\n']);
 
 var _SmallItem = __webpack_require__(106);
 
@@ -25951,9 +25951,13 @@ var LabNum = function (_Component) {
 
       var lineNo = this.getLineNo(lineNoType, id);
       return _react2.default.createElement(
-        StyledDiv,
-        null,
-        lineNo
+        'div',
+        { style: { display: 'table' } },
+        _react2.default.createElement(
+          StyledDiv,
+          null,
+          lineNo
+        )
       );
     }
   }]);
@@ -28407,7 +28411,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  height: 30px;\n  width: 90px;\n  text-align: center;\n  cursor: pointer;\n'], ['\n  height: 30px;\n  width: 90px;\n  text-align: center;\n  cursor: pointer;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  height: 30px;\n  width: 90px;\n  text-align: center;\n  cursor: pointer;\n  position: relative;\n  z-index: 999;\n'], ['\n  height: 30px;\n  width: 90px;\n  text-align: center;\n  cursor: pointer;\n  position: relative;\n  z-index: 999;\n']);
 
 var _Item = __webpack_require__(190);
 
@@ -28724,7 +28728,7 @@ var Sentences = function (_Component) {
           forceChange: true,
           offForceChange: offForceChange,
           onFocus: this.onDownJaFocus,
-          onBlur: this.onDownBlur,
+          onBlur: this.onDownJaBlur,
           onPaste: this.onDownPaste })
       );
     }
@@ -35674,7 +35678,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation:upright;\n  height: 40px;\n  border: 1px solid white;\n  flex-direction:row;\n  text-align: center;\n  line-height: 30px;\n'], ['\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation:upright;\n  height: 40px;\n  border: 1px solid white;\n  flex-direction:row;\n  text-align: center;\n  line-height: 30px;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation:upright;\n  height: 40px;\n  border: 1px solid white;\n  flex-direction:row;\n  text-align: center;\n  line-height: 30px;\n  position: relative;\n  z-index: 999;\n'], ['\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation:upright;\n  height: 40px;\n  border: 1px solid white;\n  flex-direction:row;\n  text-align: center;\n  line-height: 30px;\n  position: relative;\n  z-index: 999;\n']);
 
 var _styledComponents = __webpack_require__(4);
 
@@ -49517,11 +49521,22 @@ exports.default = function () {
 
         var pageNum = 0;
 
+        var pageInterval = 0;
+        if (parseFloat(setting.interval) == 1.5) {
+          pageInterval = 40;
+        } else if (parseFloat(setting.interval) == 2) {
+          pageInterval = 80;
+        } else if (parseFloat(setting.interval) == 2.5) {
+          pageInterval = 120;
+        } else if (parseFloat(setting.interval) == 3) {
+          pageInterval = 160;
+        }
+
         for (var i = 0; i < note.length; i++) {
           if (note[i].segmentHeight > maxPageHeight) {
             errorMessage = '\u7B2C' + (i + 1) + '\u30BB\u30B0\u30E1\u30F3\u30C8\u306E\u6587\u7AE0\u304C\u4E00\u30DA\u30FC\u30B8\u306E\u7BC4\u56F2\u3092\u8D85\u3048\u3066\u3044\u308B\u305F\u3081\u3001\u5370\u5237\u30EC\u30A4\u30A2\u30A6\u30C8\u304C\u5D29\u308C\u308B\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3002';
           }
-          pageHeight = note[i].segmentHeight + pageHeight;
+          pageHeight = note[i].segmentHeight + pageHeight + pageInterval;
 
           if (pageHeight > maxPageHeight) {
             if (i > 0) {
@@ -62958,9 +62973,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation: upright;\n  height: 50px;\n  border: 0.1px solid white;\n  flex-direction:row;\n  line-height: 30px;\n'], ['\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation: upright;\n  height: 50px;\n  border: 0.1px solid white;\n  flex-direction:row;\n  line-height: 30px;\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n\n'], ['\n\n']),
-    _templateObject3 = _taggedTemplateLiteral(['\n  display: ', ';\n  position: fixed;\n  top: 65px;\n  left: 35px;\n'], ['\n  display: ', ';\n  position: fixed;\n  top: 65px;\n  left: 35px;\n']),
+var _templateObject = _taggedTemplateLiteral(['\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation: upright;\n  height: 50px;\n  border: 0.1px solid white;\n  flex-direction:row;\n  line-height: 30px;\n  position: relatve;\n  z-index: 999;\n'], ['\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation: upright;\n  height: 50px;\n  border: 0.1px solid white;\n  flex-direction:row;\n  line-height: 30px;\n  position: relatve;\n  z-index: 999;\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n  position: relative;\n  z-index: 999;\n\n'], ['\n  position: relative;\n  z-index: 999;\n\n']),
+    _templateObject3 = _taggedTemplateLiteral(['\n  display: ', ';\n  position: absolute;\n  z-index: 999;\n  top: 0px;\n  left: 30px;\n'], ['\n  display: ', ';\n  position: absolute;\n  z-index: 999;\n  top: 0px;\n  left: 30px;\n']),
     _templateObject4 = _taggedTemplateLiteral(['\n  vertical: ', ';\n  height: ', ';\n  margin: 0 0 10px 0;\n  padding: 10px 0 5px 0;\n  cursor: pointer;\n'], ['\n  vertical: ', ';\n  height: ', ';\n  margin: 0 0 10px 0;\n  padding: 10px 0 5px 0;\n  cursor: pointer;\n']);
 
 var _react = __webpack_require__(0);
@@ -63605,8 +63620,8 @@ Object.defineProperty(exports, "__esModule", {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  flex-direction: row;\n  -ms-flex-direction: row;\n  justify-content: flex-start;\n'], ['\n  display: flex;\n  flex-direction: row;\n  -ms-flex-direction: row;\n  justify-content: flex-start;\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n  display: ', ';\n  flex-direction: ', ';\n  -ms-flex-direction: ', ';\n'], ['\n  display: ', ';\n  flex-direction: ', ';\n  -ms-flex-direction: ', ';\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  flex-direction: row;\n  -ms-flex-direction: row;\n  justify-content: flex-start;\n  position: relative;\n  z-index: 999;\n'], ['\n  display: flex;\n  flex-direction: row;\n  -ms-flex-direction: row;\n  justify-content: flex-start;\n  position: relative;\n  z-index: 999;\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n  display: ', ';\n  flex-direction: ', ';\n  -ms-flex-direction: ', ';\n  position: relative;\n  z-index: 999;\n'], ['\n  display: ', ';\n  flex-direction: ', ';\n  -ms-flex-direction: ', ';\n  position: relative;\n  z-index: 999;\n']);
 
 var _react = __webpack_require__(0);
 
@@ -66959,7 +66974,8 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _templateObject = _taggedTemplateLiteral(['\n  margin: 0;\n  padding: 0;\n'], ['\n  margin: 0;\n  padding: 0;\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n  page-break-after: always;\n'], ['\n  page-break-after: always;\n']);
+    _templateObject2 = _taggedTemplateLiteral(['\n  page-break-after: always;\n'], ['\n  page-break-after: always;\n']),
+    _templateObject3 = _taggedTemplateLiteral(['\n  height: ', ';\n'], ['\n  height: ', ';\n']);
 
 var _react = __webpack_require__(0);
 
@@ -66985,6 +67001,8 @@ var _Header2 = _interopRequireDefault(_Header);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -66995,6 +67013,10 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 
 var UlSeg = _styledComponents2.default.ul(_templateObject);
 var StyledSection = _styledComponents2.default.section(_templateObject2);
+
+var Interval = _styledComponents2.default.div(_templateObject3, function (props) {
+  return props.height + 'px';
+});
 
 var Segments = function (_Component) {
   _inherits(Segments, _Component);
@@ -67052,17 +67074,21 @@ var Segments = function (_Component) {
           note = _props.note,
           id = _props.id,
           name = _props.name,
-          title = _props.title;
+          title = _props.title,
+          setting = _props.setting;
 
       var listItems = note.map(function (segment) {
-        return _react2.default.createElement(_Segment2.default, _extends({
-          noteId: id,
-          ref: function ref(_ref2) {
-            _this2.segment = _ref2;
-          },
-          segmentId: segment.id,
-          key: segment.id
-        }, (0, _lodash.pick)(_this2.props, (0, _lodash.keys)(_Segment2.default.propTypes))));
+        return _react2.default.createElement(
+          'div',
+          { key: segment.id },
+          _react2.default.createElement(_Segment2.default, _extends({
+            noteId: id,
+            ref: function ref(_ref2) {
+              _this2.segment = _ref2;
+            },
+            segmentId: segment.id
+          }, (0, _lodash.pick)(_this2.props, (0, _lodash.keys)(_Segment2.default.propTypes))))
+        );
       });
       return _react2.default.createElement(
         StyledSection,
@@ -67080,7 +67106,7 @@ var Segments = function (_Component) {
   return Segments;
 }(_react.Component);
 
-Segments.propTypes = {
+Segments.propTypes = _defineProperty({
   width: _propTypes2.default.number,
   id: _propTypes2.default.number,
   note: _propTypes2.default.array,
@@ -67090,8 +67116,7 @@ Segments.propTypes = {
   segsLoad: _propTypes2.default.array,
   loadedArray: _propTypes2.default.array,
   updateLoadedArray: _propTypes2.default.func
-
-};
+}, 'setting', _propTypes2.default.object);
 
 exports.default = Segments;
 
@@ -67161,7 +67186,7 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 /* defin layout start */
 var DivSegs = _styledComponents2.default.section(_templateObject);
 var DivInterval = _styledComponents2.default.div(_templateObject2, function (props) {
-  return props.interval;
+  return props.interval + 'px';
 });
 var PageBreakLine = _styledComponents2.default.div(_templateObject3);
 /* define layout end */
@@ -67197,10 +67222,21 @@ var Segment = function (_Component) {
           note = _props.note,
           segmentId = _props.segmentId,
           title = _props.title,
-          name = _props.name;
+          name = _props.name,
+          setting = _props.setting;
 
       var type = note[segmentId].type;
-      var isPageBreak = note[segmentId].isPageBreak;
+      var pageInterval = 0;
+      if (parseFloat(setting.interval) == 1.5) {
+        pageInterval = 40;
+      } else if (parseFloat(setting.interval) == 2) {
+        pageInterval = 80;
+      } else if (parseFloat(setting.interval) == 2.5) {
+        pageInterval = 120;
+      } else if (parseFloat(setting.interval) == 3) {
+        pageInterval = 160;
+      }
+
       var content = function () {
         if (type == 'imgOnly') {
           return _react2.default.createElement(_ImgOnly2.default, _extends({
@@ -67238,8 +67274,7 @@ var Segment = function (_Component) {
             } },
           content
         ),
-        isPageBreak && _react2.default.createElement(DivInterval, { interval: 25 }),
-        !isPageBreak && _react2.default.createElement(DivInterval, { interval: 50 }),
+        _react2.default.createElement(DivInterval, { interval: pageInterval }),
         _react2.default.createElement(DrawPageBreakLine, {
           isPageBreak: note[segmentId].isPageBreak,
           title: title,
@@ -67279,7 +67314,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  width: ', ';\n'], ['\n  display: flex;\n  width: ', ';\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  display: flex;\n  height: 100%;\n  width: ', ';\n'], ['\n  display: flex;\n  height: 100%;\n  width: ', ';\n']);
 
 var _react = __webpack_require__(0);
 

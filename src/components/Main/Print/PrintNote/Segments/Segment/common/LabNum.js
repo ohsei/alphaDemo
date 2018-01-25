@@ -39,7 +39,9 @@ class LabNum extends Component{
     const {lineNoType, id} = this.props
     const lineNo = this.getLineNo(lineNoType, id)
     return (
-      <StyledDiv>{lineNo}</StyledDiv>
+      <div style={{display: 'table'}}>
+        <StyledDiv>{lineNo}</StyledDiv>
+      </div>
     )
   }
 }

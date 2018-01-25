@@ -6,6 +6,8 @@ const SmallItem = Item.extend`
   width: 90px;
   text-align: center;
   cursor: pointer;
+  position: relative;
+  z-index: 999;
 `
 
 export default SmallItem

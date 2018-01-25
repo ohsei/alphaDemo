@@ -21,7 +21,7 @@ const DivSegs = styled.section`
   position: relative;
 `
 const DivInterval = styled.div`
-  height: ${props => props.interval};
+  height: ${props => `${props.interval}px`};
   background-color: white;
 `
 const PageBreakLine = styled.div`
@@ -64,9 +64,22 @@ class Segment extends Component {
     loadedArray: PropTypes.array,
   }
   render (){
-    const {note, segmentId, title, name} = this.props
+    const {note, segmentId, title, name, setting} = this.props
     const type = note[segmentId].type
-    const isPageBreak = note[segmentId].isPageBreak
+    let pageInterval = 0
+    if (parseFloat(setting.interval) == 1.5) {
+      pageInterval = 40
+    }
+    else if (parseFloat(setting.interval) == 2) {
+      pageInterval = 80
+    }
+    else if (parseFloat(setting.interval) == 2.5) {
+      pageInterval = 120
+    }
+    else if (parseFloat(setting.interval) == 3) {
+      pageInterval = 160
+    }
+
     const content = (()  => {
       if (type == 'imgOnly'){
         return <ImgOnly
@@ -95,8 +108,7 @@ class Segment extends Component {
         <DivSegs innerRef={(ref) => {this.segment = ref}}>
           { content }
         </DivSegs>
-        {isPageBreak && <DivInterval interval={25} />}
-        {!isPageBreak && <DivInterval interval={50} />}
+        {!note[segmentId].isPageBreak &&  <DivInterval interval={pageInterval} />}
         <DrawPageBreakLine
           isPageBreak={note[segmentId].isPageBreak}
           title={title}

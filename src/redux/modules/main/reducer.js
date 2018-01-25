@@ -126,6 +126,20 @@ export default (state = initialState, action) => {
 
       let pageNum = 0
 
+      let pageInterval = 0
+      if (parseFloat(setting.interval) == 1.5) {
+        pageInterval = 40
+      }
+      else if (parseFloat(setting.interval) == 2) {
+        pageInterval = 80
+      }
+      else if (parseFloat(setting.interval) == 2.5) {
+        pageInterval = 120
+      }
+      else if (parseFloat(setting.interval) == 3) {
+        pageInterval = 160
+      }
+
       for (let i = 0;i < note.length; i++) {
         if (note[i].segmentHeight > maxPageHeight) {
           errorMessage = `第${i + 1}セグメントの文章が一ページの範囲を超えているため、印刷レイアウトが崩れる可能性があります。`
@@ -151,12 +165,33 @@ export default (state = initialState, action) => {
           }
         }
         else {
-          pages[pageNum].push(i)
-
-          if (note[i].isPageBreak) {
-            pageNum++
-            pages.push([])
-            pageHeight = 0
+          pageHeight = pageHeight + pageInterval
+          if (pageHeight > maxPageHeight) {
+            if (i > 0){
+              newNote[i - 1].isPageBreak = true
+              pages.push([i])
+              pageNum++
+              pageHeight = note[i].segmentHeight
+            }
+            else if (i == 0 ){
+              newNote[i].isPageBreak = true
+              pages[pageNum].push(i)
+              pages.push([])
+              pageNum++
+              pageHeight = 0
+            }
+            else if (note[i].isPageBreak) {
+              pages.push([])
+            }
+          }
+          else {
+            pages[pageNum].push(i)
+  
+            if (note[i].isPageBreak) {
+              pageNum++
+              pages.push([])
+              pageHeight = 0
+            }
           }
         }
       }

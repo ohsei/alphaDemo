@@ -13,11 +13,15 @@ const DivSetMenu = styled.div`
   flex-direction: row;
   -ms-flex-direction: row;
   justify-content: flex-start;
+  position: relative;
+  z-index: 999;
 `
 const DivSetMenuPart = styled.div`
   display: ${props => props.column ? 'block' : 'flex'};
   flex-direction: ${props => props.column ? 'column' : 'row'};
   -ms-flex-direction: ${props => props.column ? 'column' : 'row'};
+  position: relative;
+  z-index: 999;
 `
 
 class ItemEnFont extends Component{

@@ -14,6 +14,10 @@ const StyledSection = styled.section`
   page-break-after: always;
 `
 
+const Interval = styled.div`
+  height: ${props => `${props.height}px`};
+`
+
 class Segments extends Component{
   onCreateLoadedArray = (segment) => {
     const {updateLoadedArray, loadedArray, id} = this.props
@@ -46,12 +50,13 @@ class Segments extends Component{
     const {note, id, name, title} = this.props
     let listItems = note.map((segment) => {
       return (
-        <Segment
-          noteId={id}
-          ref={(ref) => {this.segment = ref}}
-          segmentId={segment.id}
-          key={segment.id}
-          {...pick(this.props, keys(Segment.propTypes))} />
+        <div            key={segment.id}>
+          <Segment
+            noteId={id}
+            ref={(ref) => {this.segment = ref}}
+            segmentId={segment.id}
+            {...pick(this.props, keys(Segment.propTypes))} />
+        </div>
       )
     })
     return (
@@ -73,7 +78,7 @@ Segments.propTypes = {
   segsLoad: PropTypes.array,
   loadedArray: PropTypes.array,
   updateLoadedArray: PropTypes.func,
-
+  setting: PropTypes.object,
 }
 
 export default Segments

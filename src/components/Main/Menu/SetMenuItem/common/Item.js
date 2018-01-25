@@ -13,6 +13,8 @@ const Item = styled.div`
   flex-direction:row;
   text-align: center;
   line-height: 30px;
+  position: relative;
+  z-index: 999;
 `
 
 export default Item

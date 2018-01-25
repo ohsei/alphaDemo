@@ -197,7 +197,7 @@ class Sentences extends Component{
           forceChange={true}
           offForceChange={offForceChange}
           onFocus={this.onDownJaFocus}
-          onBlur={this.onDownBlur}
+          onBlur={this.onDownJaBlur}
           onPaste={this.onDownPaste}  />}
       </DivSentences>
     )

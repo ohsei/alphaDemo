@@ -26,15 +26,20 @@ const Item = styled.div`
   border: 0.1px solid white;
   flex-direction:row;
   line-height: 30px;
+  position: relatve;
+  z-index: 999;
 `
 const DivSetMenu = styled.div`
+  position: relative;
+  z-index: 999;
 
 `
 const DivSetMenuDetail = styled.div`
   display: ${props => props.clicked ? 'block' : 'none'};
-  position: fixed;
-  top: 65px;
-  left: 35px;
+  position: absolute;
+  z-index: 999;
+  top: 0px;
+  left: 30px;
 `
 
 const ItemSetting = Item.extend`

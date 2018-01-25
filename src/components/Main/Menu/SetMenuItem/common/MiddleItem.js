@@ -7,6 +7,8 @@ const MiddleItem = Item.extend`
   width: 150px;
   text-align: right;
   cursor: pointer;
+  position: relative;
+  z-index: 999;
 `
 
 export default MiddleItem
