@@ -89,7 +89,7 @@ class Segment extends Component{
       updateIsChangeNote, setOldType, isChangedType, oldType, type} = this.props
     const segmentHeight = this.segArea.offsetHeight
 
-    if (prevProps.note[id].segmentHeight != segmentHeight) {
+    if (note[id].segmentHeight != segmentHeight) {
       let newNote = note.slice()
       newNote[id].segmentHeight = segmentHeight
       updateNote(newNote)
