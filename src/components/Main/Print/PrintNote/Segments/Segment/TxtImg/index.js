@@ -15,13 +15,22 @@ const SentenceArea = styled.div`
 class TxtImg extends Component{
   render (){
     const {note, segmentId, width, setting} = this.props
+
+    const imgMaxWidth = (width - 50) * 0.4
+    let senWidth = (width - 50) * 0.6
+
+    if (note[segmentId].imgWidth > 0) {
+      if (imgMaxWidth > (note[segmentId].imgWidth + 40)) {
+        senWidth = width - 50 - note[segmentId].imgWidth - 40
+      }
+    }
     return (
       <SentenceArea
         width={width}
         onClick={this.setCurSegment} >
         <LabNum lineNoType={setting.lineNos} id={segmentId} />
         <Sentences
-          senWidth={width - 50 - note[segmentId].imgWidth - 40}
+          senWidth={senWidth}
           note={note}
           segmentId={segmentId}
           ref={(ref) => {this.divSegWithJan = ref}}
@@ -29,7 +38,8 @@ class TxtImg extends Component{
         />
         <Canvas
           id={segmentId}
-          canvasWidth={note[segmentId].imgWidth + 40}
+          imgMaxWidth={imgMaxWidth}
+          canvasWidth={note[segmentId].imgWidth == 0 ? imgMaxWidth : note[segmentId].imgWidth + 40}
           {...pick(this.props, keys(Canvas.propTypes))}
         />
       </SentenceArea>

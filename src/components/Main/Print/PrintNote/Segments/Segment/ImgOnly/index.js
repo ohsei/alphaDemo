@@ -29,6 +29,7 @@ class ImgOnly extends Component{
         <LabNum lineNoType={setting.lineNos} id={segmentId} />
         <Canvas
           id={segmentId}
+          imgMaxWidth={width - 50}
           canvasWidth={width - 50}
           {...pick(this.props, keys(Canvas.propTypes))}
         />

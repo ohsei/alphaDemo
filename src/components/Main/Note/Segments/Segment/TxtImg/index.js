@@ -11,6 +11,7 @@ const SentenceArea = styled.div`
   display: flex;
   width: 100%;
 `
+
 class TxtImgSeg extends Component{
   updateHeight = () => {
     const {updateNote, note, id} = this.props
@@ -47,8 +48,12 @@ class TxtImgSeg extends Component{
         />
         <Canvas
           imgMaxWidth={imgMaxWidth}
+          imgMaxHeight={800}
           canvasWidth={note[id].imgWidth == 0 ? imgMaxWidth : note[id].imgWidth + 40}
           updateHeight={this.updateHeight}
+          enHeight={note[id].enHeight}
+          jaHeight={note[id].jaHeight}
+          dataUrl={note[id].dataUrl}
           {...pick(this.props, keys(Canvas.propTypes))}
         />
       </SentenceArea>

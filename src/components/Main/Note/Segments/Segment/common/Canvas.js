@@ -27,7 +27,6 @@ class Canvas extends Component{
       objY: 20,
       isFocused: false,
       transformScale: 1,
-      scale: 1,
       imgWidth: 0,
       imgHeight: 0,
     }
@@ -44,14 +43,19 @@ class Canvas extends Component{
   static propTypes = {
     id: PropTypes.number,
     imgMaxWidth: PropTypes.number,
+    imgMaxHeight: PropTypes.number,
     canvasWidth: PropTypes.number,
     updateNote: PropTypes.func.isRequired,
     note: PropTypes.array,
-    updateHeight: PropTypes.func
+    updateHeight: PropTypes.func,
+    setting: PropTypes.object,
+    enHeight: PropTypes.number,
+    jaHeight: PropTypes.number,
+    dataUrl: PropTypes.string,
   }
 
   loadImage (){
-    const {note, id, imgMaxWidth, updateHeight} = this.props
+    const {note, id, imgMaxWidth, updateHeight, imgMaxHeight} = this.props
     let img = new Image()
     let canvas = this.imgCanvas
     let ctx = canvas.getContext('2d')
@@ -67,13 +71,23 @@ class Canvas extends Component{
         picHeight = picHeight / scale
       }
 
-      //canvas.width = picWidth
-      if (this.state.imgWidth != 0 ){
-        picWidth = this.state.imgWidth
+      if (picHeight > (imgMaxHeight - anchorSize * 2)) {
+
+        scale = picHeight / (imgMaxHeight - anchorSize * 2)
+        picHeight = imgMaxHeight - anchorSize * 2
+        picWidth = picWidth / scale
       }
 
-      if (this.state.imgHeight != 0 ){
-        picHeight = this.state.imgHeight
+
+      //canvas.width = picWidth
+      if ((this.state.imgWidth <= imgMaxWidth) && (this.state.imgHeight <= imgMaxHeight)) {
+        if (this.state.imgWidth != 0 ) {
+          picWidth = this.state.imgWidth
+        }
+
+        if (this.state.imgHeight != 0 ) {
+          picHeight = this.state.imgHeight
+        }
       }
 
       if (isScaling){
@@ -105,12 +119,10 @@ class Canvas extends Component{
 
       ctx.drawImage(img, 0, 0, img.width,  img.height, this.state.objX, this.state.objY, picWidth, picHeight )
 
-      if (picWidth != this.state.imgWidth){
-        this.setState({imgWidth: picWidth})
-      }
-
-      if (picHeight != this.state.imgHeight){
-        this.setState({imgHeight: picHeight})
+      if ((picWidth != this.state.imgWidth) || (picHeight != this.state.imgHeight)) {
+        this.setState({
+          imgWidth: picWidth,
+          imgHeight: picHeight})
       }
 
       if (this.state.isFocused){
@@ -120,6 +132,7 @@ class Canvas extends Component{
         ctx.strokeRect(this.state.objX - anchorSize, this.state.objY + picHeight, anchorSize, anchorSize )
         ctx.strokeRect(this.state.objX + picWidth, this.state.objY + picHeight, anchorSize, anchorSize )
       }
+
       if (this.imgCanvas) {
         updateHeight()
       }
@@ -130,15 +143,9 @@ class Canvas extends Component{
   componentWillMount (){
     const {note, id} = this.props
     this.setState({
-      imgWidth: note[id].imgWidth
-    })
-    this.setState({
-      imgHeight: note[id].imgHeight
-    })
-    this.setState({
-      objX: note[id].posX
-    })
-    this.setState({
+      imgWidth: note[id].imgWidth,
+      imgHeight: note[id].imgHeight,
+      objX: note[id].posX,
       objY: note[id].posY
     })
   }
@@ -148,21 +155,36 @@ class Canvas extends Component{
   }
 
   componentWillReceiveProps (nextProps){
-    const {id} = this.props
+    const {setting} = this.props
 
-    if (nextProps.note[id].imgWidth == 0 && nextProps.note[id].imgHeight == 0) {
-      this.setState({imgWidth: 0})
-      this.setState({imgHeight: 0})
+    if (setting.layout !== nextProps.setting.layout) {
+      this.setState({
+        imgWidth: 0,
+        imgHeight: 0,
+        objX: 20,
+        objY: 20
+      })
     }
   }
   componentDidUpdate (prevProps, prevState){
     const {imgWidth, imgHeight, objX, objY} = this.state
+    const {enHeight, jaHeight, dataUrl, imgMaxWidth, imgMaxHeight} = this.props
+    const prevImgWidth = prevState.imgWidth
+    const prevImgHeight = prevState.imgHeight
+    const prevX = prevState.objX
+    const prevY = prevState.objY
 
-    if (prevProps != this.props || prevState != this.state)
-    {
+    if ((dataUrl !== prevProps.dataUrl) ||
+        (imgMaxWidth != prevProps.imgMaxWidth) ||
+        (imgMaxHeight != prevProps.imgMaxHeight) ||
+        (imgWidth !== prevImgWidth) ||
+        (imgHeight !== prevImgHeight) ||
+        (objX !== prevX) ||
+        (objY !== prevY) ||
+        (enHeight !== prevProps.enHeight) ||
+        (jaHeight !== prevProps.jaHeight)) {
       this.loadImage ()
     }
-
 
     if ((prevState.imgWidth !== imgWidth) ||
     (prevState.imgHeight !== imgHeight) ||
@@ -298,9 +320,10 @@ class Canvas extends Component{
       else {
         transformScale = transformScaleY
       }
-      this.setState({transformScale: transformScale})
-      this.setState({objX: newX})
-      this.setState({objY: newY})
+      this.setState({
+        transformScale: transformScale,
+        objX: newX,
+        objY: newY})
     }
     isDragging = false
     let ctx = this.imgCanvas.getContext('2d')
@@ -315,8 +338,9 @@ class Canvas extends Component{
 
     // ドラッグが開始されていればオブジェクトの座標を更新して再描画
     if (isDragging) {
-      this.setState({objX: x + relX})
-      this.setState({objY: y + relY})
+      this.setState({
+        objX: x + relX,
+        objY: y + relY})
     }
   }
 

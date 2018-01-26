@@ -15,7 +15,7 @@ const DivOverlap = styled.div`
 `
 const Wrapper = styled.div`
   position: fixed;
-  width: 600px;
+  width: 650px;
   top: 150px;
   left: 100px;
   z-index: 9999;
@@ -62,9 +62,9 @@ class CannotChangeSettingAlertDialog extends Component{
     return (
       <DivOverlap show={isShowCannotChangeSettingAlert}>
         <Wrapper>
-          <h3 style={{flex: 8, marginLeft: 10}}>{alertMessage}</h3>
+          <h3 style={{flex: 8, marginLeft: 10}}  dangerouslySetInnerHTML={{__html: alertMessage}} />
           <br />
-          <p>※適切範囲とは</p>
+          <p>※</p>
           <p dangerouslySetInnerHTML={{__html: maxLineNumMessage}} />
           <Button style={{float: 'right'}} onClick={this.onCancel}>OK</Button>
         </Wrapper>

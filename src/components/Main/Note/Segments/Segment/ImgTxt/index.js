@@ -37,6 +37,7 @@ class ImgTxt extends Component{
 
     const imgMaxWidth = (width - 50) * 0.4
     let senWidth = (width - 50) * 0.6
+
     if (note[id].imgWidth > 0) {
       if (imgMaxWidth > (note[id].imgWidth + 40)) {
         senWidth = width - 50 - note[id].imgWidth - 40
@@ -51,8 +52,12 @@ class ImgTxt extends Component{
         <LabNum lineNoType={setting.lineNos} id={id} />
         <Canvas
           imgMaxWidth={imgMaxWidth}
+          imgMaxHeight={800}
           canvasWidth={note[id].imgWidth == 0 ? imgMaxWidth : note[id].imgWidth + 40}
           updateHeight={this.updateHeight}
+          enHeight={note[id].enHeight}
+          jaHeight={note[id].jaHeight}
+          dataUrl={note[id].dataUrl}
           {...pick(this.props, keys(Canvas.propTypes))}
         />
         <Sentences

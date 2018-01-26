@@ -42,7 +42,7 @@ class ImgOnly extends Component{
     }
   }
   render (){
-    const { setting, id, width } = this.props
+    const { setting, id, width, note } = this.props
     return (
       <SentenceArea
         innerRef={ref => this.sentencearea = ref} >
@@ -51,6 +51,10 @@ class ImgOnly extends Component{
           <Canvas
             imgMaxWidth={width - 50}
             canvasWidth={width - 50}
+            imgMaxHeight={800}
+            enHeight={note[id].enHeight}
+            jaHeight={note[id].jaHeight}
+            dataUrl={note[id].dataUrl}
             updateHeight={this.updateHeight}
             {...pick(this.props, keys(Canvas.propTypes))}
           />
