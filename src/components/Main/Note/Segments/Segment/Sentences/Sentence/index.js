@@ -230,7 +230,7 @@ class Sentence extends Component{
     this.inputText.htmlEl.style.backgroundImage = url
   }
   componentWillReceiveProps (nextProps) {
-    const {setting} = nextProps
+    const {setting, note, id, updateNote} = nextProps
     const lineNum = setting.lineNum
     const lineColor = setting.lineColor
     const enSize = setting.enSize
@@ -238,6 +238,13 @@ class Sentence extends Component{
     const fileName = `${lineNum}lines_${lineColor}_${enSize}_${interval}.png`
     let url = `url(${require(`../../../../../../../resources/img/4lines/${fileName}`)})`
     this.inputText.htmlEl.style.backgroundImage = url
+
+    if ((note[id].enHeight != this.inputText.htmlEl.offsetHeight))
+    {
+      let newNote = note.slice()
+      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
+      updateNote(newNote)
+    }
   }
   componentDidUpdate (prevProps) {
     const {updateIsBold, updateIsItalic, updateIsUnderline, updateCurColor,
@@ -266,12 +273,7 @@ class Sentence extends Component{
       }
     }
 
-    if ((prevProps.setting != this.props.setting) )
-    {
-      let newNote = note.slice()
-      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
-      updateNote(newNote)
-    }
+
 
     if (isOverOnePage && overPageId == id) {
       const {updateNote, note, id} = this.props
