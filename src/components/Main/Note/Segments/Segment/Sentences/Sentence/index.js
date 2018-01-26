@@ -283,7 +283,30 @@ class Sentence extends Component{
       updateOverOnePage(false)
     }
   }
+  onCompositionEnd = () => {
+    const {note, id, updateNote} = this.props
 
+    if (this.inputText.htmlEl.innerHTML.match(/[^\x01-\x7E]/)){
+      let i = 0
+      let newText = ''
+
+      while (i < this.inputText.htmlEl.innerHTML.length){
+        if (this.inputText.htmlEl.innerHTML[i].match(/[^\x01-\x7E]/)){
+          newText = newText + ''
+        }
+        else {
+          newText = newText + this.inputText.htmlEl.innerHTML[i]
+        }
+        i ++
+      }
+      this.inputText.htmlEl.innerHTML = newText
+
+      let newNote = note.slice()
+      newNote[id].html = this.inputText.htmlEl.innerHTML
+      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
+      updateNote(newNote)
+    }
+  }
   render (){
     const { id, note, setting, forceChange, offForceChange } = this.props
     let fontSize = 80
@@ -319,6 +342,7 @@ class Sentence extends Component{
           lineHeight={setting.interval}
           forceChange={forceChange}
           offForceChange={offForceChange}
+          onCompositionEnd={this.onCompositionEnd}
         />
       </DivSen>
 

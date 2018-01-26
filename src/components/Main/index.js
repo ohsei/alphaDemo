@@ -116,12 +116,12 @@ const DivFixedTitle = styled.div.attrs({
 `
 const InFileTitle = styled.input.attrs({
   tabIndex: -1,
-  maxLength: 25,
+  maxLength: 21,
 })`
   position: fixed;
   top: 14px;
-  left: 450px;
-  width: 600px;
+  left: 500px;
+  width: 550px;
   height: 40px;
   font-size: 24px;
   border: 2px solid #FFAE72;
@@ -129,7 +129,7 @@ const InFileTitle = styled.input.attrs({
 `
 const InName = styled.input.attrs({
   tabIndex: -1,
-  maxLength: 15
+  maxLength: 14
 })`
   position: fixed;
   top: 75px;

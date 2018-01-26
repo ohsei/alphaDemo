@@ -119,7 +119,7 @@ export default (state = initialState, action) => {
 
       if (setting.layout !== 'portrait') {
         maxPageHeight = landscapePageHeight
-        errorMessage = 'A4横のプリントレイアウトです。プリンタの用紙設定が「横」になっていることを確認してから、印刷を実行してください'
+        errorMessage = 'A4横のプリントレイアウトです。プリンタの用紙設定が「横」になっていることを確認してから、印刷を実行してください。'
       }
       let pageHeight = 0
       let newNote = note.slice()

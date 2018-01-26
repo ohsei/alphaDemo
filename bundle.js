@@ -28816,7 +28816,6 @@ var Canvas = function (_Component) {
       objY: 20,
       isFocused: false,
       transformScale: 1,
-      scale: 1,
       imgWidth: 0,
       imgHeight: 0
     };
@@ -28838,7 +28837,8 @@ var Canvas = function (_Component) {
           note = _props.note,
           id = _props.id,
           imgMaxWidth = _props.imgMaxWidth,
-          updateHeight = _props.updateHeight;
+          updateHeight = _props.updateHeight,
+          imgMaxHeight = _props.imgMaxHeight;
 
       var img = new Image();
       var canvas = this.imgCanvas;
@@ -28855,13 +28855,22 @@ var Canvas = function (_Component) {
           picHeight = picHeight / scale;
         }
 
-        //canvas.width = picWidth
-        if (this.state.imgWidth != 0) {
-          picWidth = this.state.imgWidth;
+        if (picHeight > imgMaxHeight - anchorSize * 2) {
+
+          scale = picHeight / (imgMaxHeight - anchorSize * 2);
+          picHeight = imgMaxHeight - anchorSize * 2;
+          picWidth = picWidth / scale;
         }
 
-        if (this.state.imgHeight != 0) {
-          picHeight = this.state.imgHeight;
+        //canvas.width = picWidth
+        if (this.state.imgWidth <= imgMaxWidth && this.state.imgHeight <= imgMaxHeight) {
+          if (this.state.imgWidth != 0) {
+            picWidth = this.state.imgWidth;
+          }
+
+          if (this.state.imgHeight != 0) {
+            picHeight = this.state.imgHeight;
+          }
         }
 
         if (isScaling) {
@@ -28890,12 +28899,10 @@ var Canvas = function (_Component) {
 
         ctx.drawImage(img, 0, 0, img.width, img.height, this.state.objX, this.state.objY, picWidth, picHeight);
 
-        if (picWidth != this.state.imgWidth) {
-          this.setState({ imgWidth: picWidth });
-        }
-
-        if (picHeight != this.state.imgHeight) {
-          this.setState({ imgHeight: picHeight });
+        if (picWidth != this.state.imgWidth || picHeight != this.state.imgHeight) {
+          this.setState({
+            imgWidth: picWidth,
+            imgHeight: picHeight });
         }
 
         if (this.state.isFocused) {
@@ -28905,6 +28912,7 @@ var Canvas = function (_Component) {
           ctx.strokeRect(this.state.objX - anchorSize, this.state.objY + picHeight, anchorSize, anchorSize);
           ctx.strokeRect(this.state.objX + picWidth, this.state.objY + picHeight, anchorSize, anchorSize);
         }
+
         if (this.imgCanvas) {
           updateHeight();
         }
@@ -28919,15 +28927,9 @@ var Canvas = function (_Component) {
           id = _props2.id;
 
       this.setState({
-        imgWidth: note[id].imgWidth
-      });
-      this.setState({
-        imgHeight: note[id].imgHeight
-      });
-      this.setState({
-        objX: note[id].posX
-      });
-      this.setState({
+        imgWidth: note[id].imgWidth,
+        imgHeight: note[id].imgHeight,
+        objX: note[id].posX,
         objY: note[id].posY
       });
     }
@@ -28939,12 +28941,16 @@ var Canvas = function (_Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      var id = this.props.id;
+      var setting = this.props.setting;
 
 
-      if (nextProps.note[id].imgWidth == 0 && nextProps.note[id].imgHeight == 0) {
-        this.setState({ imgWidth: 0 });
-        this.setState({ imgHeight: 0 });
+      if (setting.layout !== nextProps.setting.layout) {
+        this.setState({
+          imgWidth: 0,
+          imgHeight: 0,
+          objX: 20,
+          objY: 20
+        });
       }
     }
   }, {
@@ -28955,17 +28961,27 @@ var Canvas = function (_Component) {
           imgHeight = _state.imgHeight,
           objX = _state.objX,
           objY = _state.objY;
+      var _props3 = this.props,
+          enHeight = _props3.enHeight,
+          jaHeight = _props3.jaHeight,
+          dataUrl = _props3.dataUrl,
+          imgMaxWidth = _props3.imgMaxWidth,
+          imgMaxHeight = _props3.imgMaxHeight;
 
+      var prevImgWidth = prevState.imgWidth;
+      var prevImgHeight = prevState.imgHeight;
+      var prevX = prevState.objX;
+      var prevY = prevState.objY;
 
-      if (prevProps != this.props || prevState != this.state) {
+      if (dataUrl !== prevProps.dataUrl || imgMaxWidth != prevProps.imgMaxWidth || imgMaxHeight != prevProps.imgMaxHeight || imgWidth !== prevImgWidth || imgHeight !== prevImgHeight || objX !== prevX || objY !== prevY || enHeight !== prevProps.enHeight || jaHeight !== prevProps.jaHeight) {
         this.loadImage();
       }
 
       if (prevState.imgWidth !== imgWidth || prevState.imgHeight !== imgHeight || prevState.objX !== objX || prevState.objY !== objY) {
-        var _props3 = this.props,
-            updateNote = _props3.updateNote,
-            note = _props3.note,
-            id = _props3.id;
+        var _props4 = this.props,
+            updateNote = _props4.updateNote,
+            note = _props4.note,
+            id = _props4.id;
 
         var newNote = note.slice();
 
@@ -29091,9 +29107,10 @@ var Canvas = function (_Component) {
         } else {
           transformScale = transformScaleY;
         }
-        this.setState({ transformScale: transformScale });
-        this.setState({ objX: newX });
-        this.setState({ objY: newY });
+        this.setState({
+          transformScale: transformScale,
+          objX: newX,
+          objY: newY });
       }
       isDragging = false;
       var ctx = this.imgCanvas.getContext('2d');
@@ -29109,8 +29126,9 @@ var Canvas = function (_Component) {
 
       // ドラッグが開始されていればオブジェクトの座標を更新して再描画
       if (isDragging) {
-        this.setState({ objX: x + relX });
-        this.setState({ objY: y + relY });
+        this.setState({
+          objX: x + relX,
+          objY: y + relY });
       }
     }
   }, {
@@ -29151,10 +29169,15 @@ var Canvas = function (_Component) {
 Canvas.propTypes = {
   id: _propTypes2.default.number,
   imgMaxWidth: _propTypes2.default.number,
+  imgMaxHeight: _propTypes2.default.number,
   canvasWidth: _propTypes2.default.number,
   updateNote: _propTypes2.default.func.isRequired,
   note: _propTypes2.default.array,
-  updateHeight: _propTypes2.default.func
+  updateHeight: _propTypes2.default.func,
+  setting: _propTypes2.default.object,
+  enHeight: _propTypes2.default.number,
+  jaHeight: _propTypes2.default.number,
+  dataUrl: _propTypes2.default.string
 };
 exports.default = Canvas;
 
@@ -49511,9 +49534,10 @@ exports.default = function () {
 
         var maxPageHeight = _const.defaultPageHeight;
         var errorMessage = '';
+
         if (setting.layout !== 'portrait') {
           maxPageHeight = _const.landscapePageHeight;
-          errorMessage = '注意：　用紙設定が「横」となっているため、印刷の向きを「横」に設定する必要がある。';
+          errorMessage = 'A4横のプリントレイアウトです。プリンタの用紙設定が「横」になっていることを確認してから、印刷を実行してください。';
         }
         var pageHeight = 0;
         var newNote = note.slice();
@@ -49522,6 +49546,7 @@ exports.default = function () {
         var pageNum = 0;
 
         var pageInterval = 0;
+
         if (parseFloat(setting.interval) == 1.5) {
           pageInterval = 40;
         } else if (parseFloat(setting.interval) == 2) {
@@ -49536,7 +49561,7 @@ exports.default = function () {
           if (note[i].segmentHeight > maxPageHeight) {
             errorMessage = '\u7B2C' + (i + 1) + '\u30BB\u30B0\u30E1\u30F3\u30C8\u306E\u6587\u7AE0\u304C\u4E00\u30DA\u30FC\u30B8\u306E\u7BC4\u56F2\u3092\u8D85\u3048\u3066\u3044\u308B\u305F\u3081\u3001\u5370\u5237\u30EC\u30A4\u30A2\u30A6\u30C8\u304C\u5D29\u308C\u308B\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3002';
           }
-          pageHeight = note[i].segmentHeight + pageHeight + pageInterval;
+          pageHeight = note[i].segmentHeight + pageHeight;
 
           if (pageHeight > maxPageHeight) {
             if (i > 0) {
@@ -49554,12 +49579,30 @@ exports.default = function () {
               pages.push([]);
             }
           } else {
-            pages[pageNum].push(i);
+            pageHeight = pageHeight + pageInterval;
+            if (pageHeight > maxPageHeight) {
+              if (i > 0) {
+                newNote[i - 1].isPageBreak = true;
+                pages.push([i]);
+                pageNum++;
+                pageHeight = note[i].segmentHeight;
+              } else if (i == 0) {
+                newNote[i].isPageBreak = true;
+                pages[pageNum].push(i);
+                pages.push([]);
+                pageNum++;
+                pageHeight = 0;
+              } else if (note[i].isPageBreak) {
+                pages.push([]);
+              }
+            } else {
+              pages[pageNum].push(i);
 
-            if (note[i].isPageBreak) {
-              pageNum++;
-              pages.push([]);
-              pageHeight = 0;
+              if (note[i].isPageBreak) {
+                pageNum++;
+                pages.push([]);
+                pageHeight = 0;
+              }
             }
           }
         }
@@ -50229,7 +50272,7 @@ var _templateObject = _taggedTemplateLiteral(['\n  @font-face {\n    font-family
     _templateObject7 = _taggedTemplateLiteral(['\n  width: 55px;\n  height: 50px;\n  background-color: gray;\n'], ['\n  width: 55px;\n  height: 50px;\n  background-color: gray;\n']),
     _templateObject8 = _taggedTemplateLiteral(['\n  width: 50px;\n  height: 50px;\n  border: ', ';\n  font-size: 1.5em;\n  color: #aaa;\n  text-align: center;\n  text-decoration: ', ';\n  background-color: white;\n'], ['\n  width: 50px;\n  height: 50px;\n  border: ', ';\n  font-size: 1.5em;\n  color: #aaa;\n  text-align: center;\n  text-decoration: ', ';\n  background-color: white;\n']),
     _templateObject9 = _taggedTemplateLiteral(['\n  width: 418px;\n  height: 40px;\n  color: white;\n  text-align: center;\n  position: fixed;\n  top: 14px;\n  left: 14px;\n'], ['\n  width: 418px;\n  height: 40px;\n  color: white;\n  text-align: center;\n  position: fixed;\n  top: 14px;\n  left: 14px;\n']),
-    _templateObject10 = _taggedTemplateLiteral(['\n  position: fixed;\n  top: 14px;\n  left: 450px;\n  width: 600px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid #FFAE72;\n  background-color: white;\n'], ['\n  position: fixed;\n  top: 14px;\n  left: 450px;\n  width: 600px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid #FFAE72;\n  background-color: white;\n']),
+    _templateObject10 = _taggedTemplateLiteral(['\n  position: fixed;\n  top: 14px;\n  left: 500px;\n  width: 550px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid #FFAE72;\n  background-color: white;\n'], ['\n  position: fixed;\n  top: 14px;\n  left: 500px;\n  width: 550px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid #FFAE72;\n  background-color: white;\n']),
     _templateObject11 = _taggedTemplateLiteral(['\n  position: fixed;\n  top: 75px;\n  left: 700px;\n  width: 350px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid #FFAE72;\n  background-color: white;\n'], ['\n  position: fixed;\n  top: 75px;\n  left: 700px;\n  width: 350px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid #FFAE72;\n  background-color: white;\n']);
 
 var _react = __webpack_require__(0);
@@ -50355,11 +50398,11 @@ var DivFixedTitle = _styledComponents2.default.div.attrs({
 })(_templateObject9);
 var InFileTitle = _styledComponents2.default.input.attrs({
   tabIndex: -1,
-  maxLength: 25
+  maxLength: 21
 })(_templateObject10);
 var InName = _styledComponents2.default.input.attrs({
   tabIndex: -1,
-  maxLength: 15
+  maxLength: 14
 })(_templateObject11);
 /* define layout end*/
 
@@ -64541,8 +64584,8 @@ var Segment = function (_Component) {
           _newNote[id].type = oldType;
           updateNote(_newNote);
           var _nums = (0, _getMaxNumsWithSetting.getMaxNumsWithSetting)(setting);
-          setAlertMessage('\u82F1\u6587\u306E\u307F\u304B\u3089\u300C\u56F3\uFF0B\u82F1\u6587\u300D\u306B\u5909\u66F4\u3059\u308B\u5834\u5408\u3001\u7B2C' + (id + 1) + '\u30DC\u30C3\u30AF\u30B9\u306E\u5185\u5BB9\u306F\u5370\u5237\u4E00\u30DA\u30FC\u30B8\u306E\u7BC4\u56F2\u3092\u8D85\u3048\u305F\u305F\u3081\u3001\u5909\u66F4\u304C\u3067\u304D\u307E\u305B\u3093\u3002\u5185\u5BB9\u3092\u9069\u5207\u203B\u306A\u7BC4\u56F2\u306B\u5909\u66F4\u3057\u3066\u304B\u3089\u3001\u8A2D\u5B9A\u3092\u5909\u66F4\u3057\u3066\u304F\u3060\u3055\u3044\u3002');
-          setMaxLineNumMessage('\u7528\u7D19\u8A2D\u5B9A\u304C<font color=\'#0000ff\'>' + (setting.layout == 'portrait' ? '縦' : '横') + '</font>\u3001\u82F1\u5B57\u30B5\u30A4\u30BA\u304C<font color=\'#0000ff\'>' + (parseInt(setting.enSize) + 1) + '\u500D</font>\u3001\u884C\u9593\u304C<font color=\'#0000ff\'>' + setting.interval + '</font>\u306B\u8A2D\u5B9A\u3092\u5909\u66F4\u3057\u305F\u3044\u5834\u5408\u3001<br />\u548C\u6587\u4E00\u884C\u3068\u3057\u3066\u3001\u82F1\u6587\u306F\u6700\u5927<font color=\'#ff0000\'>' + _nums + '</font>\u884C\u3057\u304B\u5165\u529B\u3067\u304D\u307E\u305B\u3093\u3002<br /><small>\u548C\u6587\u3092\u591A\u6570\u884C\u3067\u5165\u308C\u308B\u5834\u5408\u3001\u82F1\u6587\u306E\u6700\u5927\u884C\u6570\u3082\u3063\u3068\u6E1B\u3089\u3057\u3066\u8ABF\u6574\u3059\u308B\u53EF\u80FD\u6027\u304C\u3042\u308B\u3002</small>');
+          setAlertMessage('テキストの量を調整してください。<br />「画像＋テキスト」のレイアウトでは、テキストのみの場合よりも表示できる文字数が少なくなります。');
+          setMaxLineNumMessage('<strong>「画像＋テキスト」</strong> のレイアウトで入力できるテキスト量は、およそその ６割 程度になります。<br />読み込んだのち、画像の縮小等の調整により、入力できるテキスト量は変化します。<br />（テキスト入力の目安については、ヘルプを参照してください）');
           updateIsChangeNote(false);
         } else {
           onShowAddSegmentAlertDialog(true);
@@ -65439,6 +65482,34 @@ var Sentence = function (_Component) {
       }
     };
 
+    _this.onCompositionEnd = function () {
+      var _this$props = _this.props,
+          note = _this$props.note,
+          id = _this$props.id,
+          updateNote = _this$props.updateNote;
+
+
+      if (_this.inputText.htmlEl.innerHTML.match(/[^\x01-\x7E]/)) {
+        var i = 0;
+        var newText = '';
+
+        while (i < _this.inputText.htmlEl.innerHTML.length) {
+          if (_this.inputText.htmlEl.innerHTML[i].match(/[^\x01-\x7E]/)) {
+            newText = newText + '';
+          } else {
+            newText = newText + _this.inputText.htmlEl.innerHTML[i];
+          }
+          i++;
+        }
+        _this.inputText.htmlEl.innerHTML = newText;
+
+        var newNote = note.slice();
+        newNote[id].html = _this.inputText.htmlEl.innerHTML;
+        newNote[id].enHeight = _this.inputText.htmlEl.offsetHeight;
+        updateNote(newNote);
+      }
+    };
+
     _this.state = {
       range: null
     };
@@ -65774,7 +65845,8 @@ var Sentence = function (_Component) {
           fontSize: fontSize + 'px',
           lineHeight: setting.interval,
           forceChange: forceChange,
-          offForceChange: offForceChange
+          offForceChange: offForceChange,
+          onCompositionEnd: this.onCompositionEnd
         })
       );
     }
@@ -66328,7 +66400,8 @@ var ImgOnly = function (_Component) {
       var _props = this.props,
           setting = _props.setting,
           id = _props.id,
-          width = _props.width;
+          width = _props.width,
+          note = _props.note;
 
       return _react2.default.createElement(
         SentenceArea,
@@ -66343,6 +66416,10 @@ var ImgOnly = function (_Component) {
           _react2.default.createElement(_Canvas2.default, _extends({
             imgMaxWidth: width - 50,
             canvasWidth: width - 50,
+            imgMaxHeight: 800,
+            enHeight: note[id].enHeight,
+            jaHeight: note[id].jaHeight,
+            dataUrl: note[id].dataUrl,
             updateHeight: this.updateHeight
           }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_Canvas2.default.propTypes))))
         )
@@ -66461,6 +66538,7 @@ var ImgTxt = function (_Component) {
 
       var imgMaxWidth = (width - 50) * 0.4;
       var senWidth = (width - 50) * 0.6;
+
       if (note[id].imgWidth > 0) {
         if (imgMaxWidth > note[id].imgWidth + 40) {
           senWidth = width - 50 - note[id].imgWidth - 40;
@@ -66478,8 +66556,12 @@ var ImgTxt = function (_Component) {
         _react2.default.createElement(_LabNum2.default, { lineNoType: setting.lineNos, id: id }),
         _react2.default.createElement(_Canvas2.default, _extends({
           imgMaxWidth: imgMaxWidth,
+          imgMaxHeight: 800,
           canvasWidth: note[id].imgWidth == 0 ? imgMaxWidth : note[id].imgWidth + 40,
-          updateHeight: this.updateHeight
+          updateHeight: this.updateHeight,
+          enHeight: note[id].enHeight,
+          jaHeight: note[id].jaHeight,
+          dataUrl: note[id].dataUrl
         }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_Canvas2.default.propTypes)))),
         _react2.default.createElement(_Sentences2.default, _extends({
           senWidth: senWidth,
@@ -66626,8 +66708,12 @@ var TxtImgSeg = function (_Component) {
         }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_Sentences2.default.propTypes)))),
         _react2.default.createElement(_Canvas2.default, _extends({
           imgMaxWidth: imgMaxWidth,
+          imgMaxHeight: 800,
           canvasWidth: note[id].imgWidth == 0 ? imgMaxWidth : note[id].imgWidth + 40,
-          updateHeight: this.updateHeight
+          updateHeight: this.updateHeight,
+          enHeight: note[id].enHeight,
+          jaHeight: note[id].jaHeight,
+          dataUrl: note[id].dataUrl
         }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_Canvas2.default.propTypes))))
       );
     }
@@ -67074,8 +67160,7 @@ var Segments = function (_Component) {
           note = _props.note,
           id = _props.id,
           name = _props.name,
-          title = _props.title,
-          setting = _props.setting;
+          title = _props.title;
 
       var listItems = note.map(function (segment) {
         return _react2.default.createElement(
@@ -67274,7 +67359,7 @@ var Segment = function (_Component) {
             } },
           content
         ),
-        _react2.default.createElement(DivInterval, { interval: pageInterval }),
+        !note[segmentId].isPageBreak && _react2.default.createElement(DivInterval, { interval: pageInterval }),
         _react2.default.createElement(DrawPageBreakLine, {
           isPageBreak: note[segmentId].isPageBreak,
           title: title,
@@ -67870,6 +67955,7 @@ var ImgOnly = function (_Component) {
         _react2.default.createElement(_LabNum2.default, { lineNoType: setting.lineNos, id: segmentId }),
         _react2.default.createElement(_Canvas2.default, _extends({
           id: segmentId,
+          imgMaxWidth: width - 50,
           canvasWidth: width - 50
         }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_Canvas2.default.propTypes))))
       );
@@ -67962,6 +68048,14 @@ var ImgTxt = function (_Component) {
           width = _props.width,
           setting = _props.setting;
 
+      var imgMaxWidth = (width - 50) * 0.4;
+      var senWidth = (width - 50) * 0.6;
+
+      if (note[segmentId].imgWidth > 0) {
+        if (imgMaxWidth > note[segmentId].imgWidth + 40) {
+          senWidth = width - 50 - note[segmentId].imgWidth - 40;
+        }
+      }
       return _react2.default.createElement(
         SentenceArea,
         {
@@ -67970,10 +68064,11 @@ var ImgTxt = function (_Component) {
         _react2.default.createElement(_LabNum2.default, { lineNoType: setting.lineNos, id: segmentId }),
         _react2.default.createElement(_Canvas2.default, _extends({
           id: segmentId,
-          canvasWidth: note[segmentId].imgWidth + 40
+          imgMaxWidth: imgMaxWidth,
+          canvasWidth: note[segmentId].imgWidth == 0 ? imgMaxWidth : note[segmentId].imgWidth + 40
         }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_Canvas2.default.propTypes)))),
         _react2.default.createElement(_Sentences2.default, {
-          senWidth: width - 50 - note[segmentId].imgWidth - 40,
+          senWidth: senWidth,
           note: note,
           segmentId: segmentId,
           ref: function ref(_ref) {
@@ -68072,6 +68167,15 @@ var TxtImg = function (_Component) {
           width = _props.width,
           setting = _props.setting;
 
+
+      var imgMaxWidth = (width - 50) * 0.4;
+      var senWidth = (width - 50) * 0.6;
+
+      if (note[segmentId].imgWidth > 0) {
+        if (imgMaxWidth > note[segmentId].imgWidth + 40) {
+          senWidth = width - 50 - note[segmentId].imgWidth - 40;
+        }
+      }
       return _react2.default.createElement(
         SentenceArea,
         {
@@ -68079,7 +68183,7 @@ var TxtImg = function (_Component) {
           onClick: this.setCurSegment },
         _react2.default.createElement(_LabNum2.default, { lineNoType: setting.lineNos, id: segmentId }),
         _react2.default.createElement(_Sentences2.default, {
-          senWidth: width - 50 - note[segmentId].imgWidth - 40,
+          senWidth: senWidth,
           note: note,
           segmentId: segmentId,
           ref: function ref(_ref) {
@@ -68089,7 +68193,8 @@ var TxtImg = function (_Component) {
         }),
         _react2.default.createElement(_Canvas2.default, _extends({
           id: segmentId,
-          canvasWidth: note[segmentId].imgWidth + 40
+          imgMaxWidth: imgMaxWidth,
+          canvasWidth: note[segmentId].imgWidth == 0 ? imgMaxWidth : note[segmentId].imgWidth + 40
         }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_Canvas2.default.propTypes))))
       );
     }
@@ -69160,7 +69265,7 @@ Object.defineProperty(exports, "__esModule", {
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _templateObject = _taggedTemplateLiteral(['\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 999;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(100,100,100,0.5);\n  display: ', '\n'], ['\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 999;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(100,100,100,0.5);\n  display: ', '\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n  position: fixed;\n  width: 600px;\n  top: 150px;\n  left: 100px;\n  z-index: 9999;\n  border: 1px solid blue;\n  color: black;\n  background-color: #EEE;\n'], ['\n  position: fixed;\n  width: 600px;\n  top: 150px;\n  left: 100px;\n  z-index: 9999;\n  border: 1px solid blue;\n  color: black;\n  background-color: #EEE;\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n  position: fixed;\n  width: 650px;\n  top: 150px;\n  left: 100px;\n  z-index: 9999;\n  border: 1px solid blue;\n  color: black;\n  background-color: #EEE;\n'], ['\n  position: fixed;\n  width: 650px;\n  top: 150px;\n  left: 100px;\n  z-index: 9999;\n  border: 1px solid blue;\n  color: black;\n  background-color: #EEE;\n']),
     _templateObject3 = _taggedTemplateLiteral(['\n  margin: 15px;\n  width: 150px;\n  height: 45px;\n  background-color: #AAA;\n  color: white;\n  border: none;\n  color: black;\n  font-size: 16px;\n\n  &:hover {\n    border: 2px solid #555;\n  }\n\n  &:active {\n    background-color: #555;\n    border: 2px solid #555;\n  }\n'], ['\n  margin: 15px;\n  width: 150px;\n  height: 45px;\n  background-color: #AAA;\n  color: white;\n  border: none;\n  color: black;\n  font-size: 16px;\n\n  &:hover {\n    border: 2px solid #555;\n  }\n\n  &:active {\n    background-color: #555;\n    border: 2px solid #555;\n  }\n']);
 
 var _react = __webpack_require__(0);
@@ -69229,16 +69334,12 @@ var CannotChangeSettingAlertDialog = function (_Component) {
         _react2.default.createElement(
           Wrapper,
           null,
-          _react2.default.createElement(
-            'h3',
-            { style: { flex: 8, marginLeft: 10 } },
-            alertMessage
-          ),
+          _react2.default.createElement('h3', { style: { flex: 8, marginLeft: 10 }, dangerouslySetInnerHTML: { __html: alertMessage } }),
           _react2.default.createElement('br', null),
           _react2.default.createElement(
             'p',
             null,
-            '\u203B\u9069\u5207\u7BC4\u56F2\u3068\u306F'
+            '\u203B'
           ),
           _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: maxLineNumMessage } }),
           _react2.default.createElement(
