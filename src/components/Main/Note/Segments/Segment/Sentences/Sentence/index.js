@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-
+import {getBrowserType} from '../../../../../../../utils/browserType'
 import FourLine from '../../../../../Print/PrintNote/Segments/Segment/common/FourLine'
 
 const TextArea = styled.div`
@@ -314,7 +314,8 @@ class Sentence extends Component{
           disabled={false}
           spellCheck={false}
           innerRef={(ref) => {this.inputText = ref}}
-          onInput={this.onTextAreaChange}
+          onChange={getBrowserType() === 'edge' ? this.onTextAreaChange : null}
+          onInput={getBrowserType() === 'chrome' ? this.onTextAreaChange : null}
           onBlur={this.onTextAreaBlur}
           onKeyUp={this.onKeyUp}
           onKeyDown={this.onKeyDown}
