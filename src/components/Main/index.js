@@ -16,8 +16,7 @@ import TitleAlertDialog from './TitleAlertDialog'
 import FileSavedAlertDialog from './FileSavedAlertDialog'
 import OverwriteConfirmDialog from './OverwriteConfirmDialog'
 import EditingConfirmDialog from './EditingConfirmDialog'
-import OnlyEnglishAlertDialog from './OnlyEnglishAlertDialog'
-import AddSegmentAlertDialog from './AddSegmentAlertDialog'
+import PrintCheckErrorDialog from './PrintCheckErrorDialog'
 
 injectGlobal`
   @font-face {
@@ -187,7 +186,7 @@ class Main extends Component {
     setName: PropTypes.func.isRequired,
     name: PropTypes.string,
     isJaInputing: PropTypes.bool,
-    isShowOnlyEnglishAlert: PropTypes.bool,
+    isShowPrintErrorDialog: PropTypes.bool,
   }
   setName = (event) => {
     const {setName} = this.props
@@ -301,8 +300,7 @@ class Main extends Component {
           <FileSavedAlertDialog {...pick(this.props, keys(FileSavedAlertDialog.propTypes))} />
           <OverwriteConfirmDialog {...pick(this.props, keys(OverwriteConfirmDialog.propTypes))} />
           <EditingConfirmDialog {...pick(this.props, keys(EditingConfirmDialog.propTypes))} />
-          <OnlyEnglishAlertDialog {...pick(this.props, keys(OnlyEnglishAlertDialog.propTypes))} />
-          <AddSegmentAlertDialog {...pick(this.props, keys(AddSegmentAlertDialog.propTypes))} />
+          <PrintCheckErrorDialog {...pick(this.props, keys(PrintCheckErrorDialog.propTypes))} />
           <FileDialogContainer />
         </DivBg>}
         {isPrint && <PrintNoteContainer />}

@@ -16,13 +16,12 @@ import {
   UPDATE_IS_UNDERLINE,
   UPDATE_CUR_COLOR,
   SHOW_TITLE_ALERT_DIALOG,
-  SHOW_ONLY_ENGLISH_ALERT_DIALOG,
   SHOW_SAVED_ALERT_DIALOG,
   SHOW_OVERWRITE_CONFIRM_DIALOG,
   SHOW_CREATE_FILE_CONFIRM_DIALOG,
   UPDATE_IS_NEW_FILE,
   UPDATE_IS_OPEN_FILE,
-  SHOW_ADD_SEGMENT_ALERT_DIALOG,
+  SHOW_PRINT_ERROR_DIALOG,
   UPDATE_SETTING,
   UPDATE_WIDTH,
   UPDATE_JA_INPUTING,
@@ -41,7 +40,6 @@ export const setName = (name) => {
     payload: name
   }
 }
-
 
 export const printFinish = () => {
   return {
@@ -106,13 +104,6 @@ export const onShowTitleAlertDialog = (status) => {
   }
 }
 
-export const onShowOnlyEnglishAlertDialog = (status) => {
-  return {
-    type: SHOW_ONLY_ENGLISH_ALERT_DIALOG,
-    payload: status
-  }
-}
-
 export const onShowSavedAlertDialog = (status) => {
   return {
     type: SHOW_SAVED_ALERT_DIALOG,
@@ -170,9 +161,9 @@ export const updateIsOpenFile = (status) => {
   }
 }
 
-export const onShowAddSegmentAlertDialog = (status) => {
+export const onShowPrintErrorDialog = (status) => {
   return {
-    type: SHOW_ADD_SEGMENT_ALERT_DIALOG,
+    type: SHOW_PRINT_ERROR_DIALOG,
     payload: status
   }
 }

@@ -22,8 +22,7 @@ import {
   SHOW_CREATE_FILE_CONFIRM_DIALOG,
   UPDATE_IS_NEW_FILE,
   UPDATE_IS_OPEN_FILE,
-  SHOW_ONLY_ENGLISH_ALERT_DIALOG,
-  SHOW_ADD_SEGMENT_ALERT_DIALOG,
+  SHOW_PRINT_ERROR_DIALOG,
   UPDATE_JA_INPUTING,
 } from './action-type'
 
@@ -47,12 +46,12 @@ const initialState = {
   isShowCreateFileConfirm: false,
   isNewFile: false,
   isOpenFile: false,
-  isShowOnlyEnglishAlert: false,
-  isShowAddSegmentAlert: false,
+  isShowPrintErrorDialog: false,
   alertMessage: '',
   maxLineNumMessage: '',
   isJaInputing: false,
   isLayoutError: false,
+  printCheckErrorMessage: '',
 }
 
 const {assign} = Object
@@ -119,6 +118,21 @@ const addPageBreak = (note, id) => {
   newNote.splice(curNo, 0, Object.assign({}, defaultNote))
   newNote[curNo].id = curNo
   return newNote
+}
+
+const checkSegmentHeight = (note, maxPageHeight) => {
+  let resultList = ''
+  for (let i = 0;i < note.length; i++) {
+    if (note[i].segmentHeight > maxPageHeight) {
+      if (resultList == '') {
+        resultList = `${i + 1}`
+      }
+      else {
+        resultList = `${resultList}、${i + 1}`
+      }
+    } 
+  }
+  return resultList
 }
 
 export default (state = initialState, action) => {
@@ -277,10 +291,24 @@ export default (state = initialState, action) => {
       const {note, setting} = state
       let maxPageHeight = defaultPageHeight
       let errorSegmentList = ''
+      let printCheckErrorSegmentList = ''
       let isLayoutError = false
 
       if (setting.layout !== 'portrait') {
         maxPageHeight = landscapePageHeight
+      }
+      printCheckErrorSegmentList = checkSegmentHeight(note, maxPageHeight)
+
+      if (printCheckErrorSegmentList !== '')
+      {
+        return assign({}, state, {
+          isPrint: false,
+          isShowPrintErrorDialog: true,
+          printCheckErrorMessage: {
+            header: `${printCheckErrorSegmentList}行目の編集ボックスのテキストの量を調整してください。 <br />「画像＋テキスト」のレイアウトでは、テキストのみの場合よりも表示できる文字数が少なくなります。`,
+            content: '※<br />「画像＋テキスト」 のレイアウトで入力できるテキスト量は、およそその ６割 程度になります。<br />読み込んだのち、画像の縮小等の調整により、入力できるテキスト量は変化します。<br />（テキスト入力の目安については、ヘルプを参照してください）',
+          }
+        })
       }
       let pageHeight = 0
       let newNote = note.slice()
@@ -347,8 +375,8 @@ export default (state = initialState, action) => {
               pageHeight = note[i].segmentHeight
             }
             else if (i == 0 ){
-              if (!newNote[i - 1].isUserPageBreak) {
-                newNote[i - 1].isPageBreak = true
+              if (!newNote[i].isUserPageBreak) {
+                newNote[i].isPageBreak = true
               }
               pages[pageNum].push(i)
               pages.push([])
@@ -448,11 +476,6 @@ export default (state = initialState, action) => {
       isShowTitleAlert: payload
     })
 
-  case SHOW_ONLY_ENGLISH_ALERT_DIALOG:
-    return assign({}, state, {
-      isShowOnlyEnglishAlert: payload
-    })
-
   case SHOW_SAVED_ALERT_DIALOG:
     return assign({}, state, {
       isShowSavedAlert: payload
@@ -478,9 +501,9 @@ export default (state = initialState, action) => {
       isOpenFile: payload
     })
 
-  case SHOW_ADD_SEGMENT_ALERT_DIALOG:
+  case SHOW_PRINT_ERROR_DIALOG:
     return assign({}, state, {
-      isShowAddSegmentAlert: payload
+      isShowPrintErrorDialog: payload
     })
 
   case UPDATE_JA_INPUTING:

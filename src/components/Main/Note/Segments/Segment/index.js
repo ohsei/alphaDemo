@@ -3,6 +3,9 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import {pick, keys} from 'lodash'
 
+import {defaultPageHeight, landscapePageHeight} from '../../../../../utils/const'
+
+
 import Actions from './common/Actions'
 import TxtOnly from './TxtOnly'
 import ImgOnly from './ImgOnly'
@@ -75,6 +78,7 @@ class Segment extends Component{
     name: PropTypes.string,
     updateNote: PropTypes.func.isRequired,
     type: PropTypes.string,
+    setting: PropTypes.object,
     ...Actions.propTypes,
     ...ImgOnly.propTypes,
     ...TxtImg.propTypes,
@@ -84,7 +88,6 @@ class Segment extends Component{
 
   componentDidUpdate () {
     const {segmentHeight, updateNote, id} = this.props
-
 
     if (segmentHeight != this.segArea.offsetHeight) {
       updateNote({

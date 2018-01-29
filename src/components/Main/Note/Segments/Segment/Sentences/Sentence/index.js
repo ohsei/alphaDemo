@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 import {getBrowserType} from '../../../../../../../utils/browserType'
-import FourLine from '../../../../../Print/PrintNote/Segments/Segment/common/FourLine'
+import FourLine from '../../../../../common/FourLine'
 
 const TextArea = styled.div`
   position: absolute;
@@ -286,7 +286,7 @@ class Sentence extends Component{
     }
 
     for (let i = 0; i < height; i ++) {
-      list.push(<FourLine key={i} interval={parseFloat(interval)} lineNum={lineNum} borderColor={lineColor} enSize={enSize} isPrint={true} />)
+      list.push(<FourLine key={i} interval={parseFloat(interval)} lineNum={lineNum} borderColor={lineColor} enSize={enSize} />)
     }
 
     return list

@@ -1,4 +1,4 @@
-/* 英字のみの提示メッセージ用コンポーネント */
+/* ファイル保存済み時の提示メッセージ用コンポーネント */
 import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
@@ -15,7 +15,7 @@ const DivOverlap = styled.div`
 `
 const Wrapper = styled.div`
   position: fixed;
-  width: 600px;
+  width: 650px;
   top: 150px;
   left: 100px;
   z-index: 9999;
@@ -43,32 +43,31 @@ const Button = styled.button`
   }
 `
 
-class OnlyEnglishAlertDialog extends Component{
+class PrintCheckErrorDialog extends Component{
   constructor (props){
     super(props)
     this.files = new Map()
   }
   static propTypes = {
-    isShowOnlyEnglishAlert: PropTypes.bool,
-    onShowOnlyEnglishAlertDialog: PropTypes.func.isRequired,
+    isShowPrintErrorDialog: PropTypes.bool,
+    onShowPrintErrorDialog: PropTypes.func.isRequired,
+    printCheckErrorMessage: PropTypes.array,
   }
 
   onCancel = () => {
-    const {onShowOnlyEnglishAlertDialog} = this.props
-    onShowOnlyEnglishAlertDialog(false)
-  }
+    const {onShowPrintErrorDialog} = this.props
 
-  onClick = () => {
-    const {onShowOnlyEnglishAlertDialog, isShowOnlyEnglishAlert} = this.props
-    onShowOnlyEnglishAlertDialog(!isShowOnlyEnglishAlert)
+    onShowPrintErrorDialog(false)
   }
+  
   render () {
-    const {isShowOnlyEnglishAlert} = this.props
+    const {isShowPrintErrorDialog, printCheckErrorMessage} = this.props
 
     return (
-      <DivOverlap show={isShowOnlyEnglishAlert} onClick={this.onClick}>
+      <DivOverlap show={isShowPrintErrorDialog}>
         <Wrapper>
-          <h3 style={{flex: 8, marginLeft: 10}}>半角モードで入力してください。</h3>
+          <h3 style={{flex: 8, marginLeft: 10}} dangerouslySetInnerHTML={{__html: printCheckErrorMessage.header}} />
+          <p dangerouslySetInnerHTML={{__html: printCheckErrorMessage.content}} />
           <Button style={{float: 'right'}} onClick={this.onCancel}>OK</Button>
         </Wrapper>
       </DivOverlap>
@@ -76,4 +75,4 @@ class OnlyEnglishAlertDialog extends Component{
   }
 }
 
-export default OnlyEnglishAlertDialog
+export default PrintCheckErrorDialog
