@@ -28,7 +28,7 @@ class ItemLayout extends Component{
     let newSetting = Object.assign({}, setting)
     newSetting.layout = 'portrait'
 
-    updateSetting(newSetting)
+    updateSetting(newSetting, true)
     updateWidth(defaultWidth)
   }
 
@@ -38,7 +38,7 @@ class ItemLayout extends Component{
     let newSetting = Object.assign({}, setting)
     newSetting.layout = 'landscape'
 
-    updateSetting(newSetting)
+    updateSetting(newSetting, true)
     updateWidth(landscapeWidth)
   }
 

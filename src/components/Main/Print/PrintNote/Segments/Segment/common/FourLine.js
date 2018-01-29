@@ -48,12 +48,12 @@ class FourLine extends React.Component{
     interval: PropTypes.number,
     lineNum: PropTypes.number,
     borderColor: PropTypes.string,
-    enSize: PropTypes.string
+    enSize: PropTypes.number
   }
 
   render (){
     const {lineNum, borderColor, enSize, interval} = this.props
-    
+
     const padding1 = 23
     const bottomPadding1 = 12
     const segmentHeight1 = 120
@@ -64,27 +64,26 @@ class FourLine extends React.Component{
     const bottomPadding4 = 48
     const segmentHeight4 = 480
     const intervalFloat = parseFloat(interval)
-        
+
     let padding = padding1
     let bottomPadding = bottomPadding1
     let topPadding = bottomPadding + padding
-    
-    if (enSize === '0') {
+
+    if (enSize === 0) {
       const newSegmentHeight1 = intervalFloat * segmentHeight1 / 1.5
       const diff1 = newSegmentHeight1 - segmentHeight1
       padding = padding1
       bottomPadding = bottomPadding1 + (diff1 / 2)
       topPadding = bottomPadding + padding
-          
     }
-    else if (enSize === '1') {
+    else if (enSize === 1) {
       const newSegmentHeight2 = intervalFloat * segmentHeight2 / 1.5
       const diff2 = newSegmentHeight2 - segmentHeight2
       padding = padding2
       bottomPadding = bottomPadding2 + (diff2 / 2)
       topPadding = bottomPadding + padding
     }
-    else if (enSize === '2') {
+    else if (enSize === 2) {
       const newSegmentHeight4 = intervalFloat * segmentHeight4 / 1.5
       const diff4 = newSegmentHeight4 - segmentHeight4
       padding = padding4

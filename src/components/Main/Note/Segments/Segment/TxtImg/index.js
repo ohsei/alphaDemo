@@ -13,25 +13,27 @@ const SentenceArea = styled.div`
 `
 
 class TxtImgSeg extends Component{
-  updateHeight = () => {
-    const {updateNote, note, id} = this.props
-    const segmentHeight = this.sentencearea.offsetHeight
-
-    if (note[id].segmentHeight != segmentHeight) {
-      let newNote = note.slice()
-      newNote[id].segmentHeight = segmentHeight
-      updateNote(newNote)
-    }
+  static propTypes = {
+    segmentHeight: PropTypes.number,
+    width: PropTypes.number,
+    setting: PropTypes.object,
+    id: PropTypes.any,
+    updateNote: PropTypes.func.isRequired,
+    dataUrl: PropTypes.string,
+    imgWidth: PropTypes.number,
+    imgHeight: PropTypes.number,
+    ...Sentences.propTypes,
+    ...Canvas.propTypes,
   }
   render (){
-    const {id, width, setting, note} = this.props
+    const {id, width, setting, imgWidth} = this.props
 
     const imgMaxWidth = (width - 50) * 0.4
     let senWidth = (width - 50) * 0.6
 
-    if (note[id].imgWidth > 0) {
-      if (imgMaxWidth > (note[id].imgWidth + 40)) {
-        senWidth = width - 50 - note[id].imgWidth - 40
+    if (imgWidth > 0) {
+      if (imgMaxWidth > (imgWidth + 40)) {
+        senWidth = width - 50 - imgWidth - 40
       }
     }
 
@@ -40,7 +42,7 @@ class TxtImgSeg extends Component{
         innerRef={ref => this.sentencearea = ref}
         width={width}
         onKeyDown={this.onKeyDown} >
-        <LabNum lineNoType={setting.lineNos} id={id} />
+        <LabNum lineNoType={parseInt(setting.lineNos)} id={id} />
         <Sentences
           senWidth={senWidth}
           ref={(ref) => {this.sentences = ref}}
@@ -49,25 +51,12 @@ class TxtImgSeg extends Component{
         <Canvas
           imgMaxWidth={imgMaxWidth}
           imgMaxHeight={800}
-          canvasWidth={note[id].imgWidth == 0 ? imgMaxWidth : note[id].imgWidth + 40}
-          updateHeight={this.updateHeight}
-          enHeight={note[id].enHeight}
-          jaHeight={note[id].jaHeight}
-          dataUrl={note[id].dataUrl}
+          canvasWidth={imgWidth == 0 ? imgMaxWidth : imgWidth + 40}
           {...pick(this.props, keys(Canvas.propTypes))}
         />
       </SentenceArea>
     )
   }
-}
-
-TxtImgSeg.propTypes = {
-  note: PropTypes.array,
-  width: PropTypes.number,
-  setting: PropTypes.object,
-  id: PropTypes.any,
-  updateNote: PropTypes.func.isRequired,
-  ...Sentences.propTypes,
 }
 
 export default TxtImgSeg

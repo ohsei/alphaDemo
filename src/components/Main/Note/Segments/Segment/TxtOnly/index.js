@@ -22,7 +22,6 @@ class TxtOnly extends Component{
   static propTypes = {
     id: PropTypes.number,
     width: PropTypes.number,
-    note: PropTypes.array,
     setting: PropTypes.object,
     ...Sentences.propTypes,
   }
@@ -47,7 +46,7 @@ class TxtOnly extends Component{
         innerRef={ref => this.sentencearea = ref}
         width={width}
         onKeyDown={this.onKeyDown} >
-        <LabNum lineNoType={setting.lineNos} id={id} />
+        <LabNum lineNoType={parseInt(setting.lineNos)} id={id} />
         <Sentences
           ref={ref => this.sentences = ref}
           senWidth={width - 50}

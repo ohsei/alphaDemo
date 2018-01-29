@@ -1,5 +1,5 @@
 import {
-  UPDATE_PRINT
+  FINISH_PRINT
 } from '../main/action-type'
 
 import {
@@ -7,10 +7,10 @@ import {
   UPDATE_LOADED_ARRAY
 } from './action-type'
 
-export const printFinish = () => {
+export const printFinish = (isPrinted) => {
   return {
-    type: UPDATE_PRINT,
-    payload: false
+    type: FINISH_PRINT,
+    payload: isPrinted
   }
 }
 

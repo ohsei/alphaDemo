@@ -15,32 +15,23 @@ const SentenceArea = styled.div`
 class ImgTxt extends Component{
   static propTypes = {
     width: PropTypes.number,
-    note: PropTypes.array,
+    segmentHeight: PropTypes.number,
     setting: PropTypes.object,
     id: PropTypes.any,
     updateNote: PropTypes.func.isRequired,
+    dataUrl: PropTypes.string,
     ...Sentences.propTypes,
-  }
-
-  updateHeight = () => {
-    const {updateNote, note, id} = this.props
-    const segmentHeight = this.sentencearea.offsetHeight
-
-    if (note[id].segmentHeight != segmentHeight) {
-      let newNote = note.slice()
-      newNote[id].segmentHeight = segmentHeight
-      updateNote(newNote)
-    }
+    ...Canvas.propTypes,
   }
   render (){
-    const {id, width, setting, note} = this.props
+    const {id, width, setting, imgWidth} = this.props
 
     const imgMaxWidth = (width - 50) * 0.4
     let senWidth = (width - 50) * 0.6
 
-    if (note[id].imgWidth > 0) {
-      if (imgMaxWidth > (note[id].imgWidth + 40)) {
-        senWidth = width - 50 - note[id].imgWidth - 40
+    if (imgWidth > 0) {
+      if (imgMaxWidth > (imgWidth + 40)) {
+        senWidth = width - 50 - imgWidth - 40
       }
     }
     return (
@@ -49,15 +40,11 @@ class ImgTxt extends Component{
         width={width}
         onKeyDown={this.onKeyDown}
         onClick={this.setCurSegment} >
-        <LabNum lineNoType={setting.lineNos} id={id} />
+        <LabNum lineNoType={parseInt(setting.lineNos)} id={id} />
         <Canvas
           imgMaxWidth={imgMaxWidth}
           imgMaxHeight={800}
-          canvasWidth={note[id].imgWidth == 0 ? imgMaxWidth : note[id].imgWidth + 40}
-          updateHeight={this.updateHeight}
-          enHeight={note[id].enHeight}
-          jaHeight={note[id].jaHeight}
-          dataUrl={note[id].dataUrl}
+          canvasWidth={imgWidth == 0 ? imgMaxWidth : imgWidth + 40}
           {...pick(this.props, keys(Canvas.propTypes))}
         />
         <Sentences

@@ -36,122 +36,84 @@ const InputFileOpen = styled.input.attrs({
 
 class Actions extends Component{
   static propTypes = {
-    note: PropTypes.array,
     id: PropTypes.number,
+    noteLength: PropTypes.number,
     curSegmentNo: PropTypes.any,
     updateNote: PropTypes.func,
-    onForceChange: PropTypes.func,
     delSegment: PropTypes.func,
     type: PropTypes.string,
+    isPageBreak: PropTypes.bool,
+    isUserPageBreak: PropTypes.bool,
     setCurSegment: PropTypes.func.isRequired,
+  }
+
+  updateType = (type) => {
+    const {updateNote, id} = this.props
+    updateNote({
+      pattern: 'type',
+      id,
+      type,
+    })
   }
 
   onClick = () => {
     const {setCurSegment, id} = this.props
-
     setCurSegment(id)
   }
 
   setImgOnly = () => {
-    const {updateNote, note, id} = this.props
-
-    let newNote = note.slice()
-    note[id].type = 'imgOnly'
-    note[id].html = ''
-    note[id].jaHtml = ''
-    note[id].imgWidth = 0
-    note[id].imgHeight = 0
-    note[id].enHeight = 0
-    note[id].jaHeight = 0
-    updateNote(newNote)
+    this.updateType('imgOnly')
   }
 
   setImgTxt = () => {
-    const {updateNote, note, id} = this.props
-
-    let newNote = note.slice()
-    note[id].type = 'imgTxt'
-    note[id].imgWidth = 0
-    note[id].imgHeight = 0
-    updateNote(newNote)
+    this.updateType('imgTxt')
   }
 
   setTxtImg = () => {
-    const {updateNote, note, id} = this.props
-
-    let newNote = note.slice()
-    note[id].type = 'txtImg'
-    note[id].imgWidth = 0
-    note[id].imgHeight = 0
-    updateNote(newNote)
+    this.updateType('txtImg')
   }
 
   setTxtOnly = () => {
-    const {updateNote, note, id} = this.props
-
-    let newNote = note.slice()
-    note[id].type = 'txtOnly'
-    note[id].dataUrl = ''
-    note[id].imgWidth = 0
-    note[id].imgHeight = 0
-    updateNote(newNote)
+    this.updateType('txtOnly')
   }
 
   delSegment = () => {
-    const {updateNote, onForceChange, setCurSegment, id, note} = this.props
-
-    let newNote = note.slice()
-    let curNo = id
-
-    for (let i = curNo + 1;i < newNote.length;i++){
-      newNote[i].id--
-    }
-    newNote.splice(curNo, 1)
-    updateNote(newNote)
-    onForceChange()
-    setCurSegment(curNo - 1)
+    const {updateNote, id} = this.props
+    updateNote({
+      pattern: 'del',
+      id,
+    })
   }
 
   addSegment = () => {
-    const {updateNote, onForceChange, setCurSegment, id, note} = this.props
-    let newNote = note.slice()
-
-    for (let i = id + 1;i < newNote.length;i++){
-      newNote[i].id++
-    }
-
-    const curNo = id + 1
-    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, jaHeight: 0, enHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20})
-    updateNote(newNote)
-    onForceChange()
-    setCurSegment(curNo)
+    const {updateNote, id} = this.props
+    updateNote({
+      pattern: 'add',
+      id,
+    })
   }
 
   addPageBreak = () => {
-    const {updateNote, id, note, onForceChange} = this.props
+    const {updateNote, id, isPageBreak, isUserPageBreak} = this.props
 
-    let newNote = note.slice()
-
-    if (newNote[id].isPageBreak) {
-      newNote[id].isPageBreak = false
-      updateNote(newNote)
-      onForceChange()
-      return
+    if (isPageBreak || isUserPageBreak) {
+    /* 削除 */
+      updateNote({
+        pattern: 'delBreak',
+        id,
+      })
     }
-    newNote[id].isPageBreak = true
-    let curNo = id
-
-    for (let i = curNo + 1;i < newNote.length;i++){
-      newNote[i].id++
+    else {
+      /* 追加 */
+      updateNote({
+        pattern: 'addBreak',
+        id,
+      })
     }
-    curNo++
-    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, jaHeight: 0, enHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20, })
-    updateNote(newNote)
-    onForceChange()
   }
 
   imgAdd = (event) => {
-    const {updateNote, note, id} = this.props
+    const {updateNote, id} = this.props
 
     let file = event.target.files[0]
 
@@ -174,13 +136,11 @@ class Actions extends Component{
           url.revokeObjectURL(src)
           var dataUrl = canvas.toDataURL('img/png')
 
-          let newNote = note.slice()
-          newNote[id].dataUrl = dataUrl
-          newNote[id].imgWidth = 0
-          newNote[id].imgHeight = 0
-          newNote[id].posX = 20
-          newNote[id].posY = 20
-          updateNote(newNote)
+          updateNote({
+            pattern: 'loadImg',
+            id,
+            dataUrl,
+          })
         }.bind(this)
       }.bind(this)
 
@@ -188,9 +148,9 @@ class Actions extends Component{
     }
   }
   componentDidMount (){
-    const {id, note} = this.props
+    const {id, noteLength} = this.props
 
-    if (note.length === 1 && id === 0){
+    if (noteLength === 1 && id === 0){
       this.btnDelSeg.disabled = true
       this.btnDelSeg.style.backgroundImage = 'url(' + require('../../../../../../resources/img/delete_gray.png') + ')'
     }
@@ -241,9 +201,9 @@ class Actions extends Component{
   }
 
   componentDidUpdate (){
-    const {id, type, note} = this.props
+    const {id, type, noteLength} = this.props
 
-    if (note.length === 1 && id === 0){
+    if (noteLength === 1 && id === 0){
       this.btnDelSeg.disabled = true
       this.btnDelSeg.style.backgroundImage = 'url(' + require('../../../../../../resources/img/delete_gray.png') + ')'
     }

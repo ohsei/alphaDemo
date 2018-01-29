@@ -18,7 +18,6 @@ import OverwriteConfirmDialog from './OverwriteConfirmDialog'
 import EditingConfirmDialog from './EditingConfirmDialog'
 import OnlyEnglishAlertDialog from './OnlyEnglishAlertDialog'
 import AddSegmentAlertDialog from './AddSegmentAlertDialog'
-import CannotChangeSettingAlertDialog from './CannotChangeSettingAlertDialog'
 
 injectGlobal`
   @font-face {
@@ -185,8 +184,6 @@ class Main extends Component {
     isItalic: PropTypes.bool,
     isUnderline: PropTypes.bool,
     curColor: PropTypes.string,
-    forceChange: PropTypes.bool,
-    offForceChange: PropTypes.func.isRequired,
     setName: PropTypes.func.isRequired,
     name: PropTypes.string,
     isJaInputing: PropTypes.bool,
@@ -224,9 +221,14 @@ class Main extends Component {
       this.colorChange.setColor(nextProps.curColor)
     }
   }
-
   render () {
     const { isPrint, setting, width, isBold, isItalic, isUnderline, isJaInputing, saveFileTitle, name} = this.props
+    let font = 'MyFamilyFont1'
+
+    if (setting.enFont == 1) {
+      font = 'MyFamilyFont2'
+    }
+
     return (
       <div>
         <PrintOrientation layout={setting.layout} />
@@ -285,7 +287,15 @@ class Main extends Component {
           <DivSegments
             innerRef={(ref) => {this.allSegs = ref}}
             width={width}>
-            <Segments {...pick(this.props, keys(Segments.propTypes))} />
+            <Segments
+              enSize={parseInt(setting.enSize)}
+              font={font}
+              interval={parseFloat(setting.interval)}
+              lineNum={setting.lineNum}
+              lineColor={setting.lineColor}
+              upJaSize={setting.upJaSize}
+              downJaSize={setting.downJaSize}
+              {...pick(this.props, keys(Segments.propTypes))} />
           </DivSegments>
           <TitleAlertDialog {...pick(this.props, keys(TitleAlertDialog.propTypes))} />
           <FileSavedAlertDialog {...pick(this.props, keys(FileSavedAlertDialog.propTypes))} />
@@ -293,7 +303,6 @@ class Main extends Component {
           <EditingConfirmDialog {...pick(this.props, keys(EditingConfirmDialog.propTypes))} />
           <OnlyEnglishAlertDialog {...pick(this.props, keys(OnlyEnglishAlertDialog.propTypes))} />
           <AddSegmentAlertDialog {...pick(this.props, keys(AddSegmentAlertDialog.propTypes))} />
-          <CannotChangeSettingAlertDialog {...pick(this.props, keys(CannotChangeSettingAlertDialog.propTypes))} />
           <FileDialogContainer />
         </DivBg>}
         {isPrint && <PrintNoteContainer />}

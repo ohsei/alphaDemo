@@ -78,7 +78,7 @@ class Sentence extends Component{
 
     if (marginTopArray){
       senList = marginTopArray.map((obj, i) => {
-        return  <FourLine  key={i}  interval={setting.interval} lineNum={setting.lineNum} borderColor={setting.lineColor} enSize={setting.enSize} isPrint={true} />
+        return  <FourLine  key={i} interval={parseFloat(setting.interval)} lineNum={setting.lineNum} borderColor={setting.lineColor} enSize={parseInt(setting.enSize)} isPrint={true} />
       })
     }
 

@@ -29,7 +29,6 @@ class ImgTxt extends Component{
         onClick={this.setCurSegment} >
         <LabNum lineNoType={setting.lineNos} id={segmentId} />
         <Canvas
-          id={segmentId}
           imgMaxWidth={imgMaxWidth}
           canvasWidth={note[segmentId].imgWidth == 0 ? imgMaxWidth : note[segmentId].imgWidth + 40}
           {...pick(this.props, keys(Canvas.propTypes))}
@@ -51,7 +50,8 @@ ImgTxt.propTypes = {
   width: PropTypes.number,
   setting: PropTypes.any,
   segmentId: PropTypes.number,
-  ...Canvas.propTypes,
+  ...Sentences.propTypes,
+  ...Canvas.propTypes
 }
 
 export default ImgTxt

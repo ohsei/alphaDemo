@@ -4,7 +4,7 @@ import {
 } from './action-type'
 
 const initialState = {
-  printStatus: '印刷用意中...',
+  printStatus: '印刷準備中...',
   loadedArray: []
 }
 

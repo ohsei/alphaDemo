@@ -38,7 +38,7 @@ class ItemJaSize extends Component{
     newSetting.downJaSize = tmpDownJaSize
     newSetting.jaPos = tmpJaPos
 
-    updateSetting(newSetting)
+    updateSetting(newSetting, true)
   }
   setDownJaSize = () => {
     const {updateSetting, setting} = this.props
@@ -55,7 +55,7 @@ class ItemJaSize extends Component{
     newSetting.downJaSize = this.downJaSizeSelect.value
     newSetting.jaPos = tmpJaPos
 
-    updateSetting(newSetting)
+    updateSetting(newSetting, true)
   }
 
   render (){

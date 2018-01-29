@@ -2,9 +2,13 @@ import React, {Component} from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
-import ContentEditable from '../../common/ContentEditable'
 
-const TextArea = styled(ContentEditable)`
+import FourLine from '../../../../../Print/PrintNote/Segments/Segment/common/FourLine'
+
+const TextArea = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
   margin: 0 0 1px 1px;
   width: 95%;
   border: none;
@@ -13,7 +17,6 @@ const TextArea = styled(ContentEditable)`
   word-wrap: break-word;
   font-family: ${props => props.fontFamily};
   font-size: ${props => props.fontSize};
-  position: relative;
   z-index: 9;
   letter-spacing: 1.5px;
   color: black;
@@ -47,10 +50,15 @@ class Sentence extends Component{
   }
 
   static propTypes = {
-    note: PropTypes.array,
     id: PropTypes.number,
-    updateNote: PropTypes.func,
-    setting: PropTypes.object,
+    html: PropTypes.string,
+    font: PropTypes.string,
+    enSize: PropTypes.number,
+    interval: PropTypes.number,
+    lineNum: PropTypes.number,
+    lineColor: PropTypes.string,
+    enHeight: PropTypes.number,
+    updateNote: PropTypes.func.isRequired,
     isBold: PropTypes.bool,
     isItalic: PropTypes.bool,
     isUnderline: PropTypes.bool,
@@ -59,40 +67,26 @@ class Sentence extends Component{
     updateIsItalic: PropTypes.func.isRequired,
     updateIsUnderline: PropTypes.func.isRequired,
     updateCurColor: PropTypes.func.isRequired,
-    forceChange: PropTypes.bool,
-    offForceChange: PropTypes.func.isRequired,
-    onShowOnlyEnglishAlertDialog: PropTypes.func.isRequired,
-    onShowAddSegmentAlertDialog: PropTypes.func.isRequired,
-    isOverOnePage: PropTypes.bool,
-    overPageId: PropTypes.number,
-    updateOverOnePage: PropTypes.func.isRequired,
-    updateOmitZenkaku: PropTypes.func.isRequired,
-    isOmitZenkaku: PropTypes.bool,
-    isShowOnlyEnglishAlert: PropTypes.bool,
+  }
+  updateEn = () => {
+    const {updateNote, id} = this.props
+    updateNote({
+      pattern: 'en',
+      id,
+      html: this.inputText.innerHTML,
+      enHeight: this.inputText.offsetHeight})
   }
   setBold (){
-    const {updateNote, note, id} = this.props
     document.execCommand('bold', false)
-    let newNote = note.slice()
-    newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
-    updateNote(newNote)
+    this.updateEn()
   }
   setItalic (){
-    const {updateNote, note, id} = this.props
     document.execCommand('italic', false)
-    let newNote = note.slice()
-    newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
-    updateNote(newNote)
+    this.updateEn()
   }
   setUnderline (){
-    const {updateNote, note, id} = this.props
     document.execCommand('underline', false)
-    let newNote = note.slice()
-    newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
-    updateNote(newNote)
+    this.updateEn()
   }
   saveSelection () {
     if (window.getSelection) {
@@ -129,17 +123,13 @@ class Sentence extends Component{
   }
 
   setColor (color){
-    const {updateNote, note, id} = this.props
     var r = this.toHex(color.r)
     var g = this.toHex(color.g)
     var b = this.toHex(color.b)
     const newColor = `#${r}${g}${b}`
     this.restoreSelection(this.state.range)
     document.execCommand('foreColor', false,  newColor)
-    let newNote = note.slice()
-    newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
-    updateNote(newNote)
+    this.updateEn()
   }
   handelMouseUp () {
     this.setState({range: this.saveSelection()})
@@ -179,76 +169,51 @@ class Sentence extends Component{
       selection.addRange(range)
     }
 
-    const {updateNote, note, id} = this.props
-    let newNote = note.slice()
-    newNote[id].html = this.inputText.htmlEl.innerHTML
-    newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
-    updateNote(newNote)
+    this.updateEn()
   }
 
   onTextAreaBlur (){
-    const {updateNote, note, id} = this.props
-
-    if (this.inputText.htmlEl.innerHTML.match(/[^\x01-\x7E]/)){
+    if (this.inputText.innerHTML.match(/[^\x01-\x7E]/)){
       let i = 0
       let newText = ''
 
-      while (i < this.inputText.htmlEl.innerHTML.length){
-        if (this.inputText.htmlEl.innerHTML[i].match(/[^\x01-\x7E]/)){
+      while (i < this.inputText.innerHTML.length){
+        if (this.inputText.innerHTML[i].match(/[^\x01-\x7E]/)){
           newText = newText + ''
         }
         else {
-          newText = newText + this.inputText.htmlEl.innerHTML[i]
+          newText = newText + this.inputText.innerHTML[i]
         }
         i ++
       }
-      this.inputText.htmlEl.innerHTML = newText
+      this.inputText.innerHTML = newText
 
-      let newNote = note.slice()
-      newNote[id].html = this.inputText.htmlEl.innerHTML
-      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
-      updateNote(newNote)
+      this.updateEn()
     }
   }
 
-  onTextAreaChange (e){
-    const {updateNote, note, id} = this.props
-    let newNote = note.slice()
-    newNote[id].html = e.target.value
-    newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
-    updateNote(newNote)
+  onTextAreaChange (){
+    this.updateEn()
   }
 
   componentDidMount (){
-    const {setting} = this.props
-    const lineNum = setting.lineNum
-    const lineColor = setting.lineColor
-    const enSize = setting.enSize
-    const interval = setting.interval
+/*    const {lineNum, lineColor, enSize, interval} = this.props
     const fileName = `${lineNum}lines_${lineColor}_${enSize}_${interval}.png`
     let url = `url(${require(`../../../../../../../resources/img/4lines/${fileName}`)})`
-    this.inputText.htmlEl.style.backgroundImage = url
+    this.inputText.style.backgroundImage = url*/
   }
   componentWillReceiveProps (nextProps) {
-    const {setting, note, id, updateNote} = nextProps
-    const lineNum = setting.lineNum
-    const lineColor = setting.lineColor
-    const enSize = setting.enSize
-    const interval = setting.interval
-    const fileName = `${lineNum}lines_${lineColor}_${enSize}_${interval}.png`
+   const {lineNum, lineColor, enSize, interval, html} = nextProps
+/*    const fileName = `${lineNum}lines_${lineColor}_${enSize}_${interval}.png`
     let url = `url(${require(`../../../../../../../resources/img/4lines/${fileName}`)})`
-    this.inputText.htmlEl.style.backgroundImage = url
+    this.inputText.style.backgroundImage = url*/
 
-    if ((note[id].enHeight != this.inputText.htmlEl.offsetHeight))
-    {
-      let newNote = note.slice()
-      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
-      updateNote(newNote)
+    if (html != this.inputText.innerHTML) {
+      this.inputText.innerHTML = html
     }
   }
   componentDidUpdate (prevProps) {
-    const {updateIsBold, updateIsItalic, updateIsUnderline, updateCurColor,
-      isOverOnePage, overPageId, id, updateOverOnePage, note, updateNote} = this.props
+    const {updateIsBold, updateIsItalic, updateIsUnderline, updateCurColor, enHeight} = this.props
     const isBold = document.queryCommandState('bold')
     const isItalic = document.queryCommandState('italic')
     const isUnderline = document.queryCommandState('underline')
@@ -266,74 +231,90 @@ class Sentence extends Component{
       updateIsUnderline(isUnderline)
     }
 
-    if (document.activeElement === this.inputText.htmlEl){
+    if (document.activeElement === this.inputText){
 
       if (curColor !== prevProps.curColor) {
         updateCurColor(curColor)
       }
     }
 
-
-
-    if (isOverOnePage && overPageId == id) {
-      const {updateNote, note, id} = this.props
-      document.execCommand('delete')
-      let newNote = note.slice()
-      newNote[id].html = this.inputText.htmlEl.innerHTML
-      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
-      updateNote(newNote)
-      updateOverOnePage(false)
+    if (enHeight != this.inputText.offsetHeight)
+    {
+      this.updateEn()
     }
   }
   onCompositionEnd = () => {
-    const {note, id, updateNote} = this.props
 
-    if (this.inputText.htmlEl.innerHTML.match(/[^\x01-\x7E]/)){
+    if (this.inputText.innerHTML.match(/[^\x01-\x7E]/)){
       let i = 0
       let newText = ''
 
-      while (i < this.inputText.htmlEl.innerHTML.length){
-        if (this.inputText.htmlEl.innerHTML[i].match(/[^\x01-\x7E]/)){
+      while (i < this.inputText.innerHTML.length){
+        if (this.inputText.innerHTML[i].match(/[^\x01-\x7E]/)){
           newText = newText + ''
         }
         else {
-          newText = newText + this.inputText.htmlEl.innerHTML[i]
+          newText = newText + this.inputText.innerHTML[i]
         }
         i ++
       }
-      this.inputText.htmlEl.innerHTML = newText
+      this.inputText.innerHTML = newText
 
-      let newNote = note.slice()
-      newNote[id].html = this.inputText.htmlEl.innerHTML
-      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
-      updateNote(newNote)
+      this.updateEn()
     }
   }
-  render (){
-    const { id, note, setting, forceChange, offForceChange } = this.props
-    let fontSize = 80
-    let font = 'MyFamilyFont1'
 
-    if (setting.enSize === '1') {
+  fourLineList = () => {
+    const {interval, enHeight, enSize, lineNum, lineColor} = this.props
+    const list = []
+
+    let height = 0
+    let segmentHeight = 120 * parseFloat(interval) / 1.5
+
+    if (enSize === 1) {
+      segmentHeight = 2 * segmentHeight
+    }
+    else if (enSize === 2) {
+      segmentHeight = 4 * segmentHeight
+    }
+
+    if (enHeight == 0 ) {
+      height = 1
+    }
+    else {
+      height = (enHeight / segmentHeight).toFixed(0)
+    }
+
+    for (let i = 0; i < height; i ++) {
+      list.push(<FourLine key={i} interval={parseFloat(interval)} lineNum={lineNum} borderColor={lineColor} enSize={enSize} isPrint={true} />)
+    }
+
+    return list
+
+  }
+  render (){
+    const { id, html, enSize, font, interval} = this.props
+    let fontSize = 80
+
+    if (enSize === 1) {
       fontSize = 80 * 2
     }
-    else if (setting.enSize === '2' ) {
+    else if (enSize === 2 ) {
       fontSize = 80 * 4
     }
 
-    if (setting.enFont === 1) {
-      font = 'MyFamilyFont2'
-    }
 
     return (
       <DivSen>
+        <div>{this.fourLineList()}</div>
         <TextArea
           id={`en${id}`}
-          html={note[id].html}
+          contentEditable={true}
+          value={html}
           disabled={false}
           spellCheck={false}
           innerRef={(ref) => {this.inputText = ref}}
-          onChange={this.onTextAreaChange}
+          onInput={this.onTextAreaChange}
           onBlur={this.onTextAreaBlur}
           onKeyUp={this.onKeyUp}
           onKeyDown={this.onKeyDown}
@@ -341,9 +322,7 @@ class Sentence extends Component{
           onPaste={this.onPaste}
           fontFamily={font}
           fontSize={`${fontSize}px`}
-          lineHeight={setting.interval}
-          forceChange={forceChange}
-          offForceChange={offForceChange}
+          lineHeight={interval}
           onCompositionEnd={this.onCompositionEnd}
         />
       </DivSen>

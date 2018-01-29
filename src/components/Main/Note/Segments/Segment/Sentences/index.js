@@ -10,10 +10,11 @@ import Sentence from './Sentence'
 const DivSentences = styled.div`
   width: ${props => `${props.width}px`};
 `
-const DivJan = styled(ContentEditable)`
+const DivJan = styled.div`
   border: 1px solid lightgray;
   width: 95%;
-  font-size: ${props => props.fontSize}
+  font-size: ${props => props.fontSize};
+  box-sizing:border-box;
 `
 
 class Sentences extends Component{
@@ -26,13 +27,14 @@ class Sentences extends Component{
   }
   static propTypes = {
     id: PropTypes.number,
+    jaHtml: PropTypes.string,
+    jaHeight: PropTypes.number,
+    upJaSize: PropTypes.string,
+    downJaSize: PropTypes.string,
     senWidth: PropTypes.number,
-    note: PropTypes.array,
-    setting: PropTypes.object,
     updateNote: PropTypes.func,
     setCurSegment: PropTypes.func,
     setCurComponent: PropTypes.func,
-    offForceChange: PropTypes.func.isRequired,
     updateJaInputing: PropTypes.func.isRequired,
     ...Sentence.propTypes,
   }
@@ -41,22 +43,14 @@ class Sentences extends Component{
     return this.divSentences.offsetHeight
   }
   onUpChange (){
-    const {id, updateNote, note} = this.props
+    const {id, updateNote} = this.props
 
-    let newNote = note.slice()
-    newNote[id].jaHtml = this.upJaHtml.htmlEl.innerHTML
-    newNote[id].jaHeight = this.upJaHtml.htmlEl.offsetHeight
-
-    updateNote(newNote)
+    updateNote({pattern: 'ja', id, jaHeight: this.upJaHtml.offsetHeight, jaHtml: this.upJaHtml.innerHTML})
   }
   onDownChange (){
-    const {id, updateNote, note} = this.props
+    const {id, updateNote} = this.props
 
-    let newNote = note.slice()
-    newNote[id].jaHtml = this.downJaHtml.htmlEl.innerHTML
-    newNote[id].jaHeight = this.downJaHtml.htmlEl.offsetHeight
-
-    updateNote(newNote)
+    updateNote({pattern: 'ja', id, jaHeight: this.downJaHtml.offsetHeight, jaHtml: this.downJaHtml.innerHTML})
   }
   onUpJaFocus = () => {
     const {updateJaInputing} = this.props
@@ -93,11 +87,8 @@ class Sentences extends Component{
       selection.addRange(range)
     }
 
-    const {updateNote, note, id} = this.props
-    let newNote = note.slice()
-    newNote[id].jaHtml = this.upJaHtml.htmlEl.innerHTML
-    newNote[id].jaHeight = this.upJaHtml.htmlEl.offsetHeight
-    updateNote(newNote)
+    const {updateNote, id} = this.props
+    updateNote({pattern: 'ja', id, jaHeight: this.upJaHtml.offsetHeight, jaHtml: this.upJaHtml.innerHTML})
   }
   onDownJaFocus = () => {
     const {updateJaInputing} = this.props
@@ -134,11 +125,8 @@ class Sentences extends Component{
       selection.addRange(range)
     }
 
-    const {updateNote, note, id} = this.props
-    let newNote = note.slice()
-    newNote[id].jaHtml = this.downJaHtml.htmlEl.innerHTML
-    newNote[id].jaHeight = this.downJaHtml.htmlEl.offsetHeight
-    updateNote(newNote)
+    const {updateNote, id} = this.props
+    updateNote({pattern: 'ja', id, jaHeight: this.downJaHtml.offsetHeight, jaHtml: this.downJaHtml.innerHTML})
   }
   onFocus (){
     const {id, setCurSegment, setCurComponent} = this.props
@@ -147,34 +135,54 @@ class Sentences extends Component{
   }
   componentDidMount (){
     const {id, setCurSegment, setCurComponent} = this.props
- 
+
     setCurSegment(id)
     setCurComponent(this.sentence)
   }
-  componentDidUpdate (prevProps) {
-    const {setting, note, updateNote, id} = this.props
+  componentWillReceiveProps (nextProps) {
+    const {jaHtml} = nextProps
 
-    if ((prevProps.setting != setting) )
-    {
-      let newNote = note.slice()
-      
-      if (this.upJaHtml) {
-        newNote[id].jaHeight = this.upJaHtml.htmlEl.offsetHeight
+    if (this.upJaHtml) {
+      if (jaHtml != this.upJaHtml.innerHTML) {
+        this.upJaHtml.innerHTML = jaHtml
       }
-      else if (this.downJaHtml) {
-        newNote[id].jaHeight = this.downJaHtml.htmlEl.offsetHeight
+    }
+    else if (this.downJaHtml) {
+      if (jaHtml != this.downJaHtml.innerHTML) {
+        this.downJaHtml.innerHTML = jaHtml
       }
-      else {
-        newNote[id].jaHeight = 0
+    }
+  }
+  componentDidUpdate () {
+    const {updateNote, id, jaHeight, jaHtml} = this.props
+
+    if (this.upJaHtml) {
+      if (jaHtml != this.upJaHtml.innerHTML) {
+        this.upJaHtml.innerHTML = jaHtml
       }
-      updateNote(newNote)
+
+      if (jaHeight != this.upJaHtml.offsetHeight) {
+        updateNote({pattern: 'ja', id, jaHeight: this.upJaHtml.offsetHeight, jaHtml: this.upJaHtml.innerHTML})
+      }
+    }
+    else if (this.downJaHtml) {
+      if (jaHtml != this.downJaHtml.innerHTML) {
+        this.downJaHtml.innerHTML = jaHtml
+      }
+
+      if (jaHeight != this.downJaHtml.offsetHeight) {
+        updateNote({pattern: 'ja', id, jaHeight: this.downJaHtml.offsetHeight, jaHtml: this.downJaHtml.innerHTML})
+      }
+    }
+    else {
+      if (jaHeight !== 0) {
+        updateNote({pattern: 'ja', id, jaHeight: 0, jaHtml: ''})
+      }
     }
   }
 
   render (){
-    const {note, id, setting, senWidth, offForceChange} = this.props
-    const upJaSize = setting.upJaSize
-    const downJaSize = setting.downJaSize
+    const {id, senWidth, html, jaHtml, upJaSize, downJaSize} = this.props
 
     return (
       <DivSentences
@@ -182,23 +190,39 @@ class Sentences extends Component{
         onKeyDown={this.keyDown}
         innerRef={ref => this.divSentences = ref}
         width={senWidth}>
-        {setting.upJaSize != 'オフ' && <DivJan id={`up${id}`} html={note[id].jaHtml} innerRef={ref => this.upJaHtml = ref} fontSize={upJaSize} spellCheck={false} disabled={false} onChange={this.onUpChange}
-          forceChange={true}
-          offForceChange={offForceChange}
-          onFocus={this.onUpJaFocus}
-          onBlur={this.onUpJaBlur}
-          onPaste={this.onUpPaste} />}
+        {upJaSize != 'オフ' &&
+          <DivJan
+            contentEditable={true}
+            id={`up${id}`}
+            value={jaHtml}
+            innerRef={ref => this.upJaHtml = ref}
+            fontSize={upJaSize}
+            spellCheck={false}
+            onInput={this.onUpChange}
+            onFocus={this.onUpJaFocus}
+            onBlur={this.onUpJaBlur}
+            onPaste={this.onUpPaste}
+          />
+        }
         <Sentence
           ref={ref => this.sentence = ref}
-          lineNum={setting.lineNum}
+          html={html}
           {...pick(this.props, keys(Sentence.propTypes))}
         />
-        {setting.downJaSize != 'オフ' && <DivJan id={`down${id}`} html={note[id].jaHtml} innerRef={ref => this.downJaHtml = ref} fontSize={downJaSize} spellCheck={false} disabled={false} onChange={this.onDownChange}
-          forceChange={true}
-          offForceChange={offForceChange}
-          onFocus={this.onDownJaFocus}
-          onBlur={this.onDownJaBlur}
-          onPaste={this.onDownPaste}  />}
+        {downJaSize != 'オフ' &&
+          <DivJan
+            contentEditable={true}
+            id={`down${id}`}
+            value={jaHtml}
+            innerRef={ref => this.downJaHtml = ref}
+            fontSize={downJaSize}
+            spellCheck={false}
+            onInput={this.onDownChange}
+            onFocus={this.onDownJaFocus}
+            onBlur={this.onDownJaBlur}
+            onPaste={this.onDownPaste}
+          />
+        }
       </DivSentences>
     )
   }

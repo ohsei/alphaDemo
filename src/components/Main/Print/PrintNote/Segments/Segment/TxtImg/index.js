@@ -37,7 +37,6 @@ class TxtImg extends Component{
           setting={setting}
         />
         <Canvas
-          id={segmentId}
           imgMaxWidth={imgMaxWidth}
           canvasWidth={note[segmentId].imgWidth == 0 ? imgMaxWidth : note[segmentId].imgWidth + 40}
           {...pick(this.props, keys(Canvas.propTypes))}
@@ -50,15 +49,13 @@ class TxtImg extends Component{
 TxtImg.propTypes = {
   note: PropTypes.array,
   width: PropTypes.number,
-  editSegments: PropTypes.any,
-  jaSentence: PropTypes.any,
   setting: PropTypes.any,
   curSegmentNo: PropTypes.any,
-  isPageBreak: PropTypes.any,
-  updateLoadedArray: PropTypes.func.isRequired,
   noteId: PropTypes.number,
   segmentId: PropTypes.number,
   loadedArray: PropTypes.array,
+  ...Sentences.propTypes,
+  ...Canvas.propTypes
 }
 
 export default TxtImg

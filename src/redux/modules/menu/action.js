@@ -44,10 +44,13 @@ export const onIsFilelistUpdate = () => {
   }
 }
 
-export const updateSetting = (setting) => {
+export const updateSetting = (setting, isChangeFormat) => {
   return {
     type: UPDATE_SETTING,
-    payload: setting
+    payload: {
+      setting,
+      isChangeFormat
+    }
   }
 }
 

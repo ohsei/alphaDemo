@@ -14,6 +14,7 @@ const mapStateToProps = ({printNote, main}) => {
   const isPrint = main.isPrint
   const width = main.width
   const errorMessage = main.errorMessage
+  const isLayoutError = main.isLayoutError
 
   return {
     ...printNote,
@@ -24,6 +25,7 @@ const mapStateToProps = ({printNote, main}) => {
     isPrint,
     width,
     errorMessage,
+    isLayoutError
   }
 }
 

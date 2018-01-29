@@ -23,13 +23,9 @@ const StyledButton = styled.button`
 const StyledMessageArea = styled.div.attrs({
   tabIndex: -1,
 })`
-  position: fixed;
-  display: flex;
-  top: 5px;
-  left: 500px;
-  width: 50%;
-  padding: 10px 0px 20px 0px;
-  height: 50px;
+  width: 100%;
+  margin: 10px 10px;
+  height: 40px;
   color: #f00;
   z-index: 99;
 
@@ -40,14 +36,18 @@ const StyledMessageArea = styled.div.attrs({
 
 class PrintNote extends Component{
   componentDidUpdate () {
-    const {isPrint, setPrintStatus, printStatus} = this.props
+    const {isPrint, setPrintStatus, printStatus, isLayoutError} = this.props
+
+    if (isLayoutError) {
+      return
+    }
 
     if (isPrint === true){
       if (printStatus === '印刷可'){
         return
       }
 
-      if (printStatus === '印刷用意中...'){
+      if (printStatus === '印刷準備中...'){
         if (this.getState() == true){
           setPrintStatus('印刷可')
         }
@@ -56,18 +56,22 @@ class PrintNote extends Component{
   }
 
   print = () => {
-    const {printFinish, setPrintStatus} = this.props
+    const {printFinish, setPrintStatus, isLayoutError} = this.props
+
+    if (isLayoutError) {
+      return
+    }
     window.print()
 
     this.onClearLoadstateArray()
-    printFinish()
-    setPrintStatus('印刷用意中...')
+    printFinish(true)
+    setPrintStatus('印刷準備中...')
   }
   cancel = () => {
     const {printFinish, setPrintStatus} = this.props
     this.onClearLoadstateArray()
-    printFinish()
-    setPrintStatus('印刷用意中...')
+    printFinish(false)
+    setPrintStatus('印刷準備中...')
   }
   getState = () => {
     const {loadedArray} = this.props
@@ -100,7 +104,7 @@ class PrintNote extends Component{
   }
 
   render (){
-    const {namelist, printStatus, errorMessage} = this.props
+    const {namelist, printStatus, errorMessage, setting, isLayoutError} = this.props
 
     let listSegments = null
 
@@ -122,9 +126,10 @@ class PrintNote extends Component{
       <StyledDiv
         isPrint={this.props.isPrint}
         width={this.props.width}>
-        <StyledButton onClick={this.print}>{printStatus}</StyledButton>
+        <StyledButton disabled={isLayoutError} onClick={this.print}>{printStatus}</StyledButton>
         <StyledButton onClick={this.cancel}>キャンセル</StyledButton>
-        <StyledMessageArea>{errorMessage}</StyledMessageArea>
+        {isLayoutError && <StyledMessageArea>{errorMessage}</StyledMessageArea>}
+        {setting.layout == 'landscape' && <StyledMessageArea>{'A4横のプリントレイアウトです。プリンタの用紙設定が「横」になっていることを確認してから、印刷を実行してください。'}</StyledMessageArea>}
         {listSegments}
       </StyledDiv>
     )
@@ -144,6 +149,7 @@ PrintNote.propTypes = {
   loadedArray: PropTypes.array,
   updateLoadedArray: PropTypes.func,
   errorMessage: PropTypes.string,
+  isLayoutError: PropTypes.bool,
 }
 
 export default PrintNote

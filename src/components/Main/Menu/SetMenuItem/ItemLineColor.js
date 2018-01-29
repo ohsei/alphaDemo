@@ -24,7 +24,7 @@ class ItemLineColor extends Component{
     const {updateSetting, setting} = this.props
     let newSetting = Object.assign({}, setting)
     newSetting.lineColor = this.lineColorSelect.value
-    updateSetting(newSetting)
+    updateSetting(newSetting, true)
   }
 
   render (){

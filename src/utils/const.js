@@ -38,6 +38,7 @@ export const defaultNote = {
   posX: 20,
   posY: 20,
   height: 0,
+  isUserPageBreak: false
 }
 
 export const defaultColors = [

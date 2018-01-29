@@ -5,6 +5,7 @@ import styled from 'styled-components'
 const CustomCanvas = styled.canvas.attrs({
   tabIndex: -1,
 })`
+  box-sizing:border-box;
   width: 100%';
   height: 100%;
 `
@@ -46,16 +47,18 @@ class Canvas extends Component{
     imgMaxHeight: PropTypes.number,
     canvasWidth: PropTypes.number,
     updateNote: PropTypes.func.isRequired,
-    note: PropTypes.array,
-    updateHeight: PropTypes.func,
     setting: PropTypes.object,
     enHeight: PropTypes.number,
     jaHeight: PropTypes.number,
     dataUrl: PropTypes.string,
+    imgWidth: PropTypes.number,
+    imgHeight: PropTypes.number,
+    posX: PropTypes.number,
+    posY: PropTypes.number
   }
 
   loadImage (){
-    const {note, id, imgMaxWidth, updateHeight, imgMaxHeight} = this.props
+    const {enHeight, jaHeight, dataUrl, imgMaxWidth, imgMaxHeight, updateNote, id} = this.props
     let img = new Image()
     let canvas = this.imgCanvas
     let ctx = canvas.getContext('2d')
@@ -109,11 +112,11 @@ class Canvas extends Component{
         canvas.height = picHeight + anchorSize * 2
       }
       else {
-        if ( (picHeight + anchorSize * 2) > (note[id].enHeight + note[id].jaHeight)) {
+        if ( (picHeight + anchorSize * 2) > (enHeight + jaHeight)) {
           canvas.height = picHeight + anchorSize * 2
         }
         else {
-          canvas.height = note[id].enHeight + note[id].jaHeight
+          canvas.height = enHeight + jaHeight
         }
       }
 
@@ -132,21 +135,17 @@ class Canvas extends Component{
         ctx.strokeRect(this.state.objX - anchorSize, this.state.objY + picHeight, anchorSize, anchorSize )
         ctx.strokeRect(this.state.objX + picWidth, this.state.objY + picHeight, anchorSize, anchorSize )
       }
-
-      if (this.imgCanvas) {
-        updateHeight()
-      }
     }.bind(this)
-    img.src = note[id].dataUrl
+    img.src = dataUrl
   }
 
   componentWillMount (){
-    const {note, id} = this.props
+    const {imgWidth, imgHeight, posX, posY} = this.props
     this.setState({
-      imgWidth: note[id].imgWidth,
-      imgHeight: note[id].imgHeight,
-      objX: note[id].posX,
-      objY: note[id].posY
+      imgWidth: imgWidth,
+      imgHeight: imgHeight,
+      objX: posX,
+      objY: posY
     })
   }
 
@@ -155,9 +154,10 @@ class Canvas extends Component{
   }
 
   componentWillReceiveProps (nextProps){
-    const {setting} = this.props
+    const {setting, dataUrl} = this.props
 
-    if (setting.layout !== nextProps.setting.layout) {
+    if ((setting.layout !== nextProps.setting.layout) ||
+        (dataUrl !== nextProps.dataUrl)) {
       this.setState({
         imgWidth: 0,
         imgHeight: 0,
@@ -168,7 +168,7 @@ class Canvas extends Component{
   }
   componentDidUpdate (prevProps, prevState){
     const {imgWidth, imgHeight, objX, objY} = this.state
-    const {enHeight, jaHeight, dataUrl, imgMaxWidth, imgMaxHeight} = this.props
+    const {enHeight, jaHeight, dataUrl, imgMaxWidth, imgMaxHeight, updateNote, id} = this.props
     const prevImgWidth = prevState.imgWidth
     const prevImgHeight = prevState.imgHeight
     const prevX = prevState.objX
@@ -190,15 +190,14 @@ class Canvas extends Component{
     (prevState.imgHeight !== imgHeight) ||
     (prevState.objX !== objX) ||
     (prevState.objY !== objY)) {
-      const {updateNote, note, id} = this.props
-      let newNote = note.slice()
-
-      newNote[id].imgWidth = this.state.imgWidth
-      newNote[id].imgHeight = this.state.imgHeight
-      newNote[id].posX = this.state.objX
-      newNote[id].posY = this.state.objY
-
-      updateNote(newNote)
+      updateNote({
+        pattern: 'upImg',
+        id,
+        imgWidth: this.state.imgWidth,
+        imgHeight: this.state.imgHeight,
+        posX: this.state.objX,
+        posY: this.state.objY
+      })
     }
   }
 

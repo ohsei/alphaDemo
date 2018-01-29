@@ -39,7 +39,7 @@ class Canvas extends Component{
   }
 
   static propTypes = {
-    id: PropTypes.number,
+    segmentId: PropTypes.number,
     canvasWidth: PropTypes.number,
     note: PropTypes.array,
     updateLoadedArray: PropTypes.func.isRequired,
@@ -48,18 +48,17 @@ class Canvas extends Component{
   }
 
   onUpdateLoadedArrayStatus = () => {
-    const {updateLoadedArray, id, noteId, loadedArray} = this. props
+    const {updateLoadedArray, segmentId, noteId, loadedArray} = this. props
 
-    console.log(loadedArray)
     let newLoadedArray = loadedArray.slice()
 
-    newLoadedArray[noteId].segments[id].loaded = true
+    newLoadedArray[noteId].segments[segmentId].loaded = true
 
     updateLoadedArray(newLoadedArray)
   }
 
   loadImage (){
-    const {note, id} = this.props
+    const {note, segmentId} = this.props
     let img = new Image()
     let canvas = this.imgCanvas
     let ctx = canvas.getContext('2d')
@@ -126,22 +125,22 @@ class Canvas extends Component{
       this.onUpdateLoadedArrayStatus()
       // ctx.drawImage(img, 0, 0, img.width, img.height, 0, 0, picWidth, picHeight)
     }.bind(this)
-    img.src = note[id].dataUrl
+    img.src = note[segmentId].dataUrl
   }
 
   componentWillMount (){
-    const {note, id} = this.props
+    const {note, segmentId} = this.props
     this.setState({
-      imgWidth: note[id].imgWidth
+      imgWidth: note[segmentId].imgWidth
     })
     this.setState({
-      imgHeight: note[id].imgHeight
+      imgHeight: note[segmentId].imgHeight
     })
     this.setState({
-      objX: note[id].posX
+      objX: note[segmentId].posX
     })
     this.setState({
-      objY: note[id].posY
+      objY: note[segmentId].posY
     })
   }
 
@@ -150,9 +149,9 @@ class Canvas extends Component{
   }
 
   componentWillReceiveProps (nextProps){
-    const {note, id} = this.props
+    const {note, segmentId} = this.props
 
-    if (note[id].dataUrl != nextProps.note[id].dataUrl) {
+    if (note[segmentId].dataUrl != nextProps.note[segmentId].dataUrl) {
       this.setState({imgWidth: 0})
       this.setState({imgHeight: 0})
     }

@@ -22,6 +22,7 @@ class TxtOnly extends Component{
     segmentId: PropTypes.number,
     width: PropTypes.number,
     setting: PropTypes.object,
+    ...Sentences.propTypes,
   }
 
   render (){

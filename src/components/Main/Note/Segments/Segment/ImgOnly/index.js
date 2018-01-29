@@ -19,43 +19,26 @@ const DivCanvas = styled.div`
 `
 
 class ImgOnly extends Component{
-  constructor (props){
-    super(props)
-  }
-
   static propTypes = {
     width: PropTypes.number,
     setting: PropTypes.object,
     id: PropTypes.any,
-    note: PropTypes.array,
+    segmentHeight: PropTypes.number,
     updateNote: PropTypes.func.isRequired,
+    ...Canvas.propTypes,
   }
 
-  updateHeight = () => {
-    const {updateNote, note, id} = this.props
-    const segmentHeight = this.sentencearea.offsetHeight
-
-    if (note[id].segmentHeight != segmentHeight) {
-      let newNote = note.slice()
-      newNote[id].segmentHeight = segmentHeight
-      updateNote(newNote)
-    }
-  }
   render (){
-    const { setting, id, width, note } = this.props
+    const { setting, id, width } = this.props
     return (
       <SentenceArea
         innerRef={ref => this.sentencearea = ref} >
-        <LabNum lineNoType={setting.lineNos} id={id} />
+        <LabNum lineNoType={parseInt(setting.lineNos)} id={id} />
         <DivCanvas>
           <Canvas
             imgMaxWidth={width - 50}
             canvasWidth={width - 50}
             imgMaxHeight={800}
-            enHeight={note[id].enHeight}
-            jaHeight={note[id].jaHeight}
-            dataUrl={note[id].dataUrl}
-            updateHeight={this.updateHeight}
             {...pick(this.props, keys(Canvas.propTypes))}
           />
         </DivCanvas>

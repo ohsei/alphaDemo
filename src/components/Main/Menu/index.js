@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import {pick, keys} from 'lodash'
 
 import {dbOperate} from '../../../utils/database'
-
 import {
   GET_ONE_FILE,
   SAVE_ONE_FILE,

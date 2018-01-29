@@ -24,7 +24,7 @@ class ItemEnSize extends Component{
     const {updateSetting, setting} = this.props
     let newSetting = Object.assign({}, setting)
     newSetting.enSize = this.enSizeSelect.value
-    updateSetting(newSetting)
+    updateSetting(newSetting, true)
   }
 
   render (){

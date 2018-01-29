@@ -1,4 +1,4 @@
-import {defaultNote, defaultSetting, defaultWidth, defaultPageHeight, landscapePageHeight} from '../../../utils/const.js'
+import {defaultNote, defaultSetting, defaultWidth, defaultPageHeight, landscapePageHeight, landscapeWidth} from '../../../utils/const.js'
 
 import {
   LOAD_FILE,
@@ -6,18 +6,16 @@ import {
   SET_CUR_COMPONENT,
   UPDATE_NOTE,
   UPDATE_PRINT,
+  FINISH_PRINT,
   UPDATE_FILE_TITLE,
   UPDATE_NAME,
   UPDATE_SETTING,
   INIT_NOTE,
-  UPDATE_TAB_NODE_LIST,
   UPDATE_WIDTH,
   UPDATE_IS_BOLD,
   UPDATE_IS_ITALIC,
   UPDATE_IS_UNDERLINE,
   UPDATE_CUR_COLOR,
-  OFF_FORCECHANGE,
-  ON_FORCECHANGE,
   SHOW_TITLE_ALERT_DIALOG,
   SHOW_SAVED_ALERT_DIALOG,
   SHOW_OVERWRITE_CONFIRM_DIALOG,
@@ -26,35 +24,22 @@ import {
   UPDATE_IS_OPEN_FILE,
   SHOW_ONLY_ENGLISH_ALERT_DIALOG,
   SHOW_ADD_SEGMENT_ALERT_DIALOG,
-  UPDATE_OVER_ONE_PAGE,
-  SET_OVER_PAGE_ID,
-  UPDATE_IS_CHANGE_FORMAT,
-  SET_OLD_SETTING,
-  SHOW_CANNOT_CHANGE_SETTING_ALERT_DIALOG,
-  SET_ALERT_MESSAGE,
-  SET_MAX_LINE_NUM_MESSAGE,
   UPDATE_JA_INPUTING,
-  UPDATE_OMIT_ZENKAKU,
-  UPDATE_IS_CHANGE_NOTE,
-  SET_OLD_TYPE,
 } from './action-type'
 
 const initialState = {
   saveFileTitle: '',
   name: '',
   setting: Object.assign({}, defaultSetting),
-  oldSetting: Object.assign({}, defaultSetting),
   note: [Object.assign({}, defaultNote)],
   curSegmentNo: 0,
   curComponent: null,
   isPrint: false,
-  tabNodeList: [],
   width: defaultWidth,
   isBold: false,
   isItalic: false,
   isUnderline: false,
   curColor: 'rgb(0,0,0)',
-  forceChange: false,
   errorMessage: '',
   isShowTitleAlert: false,
   isShowSavedAlert: false,
@@ -64,19 +49,77 @@ const initialState = {
   isOpenFile: false,
   isShowOnlyEnglishAlert: false,
   isShowAddSegmentAlert: false,
-  isOverOnePage: false,
-  overPageId: 0,
-  isChangedFormat: false,
-  isShowCannotChangeSettingAlert: false,
   alertMessage: '',
   maxLineNumMessage: '',
   isJaInputing: false,
-  isOmitZenkaku: false,
-  isChangedType: false,
-  oldType: 'txtOnly',
+  isLayoutError: false,
 }
 
 const {assign} = Object
+
+const updateSegment = (segment, note, id) => {
+  const newNote = []
+
+  for (let i = 0;i < note.length; i++) {
+    if (i == id) {
+      newNote.push(segment)
+    }
+    else {
+      newNote.push(note[i])
+    }
+  }
+  return newNote
+}
+
+const addSegment = (note, id) => {
+  const newNote = []
+
+  for (let i = 0;i < note.length;i++){
+    newNote.push(note[i])
+
+    if (i > id) {
+      newNote[i].id = newNote[i].id + 1
+    }
+  }
+  const curNo = id + 1
+  newNote.splice(curNo, 0, Object.assign({}, defaultNote))
+  newNote[curNo].id = curNo
+  return newNote
+}
+
+const delSegment = (note, id) => {
+  const newNote = []
+
+  for (let i = 0;i < note.length;i++){
+    newNote.push(note[i])
+
+    if (i > id) {
+      newNote[i].id = newNote[i].id - 1
+    }
+  }
+  newNote.splice(id, 1)
+  return newNote
+}
+
+const addPageBreak = (note, id) => {
+  const newNote = []
+
+  for (let i = 0;i < note.length;i++){
+    newNote.push(note[i])
+
+    if (i == id) {
+      newNote[i].isUserPageBreak = true
+    }
+
+    if (i > id) {
+      newNote[i].id = newNote[i].id + 1
+    }
+  }
+  const curNo = id + 1
+  newNote.splice(curNo, 0, Object.assign({}, defaultNote))
+  newNote[curNo].id = curNo
+  return newNote
+}
 
 export default (state = initialState, action) => {
   const {payload} = action
@@ -86,13 +129,14 @@ export default (state = initialState, action) => {
     return (() => {
       return assign({}, state, {
         setting: payload.setting,
+        oldSetting: payload.setting,
+        oldWidth: payload.setting.layout === 'portrait' ? defaultWidth : landscapeWidth,
+        width: payload.setting.layout === 'portrait' ? defaultWidth : landscapeWidth,
         name: payload.name,
         note: payload.note,
-        tabNodeList: payload.tabNodeList,
         curSegmentNo: payload.note.length - 1,
         saveFileTitle: payload.saveFileTitle,
         isShowFileDialog: false,
-        forceChange: true,
       })
     })()
 
@@ -107,19 +151,136 @@ export default (state = initialState, action) => {
     })
 
   case UPDATE_NOTE:
-    return assign({}, state, {
-      note: payload,
-    })
+    return (() => {
+      const {note} = state
+      const pattern = payload.pattern
+      const id = payload.id
+      let segment = Object.assign({}, note[id])
+      let newNote = []
+
+      switch (pattern) {
+      case 'ja':
+        segment.jaHeight = payload.jaHeight
+        segment.jaHtml = payload.jaHtml
+        newNote = updateSegment(segment, note, id)
+        break
+
+      case 'en':
+        segment.html = payload.html
+        segment.enHeight = payload.enHeight
+        newNote = updateSegment(segment, note, id)
+        break
+
+      case 'segmentHeight':
+        segment.segmentHeight = payload.segmentHeight
+        newNote = updateSegment(segment, note, id)
+        break
+
+      case 'type':
+        segment.type = payload.type
+
+        if (payload.type == 'txtOnly') {
+          segment.dataUrl = ''
+          segment.imgWidth = 0
+          segment.imgHeight = 0
+          segment.posX = 20
+          segment.posY = 20
+        }
+        else if ((payload.type == 'txtImg') || (payload.type == 'imgTxt')) {
+          segment.imgWidth = 0
+          segment.imgHeight = 0
+          segment.posX = 20
+          segment.posY = 20
+        }
+        else if (payload.type == 'imgOnly') {
+          segment.html = ''
+          segment.imgWidth = 0
+          segment.imgHeight = 0
+          segment.posX = 0
+          segment.posY = 0
+          segment.enHeight = 0
+          segment.jaHtml = ''
+          segment.jaHeight = 0
+        }
+        newNote = updateSegment(segment, note, id)
+        break
+
+      case 'add':
+        newNote = addSegment(note, id)
+        break
+
+      case 'del':
+        newNote = delSegment(note, id)
+        break
+
+      case 'loadImg':
+        segment.dataUrl = payload.dataUrl
+        segment.imgWidth = 0
+        segment.imgHeight = 0
+        segment.posX = 20
+        segment.posY = 20
+
+        newNote = updateSegment(segment, note, id)
+        break
+
+      case 'upImg':
+        segment.imgWidth = payload.imgWidth
+        segment.imgHeight = payload.imgHeight
+        segment.posX = payload.posX
+        segment.posY = payload.posY
+
+        newNote = updateSegment(segment, note, id)
+        break
+
+      case 'imgLoading':
+        segment.isImgLoading = payload.isImgLoading
+        newNote = updateSegment(segment, note, id)
+        break
+
+      case 'addBreak':
+        newNote = addPageBreak(note, id)
+        break
+
+      case 'delBreak':
+        segment.isPageBreak = false
+        segment.isUserPageBreak = false
+        newNote = updateSegment(segment, note, id)
+        break
+      }
+
+      return assign({}, state, {
+        note: newNote
+      })
+    })()
+
+  case FINISH_PRINT:
+    return (() => {
+      const {note} = state
+      const isPrinted = payload
+      let newNote = []
+
+      for (let i = 0;i < note.length; i++) {
+        newNote.push(note[i])
+
+        if (!isPrinted && note[i].isPageBreak) {
+          newNote[i].isPageBreak = false
+        }
+      }
+      return assign({}, state, {
+        isPrint: false,
+        note: newNote,
+      })
+    })()
 
   case UPDATE_PRINT:
     return (() => {
       const {note, setting} = state
       let maxPageHeight = defaultPageHeight
-      let errorMessage = ''
+      let errorSegmentList = ''
+      let isLayoutError = false
 
       if (setting.layout !== 'portrait') {
         maxPageHeight = landscapePageHeight
-        errorMessage = 'A4横のプリントレイアウトです。プリンタの用紙設定が「横」になっていることを確認してから、印刷を実行してください。'
       }
       let pageHeight = 0
       let newNote = note.slice()
@@ -144,52 +305,61 @@ export default (state = initialState, action) => {
 
       for (let i = 0;i < note.length; i++) {
         if (note[i].segmentHeight > maxPageHeight) {
-          errorMessage = `第${i + 1}セグメントの文章が一ページの範囲を超えているため、印刷レイアウトが崩れる可能性があります。`
+          if (errorSegmentList == '') {
+            errorSegmentList = `${i + 1}`
+          }
+          else {
+            errorSegmentList = `${errorSegmentList}、${i + 1}`
+          }
+          isLayoutError = true
         }
         pageHeight = note[i].segmentHeight + pageHeight
 
         if (pageHeight > maxPageHeight) {
           if (i > 0){
-            newNote[i - 1].isPageBreak = true
+            if (!newNote[i - 1].isUserPageBreak) {
+              newNote[i - 1].isPageBreak = true
+            }
             pages.push([i])
             pageNum++
             pageHeight = note[i].segmentHeight
           }
           else if (i == 0 ){
-            newNote[i].isPageBreak = true
+            if (!newNote[i].isUserPageBreak) {
+              newNote[i].isPageBreak = true
+            }
             pages[pageNum].push(i)
             pages.push([])
             pageNum++
             pageHeight = 0
           }
-          else if (note[i].isPageBreak) {
-            pages.push([])
-          }
         }
         else {
           pageHeight = pageHeight + pageInterval
+
           if (pageHeight > maxPageHeight) {
             if (i > 0){
-              newNote[i - 1].isPageBreak = true
+              if (!newNote[i - 1].isUserPageBreak) {
+                newNote[i - 1].isPageBreak = true
+              }
               pages.push([i])
               pageNum++
               pageHeight = note[i].segmentHeight
             }
             else if (i == 0 ){
-              newNote[i].isPageBreak = true
+              if (!newNote[i - 1].isUserPageBreak) {
+                newNote[i - 1].isPageBreak = true
+              }
               pages[pageNum].push(i)
               pages.push([])
               pageNum++
               pageHeight = 0
             }
-            else if (note[i].isPageBreak) {
-              pages.push([])
-            }
           }
           else {
             pages[pageNum].push(i)
-  
-            if (note[i].isPageBreak) {
+
+            if (note[i].isPageBreak || note[i].isUserPageBreak) {
               pageNum++
               pages.push([])
               pageHeight = 0
@@ -200,7 +370,8 @@ export default (state = initialState, action) => {
       return assign({}, state, {
         isPrint: payload,
         note: newNote,
-        errorMessage
+        errorMessage: `第${errorSegmentList}編集ボックスの内容が一ページの範囲を超えているため、印刷をキャンセルして、内容を調整してください。`,
+        isLayoutError
       })
     })()
 
@@ -216,9 +387,23 @@ export default (state = initialState, action) => {
     })
 
   case UPDATE_SETTING:
-    return assign({}, state, {
-      setting: payload
-    })
+    return (() => {
+      const {note} = state
+
+      const newNote = []
+
+      for (let i = 0;i < note.length;i ++) {
+        newNote.push(note[i])
+        newNote[i].segmentHeight = 0
+        newNote[i].enHeight = 0
+        newNote[i].jaHeight = 0
+      }
+
+      return assign({}, state, {
+        setting: payload.setting,
+        note: newNote,
+      })
+    })()
 
   case INIT_NOTE:
     return (() => {
@@ -228,18 +413,10 @@ export default (state = initialState, action) => {
         saveFileTitle: '',
         curSegmentNo: 0,
         curComponent: null,
-        isPrint: false,
         curColor: 'rgb(0,0,0)',
-        forceChange: true,
-        tabNodeList: [],
         name: ''
       })
     })()
-
-  case UPDATE_TAB_NODE_LIST:
-    return assign({}, state, {
-      tabNodeList: payload,
-    })
 
   case UPDATE_WIDTH:
     return assign({}, state, {
@@ -264,16 +441,6 @@ export default (state = initialState, action) => {
   case UPDATE_CUR_COLOR:
     return assign({}, state, {
       curColor: payload
-    })
-
-  case OFF_FORCECHANGE:
-    return assign({}, state, {
-      forceChange: false
-    })
-
-  case ON_FORCECHANGE:
-    return assign({}, state, {
-      forceChange: true
     })
 
   case SHOW_TITLE_ALERT_DIALOG:
@@ -316,60 +483,11 @@ export default (state = initialState, action) => {
       isShowAddSegmentAlert: payload
     })
 
-  case UPDATE_OVER_ONE_PAGE:
-    return assign({}, state, {
-      isOverOnePage: payload
-    })
-
-  case SET_OVER_PAGE_ID:
-    return assign({}, state, {
-      overPageId: payload
-    })
-
-  case UPDATE_IS_CHANGE_FORMAT:
-    return assign({}, state, {
-      isChangedFormat: payload
-    })
-
-  case UPDATE_IS_CHANGE_NOTE:
-    return assign({}, state, {
-      isChangedType: payload
-    })
-
-  case SET_OLD_SETTING:
-    return assign({}, state, {
-      oldSetting: payload
-    })
-
-  case SHOW_CANNOT_CHANGE_SETTING_ALERT_DIALOG:
-    return assign({}, state, {
-      isShowCannotChangeSettingAlert: payload
-    })
-
-  case SET_ALERT_MESSAGE:
-    return assign({}, state, {
-      alertMessage: payload
-    })
-
-  case SET_MAX_LINE_NUM_MESSAGE:
-    return assign({}, state, {
-      maxLineNumMessage: payload
-    })
-
   case UPDATE_JA_INPUTING:
     return assign({}, state, {
       isJaInputing: payload
     })
-  
-  case UPDATE_OMIT_ZENKAKU:
-    return assign({}, state, {
-      isOmitZenkaku: payload
-    })
 
-  case SET_OLD_TYPE:
-    return assign({}, state, {
-      oldType: payload
-    })
   default:
     return state
   }

@@ -28,7 +28,7 @@ class ItemInterval extends Component{
     const {updateSetting, setting} = this.props
     let newSetting = Object.assign({}, setting)
     newSetting.interval = this.intervalSelect.value
-    updateSetting(newSetting)
+    updateSetting(newSetting, true)
   }
 
   render (){

@@ -30,7 +30,7 @@ class ItemEnFont extends Component{
     let newSetting = Object.assign({}, setting)
     const enFont = find(enFontList, {value: this.enFontSelect.value})
     newSetting.enFont = enFont.id
-    updateSetting(newSetting)
+    updateSetting(newSetting, true)
   }
 
   render (){

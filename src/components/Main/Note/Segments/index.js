@@ -5,6 +5,7 @@ import {pick, keys} from 'lodash'
 import Segment from './Segment'
 
 class Segments extends Component{
+
   static propTypes = {
     width: PropTypes.number,
     setting: PropTypes.object,
@@ -22,8 +23,23 @@ class Segments extends Component{
         <Segment
           key={i}
           id={i}
-          type={obj.type}
           ref={ref => this.segment = ref}
+          type={note[i].type}
+          oldType={note[i].oldType}
+          html={note[i].html}
+          enHeight={note[i].enHeight}
+          jaHtml={note[i].jaHtml}
+          jaHeight={note[i].jaHeight}
+          dataUrl={note[i].dataUrl}
+          imgWidth={note[i].imgWidth}
+          imgHeight={note[i].imgHeight}
+          posX={note[i].posX}
+          posY={note[i].posY}
+          noteLength={note.length}
+          segmentHeight={note[i].segmentHeight}
+          isPageBreak={note[i].isPageBreak}
+          isUserPageBreak={note[i].isUserPageBreak}
+          isImgLoading={note[i].isImgLoading}
           {...pick(this.props, keys(Segment.propTypes))}
         />)
     })

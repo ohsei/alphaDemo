@@ -24,7 +24,7 @@ class ItemLineNos extends Component{
     const {updateSetting, setting} = this.props
     let newSetting = Object.assign({}, setting)
     newSetting.lineNos = this.lineNosSelect.value
-    updateSetting(newSetting)
+    updateSetting(newSetting, true)
   }
 
   render (){

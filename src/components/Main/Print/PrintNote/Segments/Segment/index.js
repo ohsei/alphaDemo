@@ -35,10 +35,11 @@ const PageBreakLine = styled.div`
     border-color: white;
   }
 `
+
 /* define layout end */
 
 const DrawPageBreakLine = (object) => {
-  if (object.isPageBreak == true){
+  if (object.isPageBreak == true || object.isUserPageBreak){
     return (
       <div>
         <PageBreakLine />
@@ -62,11 +63,16 @@ class Segment extends Component {
     width: PropTypes.number,
     updateLoadedArray: PropTypes.func.isRequired,
     loadedArray: PropTypes.array,
+    ...ImgOnly.propTypes,
+    ...ImgTxt.propTypes,
+    ...TxtOnly.propTypes,
+    ...TxtImg.propTypes,
   }
   render (){
     const {note, segmentId, title, name, setting} = this.props
     const type = note[segmentId].type
     let pageInterval = 0
+
     if (parseFloat(setting.interval) == 1.5) {
       pageInterval = 40
     }
@@ -111,6 +117,7 @@ class Segment extends Component {
         {!note[segmentId].isPageBreak &&  <DivInterval interval={pageInterval} />}
         <DrawPageBreakLine
           isPageBreak={note[segmentId].isPageBreak}
+          isUserPageBreak={note[segmentId].isUserPageBreak}
           title={title}
           name={name} />
       </div>

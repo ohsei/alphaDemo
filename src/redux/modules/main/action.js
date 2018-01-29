@@ -11,13 +11,10 @@ import {
   SET_CUR_SEGMENT_NO,
   SET_CUR_COMPONENT,
   UPDATE_NOTE,
-  UPDATE_TAB_NODE_LIST,
   UPDATE_IS_BOLD,
   UPDATE_IS_ITALIC,
   UPDATE_IS_UNDERLINE,
   UPDATE_CUR_COLOR,
-  OFF_FORCECHANGE,
-  ON_FORCECHANGE,
   SHOW_TITLE_ALERT_DIALOG,
   SHOW_ONLY_ENGLISH_ALERT_DIALOG,
   SHOW_SAVED_ALERT_DIALOG,
@@ -26,19 +23,9 @@ import {
   UPDATE_IS_NEW_FILE,
   UPDATE_IS_OPEN_FILE,
   SHOW_ADD_SEGMENT_ALERT_DIALOG,
-  UPDATE_OVER_ONE_PAGE,
-  SET_OVER_PAGE_ID,
   UPDATE_SETTING,
-  UPDATE_IS_CHANGE_FORMAT,
-  SET_OLD_SETTING,
-  SHOW_CANNOT_CHANGE_SETTING_ALERT_DIALOG,
-  SET_ALERT_MESSAGE,
   UPDATE_WIDTH,
-  SET_MAX_LINE_NUM_MESSAGE,
   UPDATE_JA_INPUTING,
-  UPDATE_OMIT_ZENKAKU,
-  UPDATE_IS_CHANGE_NOTE,
-  SET_OLD_TYPE,
 } from './action-type'
 
 export const setFileTitle = (title) => {
@@ -77,17 +64,10 @@ export const setCurComponent = (component) => {
   }
 }
 
-export const updateNote = (note) => {
+export const updateNote = (obj) => {
   return {
     type: UPDATE_NOTE,
-    payload: note
-  }
-}
-
-export const updateTabNodeList = (tabNodeList) => {
-  return {
-    type: UPDATE_TAB_NODE_LIST,
-    payload: tabNodeList
+    payload: obj
   }
 }
 
@@ -116,18 +96,6 @@ export const updateCurColor = (curColor) => {
   return {
     type: UPDATE_CUR_COLOR,
     payload: curColor
-  }
-}
-
-export const offForceChange = () => {
-  return {
-    type: OFF_FORCECHANGE,
-  }
-}
-
-export const onForceChange = () => {
-  return {
-    type: ON_FORCECHANGE,
   }
 }
 
@@ -209,58 +177,13 @@ export const onShowAddSegmentAlertDialog = (status) => {
   }
 }
 
-export const onShowCannotChangeSettingAlertDialog = (status) => {
-  return {
-    type: SHOW_CANNOT_CHANGE_SETTING_ALERT_DIALOG,
-    payload: status
-  }
-}
-
-export const updateOverOnePage = (status) => {
-  return {
-    type: UPDATE_OVER_ONE_PAGE,
-    payload: status
-  }
-}
-
-export const setOverPageId = (id) => {
-  return {
-    type: SET_OVER_PAGE_ID,
-    payload: id
-  }
-}
-
-export const updateSetting = (setting) => {
+export const updateSetting = (setting, isChangeFormat) => {
   return {
     type: UPDATE_SETTING,
-    payload: setting
-  }
-}
-
-export const updateIsChangeFormat = (isChangedFormat) => {
-  return {
-    type: UPDATE_IS_CHANGE_FORMAT,
-    payload: isChangedFormat
-  }
-}
-
-export const updateIsChangeNote = (isChangedNote) => {
-  return {
-    type: UPDATE_IS_CHANGE_NOTE,
-    payload: isChangedNote
-  }
-}
-export const setOldSetting = (oldSetting) => {
-  return {
-    type: SET_OLD_SETTING,
-    payload: oldSetting
-  }
-}
-
-export const setAlertMessage = (alertMessage) => {
-  return {
-    type: SET_ALERT_MESSAGE,
-    payload: alertMessage
+    payload: {
+      setting,
+      isChangeFormat
+    }
   }
 }
 
@@ -271,12 +194,6 @@ export const updateWidth = (width) => {
   }
 }
 
-export const setMaxLineNumMessage = (message) => {
-  return {
-    type: SET_MAX_LINE_NUM_MESSAGE,
-    payload: message
-  }
-}
 
 export const updateJaInputing = (status) => {
   return {
@@ -285,16 +202,3 @@ export const updateJaInputing = (status) => {
   }
 }
 
-export const updateOmitZenkaku = (status) => {
-  return {
-    type: UPDATE_OMIT_ZENKAKU,
-    payload: status
-  }
-}
-
-export const setOldType = (oldType) => {
-  return {
-    type: SET_OLD_TYPE,
-    payload: oldType
-  }
-}
