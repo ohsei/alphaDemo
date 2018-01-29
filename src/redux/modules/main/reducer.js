@@ -144,7 +144,7 @@ export default (state = initialState, action) => {
 
       for (let i = 0;i < note.length; i++) {
         if (note[i].segmentHeight > maxPageHeight) {
-          errorMessage = `第${i + 1}セグメントの文章が一ページの範囲を超えているため、印刷レイアウトが崩れる可能性があります。`
+          errorMessage = `第${i + 1}セグメントの文章が１ページの範囲を超えているため、印刷レイアウトが崩れる可能性があります。`
         }
         pageHeight = note[i].segmentHeight + pageHeight
 

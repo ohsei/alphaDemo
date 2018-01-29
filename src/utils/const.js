@@ -37,7 +37,6 @@ export const defaultNote = {
   imgHeight: 0,
   posX: 20,
   posY: 20,
-  height: 0,
 }
 
 export const defaultColors = [

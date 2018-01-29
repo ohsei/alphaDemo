@@ -13,6 +13,7 @@ const DivSentences = styled.div`
 const DivJan = styled(ContentEditable)`
   border: 1px solid lightgray;
   width: 95%;
+  min-height: 55px;
   font-size: ${props => props.fontSize}
 `
 
@@ -145,14 +146,8 @@ class Sentences extends Component{
     setCurSegment(id)
     setCurComponent(this.sentence)
   }
-  componentDidMount (){
-    const {id, setCurSegment, setCurComponent} = this.props
- 
-    setCurSegment(id)
-    setCurComponent(this.sentence)
-  }
   componentDidUpdate (prevProps) {
-    const {setting, note, updateNote, id} = this.props
+    const {setting, note, id, updateNote} = this.props
 
     if ((prevProps.setting != setting) )
     {

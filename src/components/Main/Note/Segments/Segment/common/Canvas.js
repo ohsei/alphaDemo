@@ -155,9 +155,9 @@ class Canvas extends Component{
   }
 
   componentWillReceiveProps (nextProps){
-    const {setting} = this.props
+    const {setting, dataUrl} = this.props
 
-    if (setting.layout !== nextProps.setting.layout) {
+    if (setting.layout !== nextProps.setting.layout ||dataUrl !== nextProps.dataUrl) {
       this.setState({
         imgWidth: 0,
         imgHeight: 0,

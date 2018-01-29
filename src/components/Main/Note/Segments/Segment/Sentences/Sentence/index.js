@@ -248,7 +248,7 @@ class Sentence extends Component{
   }
   componentDidUpdate (prevProps) {
     const {updateIsBold, updateIsItalic, updateIsUnderline, updateCurColor,
-      isOverOnePage, overPageId, id, updateOverOnePage, note, updateNote} = this.props
+      isOverOnePage, overPageId, id, updateOverOnePage} = this.props
     const isBold = document.queryCommandState('bold')
     const isItalic = document.queryCommandState('italic')
     const isUnderline = document.queryCommandState('underline')
@@ -272,8 +272,6 @@ class Sentence extends Component{
         updateCurColor(curColor)
       }
     }
-
-
 
     if (isOverOnePage && overPageId == id) {
       const {updateNote, note, id} = this.props

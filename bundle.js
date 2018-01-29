@@ -20945,8 +20945,7 @@ var defaultNote = exports.defaultNote = {
   imgWidth: 0,
   imgHeight: 0,
   posX: 20,
-  posY: 20,
-  height: 0
+  posY: 20
 };
 
 var defaultColors = exports.defaultColors = ['#000000', '#c0c0c0', '#808080', '#800000', '#ff0000', '#800080', '#ff00ff', '#008000', '#00ff00', '#808000', '#ffff00', '#000080', '#0000ff', '#008080', '#00ffff'];
@@ -28447,7 +28446,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _templateObject = _taggedTemplateLiteral(['\n  width: ', ';\n'], ['\n  width: ', ';\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n  border: 1px solid lightgray;\n  width: 95%;\n  font-size: ', '\n'], ['\n  border: 1px solid lightgray;\n  width: 95%;\n  font-size: ', '\n']);
+    _templateObject2 = _taggedTemplateLiteral(['\n  border: 1px solid lightgray;\n  width: 95%;\n  min-height: 55px;\n  font-size: ', '\n'], ['\n  border: 1px solid lightgray;\n  width: 95%;\n  min-height: 55px;\n  font-size: ', '\n']);
 
 var _react = __webpack_require__(0);
 
@@ -28941,10 +28940,12 @@ var Canvas = function (_Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      var setting = this.props.setting;
+      var _props3 = this.props,
+          setting = _props3.setting,
+          dataUrl = _props3.dataUrl;
 
 
-      if (setting.layout !== nextProps.setting.layout) {
+      if (setting.layout !== nextProps.setting.layout || dataUrl !== nextProps.dataUrl) {
         this.setState({
           imgWidth: 0,
           imgHeight: 0,
@@ -28961,12 +28962,12 @@ var Canvas = function (_Component) {
           imgHeight = _state.imgHeight,
           objX = _state.objX,
           objY = _state.objY;
-      var _props3 = this.props,
-          enHeight = _props3.enHeight,
-          jaHeight = _props3.jaHeight,
-          dataUrl = _props3.dataUrl,
-          imgMaxWidth = _props3.imgMaxWidth,
-          imgMaxHeight = _props3.imgMaxHeight;
+      var _props4 = this.props,
+          enHeight = _props4.enHeight,
+          jaHeight = _props4.jaHeight,
+          dataUrl = _props4.dataUrl,
+          imgMaxWidth = _props4.imgMaxWidth,
+          imgMaxHeight = _props4.imgMaxHeight;
 
       var prevImgWidth = prevState.imgWidth;
       var prevImgHeight = prevState.imgHeight;
@@ -28978,10 +28979,10 @@ var Canvas = function (_Component) {
       }
 
       if (prevState.imgWidth !== imgWidth || prevState.imgHeight !== imgHeight || prevState.objX !== objX || prevState.objY !== objY) {
-        var _props4 = this.props,
-            updateNote = _props4.updateNote,
-            note = _props4.note,
-            id = _props4.id;
+        var _props5 = this.props,
+            updateNote = _props5.updateNote,
+            note = _props5.note,
+            id = _props5.id;
 
         var newNote = note.slice();
 
@@ -49559,7 +49560,7 @@ exports.default = function () {
 
         for (var i = 0; i < note.length; i++) {
           if (note[i].segmentHeight > maxPageHeight) {
-            errorMessage = '\u7B2C' + (i + 1) + '\u30BB\u30B0\u30E1\u30F3\u30C8\u306E\u6587\u7AE0\u304C\u4E00\u30DA\u30FC\u30B8\u306E\u7BC4\u56F2\u3092\u8D85\u3048\u3066\u3044\u308B\u305F\u3081\u3001\u5370\u5237\u30EC\u30A4\u30A2\u30A6\u30C8\u304C\u5D29\u308C\u308B\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3002';
+            errorMessage = '\u7B2C' + (i + 1) + '\u30BB\u30B0\u30E1\u30F3\u30C8\u306E\u6587\u7AE0\u304C\uFF11\u30DA\u30FC\u30B8\u306E\u7BC4\u56F2\u3092\u8D85\u3048\u3066\u3044\u308B\u305F\u3081\u3001\u5370\u5237\u30EC\u30A4\u30A2\u30A6\u30C8\u304C\u5D29\u308C\u308B\u53EF\u80FD\u6027\u304C\u3042\u308A\u307E\u3059\u3002';
           }
           pageHeight = note[i].segmentHeight + pageHeight;
 
@@ -64548,7 +64549,7 @@ var Segment = function (_Component) {
 
       var segmentHeight = this.segArea.offsetHeight;
 
-      if (prevProps.note[id].segmentHeight != segmentHeight) {
+      if (note[id].segmentHeight != segmentHeight) {
         var newNote = note.slice();
         newNote[id].segmentHeight = segmentHeight;
         updateNote(newNote);
@@ -65730,7 +65731,10 @@ var Sentence = function (_Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      var setting = nextProps.setting;
+      var setting = nextProps.setting,
+          note = nextProps.note,
+          id = nextProps.id,
+          updateNote = nextProps.updateNote;
 
       var lineNum = setting.lineNum;
       var lineColor = setting.lineColor;
@@ -65739,6 +65743,12 @@ var Sentence = function (_Component) {
       var fileName = lineNum + 'lines_' + lineColor + '_' + enSize + '_' + interval + '.png';
       var url = 'url(' + __webpack_require__(198)("./" + fileName) + ')';
       this.inputText.htmlEl.style.backgroundImage = url;
+
+      if (note[id].enHeight != this.inputText.htmlEl.offsetHeight) {
+        var newNote = note.slice();
+        newNote[id].enHeight = this.inputText.htmlEl.offsetHeight;
+        updateNote(newNote);
+      }
     }
   }, {
     key: 'componentDidUpdate',
@@ -65779,12 +65789,6 @@ var Sentence = function (_Component) {
         }
       }
 
-      if (prevProps.setting != this.props.setting) {
-        var newNote = note.slice();
-        newNote[id].enHeight = this.inputText.htmlEl.offsetHeight;
-        updateNote(newNote);
-      }
-
       if (isOverOnePage && overPageId == id) {
         var _props9 = this.props,
             _updateNote = _props9.updateNote,
@@ -65792,10 +65796,10 @@ var Sentence = function (_Component) {
             _id = _props9.id;
 
         document.execCommand('delete');
-        var _newNote = _note.slice();
-        _newNote[_id].html = this.inputText.htmlEl.innerHTML;
-        _newNote[_id].enHeight = this.inputText.htmlEl.offsetHeight;
-        _updateNote(_newNote);
+        var newNote = _note.slice();
+        newNote[_id].html = this.inputText.htmlEl.innerHTML;
+        newNote[_id].enHeight = this.inputText.htmlEl.offsetHeight;
+        _updateNote(newNote);
         updateOverOnePage(false);
       }
     }
@@ -69230,7 +69234,7 @@ var AddSegmentAlertDialog = function (_Component) {
           _react2.default.createElement(
             'h3',
             { style: { flex: 8, marginLeft: 10 } },
-            '\u4E00\u30DA\u30FC\u30B8\u306E\u5370\u5237\u7BC4\u56F2\u3092\u8D85\u3048\u3066\u3044\u307E\u3059\u3002\u7DE8\u96C6\u30DC\u30C3\u30AF\u30B9\u3092\u8FFD\u52A0\u3057\u3066\u304F\u3060\u3055\u3044\u3002'
+            '\uFF11\u30DA\u30FC\u30B8\u306E\u5370\u5237\u7BC4\u56F2\u3092\u8D85\u3048\u3066\u3044\u307E\u3059\u3002\u7DE8\u96C6\u30DC\u30C3\u30AF\u30B9\u3092\u8FFD\u52A0\u3057\u3066\u304F\u3060\u3055\u3044\u3002'
           ),
           _react2.default.createElement(
             Button,

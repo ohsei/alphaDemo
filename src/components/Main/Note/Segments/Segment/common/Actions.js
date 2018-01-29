@@ -46,12 +46,6 @@ class Actions extends Component{
     setCurSegment: PropTypes.func.isRequired,
   }
 
-  onClick = () => {
-    const {setCurSegment, id} = this.props
-
-    setCurSegment(id)
-  }
-
   setImgOnly = () => {
     const {updateNote, note, id} = this.props
 
@@ -297,7 +291,7 @@ class Actions extends Component{
     const {id} = this.props
     const imgopenId = `imgopen'${id}`
     return (
-      <DivAction onClick={this.onClick}>
+      <DivAction>
         <StyledButton
           style={{
             marginLeft: 5,
