@@ -50,7 +50,6 @@ class Canvas extends Component{
   onUpdateLoadedArrayStatus = () => {
     const {updateLoadedArray, id, noteId, loadedArray} = this. props
 
-    console.log(loadedArray)
     let newLoadedArray = loadedArray.slice()
 
     newLoadedArray[noteId].segments[id].loaded = true

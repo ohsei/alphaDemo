@@ -122,9 +122,11 @@ class PrintNote extends Component{
       <StyledDiv
         isPrint={this.props.isPrint}
         width={this.props.width}>
-        <StyledButton onClick={this.print}>{printStatus}</StyledButton>
-        <StyledButton onClick={this.cancel}>キャンセル</StyledButton>
-        <StyledMessageArea>{errorMessage}</StyledMessageArea>
+        <div style={{backgroundColor: ' #E2FFF4', position: 'fixed', top: 0, left: 0, zIndex: 9999, height: 100, width: '100%'}}>
+          <StyledButton style={{position: 'fixed', left: 10, top: 5}} onClick={this.print}>{printStatus}</StyledButton>
+          <StyledButton style={{position: 'fixed', left: 175, top: 5}} onClick={this.cancel}>キャンセル</StyledButton>
+          <StyledMessageArea>{errorMessage}</StyledMessageArea>
+        </div>
         {listSegments}
       </StyledDiv>
     )

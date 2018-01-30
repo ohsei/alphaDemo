@@ -136,6 +136,7 @@ class Canvas extends Component{
       if (this.imgCanvas) {
         updateHeight()
       }
+
     }.bind(this)
     img.src = note[id].dataUrl
   }
@@ -157,7 +158,7 @@ class Canvas extends Component{
   componentWillReceiveProps (nextProps){
     const {setting, dataUrl} = this.props
 
-    if (setting.layout !== nextProps.setting.layout ||dataUrl !== nextProps.dataUrl) {
+    if (setting.layout !== nextProps.setting.layout || dataUrl !== nextProps.dataUrl) {
       this.setState({
         imgWidth: 0,
         imgHeight: 0,
@@ -167,7 +168,7 @@ class Canvas extends Component{
     }
   }
   componentDidUpdate (prevProps, prevState){
-    const {imgWidth, imgHeight, objX, objY} = this.state
+    const {imgWidth, imgHeight, objX, objY, isFocused} = this.state
     const {enHeight, jaHeight, dataUrl, imgMaxWidth, imgMaxHeight} = this.props
     const prevImgWidth = prevState.imgWidth
     const prevImgHeight = prevState.imgHeight
@@ -182,7 +183,8 @@ class Canvas extends Component{
         (objX !== prevX) ||
         (objY !== prevY) ||
         (enHeight !== prevProps.enHeight) ||
-        (jaHeight !== prevProps.jaHeight)) {
+        (jaHeight !== prevProps.jaHeight) ||
+        (isFocused !== prevState.isFocused))  {
       this.loadImage ()
     }
 

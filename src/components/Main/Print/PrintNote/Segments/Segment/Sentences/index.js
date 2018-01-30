@@ -12,7 +12,8 @@ const DivSentences = styled.div`
 const DivJan = styled(ContentEditable)`
   border: 1px solid white;
   width: 95%;
-  font-size: ${props => props.fontSize}
+  font-size: ${props => props.fontSize};
+  min-height: 50px;
 `
 
 class Sentences extends Component{

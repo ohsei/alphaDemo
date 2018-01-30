@@ -66,9 +66,10 @@ class Sentence extends Component{
     isOverOnePage: PropTypes.bool,
     overPageId: PropTypes.number,
     updateOverOnePage: PropTypes.func.isRequired,
-    updateOmitZenkaku: PropTypes.func.isRequired,
     isOmitZenkaku: PropTypes.bool,
     isShowOnlyEnglishAlert: PropTypes.bool,
+    focusId: PropTypes.number,
+    setFocusSegment: PropTypes.func,
   }
   setBold (){
     const {updateNote, note, id} = this.props
@@ -229,8 +230,10 @@ class Sentence extends Component{
     let url = `url(${require(`../../../../../../../resources/img/4lines/${fileName}`)})`
     this.inputText.htmlEl.style.backgroundImage = url
   }
+
   componentWillReceiveProps (nextProps) {
-    const {setting, note, id, updateNote} = nextProps
+    const {setting} = nextProps
+
     const lineNum = setting.lineNum
     const lineColor = setting.lineColor
     const enSize = setting.enSize
@@ -238,17 +241,11 @@ class Sentence extends Component{
     const fileName = `${lineNum}lines_${lineColor}_${enSize}_${interval}.png`
     let url = `url(${require(`../../../../../../../resources/img/4lines/${fileName}`)})`
     this.inputText.htmlEl.style.backgroundImage = url
-
-    if ((note[id].enHeight != this.inputText.htmlEl.offsetHeight))
-    {
-      let newNote = note.slice()
-      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
-      updateNote(newNote)
-    }
   }
   componentDidUpdate (prevProps) {
     const {updateIsBold, updateIsItalic, updateIsUnderline, updateCurColor,
-      isOverOnePage, overPageId, id, updateOverOnePage} = this.props
+      isOverOnePage, overPageId, id, updateOverOnePage, updateNote, note,
+      setFocusSegment, focusId} = this.props
     const isBold = document.queryCommandState('bold')
     const isItalic = document.queryCommandState('italic')
     const isUnderline = document.queryCommandState('underline')
@@ -274,13 +271,25 @@ class Sentence extends Component{
     }
 
     if (isOverOnePage && overPageId == id) {
-      const {updateNote, note, id} = this.props
       document.execCommand('delete')
       let newNote = note.slice()
       newNote[id].html = this.inputText.htmlEl.innerHTML
       newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
       updateNote(newNote)
       updateOverOnePage(false)
+    }
+
+    if ((note[id].enHeight != this.inputText.htmlEl.offsetHeight))
+    {
+      let newNote = note.slice()
+      newNote[id].enHeight = this.inputText.htmlEl.offsetHeight
+      updateNote(newNote)
+    }
+
+    if (focusId == id) {
+      const node = document.getElementById(`en${id}`)
+      node.focus()
+      setFocusSegment(-1)
     }
   }
   onCompositionEnd = () => {
@@ -307,6 +316,7 @@ class Sentence extends Component{
       updateNote(newNote)
     }
   }
+
   render (){
     const { id, note, setting, forceChange, offForceChange } = this.props
     let fontSize = 80

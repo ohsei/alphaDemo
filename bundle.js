@@ -24261,15 +24261,15 @@ var SHOW_CANNOT_CHANGE_SETTING_ALERT_DIALOG = exports.SHOW_CANNOT_CHANGE_SETTING
 
 var SET_ALERT_MESSAGE = exports.SET_ALERT_MESSAGE = 'main/SET_ALERT_MESSAGE';
 
-var SET_MAX_LINE_NUM_MESSAGE = exports.SET_MAX_LINE_NUM_MESSAGE = 'main/SET_MAX_LINE_NUM_MESSAGE';
-
 var UPDATE_JA_INPUTING = exports.UPDATE_JA_INPUTING = 'main/UPDATE_JA_INPUTING';
 
-var UPDATE_OMIT_ZENKAKU = exports.UPDATE_OMIT_ZENKAKU = 'main/UPDATE_OMIT_ZENKAKU';
-
-var UPDATE_IS_CHANGE_NOTE = exports.UPDATE_IS_CHANGE_NOTE = 'main/UPDATE_IS_CHANGE_NOTE';
+var UPDATE_IS_CHANGE_TYPE = exports.UPDATE_IS_CHANGE_TYPE = 'main/UPDATE_IS_CHANGE_TYPE';
 
 var SET_OLD_TYPE = exports.SET_OLD_TYPE = 'main/SET_OLD_TYPE';
+
+var FINISH_PRINT = exports.FINISH_PRINT = 'main/FINISH_PRINT';
+
+var SET_FOCUS_SEGMENT = exports.SET_FOCUS_SEGMENT = 'main/SET_FOCUS_SEGMENT';
 
 /***/ }),
 /* 50 */
@@ -25833,6 +25833,7 @@ var LabNum = function (_Component) {
           {
             return '';
           }
+
         case 1:
           {
             return curNo + 1;
@@ -25865,7 +25866,7 @@ var LabNum = function (_Component) {
 
 LabNum.propTypes = {
   id: _propTypes2.default.number,
-  lineNoType: _propTypes2.default.string
+  lineNoType: _propTypes2.default.number
 };
 LabNum.defaultProps = {
   lineNoType: 0
@@ -25931,10 +25932,12 @@ var LabNum = function (_Component) {
           {
             return '';
           }
+
         case 1:
           {
             return curNo + 1;
           }
+
         case 2:
           {
             return '(' + (curNo + 1) + ')';
@@ -28446,7 +28449,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _templateObject = _taggedTemplateLiteral(['\n  width: ', ';\n'], ['\n  width: ', ';\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n  border: 1px solid lightgray;\n  width: 95%;\n  min-height: 55px;\n  font-size: ', '\n'], ['\n  border: 1px solid lightgray;\n  width: 95%;\n  min-height: 55px;\n  font-size: ', '\n']);
+    _templateObject2 = _taggedTemplateLiteral(['\n  border: 1px solid lightgray;\n  width: 95%;\n  min-height: 50px;\n  font-size: ', '\n'], ['\n  border: 1px solid lightgray;\n  width: 95%;\n  min-height: 50px;\n  font-size: ', '\n']);
 
 var _react = __webpack_require__(0);
 
@@ -28649,25 +28652,13 @@ var Sentences = function (_Component) {
       setCurComponent(this.sentence);
     }
   }, {
-    key: 'componentDidMount',
-    value: function componentDidMount() {
-      var _props4 = this.props,
-          id = _props4.id,
-          setCurSegment = _props4.setCurSegment,
-          setCurComponent = _props4.setCurComponent;
-
-
-      setCurSegment(id);
-      setCurComponent(this.sentence);
-    }
-  }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate(prevProps) {
-      var _props5 = this.props,
-          setting = _props5.setting,
-          note = _props5.note,
-          updateNote = _props5.updateNote,
-          id = _props5.id;
+      var _props4 = this.props,
+          setting = _props4.setting,
+          note = _props4.note,
+          id = _props4.id,
+          updateNote = _props4.updateNote;
 
 
       if (prevProps.setting != setting) {
@@ -28688,12 +28679,12 @@ var Sentences = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var _props6 = this.props,
-          note = _props6.note,
-          id = _props6.id,
-          setting = _props6.setting,
-          senWidth = _props6.senWidth,
-          offForceChange = _props6.offForceChange;
+      var _props5 = this.props,
+          note = _props5.note,
+          id = _props5.id,
+          setting = _props5.setting,
+          senWidth = _props5.senWidth,
+          offForceChange = _props5.offForceChange;
 
       var upJaSize = setting.upJaSize;
       var downJaSize = setting.downJaSize;
@@ -28718,8 +28709,7 @@ var Sentences = function (_Component) {
         _react2.default.createElement(_Sentence2.default, _extends({
           ref: function ref(_ref) {
             return _this2.sentence = _ref;
-          },
-          lineNum: setting.lineNum
+          }
         }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_Sentence2.default.propTypes)))),
         setting.downJaSize != 'オフ' && _react2.default.createElement(DivJan, { id: 'down' + id, html: note[id].jaHtml, innerRef: function innerRef(ref) {
             return _this2.downJaHtml = ref;
@@ -28961,7 +28951,8 @@ var Canvas = function (_Component) {
           imgWidth = _state.imgWidth,
           imgHeight = _state.imgHeight,
           objX = _state.objX,
-          objY = _state.objY;
+          objY = _state.objY,
+          isFocused = _state.isFocused;
       var _props4 = this.props,
           enHeight = _props4.enHeight,
           jaHeight = _props4.jaHeight,
@@ -28974,7 +28965,7 @@ var Canvas = function (_Component) {
       var prevX = prevState.objX;
       var prevY = prevState.objY;
 
-      if (dataUrl !== prevProps.dataUrl || imgMaxWidth != prevProps.imgMaxWidth || imgMaxHeight != prevProps.imgMaxHeight || imgWidth !== prevImgWidth || imgHeight !== prevImgHeight || objX !== prevX || objY !== prevY || enHeight !== prevProps.enHeight || jaHeight !== prevProps.jaHeight) {
+      if (dataUrl !== prevProps.dataUrl || imgMaxWidth != prevProps.imgMaxWidth || imgMaxHeight != prevProps.imgMaxHeight || imgWidth !== prevImgWidth || imgHeight !== prevImgHeight || objX !== prevX || objY !== prevY || enHeight !== prevProps.enHeight || jaHeight !== prevProps.jaHeight || isFocused !== prevState.isFocused) {
         this.loadImage();
       }
 
@@ -29198,7 +29189,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _templateObject = _taggedTemplateLiteral(['\n  width: ', ';\n'], ['\n  width: ', ';\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n  border: 1px solid white;\n  width: 95%;\n  font-size: ', '\n'], ['\n  border: 1px solid white;\n  width: 95%;\n  font-size: ', '\n']);
+    _templateObject2 = _taggedTemplateLiteral(['\n  border: 1px solid white;\n  width: 95%;\n  font-size: ', ';\n  min-height: 50px;\n'], ['\n  border: 1px solid white;\n  width: 95%;\n  font-size: ', ';\n  min-height: 50px;\n']);
 
 var _react = __webpack_require__(0);
 
@@ -29369,7 +29360,6 @@ var Canvas = function (_Component) {
           loadedArray = _this$props.loadedArray;
 
 
-      console.log(loadedArray);
       var newLoadedArray = loadedArray.slice();
 
       newLoadedArray[noteId].segments[id].loaded = true;
@@ -35702,7 +35692,7 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _templateObject = _taggedTemplateLiteral(['\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation:upright;\n  height: 40px;\n  border: 1px solid white;\n  flex-direction:row;\n  text-align: center;\n  line-height: 30px;\n  position: relative;\n  z-index: 999;\n'], ['\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation:upright;\n  height: 40px;\n  border: 1px solid white;\n  flex-direction:row;\n  text-align: center;\n  line-height: 30px;\n  position: relative;\n  z-index: 999;\n']);
+var _templateObject = _taggedTemplateLiteral(['\n  display: table-cell;\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  height: 40px;\n  border: 1px solid white;\n  text-align: center;\n  vertical-align: middle;\n  line-height: 30px;\n  position: relative;\n  z-index: 999;\n'], ['\n  display: table-cell;\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  height: 40px;\n  border: 1px solid white;\n  text-align: center;\n  vertical-align: middle;\n  line-height: 30px;\n  position: relative;\n  z-index: 999;\n']);
 
 var _styledComponents = __webpack_require__(4);
 
@@ -35712,13 +35702,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var Item = _styledComponents2.default.div(_templateObject, function (props) {
-  return props.vertical ? 'vertical-lr' : 'horizontal-tb';
-}, function (props) {
-  return props.vertical ? 'tb-lr' : 'lr-tb';
-}, function (props) {
-  return props.vertical ? 'vertical-lr' : 'horizontal-tb';
-});
+var Item = _styledComponents2.default.div(_templateObject);
 
 exports.default = Item;
 
@@ -49483,11 +49467,11 @@ var initialState = {
   isChangedFormat: false,
   isShowCannotChangeSettingAlert: false,
   alertMessage: '',
-  maxLineNumMessage: '',
   isJaInputing: false,
   isOmitZenkaku: false,
   isChangedType: false,
-  oldType: 'txtOnly'
+  oldType: 'txtOnly',
+  focusId: -1
 };
 
 var assign = Object.assign;
@@ -49527,6 +49511,26 @@ exports.default = function () {
       return assign({}, state, {
         note: payload
       });
+
+    case _actionType.FINISH_PRINT:
+      return function () {
+        var note = state.note;
+
+        var newNote = [];
+
+        for (var i = 0; i < note.length; i++) {
+          newNote.push(note[i]);
+
+          if (note[i].isPageBreak) {
+            newNote[i].isPageBreak = false;
+          }
+        }
+
+        return assign({}, state, {
+          isPrint: false,
+          note: newNote
+        });
+      }();
 
     case _actionType.UPDATE_PRINT:
       return function () {
@@ -49576,12 +49580,13 @@ exports.default = function () {
               pages.push([]);
               pageNum++;
               pageHeight = 0;
-            } else if (note[i].isPageBreak) {
+            } else if (note[i].isUserPageBreak) {
               pages.push([]);
             }
           } else {
             pageHeight = pageHeight + pageInterval;
-            if (pageHeight > maxPageHeight) {
+
+            if (pageHeight > maxPageHeight && note.length > 1) {
               if (i > 0) {
                 newNote[i - 1].isPageBreak = true;
                 pages.push([i]);
@@ -49593,13 +49598,13 @@ exports.default = function () {
                 pages.push([]);
                 pageNum++;
                 pageHeight = 0;
-              } else if (note[i].isPageBreak) {
+              } else if (note[i].isUserPageBreak) {
                 pages.push([]);
               }
             } else {
               pages[pageNum].push(i);
 
-              if (note[i].isPageBreak) {
+              if (note[i].isUserPageBreak) {
                 pageNum++;
                 pages.push([]);
                 pageHeight = 0;
@@ -49633,6 +49638,7 @@ exports.default = function () {
       return function () {
         return assign({}, state, {
           setting: Object.assign({}, _const.defaultSetting),
+          width: _const.defaultWidth,
           note: [Object.assign({}, _const.defaultNote)],
           saveFileTitle: '',
           curSegmentNo: 0,
@@ -49740,7 +49746,7 @@ exports.default = function () {
         isChangedFormat: payload
       });
 
-    case _actionType.UPDATE_IS_CHANGE_NOTE:
+    case _actionType.UPDATE_IS_CHANGE_TYPE:
       return assign({}, state, {
         isChangedType: payload
       });
@@ -49760,24 +49766,19 @@ exports.default = function () {
         alertMessage: payload
       });
 
-    case _actionType.SET_MAX_LINE_NUM_MESSAGE:
-      return assign({}, state, {
-        maxLineNumMessage: payload
-      });
-
     case _actionType.UPDATE_JA_INPUTING:
       return assign({}, state, {
         isJaInputing: payload
       });
 
-    case _actionType.UPDATE_OMIT_ZENKAKU:
-      return assign({}, state, {
-        isOmitZenkaku: payload
-      });
-
     case _actionType.SET_OLD_TYPE:
       return assign({}, state, {
         oldType: payload
+      });
+
+    case _actionType.SET_FOCUS_SEGMENT:
+      return assign({}, state, {
+        focusId: payload
       });
     default:
       return state;
@@ -49989,7 +49990,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setOldType = exports.updateOmitZenkaku = exports.updateJaInputing = exports.setMaxLineNumMessage = exports.updateWidth = exports.setAlertMessage = exports.setOldSetting = exports.updateIsChangeNote = exports.updateIsChangeFormat = exports.updateSetting = exports.setOverPageId = exports.updateOverOnePage = exports.onShowCannotChangeSettingAlertDialog = exports.onShowAddSegmentAlertDialog = exports.updateIsOpenFile = exports.updateIsNewFile = exports.updateOpenFileStatus = exports.onShowCreateFileConfirmDialog = exports.updateCreateFileStatus = exports.updateOverwriteStatus = exports.onShowOverwriteConfirmDialog = exports.onShowSavedAlertDialog = exports.onShowOnlyEnglishAlertDialog = exports.onShowTitleAlertDialog = exports.onForceChange = exports.offForceChange = exports.updateCurColor = exports.updateIsUnderline = exports.updateIsItalic = exports.updateIsBold = exports.updateTabNodeList = exports.updateNote = exports.setCurComponent = exports.setCurSegment = exports.printFinish = exports.setName = exports.setFileTitle = undefined;
+exports.setFocusSegment = exports.setOldType = exports.updateJaInputing = exports.updateWidth = exports.setAlertMessage = exports.setOldSetting = exports.updateIsChangeType = exports.updateIsChangeFormat = exports.updateSetting = exports.setOverPageId = exports.updateOverOnePage = exports.onShowCannotChangeSettingAlertDialog = exports.onShowAddSegmentAlertDialog = exports.updateIsOpenFile = exports.updateIsNewFile = exports.updateOpenFileStatus = exports.onShowCreateFileConfirmDialog = exports.updateCreateFileStatus = exports.updateOverwriteStatus = exports.onShowOverwriteConfirmDialog = exports.onShowSavedAlertDialog = exports.onShowOnlyEnglishAlertDialog = exports.onShowTitleAlertDialog = exports.onForceChange = exports.offForceChange = exports.updateCurColor = exports.updateIsUnderline = exports.updateIsItalic = exports.updateIsBold = exports.updateTabNodeList = exports.updateNote = exports.setCurComponent = exports.setCurSegment = exports.setName = exports.setFileTitle = undefined;
 
 var _actionType = __webpack_require__(92);
 
@@ -50006,13 +50007,6 @@ var setName = exports.setName = function setName(name) {
   return {
     type: _actionType2.UPDATE_NAME,
     payload: name
-  };
-};
-
-var printFinish = exports.printFinish = function printFinish() {
-  return {
-    type: _actionType2.UPDATE_PRINT,
-    payload: false
   };
 };
 
@@ -50196,12 +50190,13 @@ var updateIsChangeFormat = exports.updateIsChangeFormat = function updateIsChang
   };
 };
 
-var updateIsChangeNote = exports.updateIsChangeNote = function updateIsChangeNote(isChangedNote) {
+var updateIsChangeType = exports.updateIsChangeType = function updateIsChangeType(isChangedNote) {
   return {
-    type: _actionType2.UPDATE_IS_CHANGE_NOTE,
+    type: _actionType2.UPDATE_IS_CHANGE_TYPE,
     payload: isChangedNote
   };
 };
+
 var setOldSetting = exports.setOldSetting = function setOldSetting(oldSetting) {
   return {
     type: _actionType2.SET_OLD_SETTING,
@@ -50223,23 +50218,9 @@ var updateWidth = exports.updateWidth = function updateWidth(width) {
   };
 };
 
-var setMaxLineNumMessage = exports.setMaxLineNumMessage = function setMaxLineNumMessage(message) {
-  return {
-    type: _actionType2.SET_MAX_LINE_NUM_MESSAGE,
-    payload: message
-  };
-};
-
 var updateJaInputing = exports.updateJaInputing = function updateJaInputing(status) {
   return {
     type: _actionType2.UPDATE_JA_INPUTING,
-    payload: status
-  };
-};
-
-var updateOmitZenkaku = exports.updateOmitZenkaku = function updateOmitZenkaku(status) {
-  return {
-    type: _actionType2.UPDATE_OMIT_ZENKAKU,
     payload: status
   };
 };
@@ -50248,6 +50229,13 @@ var setOldType = exports.setOldType = function setOldType(oldType) {
   return {
     type: _actionType2.SET_OLD_TYPE,
     payload: oldType
+  };
+};
+
+var setFocusSegment = exports.setFocusSegment = function setFocusSegment(id) {
+  return {
+    type: _actionType2.SET_FOCUS_SEGMENT,
+    payload: id
   };
 };
 
@@ -50273,8 +50261,8 @@ var _templateObject = _taggedTemplateLiteral(['\n  @font-face {\n    font-family
     _templateObject7 = _taggedTemplateLiteral(['\n  width: 55px;\n  height: 50px;\n  background-color: gray;\n'], ['\n  width: 55px;\n  height: 50px;\n  background-color: gray;\n']),
     _templateObject8 = _taggedTemplateLiteral(['\n  width: 50px;\n  height: 50px;\n  border: ', ';\n  font-size: 1.5em;\n  color: #aaa;\n  text-align: center;\n  text-decoration: ', ';\n  background-color: white;\n'], ['\n  width: 50px;\n  height: 50px;\n  border: ', ';\n  font-size: 1.5em;\n  color: #aaa;\n  text-align: center;\n  text-decoration: ', ';\n  background-color: white;\n']),
     _templateObject9 = _taggedTemplateLiteral(['\n  width: 418px;\n  height: 40px;\n  color: white;\n  text-align: center;\n  position: fixed;\n  top: 14px;\n  left: 14px;\n'], ['\n  width: 418px;\n  height: 40px;\n  color: white;\n  text-align: center;\n  position: fixed;\n  top: 14px;\n  left: 14px;\n']),
-    _templateObject10 = _taggedTemplateLiteral(['\n  position: fixed;\n  top: 14px;\n  left: 500px;\n  width: 550px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid #FFAE72;\n  background-color: white;\n'], ['\n  position: fixed;\n  top: 14px;\n  left: 500px;\n  width: 550px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid #FFAE72;\n  background-color: white;\n']),
-    _templateObject11 = _taggedTemplateLiteral(['\n  position: fixed;\n  top: 75px;\n  left: 700px;\n  width: 350px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid #FFAE72;\n  background-color: white;\n'], ['\n  position: fixed;\n  top: 75px;\n  left: 700px;\n  width: 350px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid #FFAE72;\n  background-color: white;\n']);
+    _templateObject10 = _taggedTemplateLiteral(['\n  position: fixed;\n  top: 14px;\n  left: 500px;\n  width: 550px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid #FFAE72;\n  background-color: white;\n  line-height: 1;\n'], ['\n  position: fixed;\n  top: 14px;\n  left: 500px;\n  width: 550px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid #FFAE72;\n  background-color: white;\n  line-height: 1;\n']),
+    _templateObject11 = _taggedTemplateLiteral(['\n  position: fixed;\n  top: 75px;\n  left: 700px;\n  width: 350px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid #FFAE72;\n  background-color: white;\n  line-height: 1;\n'], ['\n  position: fixed;\n  top: 75px;\n  left: 700px;\n  width: 350px;\n  height: 40px;\n  font-size: 24px;\n  border: 2px solid #FFAE72;\n  background-color: white;\n  line-height: 1;\n']);
 
 var _react = __webpack_require__(0);
 
@@ -62705,9 +62693,9 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _templateObject = _taggedTemplateLiteral(['\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 9;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(100,100,100,0.5);\n  display: ', '\n'], ['\n  position: fixed;\n  top: 0;\n  left: 0;\n  z-index: 9;\n  width: 100%;\n  height: 100%;\n  background-color: rgba(100,100,100,0.5);\n  display: ', '\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation: upright;\n  height: 50px;\n  border: 0.1px solid white;\n  flex-direction:row;\n  line-height: 30px;\n  cursor: pointer;\n'], ['\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation: upright;\n  height: 50px;\n  border: 0.1px solid white;\n  flex-direction:row;\n  line-height: 30px;\n  cursor: pointer;\n']),
+    _templateObject2 = _taggedTemplateLiteral(['\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-align: center;\n  transform: translate(-50%, 0%);\n  height: 50px;\n  border: 0.1px solid white;\n  flex-direction: row;\n  line-height: 1.8;\n  cursor: pointer;\n'], ['\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-align: center;\n  transform: translate(-50%, 0%);\n  height: 50px;\n  border: 0.1px solid white;\n  flex-direction: row;\n  line-height: 1.8;\n  cursor: pointer;\n']),
     _templateObject3 = _taggedTemplateLiteral(['\n  position: fixed;\n  display: block;\n  z-index: 999;\n  margin: 5px 0 0 0;\n  width: 50px;\n  height: 350px;\n'], ['\n  position: fixed;\n  display: block;\n  z-index: 999;\n  margin: 5px 0 0 0;\n  width: 50px;\n  height: 350px;\n']),
-    _templateObject4 = _taggedTemplateLiteral(['\n  vertical : ', ';\n  margin: 0 0 10px 0;\n  padding: 10px 0 5px 0;\n  >a {\n    color: white;\n    text-decoration: none;\n    :hover {\n      color: white;\n    }\n  }\n'], ['\n  vertical : ', ';\n  margin: 0 0 10px 0;\n  padding: 10px 0 5px 0;\n  >a {\n    color: white;\n    text-decoration: none;\n    :hover {\n      color: white;\n    }\n  }\n']);
+    _templateObject4 = _taggedTemplateLiteral(['\n  vertical : ', ';\n  margin: 0 0 10px 15px;\n  padding: 5px 0 5px 0;\n  >a {\n    color: white;\n    text-decoration: none;\n    :hover {\n      color: white;\n    }\n  }\n'], ['\n  vertical : ', ';\n  margin: 0 0 10px 15px;\n  padding: 5px 0 5px 0;\n  >a {\n    color: white;\n    text-decoration: none;\n    :hover {\n      color: white;\n    }\n  }\n']);
 
 var _react = __webpack_require__(0);
 
@@ -63017,10 +63005,10 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-var _templateObject = _taggedTemplateLiteral(['\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation: upright;\n  height: 50px;\n  border: 0.1px solid white;\n  flex-direction:row;\n  line-height: 30px;\n  position: relatve;\n  z-index: 999;\n'], ['\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  text-orientation: upright;\n  height: 50px;\n  border: 0.1px solid white;\n  flex-direction:row;\n  line-height: 30px;\n  position: relatve;\n  z-index: 999;\n']),
+var _templateObject = _taggedTemplateLiteral(['\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  height: 50px;\n  border: 0.1px solid white;\n  text-align: center;\n  transform: translate(-50%, 0%);\n  flex-direction:row;\n  line-height: 1.8;\n  position: relatve;\n  z-index: 999; \n'], ['\n  width: 30px;\n  background-color: #FFAE72;\n  color: white;\n  -webkit-writing-mode: ', ';\n  -ms-writing-mode:  ', ';\n  writing-mode: ', ';\n  height: 50px;\n  border: 0.1px solid white;\n  text-align: center;\n  transform: translate(-50%, 0%);\n  flex-direction:row;\n  line-height: 1.8;\n  position: relatve;\n  z-index: 999; \n']),
     _templateObject2 = _taggedTemplateLiteral(['\n  position: relative;\n  z-index: 999;\n\n'], ['\n  position: relative;\n  z-index: 999;\n\n']),
     _templateObject3 = _taggedTemplateLiteral(['\n  display: ', ';\n  position: absolute;\n  z-index: 999;\n  top: 0px;\n  left: 30px;\n'], ['\n  display: ', ';\n  position: absolute;\n  z-index: 999;\n  top: 0px;\n  left: 30px;\n']),
-    _templateObject4 = _taggedTemplateLiteral(['\n  vertical: ', ';\n  height: ', ';\n  margin: 0 0 10px 0;\n  padding: 10px 0 5px 0;\n  cursor: pointer;\n'], ['\n  vertical: ', ';\n  height: ', ';\n  margin: 0 0 10px 0;\n  padding: 10px 0 5px 0;\n  cursor: pointer;\n']);
+    _templateObject4 = _taggedTemplateLiteral(['\n  vertical: ', ';\n  height: ', ';\n  margin: 0 0 10px 15px;\n  padding: 5px 0 5px 0px;\n  cursor: pointer;\n'], ['\n  vertical: ', ';\n  height: ', ';\n  margin: 0 0 10px 15px;\n  padding: 5px 0 5px 0px;\n  cursor: pointer;\n']);
 
 var _react = __webpack_require__(0);
 
@@ -63094,7 +63082,7 @@ var DivSetMenuDetail = _styledComponents2.default.div(_templateObject3, function
 var ItemSetting = Item.extend(_templateObject4, function (props) {
   return props.vertical;
 }, function (props) {
-  return props.clicked ? '273px' : '50px';
+  return props.clicked ? '276px' : '50px';
 });
 
 var SetMenuItem = function (_Component) {
@@ -63453,7 +63441,7 @@ var ItemJaSize = function (_Component) {
         null,
         _react2.default.createElement(
           _MiddleItem2.default,
-          { style: { height: 62 } },
+          { style: { height: 62, lineHeight: 3.8 } },
           this.props.name
         ),
         _react2.default.createElement(
@@ -64440,7 +64428,8 @@ var _createClass = function () { function defineProperties(target, props) { for 
 
 var _templateObject = _taggedTemplateLiteral(['\n  width: ', ';\n  background-color: white;\n  border: 2px solid #FFAE72;\n'], ['\n  width: ', ';\n  background-color: white;\n  border: 2px solid #FFAE72;\n']),
     _templateObject2 = _taggedTemplateLiteral(['\n  height: ', ';\n  background-color: #E2FFF4;\n'], ['\n  height: ', ';\n  background-color: #E2FFF4;\n']),
-    _templateObject3 = _taggedTemplateLiteral(['\n  margin-bottom: 25px;\n  width: 100%;\n  height: 2;\n  border:1px dotted black;\n  page-break-after: always;\n\n  @media print{\n    border-color: white;\n  }\n'], ['\n  margin-bottom: 25px;\n  width: 100%;\n  height: 2;\n  border:1px dotted black;\n  page-break-after: always;\n\n  @media print{\n    border-color: white;\n  }\n']);
+    _templateObject3 = _taggedTemplateLiteral(['\n  margin-bottom: 25px;\n  width: 100%;\n  height: 2;\n  border:1px dotted black;\n  page-break-after: always;\n\n  @media print{\n    border-color: white;\n  }\n'], ['\n  margin-bottom: 25px;\n  width: 100%;\n  height: 2;\n  border:1px dotted black;\n  page-break-after: always;\n\n  @media print{\n    border-color: white;\n  }\n']),
+    _templateObject4 = _taggedTemplateLiteral(['\nmargin-bottom: 25px;\nwidth: 100%;\nheight: 2;\nborder:1px dotted #FFAE72;\npage-break-after: always;\n\n@media print{\n  border-color: white;\n}\n'], ['\nmargin-bottom: 25px;\nwidth: 100%;\nheight: 2;\nborder:1px dotted #FFAE72;\npage-break-after: always;\n\n@media print{\n  border-color: white;\n}\n']);
 
 var _react = __webpack_require__(0);
 
@@ -64499,14 +64488,23 @@ var DivInterval = _styledComponents2.default.div(_templateObject2, function (pro
   return props.interval;
 });
 var PageBreakLine = _styledComponents2.default.div(_templateObject3);
+var UserPageBreakLine = _styledComponents2.default.div(_templateObject4);
 
 var DrawPageBreakLine = function DrawPageBreakLine(object) {
-  if (object.isPageBreak == true) {
-    return _react2.default.createElement(
-      'div',
-      null,
-      _react2.default.createElement(PageBreakLine, null)
-    );
+  if (object.isPageBreak || object.isUserPageBreak) {
+    if (object.isPageBreak) {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(PageBreakLine, null)
+      );
+    } else {
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(UserPageBreakLine, null)
+      );
+    }
   } else {
     return false;
   }
@@ -64539,9 +64537,8 @@ var Segment = function (_Component) {
           oldSetting = _props.oldSetting,
           onShowCannotChangeSettingAlertDialog = _props.onShowCannotChangeSettingAlertDialog,
           setAlertMessage = _props.setAlertMessage,
-          setMaxLineNumMessage = _props.setMaxLineNumMessage,
           updateWidth = _props.updateWidth,
-          updateIsChangeNote = _props.updateIsChangeNote,
+          updateIsChangeType = _props.updateIsChangeType,
           setOldType = _props.setOldType,
           isChangedType = _props.isChangedType,
           oldType = _props.oldType,
@@ -64549,11 +64546,6 @@ var Segment = function (_Component) {
 
       var segmentHeight = this.segArea.offsetHeight;
 
-      if (note[id].segmentHeight != segmentHeight) {
-        var newNote = note.slice();
-        newNote[id].segmentHeight = segmentHeight;
-        updateNote(newNote);
-      }
       var pageHeight = setting.layout == 'landscape' ? _const.landscapePageHeight : _const.defaultPageHeight;
 
       if (this.segArea.offsetHeight > pageHeight - 75) {
@@ -64566,7 +64558,7 @@ var Segment = function (_Component) {
         }
 
         if (isChangeType) {
-          updateIsChangeNote(true);
+          updateIsChangeType(true);
           setOldType(prevProps.type);
         }
 
@@ -64576,24 +64568,51 @@ var Segment = function (_Component) {
           updateSetting(newSetting);
           updateWidth(prevProps.width);
           var nums = (0, _getMaxNumsWithSetting.getMaxNumsWithSetting)(setting);
-          setAlertMessage('\u8A2D\u5B9A\u5909\u66F4\u3059\u308B\u5834\u5408\u3001\u7B2C' + (id + 1) + '\u30DC\u30C3\u30AF\u30B9\u306E\u5185\u5BB9\u306F\u5370\u5237\u4E00\u30DA\u30FC\u30B8\u306E\u7BC4\u56F2\u3092\u8D85\u3048\u305F\u305F\u3081\u3001\u8A2D\u5B9A\u306E\u5909\u66F4\u304C\u3067\u304D\u307E\u305B\u3093\u3002\u5185\u5BB9\u3092\u9069\u5207\u203B\u306A\u7BC4\u56F2\u306B\u5909\u66F4\u3057\u3066\u304B\u3089\u3001\u8A2D\u5B9A\u3092\u5909\u66F4\u3057\u3066\u304F\u3060\u3055\u3044\u3002');
-          setMaxLineNumMessage('\u7528\u7D19\u8A2D\u5B9A\u304C<font color=\'#0000ff\'>' + (setting.layout == 'portrait' ? '縦' : '横') + '</font>\u3001\u82F1\u5B57\u30B5\u30A4\u30BA\u304C<font color=\'#0000ff\'>' + (parseInt(setting.enSize) + 1) + '\u500D</font>\u3001\u884C\u9593\u304C<font color=\'#0000ff\'>' + setting.interval + '</font>\u306B\u8A2D\u5B9A\u3092\u5909\u66F4\u3057\u305F\u3044\u5834\u5408\u3001<br />\u548C\u6587\u4E00\u884C\u3068\u3057\u3066\u3001\u82F1\u6587\u306F\u6700\u5927<font color=\'#ff0000\'>' + nums + '</font>\u884C\u3057\u304B\u5165\u529B\u3067\u304D\u307E\u305B\u3093\u3002<br /><small>\u548C\u6587\u3092\u591A\u6570\u884C\u3067\u5165\u308C\u308B\u5834\u5408\u3001\u82F1\u6587\u306E\u6700\u5927\u884C\u6570\u3082\u3063\u3068\u6E1B\u3089\u3057\u3066\u8ABF\u6574\u3059\u308B\u53EF\u80FD\u6027\u304C\u3042\u308B\u3002</small>');
+          var s = 120 * parseFloat(setting.interval) / 1.5;
+          var height = 0;
+          var fontSize = '1倍';
+
+          if (setting.enSize === '1') {
+            s = 2 * s;
+            fontSize = '1倍';
+          } else if (setting.enSize === '2') {
+            s = 4 * s;
+            fontSize = '2倍';
+          }
+
+          if (note[id].enHeight == 0) {
+            height = 1;
+            fontSize = '4倍';
+          } else {
+            height = (note[id].enHeight / s).toFixed(0);
+          }
+          setAlertMessage({
+            header: '\u8A2D\u5B9A\u5909\u66F4\u3059\u308B\u5834\u5408\u3001\u7B2C' + (id + 1) + '\u30DC\u30C3\u30AF\u30B9\u306E\u5185\u5BB9\u306F\u5370\u5237\u4E00\u30DA\u30FC\u30B8\u306E\u7BC4\u56F2\u3092\u8D85\u3048\u305F\u305F\u3081\u3001\u8A2D\u5B9A\u306E\u5909\u66F4\u304C\u3067\u304D\u307E\u305B\u3093\u3002\u5185\u5BB9\u3092\u9069\u5207\u203B\u306A\u7BC4\u56F2\u306B\u5909\u66F4\u3057\u3066\u304B\u3089\u3001\u8A2D\u5B9A\u3092\u5909\u66F4\u3057\u3066\u304F\u3060\u3055\u3044\u3002',
+            detail: '\u7528\u7D19\u8A2D\u5B9A\u304C<font color=\'#0000ff\'>' + (setting.layout == 'portrait' ? '縦' : '横') + '</font>\u3001\u82F1\u5B57\u30B5\u30A4\u30BA\u304C<font color=\'#0000ff\'>' + fontSize + '</font>\u3001\u884C\u9593\u304C<font color=\'#0000ff\'>' + setting.interval + '</font>\u306B\u8A2D\u5B9A\u3092\u5909\u66F4\u3057\u305F\u3044\u5834\u5408\u3001<br />\u548C\u6587\u4E00\u884C\u3068\u3057\u3066\u3001\u82F1\u6587\u306F\u6700\u5927<font color=\'#ff0000\'>' + nums + '</font>\u884C\u3057\u304B\u5165\u529B\u3067\u304D\u307E\u305B\u3093\u3002<br /><small>\u548C\u6587\u3092\u591A\u6570\u884C\u3067\u5165\u308C\u308B\u5834\u5408\u3001\u82F1\u6587\u306E\u6700\u5927\u884C\u6570\u3082\u3063\u3068\u6E1B\u3089\u3057\u3066\u8ABF\u6574\u3059\u308B\u53EF\u80FD\u6027\u304C\u3042\u308B\u3002</small>'
+          });
           updateIsChangeFormat(false);
         } else if ((isChangeType || isChangedType) && note[id].type != oldType) {
           onShowCannotChangeSettingAlertDialog(true);
-          var _newNote = note.slice();
-          _newNote[id].type = oldType;
-          updateNote(_newNote);
-          var _nums = (0, _getMaxNumsWithSetting.getMaxNumsWithSetting)(setting);
-          setAlertMessage('テキストの量を調整してください。<br />「画像＋テキスト」のレイアウトでは、テキストのみの場合よりも表示できる文字数が少なくなります。');
-          setMaxLineNumMessage('<strong>「画像＋テキスト」</strong> のレイアウトで入力できるテキスト量は、およそその ６割 程度になります。<br />読み込んだのち、画像の縮小等の調整により、入力できるテキスト量は変化します。<br />（テキスト入力の目安については、ヘルプを参照してください）');
-          updateIsChangeNote(false);
+          var newNote = note.slice();
+          newNote[id].type = oldType;
+          updateNote(newNote);
+          setAlertMessage({
+            header: 'テキストの量を調整してください。<br />「画像＋テキスト」のレイアウトでは、テキストのみの場合よりも表示できる文字数が少なくなります。',
+            detail: '<strong>「画像＋テキスト」</strong> のレイアウトで入力できるテキスト量は、およそその <strong>６割</strong> 程度になります。<br />読み込んだのち、画像の縮小等の調整により、入力できるテキスト量は変化します。<br />（テキスト入力の目安については、ヘルプを参照してください）'
+          });
+          updateIsChangeType(false);
         } else {
           onShowAddSegmentAlertDialog(true);
           updateOverOnePage(true);
           setOverPageId(id);
           return;
         }
+      }
+
+      if (note[id].segmentHeight != segmentHeight) {
+        var _newNote = note.slice();
+        _newNote[id].segmentHeight = segmentHeight;
+        updateNote(_newNote);
       }
     }
   }, {
@@ -64611,6 +64630,7 @@ var Segment = function (_Component) {
 
       var dataUrl = note[id].dataUrl;
       var isPageBreak = note[id].isPageBreak;
+      var isUserPageBreak = note[id].isUserPageBreak;
 
       var content = function () {
         switch (type) {
@@ -64663,10 +64683,11 @@ var Segment = function (_Component) {
           ),
           _react2.default.createElement(_Actions2.default, _extends({ type: type }, (0, _lodash.pick)(this.props, (0, _lodash.keys)(_Actions2.default.propTypes))))
         ),
-        isPageBreak && _react2.default.createElement(DivInterval, { interval: '25px' }),
-        !isPageBreak && _react2.default.createElement(DivInterval, { interval: '50px' }),
+        (isPageBreak || isUserPageBreak) && _react2.default.createElement(DivInterval, { interval: '25px' }),
+        !isPageBreak && !isUserPageBreak && _react2.default.createElement(DivInterval, { interval: '50px' }),
         _react2.default.createElement(DrawPageBreakLine, {
           isPageBreak: isPageBreak,
+          isUserPageBreak: isUserPageBreak,
           title: title,
           name: name })
       );
@@ -64694,11 +64715,10 @@ Segment.propTypes = _extends({
   updateSetting: _propTypes2.default.func.isRequired,
   onShowCannotChangeSettingAlertDialog: _propTypes2.default.func.isRequired,
   setAlertMessage: _propTypes2.default.func.isRequired,
-  setMaxLineNumMessage: _propTypes2.default.func.isRequired,
   isChangedType: _propTypes2.default.bool,
-  updateIsChangeNote: _propTypes2.default.func.isRequired,
+  updateIsChangeType: _propTypes2.default.func.isRequired,
   setOldType: _propTypes2.default.func.isRequired,
-  oldType: _propTypes2.default.array,
+  oldType: _propTypes2.default.string,
   type: _propTypes2.default.string
 }, _Actions2.default.propTypes, _ImgOnly2.default.propTypes, _TxtImg2.default.propTypes, _ImgTxt2.default.propTypes, _TxtOnly2.default.propTypes);
 exports.default = Segment;
@@ -64877,18 +64897,11 @@ var Actions = function (_Component) {
       args[_key] = arguments[_key];
     }
 
-    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Actions.__proto__ || Object.getPrototypeOf(Actions)).call.apply(_ref, [this].concat(args))), _this), _this.onClick = function () {
+    return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_ref = Actions.__proto__ || Object.getPrototypeOf(Actions)).call.apply(_ref, [this].concat(args))), _this), _this.setImgOnly = function () {
       var _this$props = _this.props,
-          setCurSegment = _this$props.setCurSegment,
+          updateNote = _this$props.updateNote,
+          note = _this$props.note,
           id = _this$props.id;
-
-
-      setCurSegment(id);
-    }, _this.setImgOnly = function () {
-      var _this$props2 = _this.props,
-          updateNote = _this$props2.updateNote,
-          note = _this$props2.note,
-          id = _this$props2.id;
 
 
       var newNote = note.slice();
@@ -64901,10 +64914,10 @@ var Actions = function (_Component) {
       note[id].jaHeight = 0;
       updateNote(newNote);
     }, _this.setImgTxt = function () {
-      var _this$props3 = _this.props,
-          updateNote = _this$props3.updateNote,
-          note = _this$props3.note,
-          id = _this$props3.id;
+      var _this$props2 = _this.props,
+          updateNote = _this$props2.updateNote,
+          note = _this$props2.note,
+          id = _this$props2.id;
 
 
       var newNote = note.slice();
@@ -64913,10 +64926,10 @@ var Actions = function (_Component) {
       note[id].imgHeight = 0;
       updateNote(newNote);
     }, _this.setTxtImg = function () {
-      var _this$props4 = _this.props,
-          updateNote = _this$props4.updateNote,
-          note = _this$props4.note,
-          id = _this$props4.id;
+      var _this$props3 = _this.props,
+          updateNote = _this$props3.updateNote,
+          note = _this$props3.note,
+          id = _this$props3.id;
 
 
       var newNote = note.slice();
@@ -64925,10 +64938,10 @@ var Actions = function (_Component) {
       note[id].imgHeight = 0;
       updateNote(newNote);
     }, _this.setTxtOnly = function () {
-      var _this$props5 = _this.props,
-          updateNote = _this$props5.updateNote,
-          note = _this$props5.note,
-          id = _this$props5.id;
+      var _this$props4 = _this.props,
+          updateNote = _this$props4.updateNote,
+          note = _this$props4.note,
+          id = _this$props4.id;
 
 
       var newNote = note.slice();
@@ -64938,12 +64951,12 @@ var Actions = function (_Component) {
       note[id].imgHeight = 0;
       updateNote(newNote);
     }, _this.delSegment = function () {
-      var _this$props6 = _this.props,
-          updateNote = _this$props6.updateNote,
-          onForceChange = _this$props6.onForceChange,
-          setCurSegment = _this$props6.setCurSegment,
-          id = _this$props6.id,
-          note = _this$props6.note;
+      var _this$props5 = _this.props,
+          updateNote = _this$props5.updateNote,
+          onForceChange = _this$props5.onForceChange,
+          setCurSegment = _this$props5.setCurSegment,
+          id = _this$props5.id,
+          note = _this$props5.note;
 
 
       var newNote = note.slice();
@@ -64957,12 +64970,13 @@ var Actions = function (_Component) {
       onForceChange();
       setCurSegment(curNo - 1);
     }, _this.addSegment = function () {
-      var _this$props7 = _this.props,
-          updateNote = _this$props7.updateNote,
-          onForceChange = _this$props7.onForceChange,
-          setCurSegment = _this$props7.setCurSegment,
-          id = _this$props7.id,
-          note = _this$props7.note;
+      var _this$props6 = _this.props,
+          updateNote = _this$props6.updateNote,
+          onForceChange = _this$props6.onForceChange,
+          setCurSegment = _this$props6.setCurSegment,
+          id = _this$props6.id,
+          note = _this$props6.note,
+          setFocusSegment = _this$props6.setFocusSegment;
 
       var newNote = note.slice();
 
@@ -64971,41 +64985,49 @@ var Actions = function (_Component) {
       }
 
       var curNo = id + 1;
-      newNote.splice(curNo, 0, { id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, jaHeight: 0, enHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20 });
+      newNote.splice(curNo, 0, { id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, isUserPageBreak: false, jaHeight: 0, enHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20 });
+
+      if (newNote[id].isUserPageBreak) {
+        newNote[id + 1].isUserPageBreak = true;
+        newNote[id].isUserPageBreak = false;
+      }
       updateNote(newNote);
       onForceChange();
       setCurSegment(curNo);
+      setFocusSegment(curNo);
     }, _this.addPageBreak = function () {
-      var _this$props8 = _this.props,
-          updateNote = _this$props8.updateNote,
-          id = _this$props8.id,
-          note = _this$props8.note,
-          onForceChange = _this$props8.onForceChange;
+      var _this$props7 = _this.props,
+          updateNote = _this$props7.updateNote,
+          id = _this$props7.id,
+          note = _this$props7.note,
+          onForceChange = _this$props7.onForceChange,
+          setFocusSegment = _this$props7.setFocusSegment;
 
 
       var newNote = note.slice();
 
-      if (newNote[id].isPageBreak) {
-        newNote[id].isPageBreak = false;
+      if (newNote[id].isUserPageBreak) {
+        newNote[id].isUserPageBreak = false;
         updateNote(newNote);
         onForceChange();
         return;
       }
-      newNote[id].isPageBreak = true;
+      newNote[id].isUserPageBreak = true;
       var curNo = id;
 
       for (var i = curNo + 1; i < newNote.length; i++) {
         newNote[i].id++;
       }
       curNo++;
-      newNote.splice(curNo, 0, { id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, jaHeight: 0, enHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20 });
+      newNote.splice(curNo, 0, { id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, isUserPageBreak: false, jaHeight: 0, enHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20 });
       updateNote(newNote);
+      setFocusSegment(curNo);
       onForceChange();
     }, _this.imgAdd = function (event) {
-      var _this$props9 = _this.props,
-          updateNote = _this$props9.updateNote,
-          note = _this$props9.note,
-          id = _this$props9.id;
+      var _this$props8 = _this.props,
+          updateNote = _this$props8.updateNote,
+          note = _this$props8.note,
+          id = _this$props8.id;
 
 
       var file = event.target.files[0];
@@ -65167,7 +65189,7 @@ var Actions = function (_Component) {
       var imgopenId = 'imgopen\'' + id;
       return _react2.default.createElement(
         DivAction,
-        { onClick: this.onClick },
+        null,
         _react2.default.createElement(StyledButton, {
           style: {
             marginLeft: 5,
@@ -65272,7 +65294,8 @@ Actions.propTypes = {
   onForceChange: _propTypes2.default.func,
   delSegment: _propTypes2.default.func,
   type: _propTypes2.default.string,
-  setCurSegment: _propTypes2.default.func.isRequired
+  setCurSegment: _propTypes2.default.func.isRequired,
+  setFocusSegment: _propTypes2.default.func
 };
 exports.default = Actions;
 
@@ -65731,10 +65754,8 @@ var Sentence = function (_Component) {
   }, {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
-      var setting = nextProps.setting,
-          note = nextProps.note,
-          id = nextProps.id,
-          updateNote = nextProps.updateNote;
+      var setting = nextProps.setting;
+
 
       var lineNum = setting.lineNum;
       var lineColor = setting.lineColor;
@@ -65743,12 +65764,6 @@ var Sentence = function (_Component) {
       var fileName = lineNum + 'lines_' + lineColor + '_' + enSize + '_' + interval + '.png';
       var url = 'url(' + __webpack_require__(198)("./" + fileName) + ')';
       this.inputText.htmlEl.style.backgroundImage = url;
-
-      if (note[id].enHeight != this.inputText.htmlEl.offsetHeight) {
-        var newNote = note.slice();
-        newNote[id].enHeight = this.inputText.htmlEl.offsetHeight;
-        updateNote(newNote);
-      }
     }
   }, {
     key: 'componentDidUpdate',
@@ -65762,8 +65777,10 @@ var Sentence = function (_Component) {
           overPageId = _props8.overPageId,
           id = _props8.id,
           updateOverOnePage = _props8.updateOverOnePage,
+          updateNote = _props8.updateNote,
           note = _props8.note,
-          updateNote = _props8.updateNote;
+          setFocusSegment = _props8.setFocusSegment,
+          focusId = _props8.focusId;
 
       var isBold = document.queryCommandState('bold');
       var isItalic = document.queryCommandState('italic');
@@ -65790,17 +65807,24 @@ var Sentence = function (_Component) {
       }
 
       if (isOverOnePage && overPageId == id) {
-        var _props9 = this.props,
-            _updateNote = _props9.updateNote,
-            _note = _props9.note,
-            _id = _props9.id;
-
         document.execCommand('delete');
-        var newNote = _note.slice();
-        newNote[_id].html = this.inputText.htmlEl.innerHTML;
-        newNote[_id].enHeight = this.inputText.htmlEl.offsetHeight;
-        _updateNote(newNote);
+        var newNote = note.slice();
+        newNote[id].html = this.inputText.htmlEl.innerHTML;
+        newNote[id].enHeight = this.inputText.htmlEl.offsetHeight;
+        updateNote(newNote);
         updateOverOnePage(false);
+      }
+
+      if (note[id].enHeight != this.inputText.htmlEl.offsetHeight) {
+        var _newNote = note.slice();
+        _newNote[id].enHeight = this.inputText.htmlEl.offsetHeight;
+        updateNote(_newNote);
+      }
+
+      if (focusId == id) {
+        var node = document.getElementById('en' + id);
+        node.focus();
+        setFocusSegment(-1);
       }
     }
   }, {
@@ -65808,12 +65832,12 @@ var Sentence = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var _props10 = this.props,
-          id = _props10.id,
-          note = _props10.note,
-          setting = _props10.setting,
-          forceChange = _props10.forceChange,
-          offForceChange = _props10.offForceChange;
+      var _props9 = this.props,
+          id = _props9.id,
+          note = _props9.note,
+          setting = _props9.setting,
+          forceChange = _props9.forceChange,
+          offForceChange = _props9.offForceChange;
 
       var fontSize = 80;
       var font = 'MyFamilyFont1';
@@ -65879,9 +65903,10 @@ Sentence.propTypes = {
   isOverOnePage: _propTypes2.default.bool,
   overPageId: _propTypes2.default.number,
   updateOverOnePage: _propTypes2.default.func.isRequired,
-  updateOmitZenkaku: _propTypes2.default.func.isRequired,
   isOmitZenkaku: _propTypes2.default.bool,
-  isShowOnlyEnglishAlert: _propTypes2.default.bool
+  isShowOnlyEnglishAlert: _propTypes2.default.bool,
+  focusId: _propTypes2.default.number,
+  setFocusSegment: _propTypes2.default.func
 };
 exports.default = Sentence;
 
@@ -66813,8 +66838,7 @@ var _actionType2 = __webpack_require__(151);
 
 var printFinish = exports.printFinish = function printFinish() {
   return {
-    type: _actionType.UPDATE_PRINT,
-    payload: false
+    type: _actionType.FINISH_PRINT
   };
 };
 
@@ -67009,19 +67033,23 @@ var PrintNote = function (_Component) {
           isPrint: this.props.isPrint,
           width: this.props.width },
         _react2.default.createElement(
-          StyledButton,
-          { onClick: this.print },
-          printStatus
-        ),
-        _react2.default.createElement(
-          StyledButton,
-          { onClick: this.cancel },
-          '\u30AD\u30E3\u30F3\u30BB\u30EB'
-        ),
-        _react2.default.createElement(
-          StyledMessageArea,
-          null,
-          errorMessage
+          'div',
+          { style: { backgroundColor: ' #E2FFF4', position: 'fixed', top: 0, left: 0, zIndex: 9999, height: 100, width: '100%' } },
+          _react2.default.createElement(
+            StyledButton,
+            { style: { position: 'fixed', left: 10, top: 5 }, onClick: this.print },
+            printStatus
+          ),
+          _react2.default.createElement(
+            StyledButton,
+            { style: { position: 'fixed', left: 175, top: 5 }, onClick: this.cancel },
+            '\u30AD\u30E3\u30F3\u30BB\u30EB'
+          ),
+          _react2.default.createElement(
+            StyledMessageArea,
+            null,
+            errorMessage
+          )
         ),
         listSegments
       );
@@ -67064,8 +67092,7 @@ var _extends = Object.assign || function (target) { for (var i = 1; i < argument
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 var _templateObject = _taggedTemplateLiteral(['\n  margin: 0;\n  padding: 0;\n'], ['\n  margin: 0;\n  padding: 0;\n']),
-    _templateObject2 = _taggedTemplateLiteral(['\n  page-break-after: always;\n'], ['\n  page-break-after: always;\n']),
-    _templateObject3 = _taggedTemplateLiteral(['\n  height: ', ';\n'], ['\n  height: ', ';\n']);
+    _templateObject2 = _taggedTemplateLiteral(['\n  page-break-after: always;\n'], ['\n  page-break-after: always;\n']);
 
 var _react = __webpack_require__(0);
 
@@ -67091,8 +67118,6 @@ var _Header2 = _interopRequireDefault(_Header);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -67103,10 +67128,6 @@ function _taggedTemplateLiteral(strings, raw) { return Object.freeze(Object.defi
 
 var UlSeg = _styledComponents2.default.ul(_templateObject);
 var StyledSection = _styledComponents2.default.section(_templateObject2);
-
-var Interval = _styledComponents2.default.div(_templateObject3, function (props) {
-  return props.height + 'px';
-});
 
 var Segments = function (_Component) {
   _inherits(Segments, _Component);
@@ -67195,7 +67216,7 @@ var Segments = function (_Component) {
   return Segments;
 }(_react.Component);
 
-Segments.propTypes = _defineProperty({
+Segments.propTypes = {
   width: _propTypes2.default.number,
   id: _propTypes2.default.number,
   note: _propTypes2.default.array,
@@ -67205,7 +67226,7 @@ Segments.propTypes = _defineProperty({
   segsLoad: _propTypes2.default.array,
   loadedArray: _propTypes2.default.array,
   updateLoadedArray: _propTypes2.default.func
-}, 'setting', _propTypes2.default.object);
+};
 
 exports.default = Segments;
 
@@ -67316,6 +67337,7 @@ var Segment = function (_Component) {
 
       var type = note[segmentId].type;
       var pageInterval = 0;
+
       if (parseFloat(setting.interval) == 1.5) {
         pageInterval = 40;
       } else if (parseFloat(setting.interval) == 2) {
@@ -67363,9 +67385,9 @@ var Segment = function (_Component) {
             } },
           content
         ),
-        !note[segmentId].isPageBreak && _react2.default.createElement(DivInterval, { interval: pageInterval }),
+        !(note[segmentId].isPageBreak || note[segmentId].isUserPageBreak) && _react2.default.createElement(DivInterval, { interval: pageInterval }),
         _react2.default.createElement(DrawPageBreakLine, {
-          isPageBreak: note[segmentId].isPageBreak,
+          isPageBreak: note[segmentId].isPageBreak || note[segmentId].isUserPageBreak,
           title: title,
           name: name })
       );
@@ -67546,29 +67568,18 @@ var ContentEditable = function (_React$Component) {
   }, {
     key: 'shouldComponentUpdate',
     value: function shouldComponentUpdate(nextProps) {
-      var props = this.props,
-          htmlEl = this.htmlEl;
-
-      // We need not rerender if the change of props simply reflects the user's edits.
-      // Rerendering in this case would make the cursor/caret jump
-
-      // Rerender if there is no element yet... (somehow?)
-
-      if (!htmlEl) {
-        return true;
-      }
-
-      // ...or if html really changed... (programmatically, not by user edit)
-      if (nextProps.html !== htmlEl.innerHTML && nextProps.html !== props.html) {
-        return true;
-      }
-
-      var optional = ['style', 'className', 'disable', 'tagName'];
-
-      // Handle additional properties
-      return optional.some(function (name) {
-        return props[name] !== nextProps[name];
-      });
+      // We need not rerender if the change of props simply reflects the user's
+      // edits. Rerendering in this case would make the cursor/caret jump.
+      return (
+        // Rerender if there is no element yet... (somehow?)
+        !this.htmlEl
+        // ...or if html really changed... (programmatically, not by user edit)
+        || nextProps.html !== this.htmlEl.innerHTML && nextProps.html !== this.props.html
+        // ...or if editing is enabled or disabled.
+        || this.props.disabled !== nextProps.disabled
+        // ...or if className changed
+        || this.props.className !== nextProps.className
+      );
     }
   }, {
     key: 'componentDidUpdate',
@@ -69234,7 +69245,7 @@ var AddSegmentAlertDialog = function (_Component) {
           _react2.default.createElement(
             'h3',
             { style: { flex: 8, marginLeft: 10 } },
-            '\uFF11\u30DA\u30FC\u30B8\u306E\u5370\u5237\u7BC4\u56F2\u3092\u8D85\u3048\u3066\u3044\u307E\u3059\u3002\u7DE8\u96C6\u30DC\u30C3\u30AF\u30B9\u3092\u8FFD\u52A0\u3057\u3066\u304F\u3060\u3055\u3044\u3002'
+            '\u5909\u66F4\u3057\u3088\u3046\u3068\u3057\u305F\u8A2D\u5B9A\u3067\u306F\u30011\u30DA\u30FC\u30B8\u306B\u5370\u5237\u3067\u304D\u308B\u30C6\u30AD\u30B9\u30C8\u7BC4\u56F2\u3092\u8D85\u3048\u3066\u3044\u308B\u7DE8\u96C6\u30DC\u30C3\u30AF\u30B9\u304C\u3042\u308A\u307E\u3059\u3002\u8907\u6570\u306E\u7DE8\u96C6\u30DC\u30C3\u30AF\u30B9\u306B\u5206\u3051\u3066\u5165\u529B\u3059\u308B\u304B\u3001\u30C6\u30AD\u30B9\u30C8\u91CF\u3092\u8ABF\u6574\u3057\u3066\u304F\u3060\u3055\u3044\u3002'
           ),
           _react2.default.createElement(
             Button,
@@ -69328,8 +69339,7 @@ var CannotChangeSettingAlertDialog = function (_Component) {
     value: function render() {
       var _props = this.props,
           isShowCannotChangeSettingAlert = _props.isShowCannotChangeSettingAlert,
-          alertMessage = _props.alertMessage,
-          maxLineNumMessage = _props.maxLineNumMessage;
+          alertMessage = _props.alertMessage;
 
 
       return _react2.default.createElement(
@@ -69338,14 +69348,14 @@ var CannotChangeSettingAlertDialog = function (_Component) {
         _react2.default.createElement(
           Wrapper,
           null,
-          _react2.default.createElement('h3', { style: { flex: 8, marginLeft: 10 }, dangerouslySetInnerHTML: { __html: alertMessage } }),
+          _react2.default.createElement('h3', { style: { flex: 8, marginLeft: 10 }, dangerouslySetInnerHTML: { __html: alertMessage.header } }),
           _react2.default.createElement('br', null),
           _react2.default.createElement(
             'p',
             null,
             '\u203B'
           ),
-          _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: maxLineNumMessage } }),
+          _react2.default.createElement('p', { dangerouslySetInnerHTML: { __html: alertMessage.detail } }),
           _react2.default.createElement(
             Button,
             { style: { float: 'right' }, onClick: this.onCancel },
@@ -69361,8 +69371,7 @@ var CannotChangeSettingAlertDialog = function (_Component) {
 
 CannotChangeSettingAlertDialog.propTypes = {
   alertMessage: _propTypes2.default.string,
-  maxLineNumMessage: _propTypes2.default.string,
-  isShowCannotChangeSettingAlert: _propTypes2.default.bool,
+  isShowCannotChangeSettingAlert: _propTypes2.default.object,
   onShowCannotChangeSettingAlertDialog: _propTypes2.default.func.isRequired
 };
 exports.default = CannotChangeSettingAlertDialog;

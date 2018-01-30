@@ -65,7 +65,7 @@ class ItemJaSize extends Component{
     )
     return (
       <DivSetMenu>
-        <MiddleItem style={{height: 62}}  >
+        <MiddleItem style={{height: 62, lineHeight: 3.8}}  >
           {this.props.name}
         </MiddleItem>
         <DivSetMenuPart column>

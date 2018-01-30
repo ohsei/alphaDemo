@@ -1,5 +1,5 @@
 import {
-  UPDATE_PRINT
+  FINISH_PRINT,
 } from '../main/action-type'
 
 import {
@@ -9,8 +9,7 @@ import {
 
 export const printFinish = () => {
   return {
-    type: UPDATE_PRINT,
-    payload: false
+    type: FINISH_PRINT,
   }
 }
 

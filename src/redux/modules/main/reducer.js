@@ -32,11 +32,11 @@ import {
   SET_OLD_SETTING,
   SHOW_CANNOT_CHANGE_SETTING_ALERT_DIALOG,
   SET_ALERT_MESSAGE,
-  SET_MAX_LINE_NUM_MESSAGE,
   UPDATE_JA_INPUTING,
-  UPDATE_OMIT_ZENKAKU,
-  UPDATE_IS_CHANGE_NOTE,
+  UPDATE_IS_CHANGE_TYPE,
   SET_OLD_TYPE,
+  FINISH_PRINT,
+  SET_FOCUS_SEGMENT
 } from './action-type'
 
 const initialState = {
@@ -69,11 +69,11 @@ const initialState = {
   isChangedFormat: false,
   isShowCannotChangeSettingAlert: false,
   alertMessage: '',
-  maxLineNumMessage: '',
   isJaInputing: false,
   isOmitZenkaku: false,
   isChangedType: false,
   oldType: 'txtOnly',
+  focusId: -1
 }
 
 const {assign} = Object
@@ -110,6 +110,25 @@ export default (state = initialState, action) => {
     return assign({}, state, {
       note: payload,
     })
+
+  case FINISH_PRINT:
+    return (() => {
+      const {note} = state
+      let newNote = []
+
+      for (let i = 0;i < note.length;i++) {
+        newNote.push(note[i])
+
+        if (note[i].isPageBreak) {
+          newNote[i].isPageBreak = false
+        }
+      }
+
+      return assign({}, state, {
+        isPrint: false,
+        note: newNote,
+      })
+    })()
 
   case UPDATE_PRINT:
     return (() => {
@@ -162,13 +181,14 @@ export default (state = initialState, action) => {
             pageNum++
             pageHeight = 0
           }
-          else if (note[i].isPageBreak) {
+          else if (note[i].isUserPageBreak) {
             pages.push([])
           }
         }
         else {
           pageHeight = pageHeight + pageInterval
-          if (pageHeight > maxPageHeight) {
+
+          if ((pageHeight > maxPageHeight) && (note.length > 1)) {
             if (i > 0){
               newNote[i - 1].isPageBreak = true
               pages.push([i])
@@ -182,14 +202,14 @@ export default (state = initialState, action) => {
               pageNum++
               pageHeight = 0
             }
-            else if (note[i].isPageBreak) {
+            else if (note[i].isUserPageBreak) {
               pages.push([])
             }
           }
           else {
             pages[pageNum].push(i)
-  
-            if (note[i].isPageBreak) {
+
+            if (note[i].isUserPageBreak) {
               pageNum++
               pages.push([])
               pageHeight = 0
@@ -224,6 +244,7 @@ export default (state = initialState, action) => {
     return (() => {
       return assign({}, state, {
         setting: Object.assign({}, defaultSetting),
+        width: defaultWidth,
         note: [Object.assign({}, defaultNote)],
         saveFileTitle: '',
         curSegmentNo: 0,
@@ -331,7 +352,7 @@ export default (state = initialState, action) => {
       isChangedFormat: payload
     })
 
-  case UPDATE_IS_CHANGE_NOTE:
+  case UPDATE_IS_CHANGE_TYPE:
     return assign({}, state, {
       isChangedType: payload
     })
@@ -351,24 +372,19 @@ export default (state = initialState, action) => {
       alertMessage: payload
     })
 
-  case SET_MAX_LINE_NUM_MESSAGE:
-    return assign({}, state, {
-      maxLineNumMessage: payload
-    })
-
   case UPDATE_JA_INPUTING:
     return assign({}, state, {
       isJaInputing: payload
-    })
-  
-  case UPDATE_OMIT_ZENKAKU:
-    return assign({}, state, {
-      isOmitZenkaku: payload
     })
 
   case SET_OLD_TYPE:
     return assign({}, state, {
       oldType: payload
+    })
+
+  case SET_FOCUS_SEGMENT:
+    return assign({}, state, {
+      focusId: payload
     })
   default:
     return state

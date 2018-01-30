@@ -21,13 +21,14 @@ const Item = styled.div`
   -webkit-writing-mode: ${props => props.vertical ? 'vertical-lr' : 'horizontal-tb'};
   -ms-writing-mode:  ${props => props.vertical ? 'tb-lr' : 'lr-tb'};
   writing-mode: ${props => props.vertical ? 'tb-lr' : 'lr-tb'};
-  text-orientation: upright;
   height: 50px;
   border: 0.1px solid white;
+  text-align: center;
+  transform: translate(-50%, 0%);
   flex-direction:row;
-  line-height: 30px;
+  line-height: 1.8;
   position: relatve;
-  z-index: 999;
+  z-index: 999; 
 `
 const DivSetMenu = styled.div`
   position: relative;
@@ -44,9 +45,9 @@ const DivSetMenuDetail = styled.div`
 
 const ItemSetting = Item.extend`
   vertical: ${props => props.vertical};
-  height: ${props => props.clicked ? '273px' : '50px'};
-  margin: 0 0 10px 0;
-  padding: 10px 0 5px 0;
+  height: ${props => props.clicked ? '276px' : '50px'};
+  margin: 0 0 10px 15px;
+  padding: 5px 0 5px 0px;
   cursor: pointer;
 `
 

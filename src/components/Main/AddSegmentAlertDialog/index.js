@@ -67,7 +67,7 @@ class AddSegmentAlertDialog extends Component{
     return (
       <DivOverlap show={isShowAddSegmentAlert} onKeyDown={this.onKeyDown}>
         <Wrapper>
-          <h3 style={{flex: 8, marginLeft: 10}}>１ページの印刷範囲を超えています。編集ボックスを追加してください。</h3>
+          <h3 style={{flex: 8, marginLeft: 10}}>変更しようとした設定では、1ページに印刷できるテキスト範囲を超えている編集ボックスがあります。複数の編集ボックスに分けて入力するか、テキスト量を調整してください。</h3>
           <Button style={{float: 'right'}} onClick={this.onCancel}>OK</Button>
         </Wrapper>
       </DivOverlap>

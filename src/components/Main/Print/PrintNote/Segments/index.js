@@ -14,10 +14,6 @@ const StyledSection = styled.section`
   page-break-after: always;
 `
 
-const Interval = styled.div`
-  height: ${props => `${props.height}px`};
-`
-
 class Segments extends Component{
   onCreateLoadedArray = (segment) => {
     const {updateLoadedArray, loadedArray, id} = this.props
@@ -78,7 +74,6 @@ Segments.propTypes = {
   segsLoad: PropTypes.array,
   loadedArray: PropTypes.array,
   updateLoadedArray: PropTypes.func,
-  setting: PropTypes.object,
 }
 
 export default Segments

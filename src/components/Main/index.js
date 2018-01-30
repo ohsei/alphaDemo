@@ -126,6 +126,7 @@ const InFileTitle = styled.input.attrs({
   font-size: 24px;
   border: 2px solid #FFAE72;
   background-color: white;
+  line-height: 1;
 `
 const InName = styled.input.attrs({
   tabIndex: -1,
@@ -139,6 +140,7 @@ const InName = styled.input.attrs({
   font-size: 24px;
   border: 2px solid #FFAE72;
   background-color: white;
+  line-height: 1;
 `
 /* define layout end*/
 

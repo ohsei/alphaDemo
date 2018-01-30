@@ -67,6 +67,7 @@ class Segment extends Component {
     const {note, segmentId, title, name, setting} = this.props
     const type = note[segmentId].type
     let pageInterval = 0
+
     if (parseFloat(setting.interval) == 1.5) {
       pageInterval = 40
     }
@@ -108,9 +109,9 @@ class Segment extends Component {
         <DivSegs innerRef={(ref) => {this.segment = ref}}>
           { content }
         </DivSegs>
-        {!note[segmentId].isPageBreak &&  <DivInterval interval={pageInterval} />}
+        {!(note[segmentId].isPageBreak || note[segmentId].isUserPageBreak) &&  <DivInterval interval={pageInterval} />}
         <DrawPageBreakLine
-          isPageBreak={note[segmentId].isPageBreak}
+          isPageBreak={note[segmentId].isPageBreak || note[segmentId].isUserPageBreak}
           title={title}
           name={name} />
       </div>

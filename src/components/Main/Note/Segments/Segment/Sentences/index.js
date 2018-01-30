@@ -13,7 +13,7 @@ const DivSentences = styled.div`
 const DivJan = styled(ContentEditable)`
   border: 1px solid lightgray;
   width: 95%;
-  min-height: 55px;
+  min-height: 50px;
   font-size: ${props => props.fontSize}
 `
 
@@ -185,7 +185,6 @@ class Sentences extends Component{
           onPaste={this.onUpPaste} />}
         <Sentence
           ref={ref => this.sentence = ref}
-          lineNum={setting.lineNum}
           {...pick(this.props, keys(Sentence.propTypes))}
         />
         {setting.downJaSize != 'オフ' && <DivJan id={`down${id}`} html={note[id].jaHtml} innerRef={ref => this.downJaHtml = ref} fontSize={downJaSize} spellCheck={false} disabled={false} onChange={this.onDownChange}

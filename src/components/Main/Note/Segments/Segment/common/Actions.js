@@ -44,6 +44,7 @@ class Actions extends Component{
     delSegment: PropTypes.func,
     type: PropTypes.string,
     setCurSegment: PropTypes.func.isRequired,
+    setFocusSegment: PropTypes.func
   }
 
   setImgOnly = () => {
@@ -107,7 +108,7 @@ class Actions extends Component{
   }
 
   addSegment = () => {
-    const {updateNote, onForceChange, setCurSegment, id, note} = this.props
+    const {updateNote, onForceChange, setCurSegment, id, note, setFocusSegment} = this.props
     let newNote = note.slice()
 
     for (let i = id + 1;i < newNote.length;i++){
@@ -115,32 +116,39 @@ class Actions extends Component{
     }
 
     const curNo = id + 1
-    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, jaHeight: 0, enHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20})
+    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, isUserPageBreak: false, jaHeight: 0, enHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20})
+
+    if (newNote[id].isUserPageBreak) {
+      newNote[id + 1].isUserPageBreak = true
+      newNote[id].isUserPageBreak = false
+    }
     updateNote(newNote)
     onForceChange()
     setCurSegment(curNo)
+    setFocusSegment(curNo)
   }
 
   addPageBreak = () => {
-    const {updateNote, id, note, onForceChange} = this.props
+    const {updateNote, id, note, onForceChange, setFocusSegment} = this.props
 
     let newNote = note.slice()
 
-    if (newNote[id].isPageBreak) {
-      newNote[id].isPageBreak = false
+    if (newNote[id].isUserPageBreak) {
+      newNote[id].isUserPageBreak = false
       updateNote(newNote)
       onForceChange()
       return
     }
-    newNote[id].isPageBreak = true
+    newNote[id].isUserPageBreak = true
     let curNo = id
 
     for (let i = curNo + 1;i < newNote.length;i++){
       newNote[i].id++
     }
     curNo++
-    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, jaHeight: 0, enHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20, })
+    newNote.splice(curNo, 0, {id: curNo, type: 'txtOnly', html: '', jaHtml: '', dataUrl: '', isPageBreak: false, isUserPageBreak: false, jaHeight: 0, enHeight: 0, segmentHeight: 0, imgWidth: 0, imgHeight: 0, posX: 20, posY: 20, })
     updateNote(newNote)
+    setFocusSegment(curNo)
     onForceChange()
   }
 

@@ -34,14 +34,34 @@ const PageBreakLine = styled.div`
     border-color: white;
   }
 `
+const UserPageBreakLine = styled.div`
+margin-bottom: 25px;
+width: 100%;
+height: 2;
+border:1px dotted #FFAE72;
+page-break-after: always;
+
+@media print{
+  border-color: white;
+}
+`
 
 const DrawPageBreakLine = (object) => {
-  if (object.isPageBreak == true){
-    return (
-      <div>
-        <PageBreakLine />
-      </div>
-    )
+  if (object.isPageBreak || object.isUserPageBreak){
+    if (object.isPageBreak) {
+      return (
+        <div>
+          <PageBreakLine />
+        </div>
+      )
+    }
+    else {
+      return (
+        <div>
+          <UserPageBreakLine />
+        </div>
+      )
+    }
   }
   else {
     return false
@@ -67,11 +87,10 @@ class Segment extends Component{
     updateSetting: PropTypes.func.isRequired,
     onShowCannotChangeSettingAlertDialog: PropTypes.func.isRequired,
     setAlertMessage: PropTypes.func.isRequired,
-    setMaxLineNumMessage: PropTypes.func.isRequired,
     isChangedType: PropTypes.bool,
-    updateIsChangeNote: PropTypes.func.isRequired,
+    updateIsChangeType: PropTypes.func.isRequired,
     setOldType: PropTypes.func.isRequired,
-    oldType: PropTypes.array,
+    oldType: PropTypes.string,
     type: PropTypes.string,
     ...Actions.propTypes,
     ...ImgOnly.propTypes,
@@ -84,16 +103,11 @@ class Segment extends Component{
     const {updateNote, note, id, onShowAddSegmentAlertDialog, updateOverOnePage,
       setting, setOverPageId, updateSetting,
       setOldSetting, updateIsChangeFormat, isChangedFormat, oldSetting,
-      onShowCannotChangeSettingAlertDialog, setAlertMessage, setMaxLineNumMessage,
+      onShowCannotChangeSettingAlertDialog, setAlertMessage,
       updateWidth,
-      updateIsChangeNote, setOldType, isChangedType, oldType, type} = this.props
+      updateIsChangeType, setOldType, isChangedType, oldType, type} = this.props
     const segmentHeight = this.segArea.offsetHeight
 
-    if (note[id].segmentHeight != segmentHeight) {
-      let newNote = note.slice()
-      newNote[id].segmentHeight = segmentHeight
-      updateNote(newNote)
-    }
     const pageHeight = setting.layout == 'landscape' ? landscapePageHeight : defaultPageHeight
 
     if (this.segArea.offsetHeight > (pageHeight - 75)) {
@@ -106,7 +120,7 @@ class Segment extends Component{
       }
 
       if (isChangeType) {
-        updateIsChangeNote(true)
+        updateIsChangeType(true)
         setOldType(prevProps.type)
       }
 
@@ -116,8 +130,30 @@ class Segment extends Component{
         updateSetting(newSetting)
         updateWidth(prevProps.width)
         const nums = getMaxNumsWithSetting(setting)
-        setAlertMessage(`設定変更する場合、第${id + 1}ボックスの内容は印刷一ページの範囲を超えたため、設定の変更ができません。内容を適切※な範囲に変更してから、設定を変更してください。`)
-        setMaxLineNumMessage(`用紙設定が<font color='#0000ff'>${setting.layout == 'portrait' ? '縦' : '横'}</font>、英字サイズが<font color='#0000ff'>${parseInt(setting.enSize) + 1}倍</font>、行間が<font color='#0000ff'>${setting.interval}</font>に設定を変更したい場合、<br />和文一行として、英文は最大<font color='#ff0000'>${nums}</font>行しか入力できません。<br /><small>和文を多数行で入れる場合、英文の最大行数もっと減らして調整する可能性がある。</small>`)
+        let s = 120 * parseFloat(setting.interval) / 1.5
+        let height = 0
+        let fontSize = '1倍'
+
+        if (setting.enSize === '1') {
+          s = 2 * s
+          fontSize = '1倍'
+        }
+        else if (setting.enSize === '2') {
+          s = 4 * s
+          fontSize = '2倍'
+        }
+
+        if (note[id].enHeight == 0 ) {
+          height = 1
+          fontSize = '4倍'
+        }
+        else {
+          height = (note[id].enHeight / s).toFixed(0)
+        }
+        setAlertMessage({
+          header: `設定変更する場合、第${id + 1}ボックスの内容は印刷一ページの範囲を超えたため、設定の変更ができません。内容を適切※な範囲に変更してから、設定を変更してください。`,
+          detail: `用紙設定が<font color='#0000ff'>${setting.layout == 'portrait' ? '縦' : '横'}</font>、英字サイズが<font color='#0000ff'>${fontSize}</font>、行間が<font color='#0000ff'>${setting.interval}</font>に設定を変更したい場合、<br />和文一行として、英文は最大<font color='#ff0000'>${nums}</font>行しか入力できません。<br /><small>和文を多数行で入れる場合、英文の最大行数もっと減らして調整する可能性がある。</small>`
+        })
         updateIsChangeFormat(false)
       }
       else if ((isChangeType || isChangedType) && (note[id].type != oldType)) {
@@ -125,10 +161,11 @@ class Segment extends Component{
         let newNote = note.slice()
         newNote[id].type = oldType
         updateNote(newNote)
-        const nums = getMaxNumsWithSetting(setting)
-        setAlertMessage('テキストの量を調整してください。<br />「画像＋テキスト」のレイアウトでは、テキストのみの場合よりも表示できる文字数が少なくなります。')
-        setMaxLineNumMessage('<strong>「画像＋テキスト」</strong> のレイアウトで入力できるテキスト量は、およそその ６割 程度になります。<br />読み込んだのち、画像の縮小等の調整により、入力できるテキスト量は変化します。<br />（テキスト入力の目安については、ヘルプを参照してください）')
-        updateIsChangeNote(false)
+        setAlertMessage({
+          header: 'テキストの量を調整してください。<br />「画像＋テキスト」のレイアウトでは、テキストのみの場合よりも表示できる文字数が少なくなります。',
+          detail: '<strong>「画像＋テキスト」</strong> のレイアウトで入力できるテキスト量は、およそその <strong>６割</strong> 程度になります。<br />読み込んだのち、画像の縮小等の調整により、入力できるテキスト量は変化します。<br />（テキスト入力の目安については、ヘルプを参照してください）'
+        })
+        updateIsChangeType(false)
       }
       else {
         onShowAddSegmentAlertDialog(true)
@@ -137,12 +174,20 @@ class Segment extends Component{
         return
       }
     }
+
+    if (note[id].segmentHeight != segmentHeight) {
+      let newNote = note.slice()
+      newNote[id].segmentHeight = segmentHeight
+      updateNote(newNote)
+    }
+
   }
 
   render (){
     const {id, width, note, title, name, type} = this.props
     const dataUrl = note[id].dataUrl
     const isPageBreak = note[id].isPageBreak
+    const isUserPageBreak = note[id].isUserPageBreak
 
     const content = (()  => {
       switch (type) {
@@ -181,10 +226,11 @@ class Segment extends Component{
           <div ref={ref => this.segArea = ref}>{content}</div>
           <Actions type={type} {...pick(this.props, keys(Actions.propTypes))} />
         </SegArea>
-        {isPageBreak && <DivInterval interval={'25px'} /> }
-        {!isPageBreak && <DivInterval interval={'50px'} /> }
+        {(isPageBreak || isUserPageBreak) && <DivInterval interval={'25px'} /> }
+        {(!isPageBreak  && !isUserPageBreak) && <DivInterval interval={'50px'} /> }
         <DrawPageBreakLine
           isPageBreak={isPageBreak}
+          isUserPageBreak={isUserPageBreak}
           title={title}
           name={name} />
       </div>
