@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 import FourLine from '../../common/FourLine'
+import FourLine2 from '../../common/FourLine2'
 
 /* <<説明>> 
    edgeの場合、背景画像が印刷できないため、4線が背景画像ではなく、FourLineコンポーネントで実装している
@@ -78,7 +79,12 @@ class Sentence extends Component{
 
     if (marginTopArray){
       senList = marginTopArray.map((obj, i) => {
-        return  <FourLine  key={i}  interval={setting.interval} lineNum={setting.lineNum} borderColor={setting.lineColor} enSize={setting.enSize} isPrint={true} />
+        if (setting.enFont === 0){
+          return  <FourLine2  key={i}  interval={setting.interval} lineNum={setting.lineNum} borderColor={setting.lineColor} enSize={parseInt(setting.enSize)} isPrint={true} />
+        }
+        else {
+          return  <FourLine  key={i}  interval={setting.interval} lineNum={setting.lineNum} borderColor={setting.lineColor} enSize={parseInt(setting.enSize)} isPrint={true} />
+        }
       })
     }
 

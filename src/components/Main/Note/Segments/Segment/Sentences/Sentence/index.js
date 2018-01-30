@@ -226,7 +226,8 @@ class Sentence extends Component{
     const lineColor = setting.lineColor
     const enSize = setting.enSize
     const interval = setting.interval
-    const fileName = `${lineNum}lines_${lineColor}_${enSize}_${interval}.png`
+    const enFont = setting.enFont
+    const fileName = `${lineNum}lines_${lineColor}_${enSize}_${interval}_${enFont}.png`
     let url = `url(${require(`../../../../../../../resources/img/4lines/${fileName}`)})`
     this.inputText.htmlEl.style.backgroundImage = url
   }
@@ -238,7 +239,8 @@ class Sentence extends Component{
     const lineColor = setting.lineColor
     const enSize = setting.enSize
     const interval = setting.interval
-    const fileName = `${lineNum}lines_${lineColor}_${enSize}_${interval}.png`
+    const enFont = setting.enFont
+    const fileName = `${lineNum}lines_${lineColor}_${enSize}_${interval}_${enFont}.png`
     let url = `url(${require(`../../../../../../../resources/img/4lines/${fileName}`)})`
     this.inputText.htmlEl.style.backgroundImage = url
   }
