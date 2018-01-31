@@ -64830,33 +64830,33 @@ var getMaxNumsWithSetting = exports.getMaxNumsWithSetting = function getMaxNumsW
   } else {
     if (enSize == '0') {
       if (interval == 1.5) {
-        return 8;
-      } else if (interval == 2) {
         return 6;
+      } else if (interval == 2) {
+        return 4;
       } else if (interval == 2.5) {
-        return 4;
+        return 3;
       } else if (interval == 3) {
-        return 4;
+        return 3;
       }
     } else if (enSize == '1') {
       if (interval == 1.5) {
-        return 4;
-      } else if (interval == 2) {
         return 3;
+      } else if (interval == 2) {
+        return 2;
       } else if (interval == 2.5) {
-        return 2;
+        return 1;
       } else if (interval == 3) {
-        return 2;
+        return 1;
       }
     } else if (enSize == '2') {
       if (interval == 1.5) {
-        return 2;
+        return 1;
       } else if (interval == 2) {
         return 1;
       } else if (interval == 2.5) {
-        return 1;
+        return 0;
       } else if (interval == 3) {
-        return 1;
+        return 0;
       }
     }
   }

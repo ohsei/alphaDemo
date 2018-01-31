@@ -1,4 +1,4 @@
-import {defaultNote, defaultSetting, defaultWidth, defaultPageHeight, landscapePageHeight} from '../../../utils/const.js'
+import {defaultNote, defaultSetting, defaultWidth, defaultPageHeight, landscapePageHeight, landscapeWidth} from '../../../utils/const.js'
 
 import {
   LOAD_FILE,
@@ -82,6 +82,7 @@ export default (state = initialState, action) => {
     return (() => {
       return assign({}, state, {
         setting: payload.setting,
+        width: payload.setting.layout === 'portrait' ? defaultWidth : landscapeWidth,
         name: payload.name,
         note: payload.note,
         saveFileTitle: payload.saveFileTitle,
