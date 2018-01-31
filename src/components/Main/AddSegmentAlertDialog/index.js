@@ -63,11 +63,11 @@ class AddSegmentAlertDialog extends Component{
   }
   render () {
     const {isShowAddSegmentAlert} = this.props
-
+    const message = '１ページに印刷できる範囲をこえました。<br />複数の編集ボックスに分けて入力するか、テキストの量を調整してください。<br />（和文の行数によって英文の行数は変化します）。<br />テキスト入力の目安については、ヘルプを参照してください。'
     return (
       <DivOverlap show={isShowAddSegmentAlert} onKeyDown={this.onKeyDown}>
         <Wrapper>
-          <h3 style={{flex: 8, marginLeft: 10}}>変更しようとした設定では、1ページに印刷できるテキスト範囲を超えている編集ボックスがあります。複数の編集ボックスに分けて入力するか、テキスト量を調整してください。</h3>
+          <h3 style={{flex: 8, marginLeft: 10}} dangerouslySetInnerHTML={{__html: message}} />
           <Button style={{float: 'right'}} onClick={this.onCancel}>OK</Button>
         </Wrapper>
       </DivOverlap>

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import PropTypes from 'prop-types'
 
 const DivSen = styled.div`
-  width: 100%;
+  width: 95%;
   z-index: 0;
   display: block;
   padding-bottom: ${props => `${props.padding}px`};

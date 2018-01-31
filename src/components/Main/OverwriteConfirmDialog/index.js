@@ -71,7 +71,7 @@ class OverwriteConfirmDialog extends Component{
     return (
       <DivOverlap show={isShowOverwriteConfirm}>
         <Wrapper>
-          <h3 style={{flex: 8, marginLeft: 10}}>ファイルが存在します。上書きしますか？</h3>
+          <h3 style={{flex: 8, marginLeft: 10}}>同じ名称のファイルが既に存在します。上書きしますか？</h3>
           <div style={{display: 'flex', direction: 'row', justifyContent: 'flex-end'}}>
             <Button onClick={this.onOk}>はい</Button>
             <Button onClick={this.onCancel}>キャンセル</Button>

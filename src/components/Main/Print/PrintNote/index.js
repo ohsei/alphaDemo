@@ -20,6 +20,19 @@ const StyledButton = styled.button`
     display: none;
   }
 `
+const MenuDiv = styled.div`
+  background-color: #E2FFF4;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  height: 60px;
+  width: 100%;
+
+  @media print{
+    display: none;
+  }
+`
 const StyledMessageArea = styled.div.attrs({
   tabIndex: -1,
 })`
@@ -43,13 +56,13 @@ class PrintNote extends Component{
     const {isPrint, setPrintStatus, printStatus} = this.props
 
     if (isPrint === true){
-      if (printStatus === '印刷可'){
+      if (printStatus === '印刷する'){
         return
       }
 
-      if (printStatus === '印刷用意中...'){
+      if (printStatus === '印刷準備中...'){
         if (this.getState() == true){
-          setPrintStatus('印刷可')
+          setPrintStatus('印刷する')
         }
       }
     }
@@ -61,13 +74,13 @@ class PrintNote extends Component{
 
     this.onClearLoadstateArray()
     printFinish()
-    setPrintStatus('印刷用意中...')
+    setPrintStatus('印刷準備中...')
   }
   cancel = () => {
     const {printFinish, setPrintStatus} = this.props
     this.onClearLoadstateArray()
     printFinish()
-    setPrintStatus('印刷用意中...')
+    setPrintStatus('印刷準備中...')
   }
   getState = () => {
     const {loadedArray} = this.props
@@ -122,12 +135,12 @@ class PrintNote extends Component{
       <StyledDiv
         isPrint={this.props.isPrint}
         width={this.props.width}>
-        <div style={{backgroundColor: ' #E2FFF4', position: 'fixed', top: 0, left: 0, zIndex: 9999, height: 100, width: '100%'}}>
+        <MenuDiv>
           <StyledButton style={{position: 'fixed', left: 10, top: 5}} onClick={this.print}>{printStatus}</StyledButton>
           <StyledButton style={{position: 'fixed', left: 175, top: 5}} onClick={this.cancel}>キャンセル</StyledButton>
           <StyledMessageArea>{errorMessage}</StyledMessageArea>
-        </div>
-        {listSegments}
+        </MenuDiv>
+        <div style={{marginTop: 50}}>{listSegments}</div>
       </StyledDiv>
     )
   }

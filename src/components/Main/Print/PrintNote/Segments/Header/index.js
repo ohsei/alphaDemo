@@ -21,6 +21,7 @@ const DivTitle = styled.div`
   text-align: left;
 `
 const DivName = styled.div`
+  padding-right: 30px;
   width: 40%;
   height: 25px;
   font-size: 26px;
