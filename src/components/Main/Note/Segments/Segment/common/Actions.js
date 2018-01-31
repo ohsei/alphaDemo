@@ -38,12 +38,10 @@ class Actions extends Component{
   static propTypes = {
     note: PropTypes.array,
     id: PropTypes.number,
-    curSegmentNo: PropTypes.any,
     updateNote: PropTypes.func,
     onForceChange: PropTypes.func,
     delSegment: PropTypes.func,
     type: PropTypes.string,
-    setCurSegment: PropTypes.func.isRequired,
     setFocusSegment: PropTypes.func
   }
 
@@ -93,7 +91,7 @@ class Actions extends Component{
   }
 
   delSegment = () => {
-    const {updateNote, onForceChange, setCurSegment, id, note} = this.props
+    const {updateNote, onForceChange, id, note} = this.props
 
     let newNote = note.slice()
     let curNo = id
@@ -104,11 +102,10 @@ class Actions extends Component{
     newNote.splice(curNo, 1)
     updateNote(newNote)
     onForceChange()
-    setCurSegment(curNo - 1)
   }
 
   addSegment = () => {
-    const {updateNote, onForceChange, setCurSegment, id, note, setFocusSegment} = this.props
+    const {updateNote, onForceChange, id, note, setFocusSegment} = this.props
     let newNote = note.slice()
 
     for (let i = id + 1;i < newNote.length;i++){
@@ -124,7 +121,6 @@ class Actions extends Component{
     }
     updateNote(newNote)
     onForceChange()
-    setCurSegment(curNo)
     setFocusSegment(curNo)
   }
 

@@ -31,7 +31,6 @@ class Sentences extends Component{
     note: PropTypes.array,
     setting: PropTypes.object,
     updateNote: PropTypes.func,
-    setCurSegment: PropTypes.func,
     setCurComponent: PropTypes.func,
     offForceChange: PropTypes.func.isRequired,
     updateJaInputing: PropTypes.func.isRequired,
@@ -142,8 +141,7 @@ class Sentences extends Component{
     updateNote(newNote)
   }
   onFocus (){
-    const {id, setCurSegment, setCurComponent} = this.props
-    setCurSegment(id)
+    const {setCurComponent} = this.props
     setCurComponent(this.sentence)
   }
   componentDidUpdate (prevProps) {

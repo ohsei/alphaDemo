@@ -9,7 +9,6 @@ class Segments extends Component{
     width: PropTypes.number,
     setting: PropTypes.object,
     title: PropTypes.string,
-    curSegmentNo: PropTypes.number,
     note: PropTypes.arrayOf(PropTypes.object),
     updateNote: PropTypes.func.isRequired,
     ...Segment.propTypes,

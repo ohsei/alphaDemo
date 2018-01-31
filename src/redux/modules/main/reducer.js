@@ -2,7 +2,6 @@ import {defaultNote, defaultSetting, defaultWidth, defaultPageHeight, landscapeP
 
 import {
   LOAD_FILE,
-  SET_CUR_SEGMENT_NO,
   SET_CUR_COMPONENT,
   UPDATE_NOTE,
   UPDATE_PRINT,
@@ -10,7 +9,6 @@ import {
   UPDATE_NAME,
   UPDATE_SETTING,
   INIT_NOTE,
-  UPDATE_TAB_NODE_LIST,
   UPDATE_WIDTH,
   UPDATE_IS_BOLD,
   UPDATE_IS_ITALIC,
@@ -45,10 +43,8 @@ const initialState = {
   setting: Object.assign({}, defaultSetting),
   oldSetting: Object.assign({}, defaultSetting),
   note: [Object.assign({}, defaultNote)],
-  curSegmentNo: 0,
   curComponent: null,
   isPrint: false,
-  tabNodeList: [],
   width: defaultWidth,
   isBold: false,
   isItalic: false,
@@ -88,18 +84,11 @@ export default (state = initialState, action) => {
         setting: payload.setting,
         name: payload.name,
         note: payload.note,
-        tabNodeList: payload.tabNodeList,
-        curSegmentNo: payload.note.length - 1,
         saveFileTitle: payload.saveFileTitle,
         isShowFileDialog: false,
         forceChange: true,
       })
     })()
-
-  case SET_CUR_SEGMENT_NO:
-    return assign({}, state, {
-      curSegmentNo: payload
-    })
 
   case SET_CUR_COMPONENT:
     return assign({}, state, {
@@ -247,20 +236,13 @@ export default (state = initialState, action) => {
         width: defaultWidth,
         note: [Object.assign({}, defaultNote)],
         saveFileTitle: '',
-        curSegmentNo: 0,
         curComponent: null,
         isPrint: false,
         curColor: 'rgb(0,0,0)',
         forceChange: true,
-        tabNodeList: [],
         name: ''
       })
     })()
-
-  case UPDATE_TAB_NODE_LIST:
-    return assign({}, state, {
-      tabNodeList: payload,
-    })
 
   case UPDATE_WIDTH:
     return assign({}, state, {

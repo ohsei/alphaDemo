@@ -1,7 +1,5 @@
 export const LOAD_FILE = 'main/LOAD_FILE'
 
-export const SET_CUR_SEGMENT_NO = 'main/SET_CUR_SEGMENT_NO'
-
 export const SET_CUR_COMPONENT = 'main/SET_CUR_COMPONENT'
 
 export const UPDATE_NOTE = 'main/UPDATE_NOTE'
@@ -15,8 +13,6 @@ export const UPDATE_NAME = 'main/UPDATE_NAME'
 export const UPDATE_SETTING = 'main/UPDATE_SETTING'
 
 export const INIT_NOTE = 'main/INIT_NOTE'
-
-export const UPDATE_TAB_NODE_LIST = 'main/UPDATE_TAB_NODE_LIST'
 
 export const UPDATE_WIDTH = 'main/UPDATE_WIDTH'
 

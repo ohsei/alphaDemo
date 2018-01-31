@@ -7,10 +7,8 @@ import {
 import {
   UPDATE_FILE_TITLE,
   UPDATE_NAME,
-  SET_CUR_SEGMENT_NO,
   SET_CUR_COMPONENT,
   UPDATE_NOTE,
-  UPDATE_TAB_NODE_LIST,
   UPDATE_IS_BOLD,
   UPDATE_IS_ITALIC,
   UPDATE_IS_UNDERLINE,
@@ -53,13 +51,6 @@ export const setName = (name) => {
   }
 }
 
-export const setCurSegment = (id) => {
-  return {
-    type: SET_CUR_SEGMENT_NO,
-    payload: id
-  }
-}
-
 export const setCurComponent = (component) => {
   return {
     type: SET_CUR_COMPONENT,
@@ -71,13 +62,6 @@ export const updateNote = (note) => {
   return {
     type: UPDATE_NOTE,
     payload: note
-  }
-}
-
-export const updateTabNodeList = (tabNodeList) => {
-  return {
-    type: UPDATE_TAB_NODE_LIST,
-    payload: tabNodeList
   }
 }
 

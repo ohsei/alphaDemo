@@ -26,8 +26,7 @@ class TxtImg extends Component{
     }
     return (
       <SentenceArea
-        width={width}
-        onClick={this.setCurSegment} >
+        width={width}>
         <LabNum lineNoType={setting.lineNos} id={segmentId} />
         <Sentences
           senWidth={senWidth}
@@ -53,7 +52,6 @@ TxtImg.propTypes = {
   editSegments: PropTypes.any,
   jaSentence: PropTypes.any,
   setting: PropTypes.any,
-  curSegmentNo: PropTypes.any,
   isPageBreak: PropTypes.any,
   updateLoadedArray: PropTypes.func.isRequired,
   noteId: PropTypes.number,

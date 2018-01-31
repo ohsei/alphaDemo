@@ -24201,8 +24201,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 var LOAD_FILE = exports.LOAD_FILE = 'main/LOAD_FILE';
 
-var SET_CUR_SEGMENT_NO = exports.SET_CUR_SEGMENT_NO = 'main/SET_CUR_SEGMENT_NO';
-
 var SET_CUR_COMPONENT = exports.SET_CUR_COMPONENT = 'main/SET_CUR_COMPONENT';
 
 var UPDATE_NOTE = exports.UPDATE_NOTE = 'main/UPDATE_NOTE';
@@ -24216,8 +24214,6 @@ var UPDATE_NAME = exports.UPDATE_NAME = 'main/UPDATE_NAME';
 var UPDATE_SETTING = exports.UPDATE_SETTING = 'main/UPDATE_SETTING';
 
 var INIT_NOTE = exports.INIT_NOTE = 'main/INIT_NOTE';
-
-var UPDATE_TAB_NODE_LIST = exports.UPDATE_TAB_NODE_LIST = 'main/UPDATE_TAB_NODE_LIST';
 
 var UPDATE_WIDTH = exports.UPDATE_WIDTH = 'main/UPDATE_WIDTH';
 
@@ -28643,22 +28639,18 @@ var Sentences = function (_Component) {
   }, {
     key: 'onFocus',
     value: function onFocus() {
-      var _props3 = this.props,
-          id = _props3.id,
-          setCurSegment = _props3.setCurSegment,
-          setCurComponent = _props3.setCurComponent;
+      var setCurComponent = this.props.setCurComponent;
 
-      setCurSegment(id);
       setCurComponent(this.sentence);
     }
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate(prevProps) {
-      var _props4 = this.props,
-          setting = _props4.setting,
-          note = _props4.note,
-          id = _props4.id,
-          updateNote = _props4.updateNote;
+      var _props3 = this.props,
+          setting = _props3.setting,
+          note = _props3.note,
+          id = _props3.id,
+          updateNote = _props3.updateNote;
 
 
       if (prevProps.setting != setting) {
@@ -28679,12 +28671,12 @@ var Sentences = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var _props5 = this.props,
-          note = _props5.note,
-          id = _props5.id,
-          setting = _props5.setting,
-          senWidth = _props5.senWidth,
-          offForceChange = _props5.offForceChange;
+      var _props4 = this.props,
+          note = _props4.note,
+          id = _props4.id,
+          setting = _props4.setting,
+          senWidth = _props4.senWidth,
+          offForceChange = _props4.offForceChange;
 
       var upJaSize = setting.upJaSize;
       var downJaSize = setting.downJaSize;
@@ -28732,7 +28724,6 @@ Sentences.propTypes = _extends({
   note: _propTypes2.default.array,
   setting: _propTypes2.default.object,
   updateNote: _propTypes2.default.func,
-  setCurSegment: _propTypes2.default.func,
   setCurComponent: _propTypes2.default.func,
   offForceChange: _propTypes2.default.func.isRequired,
   updateJaInputing: _propTypes2.default.func.isRequired
@@ -49515,10 +49506,8 @@ var initialState = {
   setting: Object.assign({}, _const.defaultSetting),
   oldSetting: Object.assign({}, _const.defaultSetting),
   note: [Object.assign({}, _const.defaultNote)],
-  curSegmentNo: 0,
   curComponent: null,
   isPrint: false,
-  tabNodeList: [],
   width: _const.defaultWidth,
   isBold: false,
   isItalic: false,
@@ -49561,18 +49550,11 @@ exports.default = function () {
           setting: payload.setting,
           name: payload.name,
           note: payload.note,
-          tabNodeList: payload.tabNodeList,
-          curSegmentNo: payload.note.length - 1,
           saveFileTitle: payload.saveFileTitle,
           isShowFileDialog: false,
           forceChange: true
         });
       }();
-
-    case _actionType.SET_CUR_SEGMENT_NO:
-      return assign({}, state, {
-        curSegmentNo: payload
-      });
 
     case _actionType.SET_CUR_COMPONENT:
       return assign({}, state, {
@@ -49713,20 +49695,13 @@ exports.default = function () {
           width: _const.defaultWidth,
           note: [Object.assign({}, _const.defaultNote)],
           saveFileTitle: '',
-          curSegmentNo: 0,
           curComponent: null,
           isPrint: false,
           curColor: 'rgb(0,0,0)',
           forceChange: true,
-          tabNodeList: [],
           name: ''
         });
       }();
-
-    case _actionType.UPDATE_TAB_NODE_LIST:
-      return assign({}, state, {
-        tabNodeList: payload
-      });
 
     case _actionType.UPDATE_WIDTH:
       return assign({}, state, {
@@ -50062,7 +50037,7 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setFocusSegment = exports.setOldType = exports.updateJaInputing = exports.updateWidth = exports.setAlertMessage = exports.setOldSetting = exports.updateIsChangeType = exports.updateIsChangeFormat = exports.updateSetting = exports.setOverPageId = exports.updateOverOnePage = exports.onShowCannotChangeSettingAlertDialog = exports.onShowAddSegmentAlertDialog = exports.updateIsOpenFile = exports.updateIsNewFile = exports.updateOpenFileStatus = exports.onShowCreateFileConfirmDialog = exports.updateCreateFileStatus = exports.updateOverwriteStatus = exports.onShowOverwriteConfirmDialog = exports.onShowSavedAlertDialog = exports.onShowOnlyEnglishAlertDialog = exports.onShowTitleAlertDialog = exports.onForceChange = exports.offForceChange = exports.updateCurColor = exports.updateIsUnderline = exports.updateIsItalic = exports.updateIsBold = exports.updateTabNodeList = exports.updateNote = exports.setCurComponent = exports.setCurSegment = exports.setName = exports.setFileTitle = undefined;
+exports.setFocusSegment = exports.setOldType = exports.updateJaInputing = exports.updateWidth = exports.setAlertMessage = exports.setOldSetting = exports.updateIsChangeType = exports.updateIsChangeFormat = exports.updateSetting = exports.setOverPageId = exports.updateOverOnePage = exports.onShowCannotChangeSettingAlertDialog = exports.onShowAddSegmentAlertDialog = exports.updateIsOpenFile = exports.updateIsNewFile = exports.updateOpenFileStatus = exports.onShowCreateFileConfirmDialog = exports.updateCreateFileStatus = exports.updateOverwriteStatus = exports.onShowOverwriteConfirmDialog = exports.onShowSavedAlertDialog = exports.onShowOnlyEnglishAlertDialog = exports.onShowTitleAlertDialog = exports.onForceChange = exports.offForceChange = exports.updateCurColor = exports.updateIsUnderline = exports.updateIsItalic = exports.updateIsBold = exports.updateNote = exports.setCurComponent = exports.setName = exports.setFileTitle = undefined;
 
 var _actionType = __webpack_require__(92);
 
@@ -50082,13 +50057,6 @@ var setName = exports.setName = function setName(name) {
   };
 };
 
-var setCurSegment = exports.setCurSegment = function setCurSegment(id) {
-  return {
-    type: _actionType2.SET_CUR_SEGMENT_NO,
-    payload: id
-  };
-};
-
 var setCurComponent = exports.setCurComponent = function setCurComponent(component) {
   return {
     type: _actionType2.SET_CUR_COMPONENT,
@@ -50100,13 +50068,6 @@ var updateNote = exports.updateNote = function updateNote(note) {
   return {
     type: _actionType2.UPDATE_NOTE,
     payload: note
-  };
-};
-
-var updateTabNodeList = exports.updateTabNodeList = function updateTabNodeList(tabNodeList) {
-  return {
-    type: _actionType2.UPDATE_TAB_NODE_LIST,
-    payload: tabNodeList
   };
 };
 
@@ -64477,7 +64438,6 @@ Segments.propTypes = _extends({
   width: _propTypes2.default.number,
   setting: _propTypes2.default.object,
   title: _propTypes2.default.string,
-  curSegmentNo: _propTypes2.default.number,
   note: _propTypes2.default.arrayOf(_propTypes2.default.object),
   updateNote: _propTypes2.default.func.isRequired
 }, _Segment2.default.propTypes);
@@ -65026,7 +64986,6 @@ var Actions = function (_Component) {
       var _this$props5 = _this.props,
           updateNote = _this$props5.updateNote,
           onForceChange = _this$props5.onForceChange,
-          setCurSegment = _this$props5.setCurSegment,
           id = _this$props5.id,
           note = _this$props5.note;
 
@@ -65040,12 +64999,10 @@ var Actions = function (_Component) {
       newNote.splice(curNo, 1);
       updateNote(newNote);
       onForceChange();
-      setCurSegment(curNo - 1);
     }, _this.addSegment = function () {
       var _this$props6 = _this.props,
           updateNote = _this$props6.updateNote,
           onForceChange = _this$props6.onForceChange,
-          setCurSegment = _this$props6.setCurSegment,
           id = _this$props6.id,
           note = _this$props6.note,
           setFocusSegment = _this$props6.setFocusSegment;
@@ -65065,7 +65022,6 @@ var Actions = function (_Component) {
       }
       updateNote(newNote);
       onForceChange();
-      setCurSegment(curNo);
       setFocusSegment(curNo);
     }, _this.addPageBreak = function () {
       var _this$props7 = _this.props,
@@ -65361,12 +65317,10 @@ var Actions = function (_Component) {
 Actions.propTypes = {
   note: _propTypes2.default.array,
   id: _propTypes2.default.number,
-  curSegmentNo: _propTypes2.default.any,
   updateNote: _propTypes2.default.func,
   onForceChange: _propTypes2.default.func,
   delSegment: _propTypes2.default.func,
   type: _propTypes2.default.string,
-  setCurSegment: _propTypes2.default.func.isRequired,
   setFocusSegment: _propTypes2.default.func
 };
 exports.default = Actions;
@@ -65977,7 +65931,6 @@ Sentence.propTypes = {
   isOverOnePage: _propTypes2.default.bool,
   overPageId: _propTypes2.default.number,
   updateOverOnePage: _propTypes2.default.func.isRequired,
-  isOmitZenkaku: _propTypes2.default.bool,
   isShowOnlyEnglishAlert: _propTypes2.default.bool,
   focusId: _propTypes2.default.number,
   setFocusSegment: _propTypes2.default.func
@@ -67086,8 +67039,7 @@ var ImgTxt = function (_Component) {
             return _this2.sentencearea = ref;
           },
           width: width,
-          onKeyDown: this.onKeyDown,
-          onClick: this.setCurSegment },
+          onKeyDown: this.onKeyDown },
         _react2.default.createElement(_LabNum2.default, { lineNoType: setting.lineNos, id: id }),
         _react2.default.createElement(_Canvas2.default, _extends({
           imgMaxWidth: imgMaxWidth,
@@ -68643,8 +68595,7 @@ var ImgOnly = function (_Component) {
 
       return _react2.default.createElement(
         SentenceArea,
-        {
-          onClick: this.setCurSegment },
+        null,
         _react2.default.createElement(_LabNum2.default, { lineNoType: setting.lineNos, id: segmentId }),
         _react2.default.createElement(_Canvas2.default, _extends({
           id: segmentId,
@@ -68752,8 +68703,7 @@ var ImgTxt = function (_Component) {
       return _react2.default.createElement(
         SentenceArea,
         {
-          width: width,
-          onClick: this.setCurSegment },
+          width: width },
         _react2.default.createElement(_LabNum2.default, { lineNoType: setting.lineNos, id: segmentId }),
         _react2.default.createElement(_Canvas2.default, _extends({
           id: segmentId,
@@ -68872,8 +68822,7 @@ var TxtImg = function (_Component) {
       return _react2.default.createElement(
         SentenceArea,
         {
-          width: width,
-          onClick: this.setCurSegment },
+          width: width },
         _react2.default.createElement(_LabNum2.default, { lineNoType: setting.lineNos, id: segmentId }),
         _react2.default.createElement(_Sentences2.default, {
           senWidth: senWidth,
@@ -68902,7 +68851,6 @@ TxtImg.propTypes = {
   editSegments: _propTypes2.default.any,
   jaSentence: _propTypes2.default.any,
   setting: _propTypes2.default.any,
-  curSegmentNo: _propTypes2.default.any,
   isPageBreak: _propTypes2.default.any,
   updateLoadedArray: _propTypes2.default.func.isRequired,
   noteId: _propTypes2.default.number,

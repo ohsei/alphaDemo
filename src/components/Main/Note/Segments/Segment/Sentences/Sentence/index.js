@@ -66,7 +66,6 @@ class Sentence extends Component{
     isOverOnePage: PropTypes.bool,
     overPageId: PropTypes.number,
     updateOverOnePage: PropTypes.func.isRequired,
-    isOmitZenkaku: PropTypes.bool,
     isShowOnlyEnglishAlert: PropTypes.bool,
     focusId: PropTypes.number,
     setFocusSegment: PropTypes.func,

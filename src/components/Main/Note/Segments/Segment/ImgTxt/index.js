@@ -47,8 +47,7 @@ class ImgTxt extends Component{
       <SentenceArea
         innerRef={ref => this.sentencearea = ref}
         width={width}
-        onKeyDown={this.onKeyDown}
-        onClick={this.setCurSegment} >
+        onKeyDown={this.onKeyDown} >
         <LabNum lineNoType={setting.lineNos} id={id} />
         <Canvas
           imgMaxWidth={imgMaxWidth}

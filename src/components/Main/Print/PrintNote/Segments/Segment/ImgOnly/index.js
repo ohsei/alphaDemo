@@ -24,8 +24,7 @@ class ImgOnly extends Component{
   render (){
     const {width, segmentId, setting} = this.props
     return (
-      <SentenceArea
-        onClick={this.setCurSegment} >
+      <SentenceArea >
         <LabNum lineNoType={setting.lineNos} id={segmentId} />
         <Canvas
           id={segmentId}
