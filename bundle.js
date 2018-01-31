@@ -35830,39 +35830,47 @@ var FourLine = function (_React$Component) {
           interval = _props.interval;
 
 
-      var padding1 = 23;
-      var bottomPadding1 = 12;
+      var padding1One = 16;
+      var padding1Two = 31;
+      var padding1Three = 22;
+      var bottomPadding1 = 13;
+      var topPadding1 = 34;
+
       var segmentHeight1 = 120;
-      var padding2 = 47;
-      var bottomPadding2 = 24;
       var segmentHeight2 = 240;
-      var padding4 = 95;
-      var bottomPadding4 = 48;
       var segmentHeight4 = 480;
       var intervalFloat = parseFloat(interval);
 
-      var padding = padding1;
+      var paddingOne = padding1One;
+      var paddingTwo = padding1Two;
+      var paddingThree = padding1Three;
       var bottomPadding = bottomPadding1;
-      var topPadding = bottomPadding + padding;
+      var topPadding = topPadding1;
 
       if (enSize === 0) {
         var newSegmentHeight1 = intervalFloat * segmentHeight1 / 1.5;
         var diff1 = newSegmentHeight1 - segmentHeight1;
-        padding = padding1;
+        paddingOne = padding1One;
+        paddingTwo = padding1Two;
+        paddingThree = padding1Three;
         bottomPadding = bottomPadding1 + diff1 / 2;
-        topPadding = bottomPadding + padding;
+        topPadding = topPadding1 + diff1 / 2;
       } else if (enSize === 1) {
         var newSegmentHeight2 = intervalFloat * segmentHeight2 / 1.5;
         var diff2 = newSegmentHeight2 - segmentHeight2;
-        padding = padding2;
-        bottomPadding = bottomPadding2 + diff2 / 2;
-        topPadding = bottomPadding + padding;
+        paddingOne = padding1One * 2 + 1;
+        paddingTwo = padding1Two * 2 + 1 + 1;
+        paddingThree = padding1Three * 2;
+        bottomPadding = bottomPadding1 * 2 + diff2 / 2 + 1;
+        topPadding = topPadding1 * 2 + diff2 / 2;
       } else if (enSize === 2) {
         var newSegmentHeight4 = intervalFloat * segmentHeight4 / 1.5;
         var diff4 = newSegmentHeight4 - segmentHeight4;
-        padding = padding4;
-        bottomPadding = bottomPadding4 + diff4 / 2;
-        topPadding = bottomPadding + padding;
+        paddingOne = padding1One * 4 + 1;
+        paddingTwo = padding1Two * 4 + 10;
+        paddingThree = padding1Three * 4;
+        bottomPadding = bottomPadding1 * 4 + diff4 / 2 + 1;
+        topPadding = topPadding1 * 4 + diff4 / 2;
       }
       return _react2.default.createElement(
         DivSen,
@@ -35872,9 +35880,9 @@ var FourLine = function (_React$Component) {
           },
           padding: bottomPadding },
         _react2.default.createElement(DivLineTop, { lineNum: lineNum, borderColor: borderColor, padding: topPadding }),
-        _react2.default.createElement(DivLine, { borderColor: borderColor, padding: padding }),
-        _react2.default.createElement(DivLine, { borderColor: '#FFAE72', padding: padding }),
-        _react2.default.createElement(DivLineDown, { lineNum: lineNum, borderColor: borderColor, padding: padding })
+        _react2.default.createElement(DivLine, { borderColor: borderColor, padding: paddingOne }),
+        _react2.default.createElement(DivLine, { borderColor: '#FFAE72', padding: paddingTwo }),
+        _react2.default.createElement(DivLineDown, { lineNum: lineNum, borderColor: borderColor, padding: paddingThree })
       );
     }
   }]);
