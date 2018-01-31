@@ -55,23 +55,23 @@ class FourLine2 extends React.Component{
   render (){
     const {lineNum, borderColor, enSize, interval} = this.props
 
-    const padding1One = 17
-    const padding1Two = 29
-    const padding1Three = 23
+    const padding1One = 16
+    const padding1Two = 31
+    const padding1Three = 22
     const bottomPadding1 = 13
     const topPadding1 = 34
-
+    
     const segmentHeight1 = 120
     const segmentHeight2 = 240
     const segmentHeight4 = 480
     const intervalFloat = parseFloat(interval)
-
+    
     let paddingOne = padding1One
     let paddingTwo = padding1Two
     let paddingThree = padding1Three
     let bottomPadding = bottomPadding1
     let topPadding = topPadding1
-
+    
     if (enSize === 0) {
       const newSegmentHeight1 = intervalFloat * segmentHeight1 / 1.5
       const diff1 = newSegmentHeight1 - segmentHeight1
@@ -85,8 +85,8 @@ class FourLine2 extends React.Component{
       const newSegmentHeight2 = intervalFloat * segmentHeight2 / 1.5
       const diff2 = newSegmentHeight2 - segmentHeight2
       paddingOne = padding1One * 2 + 1
-      paddingTwo = padding1Two * 2 + 1
-      paddingThree = padding1Three * 2 + 1
+      paddingTwo = padding1Two * 2 + 1 + 1
+      paddingThree = padding1Three * 2
       bottomPadding = bottomPadding1 * 2 + (diff2 / 2) + 1
       topPadding = topPadding1 * 2 + (diff2 / 2)
     }
@@ -94,9 +94,9 @@ class FourLine2 extends React.Component{
       const newSegmentHeight4 = intervalFloat * segmentHeight4 / 1.5
       const diff4 = newSegmentHeight4 - segmentHeight4
       paddingOne = padding1One * 4 + 1
-      paddingTwo = padding1Two * 4 + 1
-      paddingThree = padding1Three * 4 + 1
-      bottomPadding = bottomPadding1 * 4 + (diff4 / 2) + 9
+      paddingTwo = padding1Two * 4 + 10
+      paddingThree = padding1Three * 4
+      bottomPadding = bottomPadding1 * 4 + (diff4 / 2) + 1
       topPadding = topPadding1 * 4 + (diff4 / 2)
     }
     return (
